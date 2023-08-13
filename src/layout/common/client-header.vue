@@ -19,6 +19,5 @@ export default defineComponent({
 <style lang="scss" scoped>
 .client-header {
     height: 100%;
-    background-color: var(--primary-color);
 }
 </style>

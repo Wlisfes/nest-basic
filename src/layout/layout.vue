@@ -7,22 +7,19 @@ export default defineComponent({
     name: 'Layout',
     setup() {
         const { vars, inverted } = useProvider()
+        const headerReact = computed<CSSProperties>(() => ({
+            backgroundColor: inverted.value ? vars.value.cardColor : vars.value.cardColor
+        }))
         const layoutReact = computed<CSSProperties>(() => ({
             backgroundColor: vars.value.backColor
         }))
 
         return () => (
-            <n-layout class="app-layout">
-                <n-layout-header class="app-layout__header" inverted={inverted.value}>
+            <n-layout class="client-layout">
+                <n-layout-header class="client-layout__header" inverted={inverted.value} style={headerReact.value}>
                     <client-header></client-header>
                 </n-layout-header>
-                <n-layout
-                    class="app-layout__content"
-                    position="absolute"
-                    native-scrollbar={false}
-                    inverted={inverted.value}
-                    style={layoutReact.value}
-                >
+                <n-layout class="client-layout__content" position="absolute" inverted={inverted.value} style={layoutReact.value}>
                     <RouterView></RouterView>
                 </n-layout>
             </n-layout>
@@ -32,13 +29,13 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.app-layout {
+.client-layout {
     height: 100%;
     &__header {
-        height: 60px;
+        height: 68px;
     }
     &__content {
-        top: 60px;
+        top: 68px;
     }
 }
 </style>
