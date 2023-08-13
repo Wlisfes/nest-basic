@@ -1,0 +1,34 @@
+.n-scrollbar .n-scrollbar-content {
+    position: relative;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.n-button.el-customize {
+    position: relative;
+    &.el-medium {
+        min-width: 88px;
+    }
+}
+
+.n-dialog.el-customize {
+    > .n-dialog__content {
+        margin: 0;
+    }
+}
+
+.n-h {
+    &[inline] {
+        display: inline;
+    }
+    &.n-h--prefix-bar[prefix-end] {
+        padding-left: 0;
+        padding-right: var(--n-prefix-width);
+        &::before {
+            left: initial;
+            right: 0;
+        }
+    }
+}

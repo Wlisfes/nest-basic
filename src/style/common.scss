@@ -1,0 +1,27 @@
+.n-basic {
+    position: relative;
+    display: flex;
+    &.n-auto {
+        flex: 1;
+    }
+    &.n-column {
+        flex-direction: column;
+    }
+    &.n-center {
+        align-items: center;
+    }
+    &.n-middle {
+        justify-content: center;
+    }
+    &.n-space {
+        justify-content: space-between;
+    }
+}
+
+.n-pointer {
+    cursor: pointer;
+}
+
+.not-selecter {
+    user-select: none;
+}

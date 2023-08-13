@@ -1,0 +1,51 @@
+{
+    "name": "nest-basic",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "vite --mode development",
+        "build": "vite build --mode production",
+        "preview": "vite preview",
+        "build-only": "run-p type-check build-only",
+        "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
+        "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+        "format": "prettier --write src/"
+    },
+    "dependencies": {
+        "@iconify/json": "^2.2.79",
+        "@vueuse/components": "^10.2.1",
+        "@vueuse/core": "^10.2.1",
+        "axios": "^1.4.0",
+        "class-validator": "^0.13.2",
+        "dayjs": "^1.11.7",
+        "naive-ui": "^2.34.4",
+        "normalize.css": "^8.0.1",
+        "pinia": "^2.0.36",
+        "vfonts": "^0.0.3",
+        "vue": "^3.3.2",
+        "vue-i18n": "^9.3.0-beta.19",
+        "vue-router": "^4.2.0"
+    },
+    "devDependencies": {
+        "@rushstack/eslint-patch": "^1.2.0",
+        "@tsconfig/node18": "^2.0.1",
+        "@types/node": "^18.16.8",
+        "@vitejs/plugin-vue": "^4.2.3",
+        "@vitejs/plugin-vue-jsx": "^3.0.1",
+        "@vue/eslint-config-prettier": "^7.1.0",
+        "@vue/eslint-config-typescript": "^11.0.3",
+        "@vue/tsconfig": "^0.4.0",
+        "eslint": "^8.39.0",
+        "eslint-plugin-vue": "^9.11.0",
+        "npm-run-all": "^4.1.5",
+        "pinia-plugin-persist": "^1.0.0",
+        "prettier": "^2.8.8",
+        "sass": "^1.59.2",
+        "typescript": "~5.0.4",
+        "unplugin-auto-import": "^0.16.2",
+        "unplugin-icons": "^0.16.3",
+        "unplugin-vue-components": "^0.24.1",
+        "vite": "^4.3.5",
+        "vue-tsc": "^1.6.4"
+    }
+}
