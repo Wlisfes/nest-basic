@@ -1,9 +1,12 @@
 <script lang="tsx">
 import { defineComponent } from 'vue'
+import { useUser } from '@/store/user'
 
 export default defineComponent({
     name: 'Home',
     setup(props) {
+        const user = useUser()
+
         // 云账号 API Key 是您访问Basic API 的密钥，请您务必妥善保管！
         return () => (
             <common-container max-width="1680px" react-style={{ padding: '64px 32px' }}>
