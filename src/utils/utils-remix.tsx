@@ -25,7 +25,10 @@ export const RemixUI = {
     WarningRound: h(<Icon-WarningRound />),
     HomeOutlined: h(<Icon-HomeOutlined />),
     Debugger: h(<Icon-Debugger />),
-    SearchBlod: h(<Icon-SearchBlod />)
+    SearchBlod: h(<Icon-SearchBlod />),
+    Simple: h(<Icon-Simple />),
+    ThemeLight: h(<Icon-ThemeLight />),
+    ThemeDark: h(<Icon-ThemeDark />)
 }
 
 /**图标类型拆解**/

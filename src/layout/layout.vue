@@ -32,10 +32,10 @@ export default defineComponent({
 .client-layout {
     height: 100%;
     &__header {
-        height: 68px;
+        height: 60px;
     }
     &__content {
-        top: 68px;
+        top: 60px;
     }
 }
 </style>
