@@ -28,7 +28,10 @@ export const RemixUI = {
     SearchBlod: h(<Icon-SearchBlod />),
     Simple: h(<Icon-Simple />),
     ThemeLight: h(<Icon-ThemeLight />),
-    ThemeDark: h(<Icon-ThemeDark />)
+    ThemeDark: h(<Icon-ThemeDark />),
+    Fullscreen: h(<Icon-Fullscreen />),
+    Foutscreen: h(<Icon-Foutscreen />),
+    Speaker: h(<Icon-Speaker />)
 }
 
 /**图标类型拆解**/

@@ -1,5 +1,6 @@
 <script lang="tsx">
 import { defineComponent } from 'vue'
+import { useFullscreen } from '@vueuse/core'
 import { useUser } from '@/store/user'
 import { useProvider } from '@/hooks/hook-provider'
 import { compute } from '@/utils/utils-remix'
@@ -7,6 +8,7 @@ import { compute } from '@/utils/utils-remix'
 export default defineComponent({
     name: 'Layout',
     setup(props) {
+        const { isFullscreen, toggle } = useFullscreen()
         const { inverted, setTheme } = useProvider()
         const user = useUser()
 
@@ -16,26 +18,52 @@ export default defineComponent({
                     <n-icon component={compute('Simple')} size={28} style />
                     <n-text style={{ fontSize: '24px', lineHeight: '28px' }}>Basic for Developers</n-text>
                 </n-space>
-                <n-space size={20} wrap-item={false} align="center">
-                    <n-icon
-                        class="n-pointer"
-                        component={compute(inverted.value ? 'ThemeDark' : 'ThemeLight')}
-                        size={24}
-                        onClick={(e: Event) => setTheme(inverted.value ? 'light' : 'dark')}
-                    />
-                    <n-popover trigger="click">
+                <n-space size={24} wrap-item={false} align="center">
+                    <n-badge>
+                        <n-button text focusable={false}>
+                            <n-icon class="n-pointer" component={compute('Speaker')} size={24} />
+                        </n-button>
+                    </n-badge>
+                    <n-button text focusable={false} onClick={toggle}>
+                        <n-icon class="n-pointer" component={compute(isFullscreen.value ? 'Foutscreen' : 'Fullscreen')} size={24} />
+                    </n-button>
+                    <n-button text focusable={false} onClick={(e: Event) => setTheme(inverted.value ? 'light' : 'dark')}>
+                        <n-icon class="n-pointer" component={compute(inverted.value ? 'ThemeDark' : 'ThemeLight')} size={24} />
+                    </n-button>
+                    <n-popover trigger="click" placement="bottom-end" style={{ width: '300px', padding: '14px 10px' }}>
                         {{
                             trigger: () => (
                                 <n-space size={10} wrap-item={false} align="center" class="n-pointer">
-                                    <n-avatar round size={36} object-fit="cover" src={user.avatar}>
-                                        {{
-                                            placeholder: () => <n-skeleton height="36px" width="36px" />
-                                        }}
-                                    </n-avatar>
-                                    <n-text>{user.nickname}</n-text>
+                                    <n-avatar round size={36} object-fit="cover" src={user.avatar}></n-avatar>
+                                    <n-ellipsis tooltip={false} style={{ maxWidth: '100px' }}>
+                                        <n-text>{user.nickname + user.nickname + user.nickname + user.nickname + user.nickname}</n-text>
+                                    </n-ellipsis>
                                 </n-space>
                             ),
-                            default: () => <div>长得像根条一样</div>
+                            default: () => (
+                                <n-el class="not-selecter" style={{ display: 'grid' }}>
+                                    <div style={{ padding: '0 8px' }}>
+                                        <n-h3 style={{ margin: 0 }}>{user.nickname}</n-h3>
+                                        <n-text>{`账号 ID: ${user.uid}`}</n-text>
+                                    </div>
+                                    <n-space size={20} wrap-item={false} align="center" style={{ padding: '14px 8px 10px' }}>
+                                        <n-el style={{ flex: 1 }}>
+                                            <n-text>余额</n-text>
+                                            <n-h3 style={{ margin: 0 }}>8592.56</n-h3>
+                                        </n-el>
+                                        <n-el style={{ flex: 1 }}>
+                                            <n-text>信用额度</n-text>
+                                            <n-h3 style={{ margin: 0 }}>200.00</n-h3>
+                                        </n-el>
+                                    </n-space>
+                                    <n-button quaternary focusable={false}>
+                                        账号设置
+                                    </n-button>
+                                    <n-button quaternary focusable={false}>
+                                        退出登录
+                                    </n-button>
+                                </n-el>
+                            )
                         }}
                     </n-popover>
                 </n-space>
