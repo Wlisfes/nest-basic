@@ -90,6 +90,18 @@
                 }
             }
         </style>
+        <!--注入Facebook Init方法-->
+        <script>
+            window.fbAsyncInit = function () {
+                FB.init({
+                    appId: '1225994788065812', // Facebook App ID
+                    cookie: true, // enable cookies
+                    xfbml: true, // parse social plugins on this page
+                    version: 'v17.0' //Graph API version
+                })
+            }
+        </script>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
     </head>
     <body>
         <section id="app">

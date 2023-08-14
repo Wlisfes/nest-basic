@@ -130,7 +130,7 @@ export default defineComponent({
                     class={{ 'route-header not-selecter': true, 'n-pointer': state.collapse }}
                     onClick={() => state.collapse && onCollapse()}
                 >
-                    <div class="route-header__content n-basic">
+                    <div class="route-header__content n-flex">
                         {props.node.icon && <n-icon size={28} style={{ marginRight: '10px' }} component={<Icon-HomeOutlined />}></n-icon>}
                         <n-h3 style={{ flex: 1, margin: 0 }}>
                             <n-ellipsis tooltip={false}>{props.node.title}</n-ellipsis>

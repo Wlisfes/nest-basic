@@ -17,18 +17,18 @@ export default defineComponent({
         }))
 
         return () => (
-            <n-el tag="section" class={{ 'n-basic n-column common-container': true, 'n-center': !props.scrollbar }}>
+            <n-el tag="section" class={{ 'n-flex n-column common-container': true, 'n-center': !props.scrollbar }}>
                 {props.screenRender && <Fragment>{props.screenRender()}</Fragment>}
                 {props.scrollbar ? (
                     <n-scrollbar class="common-container__scrollbar">
-                        <div class="n-basic n-auto n-column n-center">
-                            <div class="common-container__default n-basic n-column" style={reactStyle.value}>
+                        <div class="n-flex n-auto n-column n-center">
+                            <div class="common-container__default n-flex n-column" style={reactStyle.value}>
                                 {slots.default && <Fragment>{slots.default()}</Fragment>}
                             </div>
                         </div>
                     </n-scrollbar>
                 ) : (
-                    <div class="common-container__default n-basic n-column" style={reactStyle.value}>
+                    <div class="common-container__default n-flex n-column" style={reactStyle.value}>
                         {slots.default && <Fragment>{slots.default()}</Fragment>}
                     </div>
                 )}
