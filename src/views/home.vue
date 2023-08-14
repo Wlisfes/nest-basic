@@ -7,10 +7,59 @@ export default defineComponent({
     setup(props) {
         const user = useUser()
 
+        window.addEventListener('message', sessionInfoListener)
+
+        async function sessionInfoListener(event: any) {
+            if (event.origin === 'https://www.facebook.com') {
+                try {
+                    const response = JSON.parse(event.data)
+                    if (response.type === 'WA_EMBEDDED_SIGNUP' && response.event === 'FINISH') {
+                        return console.log('FINISH:----', response)
+                    } else {
+                        return console.log(response)
+                    }
+                } catch (e) {
+                    console.log('error:----', e)
+                }
+                console.log(event.origin, '-----', event)
+            }
+        }
+
+        function onWabaFacebook() {
+            if (window.fbq) {
+                window.fbq('trackCustom', 'WhatsAppOnboardingStart', {
+                    appId: '1225994788065812',
+                    feature: 'whatsapp_embedded_signup'
+                })
+            }
+            window.FB.login(
+                (response: any) => {
+                    if (response.authResponse) {
+                        console.log('Welcome!  Fetching your information.... ', response)
+                    } else {
+                        console.log('User cancelled login or did not fully authorize.')
+                    }
+                },
+                {
+                    scope: 'whatsapp_business_management, whatsapp_business_messaging',
+                    extras: {
+                        feature: 'whatsapp_embedded_signup',
+                        version: 2,
+                        setup: {}
+                    }
+                }
+            )
+        }
+
         // 云账号 API Key 是您访问Basic API 的密钥，请您务必妥善保管！
         return () => (
             <common-container max-width="1680px" react-style={{ padding: '64px 32px', margin: '20px 0' }}>
-                <n-h1 strong>Welcome: Super Admin</n-h1>
+                <n-h1 strong class="n-flex">
+                    Welcome: Super Admin
+                    <n-button type="success" onClick={onWabaFacebook}>
+                        Facebook Login
+                    </n-button>
+                </n-h1>
                 <div class="common-basic">
                     <div class="common-basic__container">
                         <n-h2 style={{ marginBottom: '10px' }}>Basic for Developers</n-h2>

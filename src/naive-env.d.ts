@@ -14,5 +14,9 @@ declare global {
         AliyunUpload: {
             Vod: new (option) => any
         }
+        fbq: Function
+        FB: {
+            login: Function
+        }
     }
 }
