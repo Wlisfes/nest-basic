@@ -52,7 +52,6 @@ export default defineComponent({
         flex: 1;
         background-color: var(--card-color);
         box-sizing: border-box;
-        z-index: 1;
     }
 }
 </style>
