@@ -1,8 +1,8 @@
 import { isEmpty } from 'class-validator'
 
-interface INode<T = unknown> {
+interface INode<T = any> {
     value: T
-    expire?: number
+    expire: number
 }
 
 export class CookieStorage {
@@ -14,22 +14,27 @@ export class CookieStorage {
     public APP_AUTH_RELACE: string = 'APP_AUTH_RELACE' //未登录前的重定向地址
 
     /**存入**/
-    public async setStore(key: string, value: unknown, expire?: number): Promise<void> {
+    public async setStore(key: string, value: any, expire?: number): Promise<void> {
         const node: INode = {
             value,
-            expire: expire ? new Date().getTime() + expire : undefined
+            expire: expire ? Date.now() + expire : 0
         }
         return this.instance.setItem(key, JSON.stringify(node))
     }
 
-    /**读取**/
-    public getStore<T>(key: string, value?: T) {
+    /**异步读取**/
+    public async readStore<T>(key: string, value?: T): Promise<T> {
+        return await this.getStore(key, value)
+    }
+
+    /**同步获取**/
+    public getStore<T>(key: string, value?: T): T {
         const nodeStr = this.instance.getItem(key)
         const node: INode<T> = JSON.parse(nodeStr ?? '{}')
-        if (!isEmpty(node.value) && (!node.expire || new Date().getTime() < node.expire)) {
+        if (!isEmpty(node.value) && (isEmpty(node.expire) || node.expire === 0 || node.expire > Date.now())) {
             return node.value
         }
-        return value
+        return value as T
     }
 
     /**删除**/
