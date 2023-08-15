@@ -32,7 +32,7 @@ export const client: Array<RouteRecordRaw> = [
                 path: '/client',
                 name: 'Home',
                 meta: { Authorize: 'AUTH' },
-                component: () => import('@/views/home.vue')
+                component: () => import('@/views/Home.vue')
             }
         ]
     }
