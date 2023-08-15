@@ -3,23 +3,45 @@ import { defineComponent } from 'vue'
 import { useFullscreen } from '@vueuse/core'
 import { useUser } from '@/store/user'
 import { useProvider } from '@/hooks/hook-provider'
-import { compute } from '@/utils/utils-remix'
+import { useResize } from '@/hooks/hook-resize'
+import { useState } from '@/hooks/hook-state'
 import { useCurrent } from '@/locale/instance'
+import { compute } from '@/utils/utils-remix'
+import { divineDelay } from '@/utils/utils-common'
+import { router } from '@/router'
 
 export default defineComponent({
     name: 'Layout',
     setup(props) {
+        const { s, xs } = useResize()
         const { locale, t, tm, setLocale } = useCurrent()
         const { isFullscreen, toggle } = useFullscreen()
         const { inverted, setTheme } = useProvider()
         const { uid, avatar, nickname } = useUser()
+        const { state, setState } = useState({ loading: false })
+
+        function logout() {
+            return setState({ loading: true }).then(async () => {
+                await divineDelay(500)
+                await window.$cookie.delStore(window.$cookie.APP_AUTH_TOKEN)
+                await window.$cookie.delStore(window.$cookie.APP_AUTH_REFRESH)
+                await window.$cookie.delStore(window.$cookie.APP_AUTH_EXPIRE)
+                return router.replace({ path: `/middle/login` })
+            })
+        }
 
         return () => (
-            <n-el class="client-header n-flex n-center n-space not-selecter" tag="header">
-                <n-space size={8} wrap-item={false}>
-                    <n-icon component={compute('Simple')} size={28} style />
-                    <n-text style={{ fontSize: '24px', lineHeight: '28px' }}>{t('client.title')}</n-text>
-                </n-space>
+            <n-el
+                tag="header"
+                class="n-flex n-center not-selecter"
+                style={{ height: '100%', padding: xs.value ? '0 20px' : '0 32px', justifyContent: !s.value ? 'space-between' : 'flex-end' }}
+            >
+                {!s.value && (
+                    <n-space size={8} wrap-item={false}>
+                        <n-icon component={compute('Simple')} size={28} style />
+                        <n-text style={{ fontSize: '24px', lineHeight: '28px' }}>{t('client.title')}</n-text>
+                    </n-space>
+                )}
                 <n-space size={24} wrap-item={false} align="center">
                     <n-badge>
                         <n-button text focusable={false}>
@@ -82,7 +104,14 @@ export default defineComponent({
                                     <n-button quaternary focusable={false} size="large">
                                         <n-h3 style={{ margin: 0 }}>{t('client.basic.settings')}</n-h3>
                                     </n-button>
-                                    <n-button quaternary focusable={false} size="large">
+                                    <n-button
+                                        quaternary
+                                        focusable={false}
+                                        size="large"
+                                        disabled={state.loading}
+                                        loading={state.loading}
+                                        onClick={logout}
+                                    >
                                         <n-h3 style={{ margin: 0 }}>{t('client.basic.logout')}</n-h3>
                                     </n-button>
                                 </n-el>
@@ -95,10 +124,3 @@ export default defineComponent({
     }
 })
 </script>
-
-<style lang="scss" scoped>
-.client-header {
-    height: 100%;
-    padding: 0 32px;
-}
-</style>

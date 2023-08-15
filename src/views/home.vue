@@ -5,16 +5,18 @@ import { compute, type INameUI } from '@/utils/utils-remix'
 import { useUser } from '@/store/user'
 import { useState } from '@/hooks/hook-state'
 import { useCurrent } from '@/locale/instance'
+import { useResize } from '@/hooks/hook-resize'
+import { divineCols } from '@/utils/utils-common'
 
 export default defineComponent({
     name: 'Home',
     setup(props) {
-        const hours = computed(() => Number(useDateFormat(useNow(), 'HH').value))
+        const { width } = useResize()
         const { nickname } = useUser()
         const { t, tm } = useCurrent()
-        const { state } = useState({
-            loading: false
-        })
+        const { state } = useState({ loading: false })
+        const hours = computed(() => Number(useDateFormat(useNow(), 'HH').value))
+        const cols = computed(() => divineCols({ 768: 1, 1081: 2 }, width.value, 3))
         const client = computed(() => ({
             title: t('client.title'),
             document: t('client.document'),
@@ -62,9 +64,9 @@ export default defineComponent({
                 <div class="common-service">
                     <n-h2 style={{ marginBottom: '10px' }}>{client.value.service.title}</n-h2>
                     <n-blockquote style={{ margin: '0 0 30px' }}>{client.value.service.document}</n-blockquote>
-                    <n-grid x-gap={24} y-gap={24} cols={3}>
+                    <n-grid x-gap={24} y-gap={24} cols={cols.value}>
                         {client.value.service.column.map(item => (
-                            <n-gi style={{ backgroundColor: 'var(--back-color)' }}>
+                            <n-grid-item class="n-pointer" style={{ backgroundColor: 'var(--back-color)' }}>
                                 <common-render
                                     loading={state.loading}
                                     spin={<n-skeleton height="156px" />}
@@ -84,7 +86,7 @@ export default defineComponent({
                                         </n-space>
                                     }
                                 ></common-render>
-                            </n-gi>
+                            </n-grid-item>
                         ))}
                     </n-grid>
                 </div>

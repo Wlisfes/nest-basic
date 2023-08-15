@@ -3,7 +3,7 @@ import { createRouter, createWebHistory, type Router } from 'vue-router'
 import { client } from '@/router/client'
 import { useUser } from '@/store/user'
 
-const router = createRouter({
+export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: client
 })
