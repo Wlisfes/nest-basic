@@ -24,12 +24,11 @@ export const client: Array<RouteRecordRaw> = [
     },
     {
         path: '/',
-        redirect: '/client',
         meta: { Authorize: 'AUTH' },
         component: () => import('@/layout/layout.vue'),
         children: [
             {
-                path: '/client',
+                path: '/',
                 name: 'Home',
                 meta: { Authorize: 'AUTH' },
                 component: () => import('@/views/Home.vue')

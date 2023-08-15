@@ -1,27 +1,53 @@
 <script lang="tsx">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
+import { useNow, useDateFormat } from '@vueuse/core'
+import { compute, type INameUI } from '@/utils/utils-remix'
 import { useUser } from '@/store/user'
-import { compute } from '@/utils/utils-remix'
 import { useState } from '@/hooks/hook-state'
+import { useCurrent } from '@/locale/instance'
 
 export default defineComponent({
     name: 'Home',
     setup(props) {
-        const user = useUser()
+        const hours = computed(() => Number(useDateFormat(useNow(), 'HH').value))
+        const { nickname } = useUser()
+        const { t, tm } = useCurrent()
         const { state } = useState({
             loading: false
         })
+        const client = computed(() => ({
+            title: t('client.title'),
+            document: t('client.document'),
+            welcome: {
+                morning: t('client.welcome.morning', { nickname }),
+                midday: t('client.welcome.midday', { nickname }),
+                afternoon: t('client.welcome.afternoon', { nickname }),
+                night: t('client.welcome.night', { nickname })
+            },
+            service: {
+                title: t('client.service.title'),
+                document: t('client.service.document'),
+                column: tm('client.service.column') as Array<{ icon: INameUI; name: string; document: string }>
+            }
+        }))
 
-        // 云账号 API Key 是您访问Basic API 的密钥，请您务必妥善保管！
         return () => (
             <common-container max-width="1680px" react-style={{ padding: '64px 32px', margin: '20px 0' }}>
-                <n-h1 strong>Welcome: Super Admin</n-h1>
+                <n-h1 strong>
+                    {hours.value >= 18 ? (
+                        <n-text>{client.value.welcome.night}</n-text>
+                    ) : hours.value >= 13 ? (
+                        <n-text>{client.value.welcome.afternoon}</n-text>
+                    ) : hours.value >= 10 ? (
+                        <n-text>{client.value.welcome.midday}</n-text>
+                    ) : (
+                        <n-text>{client.value.welcome.morning}</n-text>
+                    )}
+                </n-h1>
                 <div class="common-basic">
                     <div class="common-basic__container">
-                        <n-h2 style={{ marginBottom: '10px' }}>Basic for Developers</n-h2>
-                        <n-blockquote style={{ margin: '0 0 30px' }}>
-                            The cloud account API Key is your key to access the Basic API, please keep it safe!
-                        </n-blockquote>
+                        <n-h2 style={{ marginBottom: '10px' }}>{client.value.title}</n-h2>
+                        <n-blockquote style={{ margin: '0 0 30px' }}>{client.value.document}</n-blockquote>
                         <n-form ref="formRef" size="large" label-placement="top">
                             <n-form-item label="API Key">
                                 <n-input placeholder="API Key" readonly />
@@ -33,27 +59,25 @@ export default defineComponent({
                     </div>
                     <div class="common-basic__approve">{/* <n-skeleton height="100%" /> */}</div>
                 </div>
-                <div class="common-product">
-                    <n-h2 style={{ marginBottom: '10px' }}>Products and Services</n-h2>
-                    <n-blockquote style={{ margin: '0 0 30px' }}>
-                        The cloud account API Key is your key to access the Basic API, please keep it safe!
-                    </n-blockquote>
+                <div class="common-service">
+                    <n-h2 style={{ marginBottom: '10px' }}>{client.value.service.title}</n-h2>
+                    <n-blockquote style={{ margin: '0 0 30px' }}>{client.value.service.document}</n-blockquote>
                     <n-grid x-gap={24} y-gap={24} cols={3}>
-                        {Array.from({ length: 5 }, (x, index) => (
-                            <n-gi key={index} style={{ backgroundColor: 'var(--back-color)' }}>
+                        {client.value.service.column.map(item => (
+                            <n-gi style={{ backgroundColor: 'var(--back-color)' }}>
                                 <common-render
                                     loading={state.loading}
                                     spin={<n-skeleton height="156px" />}
                                     component={
                                         <n-space size={15} wrap-item={false} style={{ padding: '32px' }}>
                                             <n-button text focusable={false}>
-                                                <n-icon component={compute('Captcha')} size={68} />
+                                                <n-icon component={compute(item.icon)} size={68} />
                                             </n-button>
                                             <n-space size={5} vertical wrap-item={false} style={{ flex: 1 }}>
-                                                <n-h2 style={{ marginBottom: 0, lineHeight: '36px' }}>短信</n-h2>
+                                                <n-h2 style={{ marginBottom: 0, lineHeight: '36px' }}>{item.name}</n-h2>
                                                 <n-text style={{ lineHeight: '22px' }}>
                                                     <n-ellipsis tooltip={false} line-clamp={2}>
-                                                        致力于为客户提供高质量、可靠的短信解决方案。
+                                                        {item.document}
                                                     </n-ellipsis>
                                                 </n-text>
                                             </n-space>
@@ -95,7 +119,7 @@ export default defineComponent({
     }
 }
 
-.common-product {
+.common-service {
     position: relative;
     margin-top: 40px;
 }
