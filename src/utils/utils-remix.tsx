@@ -31,7 +31,10 @@ export const RemixUI = {
     ThemeDark: h(<Icon-ThemeDark />),
     Fullscreen: h(<Icon-Fullscreen />),
     Foutscreen: h(<Icon-Foutscreen />),
-    Speaker: h(<Icon-Speaker />)
+    Speaker: h(<Icon-Speaker />),
+    Captcha: h(<Icon-Captcha />),
+    MailGmail: h(<Icon-MailGmail />),
+    Message: h(<Icon-Message />)
 }
 
 /**图标类型拆解**/
