@@ -9,7 +9,7 @@ import { useCurrent } from '@/locale/instance'
 export default defineComponent({
     name: 'Layout',
     setup(props) {
-        const { t, tm, setLocale } = useCurrent()
+        const { locale, t, tm, setLocale } = useCurrent()
         const { isFullscreen, toggle } = useFullscreen()
         const { inverted, setTheme } = useProvider()
         const { uid, avatar, nickname } = useUser()
@@ -26,17 +26,17 @@ export default defineComponent({
                             <n-icon class="n-pointer" component={compute('Speaker')} size={24} />
                         </n-button>
                     </n-badge>
-                    <n-dropdown
+                    <n-popselect
                         show-arrow
                         trigger="click"
-                        key-field="value"
+                        value={locale.value}
                         options={tm('client.language.column')}
-                        onSelect={(value: 'en' | 'cn') => setLocale(value)}
+                        on-update:value={(value: 'en' | 'cn') => setLocale(value)}
                     >
                         <n-button text focusable={false}>
                             <n-icon class="n-pointer" component={compute('Language')} size={24} />
                         </n-button>
-                    </n-dropdown>
+                    </n-popselect>
                     <n-button text focusable={false} onClick={toggle}>
                         <n-icon class="n-pointer" component={compute(isFullscreen.value ? 'Foutscreen' : 'Fullscreen')} size={24} />
                     </n-button>
@@ -57,23 +57,33 @@ export default defineComponent({
                                 <n-el class="not-selecter" style={{ display: 'grid' }}>
                                     <div style={{ padding: '0 8px' }}>
                                         <n-h3 style={{ margin: 0 }}>{nickname}</n-h3>
-                                        <n-text>{`账号 ID: ${uid}`}</n-text>
+                                        <n-text>{t('client.basic.userId', { uid })}</n-text>
                                     </div>
                                     <n-space size={20} wrap-item={false} align="center" style={{ padding: '14px 8px 10px' }}>
-                                        <n-el style={{ flex: 1 }}>
-                                            <n-text>余额</n-text>
-                                            <n-h3 style={{ margin: 0 }}>8592.56</n-h3>
+                                        <n-el style={{ flex: 1, overflow: 'hidden' }}>
+                                            <n-text>{t('client.basic.balance')}</n-text>
+                                            <n-h3 class="n-flex n-center" style={{ margin: 0 }}>
+                                                <n-icon component={compute('Money')} size={18} />
+                                                <n-text style={{ marginLeft: '-2px', overflow: 'hidden' }}>
+                                                    <n-ellipsis tooltip={false}>8592.56</n-ellipsis>
+                                                </n-text>
+                                            </n-h3>
                                         </n-el>
-                                        <n-el style={{ flex: 1 }}>
-                                            <n-text>信用额度</n-text>
-                                            <n-h3 style={{ margin: 0 }}>200.00</n-h3>
+                                        <n-el style={{ flex: 1, overflow: 'hidden' }}>
+                                            <n-text>{t('client.basic.credit')}</n-text>
+                                            <n-h3 class="n-flex n-center" style={{ margin: 0 }}>
+                                                <n-icon component={compute('Money')} size={18} color="var(--warning-color)" />
+                                                <n-text style={{ color: 'var(--warning-color)', marginLeft: '-2px', overflow: 'hidden' }}>
+                                                    <n-ellipsis tooltip={false}>200.00</n-ellipsis>
+                                                </n-text>
+                                            </n-h3>
                                         </n-el>
                                     </n-space>
-                                    <n-button quaternary focusable={false}>
-                                        账号设置
+                                    <n-button quaternary focusable={false} size="large">
+                                        <n-h3 style={{ margin: 0 }}>{t('client.basic.settings')}</n-h3>
                                     </n-button>
-                                    <n-button quaternary focusable={false}>
-                                        退出登录
+                                    <n-button quaternary focusable={false} size="large">
+                                        <n-h3 style={{ margin: 0 }}>{t('client.basic.logout')}</n-h3>
                                     </n-button>
                                 </n-el>
                             )

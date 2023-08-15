@@ -31,6 +31,13 @@ export const client = {
                 { icon: 'Message', name: '短信', document: '致力于为客户提供高质量、可靠的短信解决方案。' },
                 { icon: 'MailGmail', name: '邮件', document: '致力于为客户提供高效可靠的邮件解决方案。' }
             ]
+        },
+        basic: {
+            userId: '账号 ID: {uid}',
+            balance: '余额',
+            credit: '信用额度',
+            settings: '账号设置',
+            logout: '退出登录'
         }
     },
     en: {
@@ -45,8 +52,8 @@ export const client = {
         language: {
             value: 'Language',
             column: [
-                { label: '中文', key: 'cn' },
-                { label: 'English', key: 'en' }
+                { label: '中文', value: 'cn' },
+                { label: 'English', value: 'en' }
             ]
         },
         screen: {
@@ -61,10 +68,25 @@ export const client = {
             title: 'Products and Services',
             document: 'We provide you with diversified products and services to meet your various needs and pursuits.',
             column: [
-                { icon: 'Captcha', name: '人机验证', document: '致力于为客户提供高效、安全的人机验证解决方案。' },
-                { icon: 'Message', name: '短信', document: '致力于为客户提供高质量、可靠的短信解决方案。' },
-                { icon: 'MailGmail', name: '邮件', document: '致力于为客户提供高效可靠的邮件解决方案。' }
+                {
+                    icon: 'Captcha',
+                    name: 'CAPTCHA',
+                    document: 'Committed to providing customers with efficient and safe man-machine verification solutions.'
+                },
+                { icon: 'Message', name: 'SMS', document: 'Committed to providing customers with high-quality, reliable SMS solutions.' },
+                {
+                    icon: 'MailGmail',
+                    name: 'Mail',
+                    document: 'Committed to providing customers with efficient and reliable mail solutions.'
+                }
             ]
+        },
+        basic: {
+            userId: 'User ID: {uid}',
+            balance: 'Balance',
+            credit: 'Credit',
+            settings: 'Settings',
+            logout: 'Logout'
         }
     }
 }

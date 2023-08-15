@@ -69,11 +69,11 @@ export default defineComponent({
                                     loading={state.loading}
                                     spin={<n-skeleton height="156px" />}
                                     component={
-                                        <n-space size={15} wrap-item={false} style={{ padding: '32px' }}>
+                                        <n-space size={15} wrap-item={false} style={{ padding: '32px', minHeight: '91px' }}>
                                             <n-button text focusable={false}>
                                                 <n-icon component={compute(item.icon)} size={68} />
                                             </n-button>
-                                            <n-space size={5} vertical wrap-item={false} style={{ flex: 1 }}>
+                                            <n-space size={5} vertical wrap-item={false} style={{ flex: 1 }} justify="center">
                                                 <n-h2 style={{ marginBottom: 0, lineHeight: '36px' }}>{item.name}</n-h2>
                                                 <n-text style={{ lineHeight: '22px' }}>
                                                     <n-ellipsis tooltip={false} line-clamp={2}>

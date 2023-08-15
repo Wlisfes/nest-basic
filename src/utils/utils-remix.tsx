@@ -35,7 +35,8 @@ export const RemixUI = {
     Captcha: h(<Icon-Captcha />),
     MailGmail: h(<Icon-MailGmail />),
     Message: h(<Icon-Message />),
-    Language: h(<Icon-Language />)
+    Language: h(<Icon-Language />),
+    Money: h(<Icon-Money />)
 }
 
 /**图标类型拆解**/
