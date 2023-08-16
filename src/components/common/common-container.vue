@@ -6,11 +6,17 @@ export default defineComponent({
     props: {
         scrollbar: { type: Boolean, default: true },
         maxWidth: { type: String, default: 'auto' },
+        horizontal: { type: Boolean },
         reactStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
+        nativeStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
         screenRender: { type: Function as PropType<() => VNodeChild> },
         footerRender: { type: Function as PropType<() => VNodeChild> }
     },
     setup(props, { slots }) {
+        const nativeStyle = computed<CSSProperties>(() => ({
+            boxSizing: 'border-box',
+            ...props.nativeStyle
+        }))
         const reactStyle = computed<CSSProperties>(() => ({
             maxWidth: props.maxWidth,
             ...props.reactStyle
@@ -21,15 +27,20 @@ export default defineComponent({
                 {props.screenRender && <Fragment>{props.screenRender()}</Fragment>}
                 {props.scrollbar ? (
                     <n-scrollbar class="common-container__scrollbar">
-                        <div class="n-flex n-auto n-column n-center">
-                            <div class="common-container__default n-flex n-column" style={reactStyle.value}>
+                        <div class="n-flex n-auto n-column n-center" style={nativeStyle.value}>
+                            <div
+                                class={{ 'common-container__default n-flex': true, 'n-column': !props.horizontal }}
+                                style={reactStyle.value}
+                            >
                                 {slots.default && <Fragment>{slots.default()}</Fragment>}
                             </div>
                         </div>
                     </n-scrollbar>
                 ) : (
-                    <div class="common-container__default n-flex n-column" style={reactStyle.value}>
-                        {slots.default && <Fragment>{slots.default()}</Fragment>}
+                    <div class="n-flex n-auto n-column n-center" style={nativeStyle.value}>
+                        <div class={{ 'common-container__default n-flex': true, 'n-column': !props.horizontal }} style={reactStyle.value}>
+                            {slots.default && <Fragment>{slots.default()}</Fragment>}
+                        </div>
                     </div>
                 )}
                 {props.footerRender && <Fragment>{props.footerRender()}</Fragment>}
@@ -41,12 +52,12 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .common-container {
+    overflow: hidden;
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    overflow: hidden;
     &__default {
         width: 100%;
         flex: 1;

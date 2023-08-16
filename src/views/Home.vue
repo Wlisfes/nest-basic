@@ -31,7 +31,7 @@ export default defineComponent({
             service: {
                 title: t('client.service.title'),
                 document: t('client.service.document'),
-                column: tm('client.service.column') as Array<{ icon: INameUI; name: string; document: string }>
+                column: tm('client.service.column') as Array<{ icon: INameUI; name: string; path: string; document: string }>
             }
         }))
 
@@ -52,7 +52,7 @@ export default defineComponent({
         }
 
         return () => (
-            <common-container max-width="1680px" react-style={{ padding: '64px 32px', margin: '20px 0' }}>
+            <common-container max-width="1680px" native-style={{ padding: '20px' }} react-style={{ padding: '64px 32px 32px' }}>
                 <n-h1 strong>
                     {hours.value >= 18 ? (
                         <n-text>{client.value.welcome.night}</n-text>
@@ -111,19 +111,21 @@ export default defineComponent({
                                     loading={state.loading}
                                     spin={<n-skeleton height="156px" />}
                                     component={
-                                        <n-space size={15} wrap-item={false} style={{ padding: '32px', minHeight: '91px' }}>
-                                            <n-button text focusable={false}>
-                                                <n-icon component={compute(item.icon)} size={68} />
-                                            </n-button>
-                                            <n-space size={5} vertical wrap-item={false} style={{ flex: 1 }} justify="center">
-                                                <n-h2 style={{ marginBottom: 0, lineHeight: '36px' }}>{item.name}</n-h2>
-                                                <n-text style={{ lineHeight: '22px' }}>
-                                                    <n-ellipsis tooltip={false} line-clamp={2}>
-                                                        {item.document}
-                                                    </n-ellipsis>
-                                                </n-text>
+                                        <router-link to={item.path} style={{ textDecoration: 'none' }}>
+                                            <n-space size={15} wrap-item={false} style={{ padding: '32px', minHeight: '91px' }}>
+                                                <n-button text focusable={false}>
+                                                    <n-icon component={compute(item.icon)} size={68} />
+                                                </n-button>
+                                                <n-space size={5} vertical wrap-item={false} style={{ flex: 1 }} justify="center">
+                                                    <n-h2 style={{ marginBottom: 0, lineHeight: '36px' }}>{item.name}</n-h2>
+                                                    <n-text style={{ lineHeight: '22px' }}>
+                                                        <n-ellipsis tooltip={false} line-clamp={2}>
+                                                            {item.document}
+                                                        </n-ellipsis>
+                                                    </n-text>
+                                                </n-space>
                                             </n-space>
-                                        </n-space>
+                                        </router-link>
                                     }
                                 ></common-render>
                             </n-grid-item>
