@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
+import BasicLoyout from '@/layout/basic-layout.vue'
 
 export const client: Array<RouteRecordRaw> = [
     {
@@ -25,7 +26,7 @@ export const client: Array<RouteRecordRaw> = [
     {
         path: '/',
         meta: { Authorize: 'AUTH' },
-        component: () => import('@/layout/layout.vue'),
+        component: BasicLoyout,
         children: [
             {
                 path: '/',

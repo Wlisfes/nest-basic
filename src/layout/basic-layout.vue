@@ -4,20 +4,22 @@ import { RouterView } from 'vue-router'
 import { useProvider } from '@/hooks/hook-provider'
 
 export default defineComponent({
-    name: 'Layout',
+    name: 'BasicLayout',
     setup() {
         const { vars, inverted } = useProvider()
         const headerReact = computed<CSSProperties>(() => ({
+            height: '60px',
             backgroundColor: inverted.value ? vars.value.cardColor : vars.value.cardColor
         }))
         const layoutReact = computed<CSSProperties>(() => ({
+            top: '60px',
             backgroundColor: vars.value.backColor
         }))
 
         return () => (
-            <n-layout class="client-layout">
-                <n-layout-header class="client-layout__header" inverted={inverted.value} style={headerReact.value}>
-                    <client-header></client-header>
+            <n-layout style={{ height: '100%' }}>
+                <n-layout-header inverted={inverted.value} style={headerReact.value}>
+                    <basic-header></basic-header>
                 </n-layout-header>
                 <n-layout class="client-layout__content" position="absolute" inverted={inverted.value} style={layoutReact.value}>
                     <RouterView></RouterView>
@@ -27,15 +29,3 @@ export default defineComponent({
     }
 })
 </script>
-
-<style lang="scss" scoped>
-.client-layout {
-    height: 100%;
-    &__header {
-        height: 60px;
-    }
-    &__content {
-        top: 60px;
-    }
-}
-</style>

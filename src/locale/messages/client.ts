@@ -44,10 +44,10 @@ export const client = {
         title: 'Basic for Developers',
         document: 'The cloud account API Key is your key to access the Basic API, please keep it safe!',
         welcome: {
-            morning: 'Good morning: {nickname}',
-            midday: 'Good afternoon: {nickname}',
-            afternoon: 'Good afternoon: {nickname}',
-            night: 'Good evening: {nickname}'
+            morning: 'Welcome: {nickname}',
+            midday: 'Welcome: {nickname}',
+            afternoon: 'Welcome: {nickname}',
+            night: 'Welcome: {nickname}'
         },
         language: {
             value: 'Language',
@@ -76,7 +76,7 @@ export const client = {
                 { icon: 'Message', name: 'SMS', document: 'Committed to providing customers with high-quality, reliable SMS solutions.' },
                 {
                     icon: 'MailGmail',
-                    name: 'Mail',
+                    name: 'Email',
                     document: 'Committed to providing customers with efficient and reliable mail solutions.'
                 }
             ]

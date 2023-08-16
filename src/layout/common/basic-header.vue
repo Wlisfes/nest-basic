@@ -11,7 +11,7 @@ import { divineDelay } from '@/utils/utils-common'
 import { router } from '@/router'
 
 export default defineComponent({
-    name: 'Layout',
+    name: 'BasicHeader',
     setup(props) {
         const user = useUser()
         const { s, xs } = useResize()

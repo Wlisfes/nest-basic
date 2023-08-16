@@ -74,7 +74,7 @@ export default defineComponent({
                                     <n-input value={user.appKey} type="text" placeholder="API Key" readonly />
                                     <n-button
                                         focusable={false}
-                                        style={{ padding: '0 12px' }}
+                                        style={{ padding: '0 12px', backgroundColor: 'var(--input-color-disabled)' }}
                                         v-slots={{ icon: () => sompute('CopyRound', { size: '18px', color: 'var(--n-icon-color)' }) }}
                                         onClick={(e: Event) => onSupporter(user.appKey)}
                                     ></n-button>
@@ -91,7 +91,7 @@ export default defineComponent({
                                     />
                                     <n-button
                                         focusable={false}
-                                        style={{ padding: '0 12px' }}
+                                        style={{ padding: '0 12px', backgroundColor: 'var(--input-color-disabled)' }}
                                         v-slots={{ icon: () => sompute('CopyRound', { size: '18px', color: 'var(--n-icon-color)' }) }}
                                         onClick={(e: Event) => onSupporter(user.appSecret)}
                                     ></n-button>

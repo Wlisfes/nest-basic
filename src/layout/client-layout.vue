@@ -6,16 +6,10 @@ export default defineComponent({
     name: 'ClientLayout',
     setup() {
         return () => (
-            <n-layout class="client-layout" has-sider>
+            <n-layout has-sider style={{ height: '100%' }}>
                 <RouterView></RouterView>
             </n-layout>
         )
     }
 })
 </script>
-
-<style lang="scss" scoped>
-.client-layout {
-    height: 100%;
-}
-</style>
