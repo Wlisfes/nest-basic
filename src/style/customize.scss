@@ -18,11 +18,3 @@
         margin: 0;
     }
 }
-
-.n-input.el-customize {
-    .n-input__input-el[readonly] {
-        cursor: default;
-        color: var(--n-text-color-disabled);
-        text-decoration-color: var(--n-text-color-disabled);
-    }
-}
