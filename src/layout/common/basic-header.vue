@@ -43,11 +43,13 @@ export default defineComponent({
                     </n-space>
                 )}
                 <n-space size={24} wrap-item={false} align="center">
-                    <n-badge>
-                        <n-button text focusable={false}>
-                            <n-icon class="n-pointer" component={compute('Speaker')} size={24} />
-                        </n-button>
-                    </n-badge>
+                    <n-button text focusable={false}>
+                        <n-badge>
+                            <n-button text focusable={false}>
+                                <n-icon class="n-pointer" component={compute('Speaker')} size={22} />
+                            </n-button>
+                        </n-badge>
+                    </n-button>
                     <n-popselect
                         show-arrow
                         trigger="click"
@@ -60,7 +62,7 @@ export default defineComponent({
                         </n-button>
                     </n-popselect>
                     <n-button text focusable={false} onClick={toggle}>
-                        <n-icon class="n-pointer" component={compute(isFullscreen.value ? 'Foutscreen' : 'Fullscreen')} size={24} />
+                        <n-icon class="n-pointer" component={compute(isFullscreen.value ? 'Foutscreen' : 'Fullscreen')} size={25} />
                     </n-button>
                     <n-button text focusable={false} onClick={(e: Event) => setTheme(inverted.value ? 'light' : 'dark')}>
                         <n-icon class="n-pointer" component={compute(inverted.value ? 'ThemeDark' : 'ThemeLight')} size={24} />

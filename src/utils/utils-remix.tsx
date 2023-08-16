@@ -36,7 +36,9 @@ export const RemixUI = {
     MailGmail: h(<Icon-MailGmail />),
     Message: h(<Icon-Message />),
     Language: h(<Icon-Language />),
-    Money: h(<Icon-Money />)
+    Money: h(<Icon-Money />),
+    Service: h(<Icon-Service />),
+    Document: h(<Icon-Document />)
 }
 
 /**图标类型拆解**/

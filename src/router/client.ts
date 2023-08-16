@@ -1,4 +1,5 @@
-import type { RouteRecordRaw } from 'vue-router'
+import { type RouteRecordRaw } from 'vue-router'
+import { createLoyout, Client } from '@/utils/utils-layout'
 import BasicLoyout from '@/layout/basic-layout.vue'
 import ClientLoyout from '@/layout/client-layout.vue'
 
@@ -40,8 +41,13 @@ export const client: Array<RouteRecordRaw> = [
                 redirect: '/captcha/service',
                 name: 'CaptchaLoyout',
                 meta: { Authorize: 'AUTH' },
-                component: ClientLoyout,
+                component: createLoyout(ClientLoyout, { client: Client.captcha, path: '/captcha' }),
                 children: [
+                    {
+                        path: '/captcha/document',
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH' },
+                        component: () => import('@/views/captcha/Service.vue')
+                    },
                     {
                         path: '/captcha/service',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH' },
@@ -54,7 +60,7 @@ export const client: Array<RouteRecordRaw> = [
                 redirect: '/message/service',
                 name: 'MessageLoyout',
                 meta: { Authorize: 'AUTH' },
-                component: ClientLoyout,
+                component: createLoyout(ClientLoyout, {}),
                 children: [
                     {
                         path: '/message/service',
@@ -68,7 +74,7 @@ export const client: Array<RouteRecordRaw> = [
                 redirect: '/email/service',
                 name: 'EmailLoyout',
                 meta: { Authorize: 'AUTH' },
-                component: ClientLoyout,
+                component: createLoyout(ClientLoyout, {}),
                 children: [
                     {
                         path: '/email/service',
