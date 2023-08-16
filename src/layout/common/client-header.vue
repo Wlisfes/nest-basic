@@ -13,11 +13,11 @@ import { router } from '@/router'
 export default defineComponent({
     name: 'Layout',
     setup(props) {
+        const user = useUser()
         const { s, xs } = useResize()
         const { locale, t, tm, setLocale } = useCurrent()
         const { isFullscreen, toggle } = useFullscreen()
         const { inverted, setTheme } = useProvider()
-        const { uid, avatar, nickname } = useUser()
         const { state, setState } = useState({ loading: false })
 
         function logout() {
@@ -69,17 +69,17 @@ export default defineComponent({
                         {{
                             trigger: () => (
                                 <n-space size={10} wrap-item={false} align="center" class="n-pointer">
-                                    <n-avatar round size={36} object-fit="cover" src={avatar}></n-avatar>
+                                    <n-avatar round size={36} object-fit="cover" src={user.avatar}></n-avatar>
                                     <n-ellipsis tooltip={false} style={{ maxWidth: '100px' }}>
-                                        <n-text>{nickname}</n-text>
+                                        <n-text>{user.nickname}</n-text>
                                     </n-ellipsis>
                                 </n-space>
                             ),
                             default: () => (
                                 <n-el class="not-selecter" style={{ display: 'grid' }}>
                                     <div style={{ padding: '0 8px' }}>
-                                        <n-h3 style={{ margin: 0 }}>{nickname}</n-h3>
-                                        <n-text>{t('client.basic.userId', { uid })}</n-text>
+                                        <n-h3 style={{ margin: 0 }}>{user.nickname}</n-h3>
+                                        <n-text>{t('client.basic.userId', { uid: user.uid })}</n-text>
                                     </div>
                                     <n-space size={20} wrap-item={false} align="center" style={{ padding: '14px 8px 10px' }}>
                                         <n-el style={{ flex: 1, overflow: 'hidden' }}>

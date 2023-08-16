@@ -1,24 +1,18 @@
 import { defineStore } from 'pinia'
 import { httpBasicUser, type IUser } from '@/api/http-user'
-export interface RUser {
-    uid: number
-    nickname: string
-    avatar: string
-    email: string
-    mobile: string
-    status: string
-}
 
 export const useUser = defineStore({
     id: 'user',
-    state: (): RUser => {
+    state: (): IUser => {
         return Object.assign({
             uid: undefined,
             nickname: undefined,
             avatar: undefined,
             email: undefined,
             mobile: undefined,
-            status: undefined
+            status: undefined,
+            appKey: undefined,
+            appSecret: undefined
         })
     },
     actions: {
@@ -30,6 +24,8 @@ export const useUser = defineStore({
                 this.email = data.email
                 this.mobile = data.mobile
                 this.status = data.status
+                this.appKey = data.appKey
+                this.appSecret = data.appSecret
                 return data
             })
         }

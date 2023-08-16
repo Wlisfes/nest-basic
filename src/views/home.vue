@@ -12,19 +12,19 @@ export default defineComponent({
     name: 'Home',
     setup(props) {
         const { width } = useResize()
-        const { nickname } = useUser()
         const { t, tm } = useCurrent()
         const { state } = useState({ loading: false })
+        const user = useUser()
         const hours = computed(() => Number(useDateFormat(useNow(), 'HH').value))
         const cols = computed(() => divineCols({ 768: 1, 1081: 2 }, width.value, 3))
         const client = computed(() => ({
             title: t('client.title'),
             document: t('client.document'),
             welcome: {
-                morning: t('client.welcome.morning', { nickname }),
-                midday: t('client.welcome.midday', { nickname }),
-                afternoon: t('client.welcome.afternoon', { nickname }),
-                night: t('client.welcome.night', { nickname })
+                morning: t('client.welcome.morning', { nickname: user.nickname }),
+                midday: t('client.welcome.midday', { nickname: user.nickname }),
+                afternoon: t('client.welcome.afternoon', { nickname: user.nickname }),
+                night: t('client.welcome.night', { nickname: user.nickname })
             },
             service: {
                 title: t('client.service.title'),
@@ -52,10 +52,10 @@ export default defineComponent({
                         <n-blockquote style={{ margin: '0 0 30px' }}>{client.value.document}</n-blockquote>
                         <n-form ref="formRef" size="large" label-placement="top">
                             <n-form-item label="API Key">
-                                <n-input placeholder="API Key" readonly />
+                                <n-input value={user.appKey} placeholder="API Key" readonly class="el-customize" />
                             </n-form-item>
                             <n-form-item label="API Secret" show-feedback={false}>
-                                <n-input placeholder="API Secret" readonly />
+                                <n-input value={user.appSecret} type="password" placeholder="API Secret" disabled />
                             </n-form-item>
                         </n-form>
                     </div>

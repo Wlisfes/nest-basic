@@ -58,6 +58,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
             }
         },
         server: {
+            hmr: true,
             port: Number(env.VITE_PORT),
             open: true,
             host: '0.0.0.0',

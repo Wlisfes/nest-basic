@@ -9,6 +9,8 @@ export interface IUser extends Scheme {
     email: string
     avatar: string
     openid: string
+    appKey: string
+    appSecret: string
     routes: Array<IRoute>
 }
 
