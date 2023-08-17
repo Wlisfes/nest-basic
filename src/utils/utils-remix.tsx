@@ -38,7 +38,10 @@ export const RemixUI = {
     Language: h(<Icon-Language />),
     Money: h(<Icon-Money />),
     Service: h(<Icon-Service />),
-    Document: h(<Icon-Document />)
+    Document: h(<Icon-Document />),
+    Describe: h(<Icon-Describe />),
+    DataBase: h(<Icon-DataBase />),
+    Compute: h(<Icon-Compute />)
 }
 
 /**图标类型拆解**/
