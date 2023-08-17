@@ -15,6 +15,10 @@ export function useResize(option?: Option) {
         return await common.setCollapse(collapse)
     }
 
+    async function setCurrent(current: string) {
+        return await common.setCurrent(current)
+    }
+
     async function onResize() {
         if (width.value > 1080) {
             common.setDevice('PC')
@@ -37,6 +41,8 @@ export function useResize(option?: Option) {
     watch(() => [width.value, height.value], onResize, { immediate: true })
 
     return {
+        width,
+        height,
         xs: computed(() => width.value <= 540),
         s: computed(() => width.value <= 768),
         m: computed(() => width.value <= 960),
@@ -46,73 +52,8 @@ export function useResize(option?: Option) {
         xxxl: computed(() => width.value <= 1920),
         collapse: computed(() => common.collapse),
         device: computed(() => common.device),
-        width,
-        height,
-        setCollapse
+        current: computed(() => common.current),
+        setCollapse,
+        setCurrent
     }
 }
-
-// import { watch, computed } from 'vue'
-// import { useManager } from '@/store/manager'
-// import { useWindowSize } from '@vueuse/core'
-
-// export type IDevice = 'PC' | 'IPAD' | 'MOBILE'
-// export type IOption = {
-//     onResize?: (e: { width: number; height: number; collapse: boolean; device: IDevice }) => void
-//     onDevice?: (device: IDevice) => void
-//     onCollapse?: (collapse: boolean) => void
-// }
-
-// export function useResize(option: IOption = {}) {
-//     const { width, height } = useWindowSize()
-//     const store = useManager()
-
-//     function setDevice(device: IDevice) {
-//         store.setDevice(device)
-//         option?.onDevice?.(device)
-//     }
-
-//     function setCollapse(collapse: boolean) {
-//         store.setCollapse(collapse)
-//         option?.onCollapse?.(collapse)
-//     }
-
-//     function onResize() {
-//         if (width.value > 1080) {
-//             setDevice('PC')
-//             setCollapse(false)
-//         } else if (width.value > 768) {
-//             setDevice('IPAD')
-//             setCollapse(true)
-//         } else {
-//             setDevice('MOBILE')
-//             setCollapse(true)
-//         }
-//         return option?.onResize?.({
-//             width: width.value,
-//             height: height.value,
-//             collapse: store.collapse,
-//             device: store.device as IDevice
-//         })
-//     }
-
-//     watch(
-//         () => [width.value, height.value],
-//         () => onResize(),
-//         { immediate: true }
-//     )
-
-//     return {
-//         collapse: computed(() => store.collapse),
-//         device: computed(() => store.device as IDevice),
-//         xs: computed(() => width.value <= 540),
-//         s: computed(() => width.value <= 768),
-//         m: computed(() => width.value <= 960),
-//         l: computed(() => width.value <= 1080),
-//         xl: computed(() => width.value <= 1280),
-//         xxl: computed(() => width.value <= 1680),
-//         xxxl: computed(() => width.value <= 1920),
-//         width,
-//         height
-//     }
-// }

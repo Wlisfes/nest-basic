@@ -14,13 +14,13 @@ export const client: Array<RouteRecordRaw> = [
             {
                 path: '/middle/login',
                 name: 'Login',
-                meta: { title: { cn: '', en: '' }, Authorize: 'AUTH_NONE' },
+                meta: { title: { cn: '', en: '' }, Authorize: 'AUTH_NONE', current: true },
                 component: () => import('@/views/middle/login.vue')
             },
             {
                 path: '/middle/register',
                 name: 'Register',
-                meta: { title: { cn: '', en: '' }, Authorize: 'AUTH_NONE' },
+                meta: { title: { cn: '', en: '' }, Authorize: 'AUTH_NONE', current: true },
                 component: () => import('@/views/middle/register.vue')
             }
         ]
@@ -33,7 +33,7 @@ export const client: Array<RouteRecordRaw> = [
             {
                 path: '/',
                 name: 'Home',
-                meta: { Authorize: 'AUTH' },
+                meta: { Authorize: 'AUTH', current: true },
                 component: () => import('@/views/Home.vue')
             },
             {
@@ -45,22 +45,22 @@ export const client: Array<RouteRecordRaw> = [
                 children: [
                     {
                         path: '/captcha/describe',
-                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH' },
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
                         component: () => import('@/views/captcha/Describe.vue')
                     },
                     {
                         path: '/captcha/service',
-                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH' },
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
                         component: () => import('@/views/captcha/Service.vue')
                     },
                     {
                         path: '/captcha/recorder',
-                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH' },
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
                         component: () => import('@/views/captcha/Recorder.vue')
                     },
                     {
                         path: '/captcha/compute',
-                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH' },
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
                         component: () => import('@/views/captcha/Compute.vue')
                     }
                 ]

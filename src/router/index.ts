@@ -2,6 +2,7 @@ import type { App } from 'vue'
 import { createRouter, createWebHistory, type Router } from 'vue-router'
 import { client } from '@/router/client'
 import { useUser } from '@/store/user'
+import { useCommon } from '@/store/common'
 
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,6 +11,7 @@ export const router = createRouter({
 
 /**路由守卫**/
 export function setupGuardRouter(router: Router) {
+    const common = useCommon()
     const user = useUser()
     router.beforeEach(async (to, form, next) => {
         window.$loading.start()
@@ -49,7 +51,10 @@ export function setupGuardRouter(router: Router) {
         }
     })
 
-    router.afterEach((to, form) => {
+    router.afterEach(async (to, form) => {
+        if (to.meta.current) {
+            await common.setCurrent(to.path)
+        }
         window.$loading.finish()
     })
 }

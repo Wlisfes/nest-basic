@@ -13,7 +13,7 @@ export default defineComponent({
     },
     setup(props) {
         const { vars, inverted } = useProvider()
-        const { device, collapse, setCollapse } = useResize()
+        const { device, collapse, current, setCollapse } = useResize()
         const dataClient = computed(() => formatter(props.client))
 
         return () => (
@@ -27,14 +27,15 @@ export default defineComponent({
                     collapse-mode="width"
                     show-trigger={device.value === 'Mobile' ? false : 'bar'}
                     style={{ padding: '32px 0 0' }}
-                    onUpdateCollapsed={() => setCollapse(!collapse.value)}
+                    onUpdateCollapsed={(collapsed: boolean) => setCollapse(collapsed)}
                 >
                     <n-menu
                         accordion
-                        inverted={inverted.value}
                         root-indent={24}
                         collapsed-width={80}
-                        value="/captcha/service"
+                        collapsed={collapse.value}
+                        inverted={inverted.value}
+                        value={current.value}
                         options={dataClient.value}
                         style={{ '--n-item-height': '50px' }}
                     />
