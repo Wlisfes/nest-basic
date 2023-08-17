@@ -106,13 +106,13 @@ export default defineComponent({
                     <n-blockquote style={{ margin: '0 0 30px' }}>{client.value.service.document}</n-blockquote>
                     <n-grid x-gap={24} y-gap={24} cols={cols.value}>
                         {client.value.service.column.map(item => (
-                            <n-grid-item class="n-pointer" style={{ backgroundColor: 'var(--back-color)' }}>
+                            <n-grid-item style={{ backgroundColor: 'var(--back-color)' }}>
                                 <common-render
                                     loading={state.loading}
                                     spin={<n-skeleton height="156px" />}
                                     component={
                                         <router-link to={item.path} style={{ textDecoration: 'none' }}>
-                                            <n-space size={15} wrap-item={false} style={{ padding: '32px', minHeight: '91px' }}>
+                                            <n-space class="common-service__column" size={15} wrap-item={false}>
                                                 <n-button text focusable={false}>
                                                     <n-icon component={compute(item.icon)} size={68} />
                                                 </n-button>
@@ -169,5 +169,15 @@ export default defineComponent({
 .common-service {
     position: relative;
     margin-top: 40px;
+    &__column {
+        padding: 32px;
+        min-height: 91px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow-1);
+        transition: box-shadow 0.3s var(--cubic-bezier-ease-in-out);
+        &:hover {
+            box-shadow: var(--box-shadow-2);
+        }
+    }
 }
 </style>

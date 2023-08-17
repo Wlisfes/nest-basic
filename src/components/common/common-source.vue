@@ -126,7 +126,6 @@ export default defineComponent({
         position: relative;
         display: grid;
         padding: 16px 16px 48px;
-        background-color: var(--back-color);
     }
     &__pagination {
         display: flex;
