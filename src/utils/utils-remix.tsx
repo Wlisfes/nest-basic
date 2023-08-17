@@ -41,7 +41,8 @@ export const RemixUI = {
     Document: h(<Icon-Document />),
     Describe: h(<Icon-Describe />),
     DataBase: h(<Icon-DataBase />),
-    Compute: h(<Icon-Compute />)
+    Compute: h(<Icon-Compute />),
+    Schedule: h(<Icon-Schedule />)
 }
 
 /**图标类型拆解**/

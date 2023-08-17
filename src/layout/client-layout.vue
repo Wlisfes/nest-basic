@@ -8,8 +8,7 @@ import { formatter, type ClientOption } from '@/utils/utils-layout'
 export default defineComponent({
     name: 'ClientLayout',
     props: {
-        client: { type: Array as PropType<Array<ClientOption>>, default: () => [] },
-        path: { type: String }
+        client: { type: Array as PropType<Array<ClientOption>>, default: () => [] }
     },
     setup(props) {
         const { vars, inverted } = useProvider()
@@ -37,7 +36,7 @@ export default defineComponent({
                         inverted={inverted.value}
                         value={current.value}
                         options={dataClient.value}
-                        style={{ '--n-item-height': '50px' }}
+                        style={{ '--n-item-height': '60px' }}
                     />
                 </n-layout-sider>
                 <n-layout>

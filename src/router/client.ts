@@ -41,7 +41,7 @@ export const client: Array<RouteRecordRaw> = [
                 redirect: '/captcha/describe',
                 name: 'CaptchaLoyout',
                 meta: { Authorize: 'AUTH' },
-                component: createLoyout(ClientLoyout, { client: Client.captcha, path: '/captcha' }),
+                component: createLoyout(ClientLoyout, { client: Client.captcha }),
                 children: [
                     {
                         path: '/captcha/describe',
@@ -67,29 +67,69 @@ export const client: Array<RouteRecordRaw> = [
             },
             {
                 path: '/message',
-                redirect: '/message/service',
+                redirect: '/message/describe',
                 name: 'MessageLoyout',
                 meta: { Authorize: 'AUTH' },
-                component: createLoyout(ClientLoyout, {}),
+                component: createLoyout(ClientLoyout, { client: Client.message }),
                 children: [
                     {
+                        path: '/message/describe',
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
+                        component: () => import('@/views/message/Describe.vue')
+                    },
+                    {
                         path: '/message/service',
-                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH' },
-                        component: () => import('@/views/captcha/Service.vue')
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
+                        component: () => import('@/views/message/Service.vue')
+                    },
+                    {
+                        path: '/message/schedule',
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
+                        component: () => import('@/views/message/Schedule.vue')
+                    },
+                    {
+                        path: '/message/recorder',
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
+                        component: () => import('@/views/message/Recorder.vue')
+                    },
+                    {
+                        path: '/message/compute',
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
+                        component: () => import('@/views/message/Compute.vue')
                     }
                 ]
             },
             {
                 path: '/email',
-                redirect: '/email/service',
+                redirect: '/email/describe',
                 name: 'EmailLoyout',
                 meta: { Authorize: 'AUTH' },
-                component: createLoyout(ClientLoyout, {}),
+                component: createLoyout(ClientLoyout, { client: Client.email }),
                 children: [
                     {
+                        path: '/email/describe',
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
+                        component: () => import('@/views/email/Describe.vue')
+                    },
+                    {
                         path: '/email/service',
-                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH' },
-                        component: () => import('@/views/captcha/Service.vue')
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
+                        component: () => import('@/views/email/Service.vue')
+                    },
+                    {
+                        path: '/email/schedule',
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
+                        component: () => import('@/views/email/Schedule.vue')
+                    },
+                    {
+                        path: '/email/recorder',
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
+                        component: () => import('@/views/email/Recorder.vue')
+                    },
+                    {
+                        path: '/email/compute',
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
+                        component: () => import('@/views/email/Compute.vue')
                     }
                 ]
             }
