@@ -37,7 +37,7 @@ export default defineComponent({
                     />
                 </n-layout-sider>
                 <n-layout>
-                    <n-layout style={{ backgroundColor: vars.value.backColor }} position="absolute" inverted={inverted.value}>
+                    <n-layout position="absolute" inverted={inverted.value} style={{ backgroundColor: vars.value.backColor }}>
                         <RouterView></RouterView>
                     </n-layout>
                 </n-layout>

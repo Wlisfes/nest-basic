@@ -21,7 +21,7 @@ export default defineComponent({
                 <n-layout-header inverted={inverted.value} style={headerReact.value}>
                     <basic-header></basic-header>
                 </n-layout-header>
-                <n-layout class="client-layout__content" position="absolute" inverted={inverted.value} style={layoutReact.value}>
+                <n-layout position="absolute" inverted={inverted.value} style={layoutReact.value}>
                     <RouterView></RouterView>
                 </n-layout>
             </n-layout>

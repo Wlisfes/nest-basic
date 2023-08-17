@@ -1,7 +1,6 @@
 <script lang="tsx">
 import { defineComponent } from 'vue'
 import { RouterView } from 'vue-router'
-import { loadFile } from '@/utils/utils-common'
 import { useCurrent } from '@/locale/instance'
 
 export default defineComponent({
@@ -13,7 +12,7 @@ export default defineComponent({
             <n-el class="compute-container">
                 <common-screen></common-screen>
                 <div class="app-compute">
-                    <div class={`n-locale is-${'cn'}`}>
+                    <div class="n-locale">
                         <n-text class="n-locale__value" depth={1} onClick={() => setLocale(locale.value === 'cn' ? 'en' : 'cn')}>
                             {{ default: () => locale.value.toUpperCase() }}
                         </n-text>
@@ -50,27 +49,21 @@ export default defineComponent({
         transform: rotateZ(45deg);
         user-select: none;
         transition: all 300ms;
-        &.is-en {
-            box-shadow: 0 0 10px #8ec5fc;
-            background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
-        }
-        &.is-cn {
-            box-shadow: 0 0 10px #e3eeff;
-            background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
-        }
+        background-color: var(--back-color);
         &__value {
             position: absolute;
             left: 37px;
             top: 67px;
             transform: rotateZ(-45deg);
-            font-weight: bold;
+            font-weight: 500;
             font-size: 16px;
             cursor: pointer;
+            letter-spacing: 1px;
         }
     }
     .app-compute {
         position: relative;
-        background-color: var(--body-color);
+        background-color: var(--card-color);
         border-radius: 8px;
         box-shadow: 0 0.9rem 1.7rem rgba(0, 0, 0, 0.25), 0 0.7rem 0.7rem rgba(0, 0, 0, 0.22);
         width: 100%;
