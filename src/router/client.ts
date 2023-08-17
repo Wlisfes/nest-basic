@@ -38,20 +38,30 @@ export const client: Array<RouteRecordRaw> = [
             },
             {
                 path: '/captcha',
-                redirect: '/captcha/service',
+                redirect: '/captcha/describe',
                 name: 'CaptchaLoyout',
                 meta: { Authorize: 'AUTH' },
                 component: createLoyout(ClientLoyout, { client: Client.captcha, path: '/captcha' }),
                 children: [
                     {
-                        path: '/captcha/document',
+                        path: '/captcha/describe',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH' },
-                        component: () => import('@/views/captcha/Service.vue')
+                        component: () => import('@/views/captcha/Describe.vue')
                     },
                     {
                         path: '/captcha/service',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH' },
                         component: () => import('@/views/captcha/Service.vue')
+                    },
+                    {
+                        path: '/captcha/recorder',
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH' },
+                        component: () => import('@/views/captcha/Recorder.vue')
+                    },
+                    {
+                        path: '/captcha/compute',
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH' },
+                        component: () => import('@/views/captcha/Compute.vue')
                     }
                 ]
             },

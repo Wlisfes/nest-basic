@@ -37,10 +37,14 @@ export default defineComponent({
                 style={{ height: '100%', padding: xs.value ? '0 20px' : '0 32px', justifyContent: !s.value ? 'space-between' : 'flex-end' }}
             >
                 {!s.value && (
-                    <n-space size={8} wrap-item={false}>
-                        <n-icon component={compute('Simple')} size={28} style />
-                        <n-text style={{ fontSize: '24px', lineHeight: '28px' }}>{t('client.title')}</n-text>
-                    </n-space>
+                    <router-link to="/" style={{ textDecoration: 'none' }}>
+                        <n-space size={8} wrap-item={false}>
+                            <n-button text focusable={false}>
+                                <n-icon component={compute('Simple')} size={28} style />
+                            </n-button>
+                            <n-text style={{ fontSize: '24px', lineHeight: '28px' }}>{t('client.title')}</n-text>
+                        </n-space>
+                    </router-link>
                 )}
                 <n-space size={24} wrap-item={false} align="center">
                     <n-button text focusable={false}>

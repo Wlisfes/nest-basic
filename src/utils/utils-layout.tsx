@@ -5,6 +5,7 @@ export interface ClientOption {
     label: string
     key: string
     icon: INameUI
+    size: number
 }
 
 export function createLoyout(component: Component, props: Record<string, unknown>) {
@@ -32,14 +33,16 @@ export function formatter(data: Array<ClientOption> = []) {
                 { to: item.key },
                 <h3 style={{ margin: 0, fontSize: '18px', color: 'var(--n-item-icon-color)', fontWeight: 500 }}>{item.label}</h3>
             ),
-            icon: createElement(sompute(item.icon), { size: 28 })
+            icon: createElement(sompute(item.icon), { size: item.size })
         }
     })
 }
 
 export const Client = {
     captcha: [
-        { label: '概述', key: '/captcha/document', icon: 'Document' },
-        { label: '应用服务', key: '/captcha/service', icon: 'Service' }
+        { label: '概述', key: '/captcha/describe', icon: 'Describe', size: 30 },
+        { label: '应用服务', key: '/captcha/service', icon: 'Service', size: 28 },
+        { label: '验证记录', key: '/captcha/recorder', icon: 'DataBase', size: 28 },
+        { label: '验证记录', key: '/captcha/compute', icon: 'Compute', size: 30 }
     ]
 }
