@@ -1,4 +1,4 @@
-import { createVNode, type Component, type VNodeChild } from 'vue'
+import { createVNode, Fragment, type Component, type VNodeChild } from 'vue'
 import { RouterLink } from 'vue-router'
 import { sompute, type INameUI } from '@/utils/utils-remix'
 export interface ClientOption {
@@ -28,11 +28,7 @@ export function formatter(data: Array<ClientOption> = []) {
     return data.map(item => {
         return {
             key: item.key,
-            label: createElement(
-                RouterLink,
-                { to: item.key },
-                <h3 style={{ margin: 0, fontSize: '18px', color: 'var(--n-item-icon-color)', fontWeight: 500 }}>{item.label}</h3>
-            ),
+            label: createElement(RouterLink, { to: item.key }, <n-el style={{ fontSize: '18px', fontWeight: 500 }}>{item.label}</n-el>),
             icon: createElement(sompute(item.icon), { size: item.size })
         }
     })
@@ -43,6 +39,6 @@ export const Client = {
         { label: '概述', key: '/captcha/describe', icon: 'Describe', size: 30 },
         { label: '应用服务', key: '/captcha/service', icon: 'Service', size: 28 },
         { label: '验证记录', key: '/captcha/recorder', icon: 'DataBase', size: 28 },
-        { label: '验证记录', key: '/captcha/compute', icon: 'Compute', size: 30 }
+        { label: '验证统计', key: '/captcha/compute', icon: 'Compute', size: 30 }
     ]
 }

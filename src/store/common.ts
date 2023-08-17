@@ -12,7 +12,7 @@ export const useCommon = defineStore({
     id: 'common',
     state: (): IState => ({
         theme: window.$cookie.getStore(window.$cookie.APP_AUTH_theme, 'light'),
-        primaryColor: window.$cookie.getStore(window.$cookie.APP_AUTH_primaryColor, '#536dfe'),
+        primaryColor: window.$cookie.getStore(window.$cookie.APP_AUTH_primaryColor, '#18a058'),
         collapse: false,
         device: 'PC',
         current: '/'

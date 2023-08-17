@@ -34,7 +34,7 @@ export default defineComponent({
                         inverted={inverted.value}
                         root-indent={24}
                         collapsed-width={80}
-                        value="/captcha/document"
+                        value="/captcha/service"
                         options={dataClient.value}
                         style={{ '--n-item-height': '50px' }}
                     />
