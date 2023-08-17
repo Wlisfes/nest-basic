@@ -9,6 +9,7 @@ export class CookieStorage {
     private instance: Storage = window.localStorage
     public APP_AUTH_theme = 'APP_AUTH_theme' //主题
     public APP_AUTH_primaryColor = 'APP_AUTH_primaryColor' //主题色
+    public APP_AUTH_locking = 'APP_AUTH_locking' //左侧菜单锁定
     public APP_AUTH_TOKEN: string = 'APP_AUTH_TOKEN' //token
     public APP_AUTH_REFRESH: string = 'APP_AUTH_REFRESH' //刷新token
     public APP_AUTH_EXPIRE: string = 'APP_AUTH_EXPIRE' //token有效时间
