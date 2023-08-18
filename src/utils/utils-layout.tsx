@@ -1,5 +1,4 @@
-import { createVNode, Fragment, type Component, type VNodeChild } from 'vue'
-import { RouterLink } from 'vue-router'
+import { createVNode, type Component } from 'vue'
 import { sompute, type INameUI } from '@/utils/utils-remix'
 export interface ClientOption {
     label: string
@@ -14,30 +13,23 @@ export function createLoyout(component: Component, props: Record<string, unknown
     }
 }
 
-export function createElement(component: Component, props: Record<string, unknown> = {}, child: string | number | VNodeChild = undefined) {
+export function createElement(component: Component, props: Record<string, unknown> = {}) {
     return () => {
-        return createVNode(component, props, {
-            default: child ? () => child : undefined
-        })
+        return createVNode(component, props)
     }
-}
-
-export function createInclude(component: Component, props: Record<string, unknown> = {}, child: string | number | VNodeChild = undefined) {
-    if (component) {
-        return () => {
-            return createVNode(component, props, {
-                default: child ? () => child : undefined
-            })
-        }
-    }
-    return undefined
 }
 
 export function formatter(data: Array<ClientOption> = []) {
     return data.map(item => {
         return {
             key: item.key,
-            label: createElement(RouterLink, { to: item.key }, <n-el style={{ fontSize: '18px', fontWeight: 500 }}>{item.label}</n-el>),
+            label: createElement(
+                <router-link to={item.key}>
+                    <n-el tag="h1" style={{ fontSize: '18px', fontWeight: 500, margin: 0 }}>
+                        {item.label}
+                    </n-el>
+                </router-link>
+            ),
             icon: createElement(sompute(item.icon), { size: item.size })
         }
     })

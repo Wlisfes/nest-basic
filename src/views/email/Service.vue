@@ -1,14 +1,16 @@
 <script lang="tsx">
 import { defineComponent } from 'vue'
+import { useResize } from '@/hooks/hook-resize'
 import { useSource } from '@/hooks/hook-source'
-import { httpColumnMailService, type MailerApplication } from '@/api/http-email'
 import { sompute } from '@/utils/utils-remix'
 import { divineDelay } from '@/utils/utils-common'
+import { httpColumnMailService, type MailerApplication } from '@/api/http-email'
 import type { CnState } from '@/interface/common-interface'
 
 export default defineComponent({
     name: 'Service',
     setup() {
+        const { device } = useResize()
         const { state, fetchUpdate } = useSource(
             {
                 immediate: true,
@@ -27,48 +29,35 @@ export default defineComponent({
         )
 
         return () => (
-            <common-container react-style={{ padding: '20px 40px 0' }}>
+            <common-container react-style={{ padding: '30px 40px 0' }}>
                 <common-header
-                    title-render={<n-h1 style={{ margin: 0 }}>应用服务</n-h1>}
-                    footer-render={<n-text>截止到 2021年4月3日</n-text>}
-                ></common-header>
-                <n-page-header on-back={Function}>
-                    {{
-                        title: () => <n-h1 style={{ margin: 0 }}>让你的听觉更懂视觉</n-h1>,
-                        extra: () => (
-                            <n-space size={14} wrap-item={false}>
-                                <n-form-item show-feedback={false} show-label={false}>
-                                    <n-input v-model:value={state.form.name} placeholder="应用名称" />
-                                </n-form-item>
-                                <common-state
-                                    loading={state.loading}
-                                    v-slots={{
-                                        default: (e: CnState, done: Function) => (
-                                            <n-button
-                                                type="primary"
-                                                disabled={e.loading || e.loading}
-                                                loading={e.loading}
-                                                onClick={() => done({ loading: true })}
-                                            >
-                                                不许点
-                                            </n-button>
-                                        )
-                                    }}
-                                ></common-state>
-                            </n-space>
-                        )
-                    }}
-                </n-page-header>
-                <common-state
-                    loading={state.loading}
-                    v-slots={{
-                        default: (e: CnState, done: Function) => (
-                            <n-button disabled={e.loading || e.loading} loading={e.loading} onClick={() => done({ loading: true })}>
-                                不许点
-                            </n-button>
-                        )
-                    }}
-                ></common-state>
+                    onHandler={() => console.log('111111')}
+                    vertical={['Mobile', 'IPAD'].includes(device.value)}
+                    title="应用服务"
+                    content="应用服务应用服务应用服务应用服务应用服务应用服务应用服务应用服务"
+                >
+                    <n-space size={14} wrap-item={false} align="center" justify="end" style={{ width: '100%' }}>
+                        <n-form-item show-feedback={false} show-label={false}>
+                            <n-input size="large" v-model:value={state.form.name} placeholder="应用名称" />
+                        </n-form-item>
+                        <common-state
+                            loading={state.loading}
+                            v-slots={{
+                                default: (e: CnState, done: Function) => (
+                                    <n-button
+                                        type="primary"
+                                        size="large"
+                                        disabled={e.loading || e.loading}
+                                        loading={e.loading}
+                                        onClick={() => done({ loading: true })}
+                                    >
+                                        不许点
+                                    </n-button>
+                                )
+                            }}
+                        ></common-state>
+                    </n-space>
+                </common-header>
                 <common-source
                     came-style={{ padding: '0 16px 48px' }}
                     loading={state.loading}
