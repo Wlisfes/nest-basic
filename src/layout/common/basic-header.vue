@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent } from 'vue'
+import { defineComponent, computed, type CSSProperties } from 'vue'
 import { useFullscreen } from '@vueuse/core'
 import { useUser } from '@/store/user'
 import { useProvider } from '@/hooks/hook-provider'
@@ -14,11 +14,17 @@ export default defineComponent({
     name: 'BasicHeader',
     setup(props) {
         const user = useUser()
-        const { s, xs } = useResize()
+        const { device } = useResize()
         const { locale, t, tm, setLocale } = useCurrent()
         const { isFullscreen, toggle } = useFullscreen()
         const { inverted, setTheme } = useProvider()
         const { state, setState } = useState({ loading: false })
+        const headerReact = computed<CSSProperties>(() => ({
+            height: '100%',
+            padding: device.value === 'Mobile' ? '0 20px' : '0 32px',
+            justifyContent: device.value !== 'Mobile' ? 'space-between' : 'flex-end',
+            transition: 'padding 0.3s var(--cubic-bezier-ease-in-out)'
+        }))
 
         function logout() {
             return setState({ loading: true }).then(async () => {
@@ -31,12 +37,8 @@ export default defineComponent({
         }
 
         return () => (
-            <n-el
-                tag="header"
-                class="n-flex n-center not-selecter"
-                style={{ height: '100%', padding: xs.value ? '0 20px' : '0 32px', justifyContent: !s.value ? 'space-between' : 'flex-end' }}
-            >
-                {!s.value && (
+            <n-el tag="header" class="n-flex n-center not-selecter" style={headerReact.value}>
+                {device.value !== 'Mobile' && (
                     <router-link to="/" style={{ textDecoration: 'none' }}>
                         <n-space size={8} wrap-item={false}>
                             <n-button text focusable={false}>
