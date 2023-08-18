@@ -9,19 +9,28 @@ export interface ClientOption {
 }
 
 export function createLoyout(component: Component, props: Record<string, unknown>) {
-    return async function () {
+    return async () => {
         return createVNode(component, props)
     }
 }
 
-export function createElement(component: Component, props: Record<string, unknown> = {}, child: string | number | VNodeChild) {
-    return function () {
+export function createElement(component: Component, props: Record<string, unknown> = {}, child: string | number | VNodeChild = undefined) {
+    return () => {
         return createVNode(component, props, {
-            default: function () {
-                return child
-            }
+            default: child ? () => child : undefined
         })
     }
+}
+
+export function createInclude(component: Component, props: Record<string, unknown> = {}, child: string | number | VNodeChild = undefined) {
+    if (component) {
+        return () => {
+            return createVNode(component, props, {
+                default: child ? () => child : undefined
+            })
+        }
+    }
+    return undefined
 }
 
 export function formatter(data: Array<ClientOption> = []) {
