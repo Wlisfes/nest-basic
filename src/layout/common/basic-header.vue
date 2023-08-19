@@ -37,7 +37,7 @@ export default defineComponent({
         }
 
         return () => (
-            <n-el tag="header" class="n-flex n-center not-selecter" style={headerReact.value}>
+            <n-el tag="header" class="basic-header n-flex n-center not-selecter" style={headerReact.value}>
                 {device.value !== 'Mobile' && (
                     <router-link to="/" style={{ textDecoration: 'none' }}>
                         <n-space size={8} wrap-item={false}>

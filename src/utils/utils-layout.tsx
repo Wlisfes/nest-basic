@@ -1,4 +1,4 @@
-import { createVNode, type Component } from 'vue'
+import { createVNode, type Component, type CSSProperties } from 'vue'
 import { sompute, type INameUI } from '@/utils/utils-remix'
 export interface ClientOption {
     label: string
@@ -17,6 +17,10 @@ export function createElement(component: Component, props: Record<string, unknow
     return () => {
         return createVNode(component, props)
     }
+}
+
+export function whereProperter(where: boolean, whereValue: CSSProperties = {}, defaultValue: CSSProperties = {}) {
+    return where ? whereValue : defaultValue
 }
 
 export function formatter(data: Array<ClientOption> = []) {

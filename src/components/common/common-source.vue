@@ -125,12 +125,12 @@ export default defineComponent({
     &__container {
         position: relative;
         display: grid;
-        padding: 16px 16px 48px;
+        padding-bottom: 48px;
     }
     &__pagination {
         display: flex;
         justify-content: center;
-        padding: 0 16px 64px;
+        padding-bottom: 64px;
     }
 }
 </style>

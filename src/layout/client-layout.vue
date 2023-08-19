@@ -18,6 +18,7 @@ export default defineComponent({
         return () => (
             <n-layout has-sider style={{ height: '100%' }}>
                 <n-layout-sider
+                    bordered
                     inverted={inverted.value}
                     collapsed={collapse.value}
                     width={280}

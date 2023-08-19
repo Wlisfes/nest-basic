@@ -5,6 +5,7 @@ import { compute } from '@/utils/utils-remix'
 export default defineComponent({
     name: 'CommonHeader',
     props: {
+        back: { type: Boolean, default: false },
         title: { type: String },
         titleRender: { type: Object as PropType<Component> },
         content: { type: String },
@@ -18,9 +19,11 @@ export default defineComponent({
             <Fragment>
                 <n-el class={{ 'common-header': true, 'is-vertical': props.vertical }}>
                     <div class="common-header__main">
-                        <n-button text focusable={false} style={{ marginRight: '10px' }} onClick={(e: Event) => emit('handler', e)}>
-                            <n-icon size={30} component={compute('ArrowLeftLine')} />
-                        </n-button>
+                        {props.back && (
+                            <n-button text focusable={false} style={{ marginRight: '10px' }} onClick={(e: Event) => emit('handler', e)}>
+                                <n-icon size={32} component={compute('ArrowLeftLine')} />
+                            </n-button>
+                        )}
                         <div class="common-header__title">
                             {props.titleRender || props.title ? (
                                 <Fragment>
@@ -60,10 +63,13 @@ export default defineComponent({
         flex-direction: column;
     }
     &__main {
-        flex: 1;
         display: flex;
         align-items: center;
         order: 1;
+    }
+    &__extra {
+        flex: 1;
+        overflow: hidden;
     }
     &__content {
         width: 100%;

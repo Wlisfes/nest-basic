@@ -4,46 +4,53 @@ import { defineComponent, computed, Fragment, type PropType, type CSSProperties,
 export default defineComponent({
     name: 'CommonContainer',
     props: {
-        scrollbar: { type: Boolean, default: true },
+        bordered: { type: Boolean, default: false },
+        mobile: { type: Boolean, default: false },
         maxWidth: { type: String, default: 'auto' },
-        horizontal: { type: Boolean },
-        reactStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
-        nativeStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
-        screenRender: { type: Function as PropType<() => VNodeChild> },
-        footerRender: { type: Function as PropType<() => VNodeChild> }
+        scrollbarStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
+        contentStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
+        request: { type: Object as PropType<VNodeChild> },
+        requestStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) }
     },
     setup(props, { slots }) {
-        const nativeStyle = computed<CSSProperties>(() => ({
+        const scrollbarStyle = computed<CSSProperties>(() => ({
             boxSizing: 'border-box',
-            ...props.nativeStyle
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            ...props.scrollbarStyle
         }))
-        const reactStyle = computed<CSSProperties>(() => ({
+        const contentStyle = computed<CSSProperties>(() => ({
             maxWidth: props.maxWidth,
-            ...props.reactStyle
+            width: '100%',
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: 'var(--card-color)',
+            boxSizing: 'border-box',
+            ...props.contentStyle
         }))
 
         return () => (
-            <n-el tag="section" class={{ 'n-flex n-column common-container': true, 'n-center': !props.scrollbar }}>
-                {props.screenRender && <Fragment>{props.screenRender()}</Fragment>}
-                {props.scrollbar ? (
-                    <n-scrollbar class="common-container__scrollbar">
-                        <div class="n-flex n-auto n-column n-center" style={nativeStyle.value}>
-                            <div
-                                class={{ 'common-container__default n-flex': true, 'n-column': !props.horizontal }}
-                                style={reactStyle.value}
-                            >
-                                {slots.default && <Fragment>{slots.default()}</Fragment>}
-                            </div>
-                        </div>
-                    </n-scrollbar>
-                ) : (
-                    <div class="n-flex n-auto n-column n-center" style={nativeStyle.value}>
-                        <div class={{ 'common-container__default n-flex': true, 'n-column': !props.horizontal }} style={reactStyle.value}>
-                            {slots.default && <Fragment>{slots.default()}</Fragment>}
-                        </div>
+            <n-el tag="section" class={{ 'common-container': true, 'is-bordered': props.bordered }}>
+                {props.request && !props.mobile && (
+                    <div class="common-container__request" style={props.requestStyle}>
+                        {props.request}
                     </div>
                 )}
-                {props.footerRender && <Fragment>{props.footerRender()}</Fragment>}
+                <div class="common-container__scrollbar">
+                    <n-scrollbar>
+                        {props.request && props.mobile && (
+                            <div class="common-container__request" style={props.requestStyle}>
+                                {props.request}
+                            </div>
+                        )}
+                        <div style={scrollbarStyle.value}>
+                            <div style={contentStyle.value}>{slots.default && <Fragment>{slots.default()}</Fragment>}</div>
+                        </div>
+                    </n-scrollbar>
+                </div>
             </n-el>
         )
     }
@@ -58,11 +65,32 @@ export default defineComponent({
     right: 0;
     top: 0;
     bottom: 0;
-    &__default {
-        width: 100%;
-        flex: 1;
+    transition: padding 0.3s var(--cubic-bezier-ease-in-out);
+    display: flex;
+    flex-direction: column;
+    &.is-bordered::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -0.5px;
+        height: 1px;
+        background-color: var(--divider-color);
+        transition: background-color 0.3s var(--cubic-bezier-ease-in-out);
+    }
+    &__request {
+        position: relative;
+        display: flex;
+        flex-direction: column;
         background-color: var(--card-color);
         box-sizing: border-box;
+    }
+    &__scrollbar {
+        position: relative;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
     }
 }
 </style>

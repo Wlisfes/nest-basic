@@ -52,7 +52,7 @@ export default defineComponent({
         }
 
         return () => (
-            <common-container max-width="1680px" native-style={{ padding: '20px' }} react-style={{ padding: '64px 32px 32px' }}>
+            <common-container max-width="1680px" scrollbar-style={{ padding: '20px' }} content-style={{ padding: '64px 32px 32px' }}>
                 <n-h1 strong>
                     {hours.value >= 18 ? (
                         <n-text>{client.value.welcome.night}</n-text>
@@ -104,33 +104,35 @@ export default defineComponent({
                 <div class="common-service">
                     <n-h2 style={{ marginBottom: '10px' }}>{client.value.service.title}</n-h2>
                     <n-blockquote style={{ margin: '0 0 30px' }}>{client.value.service.document}</n-blockquote>
-                    <n-grid x-gap={24} y-gap={24} cols={cols.value}>
-                        {client.value.service.column.map(item => (
-                            <n-grid-item style={{ backgroundColor: 'var(--back-color)' }}>
-                                <common-render
-                                    loading={state.loading}
-                                    spin={<n-skeleton height="156px" />}
-                                    component={
-                                        <router-link to={item.path} style={{ textDecoration: 'none' }}>
-                                            <n-space class="common-service__column" size={15} wrap-item={false}>
-                                                <n-button text focusable={false}>
-                                                    <n-icon component={compute(item.icon)} size={68} />
-                                                </n-button>
-                                                <n-space size={5} vertical wrap-item={false} style={{ flex: 1 }} justify="center">
-                                                    <n-h2 style={{ marginBottom: 0, lineHeight: '36px' }}>{item.name}</n-h2>
-                                                    <n-text style={{ lineHeight: '22px' }}>
-                                                        <n-ellipsis tooltip={false} line-clamp={2}>
-                                                            {item.document}
-                                                        </n-ellipsis>
-                                                    </n-text>
+                    {[1, 2, 3, 4, 5, 6].map(k => (
+                        <n-grid x-gap={24} y-gap={24} cols={cols.value}>
+                            {client.value.service.column.map(item => (
+                                <n-grid-item style={{ backgroundColor: 'var(--back-color)' }}>
+                                    <common-render
+                                        loading={state.loading}
+                                        spin={<n-skeleton height="156px" />}
+                                        component={
+                                            <router-link to={item.path} style={{ textDecoration: 'none' }}>
+                                                <n-space class="common-service__column" size={15} wrap-item={false}>
+                                                    <n-button text focusable={false}>
+                                                        <n-icon component={compute(item.icon)} size={68} />
+                                                    </n-button>
+                                                    <n-space size={5} vertical wrap-item={false} style={{ flex: 1 }} justify="center">
+                                                        <n-h2 style={{ marginBottom: 0, lineHeight: '36px' }}>{item.name}</n-h2>
+                                                        <n-text style={{ lineHeight: '22px' }}>
+                                                            <n-ellipsis tooltip={false} line-clamp={2}>
+                                                                {item.document}
+                                                            </n-ellipsis>
+                                                        </n-text>
+                                                    </n-space>
                                                 </n-space>
-                                            </n-space>
-                                        </router-link>
-                                    }
-                                ></common-render>
-                            </n-grid-item>
-                        ))}
-                    </n-grid>
+                                            </router-link>
+                                        }
+                                    ></common-render>
+                                </n-grid-item>
+                            ))}
+                        </n-grid>
+                    ))}
                 </div>
             </common-container>
         )

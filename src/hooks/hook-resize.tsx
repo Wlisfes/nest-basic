@@ -1,6 +1,7 @@
 import { computed, watch } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { useCommon } from '@/store/common'
+import IsMobile from 'is-mobile'
 
 export type Device = 'PC' | 'IPAD' | 'Mobile'
 export type Option = {
@@ -20,7 +21,7 @@ export function useResize(option?: Option) {
     }
 
     async function onResize() {
-        if (width.value > 1080) {
+        if (width.value >= 1280) {
             common.setDevice('PC')
             common.setCollapse(false)
         } else if (width.value > 768) {
@@ -53,6 +54,7 @@ export function useResize(option?: Option) {
         collapse: computed(() => common.collapse),
         device: computed(() => common.device),
         current: computed(() => common.current),
+        mobile: computed(() => IsMobile() || common.device === 'Mobile'),
         setCollapse,
         setCurrent
     }
