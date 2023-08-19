@@ -4,6 +4,7 @@ import common from './common'
 import route from './route'
 import rule from './rule'
 import { client } from './client'
+import { enumerate } from './enumerate'
 
 export type I18nContext = typeof messages.cn & typeof messages.en
 export const messages = {
@@ -14,7 +15,8 @@ export const messages = {
         common: common.cn,
         route: route.cn,
         rule: rule.cn,
-        client: client.cn
+        client: client.cn,
+        enumerate: enumerate.cn
     },
     en: {
         ...enUS,
@@ -23,6 +25,7 @@ export const messages = {
         common: common.en,
         route: route.en,
         rule: rule.en,
-        client: client.en
+        client: client.en,
+        enumerate: enumerate.en
     }
 }

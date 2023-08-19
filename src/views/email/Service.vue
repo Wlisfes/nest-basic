@@ -3,7 +3,8 @@ import { defineComponent } from 'vue'
 import { useResize } from '@/hooks/hook-resize'
 import { useSource } from '@/hooks/hook-source'
 import { divineDelay } from '@/utils/utils-common'
-import { whereProperter } from '@/utils/utils-layout'
+import { whereProperter, createElement } from '@/utils/utils-layout'
+import { compute, sompute } from '@/utils/utils-remix'
 import { httpColumnMailService, type MailerApplication } from '@/api/http-email'
 import type { CnState } from '@/interface/common-interface'
 
@@ -14,16 +15,11 @@ export default defineComponent({
         const { state, fetchUpdate } = useSource(
             {
                 immediate: true,
-                form: {
-                    uid: undefined,
-                    name: undefined,
-                    appKey: undefined,
-                    status: undefined
-                },
+                form: { name: undefined },
                 size: 20
             },
             async ({ size, page }) => {
-                await divineDelay(2000)
+                await divineDelay(1000)
                 return await httpColumnMailService({ size, page })
             }
         )
@@ -39,28 +35,25 @@ export default defineComponent({
                         onHandler={() => console.log('111111')}
                         vertical={mobile.value}
                         title="应用服务"
-                        //content="应用服务应用服务应用服务应用服务应用服务应用服务应用服务应用服务"
+                        content="应用服务应用服务应用服务应用服务应用服务应用服务应用服务应用服务"
                     >
-                        <n-space size={14} wrap-item={false} align="center" justify="end" style={{ width: '100%' }}>
-                            <n-form-item show-feedback={false} show-label={false}>
-                                <n-input size="large" v-model:value={state.form.name} placeholder="应用名称" />
+                        <n-space class="w-full h-full" size={14} wrap-item={false} align="center" justify="end">
+                            <n-form-item show-feedback={false} show-label={false} style={{ flex: 1, maxWidth: '280px' }}>
+                                <common-search
+                                    v-model:value={state.form.name}
+                                    loading={state.loading}
+                                    disabled={state.loading}
+                                    size="large"
+                                    placeholder="应用名称"
+                                    onSearch={fetchUpdate}
+                                ></common-search>
                             </n-form-item>
-                            <common-state
-                                loading={state.loading}
-                                v-slots={{
-                                    default: (e: CnState, done: Function) => (
-                                        <n-button
-                                            type="primary"
-                                            size="large"
-                                            disabled={e.loading || e.loading}
-                                            loading={e.loading}
-                                            onClick={() => done({ loading: true })}
-                                        >
-                                            不许点
-                                        </n-button>
-                                    )
+                            <n-button strong focusable={false} type="primary" size="large">
+                                {{
+                                    icon: createElement(sompute('AddRound')),
+                                    default: createElement(<span>创建应用</span>)
                                 }}
-                            ></common-state>
+                            </n-button>
                         </n-space>
                     </common-header>
                 }
@@ -69,13 +62,14 @@ export default defineComponent({
                     loading={state.loading}
                     page={state.page}
                     size={state.size}
+                    pagination={state.total > 20}
                     page-sizes={[20, 30, 40, 50, 60]}
                     total={state.total}
                     data-source={state.dataSource}
-                    cols={{ 768: 1, 1144: 2, 1520: 3, 1896: 4, 4320: 5 }}
+                    cols={{ 840: 1, 1280: 2, 1680: 3, 2280: 4, 2680: 5 }}
                     default-cols={3}
                     data-render={(data: MailerApplication) => {
-                        return <div style={{ border: '1px solid red' }}>1111</div>
+                        return <client-service key={data.id} node={data} mobile={mobile.value}></client-service>
                     }}
                     onUpdate={fetchUpdate}
                 ></common-source>

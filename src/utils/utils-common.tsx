@@ -25,6 +25,18 @@ export function divineDelay(delay = 100, handler?: Function) {
     })
 }
 
+export function divineColumn<T extends Record<string, unknown>>(
+    data: Array<T> = [],
+    value: unknown,
+    option: { key: string; defaultValue?: unknown } = { key: 'label', defaultValue: '--' }
+) {
+    const node = data.find(item => item.value == value)
+    if (node) {
+        return node[option.key] ?? option.defaultValue
+    }
+    return option.defaultValue
+}
+
 /**条件函数执行**/
 export async function divineHandler<T>(value: boolean | Function, handler: Function): Promise<T | void> {
     const isSupported = typeof value === 'function'

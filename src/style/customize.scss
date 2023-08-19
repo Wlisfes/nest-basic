@@ -18,3 +18,12 @@
         margin: 0;
     }
 }
+
+.n-alert.el-customize {
+    .n-alert-body,
+    .n-alert-body__content {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+    }
+}

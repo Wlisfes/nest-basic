@@ -18,8 +18,8 @@ export default defineComponent({
         cameStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
         cols: { type: Object as PropType<Record<number, number>>, default: () => ({}) },
         defaultCols: { type: Number, default: 24 },
-        xGap: { type: Number, default: 16 },
-        yGap: { type: Number, default: 16 },
+        xGap: { type: Number, default: 20 },
+        yGap: { type: Number, default: 20 },
         pagination: { type: Boolean, default: true }
     },
     emits: ['update', 'resize'],
@@ -33,8 +33,9 @@ export default defineComponent({
         })
         const cameStyle = computed<CSSProperties>(() => ({
             ...props.cameStyle,
-            rowGap: props.xGap + 'px',
-            columnGap: props.yGap + 'px',
+            paddingBottom: props.pagination ? '48px' : '64px',
+            rowGap: props.yGap + 'px',
+            columnGap: props.xGap + 'px',
             gridTemplateColumns: `repeat(${cols.value}, minmax(0px, 1fr))`
         }))
 
@@ -125,7 +126,6 @@ export default defineComponent({
     &__container {
         position: relative;
         display: grid;
-        padding-bottom: 48px;
     }
     &__pagination {
         display: flex;
