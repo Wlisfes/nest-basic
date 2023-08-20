@@ -51,7 +51,8 @@ export const RemixUI = {
     Schedule: h(<Icon-Schedule />),
     Secret: h(<Icon-Secret />),
     LockRound: h(<Icon-LockRound />),
-    Rotate: h(<Icon-Rotate />)
+    Rotate: h(<Icon-Rotate />),
+    Package: h(<Icon-Package />)
 }
 
 /**图标类型拆解**/

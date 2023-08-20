@@ -56,8 +56,9 @@ export const Client = {
     email: [
         { label: '概述', key: '/email/describe', icon: 'Describe', size: 30 },
         { label: '应用服务', key: '/email/service', icon: 'Service', size: 28 },
+        { label: '邮件套餐', key: '/email/package', icon: 'Package', size: 28 },
         { label: '任务队列', key: '/email/schedule', icon: 'Schedule', size: 30 },
-        { label: '发送记录', key: '/email/recorder', icon: 'DataBase', size: 28 },
-        { label: '发送统计', key: '/email/compute', icon: 'Compute', size: 30 }
+        { label: '发送记录', key: '/email/recorder', icon: 'DataBase', size: 30 },
+        { label: '发送统计', key: '/email/compute', icon: 'Compute', size: 28 }
     ]
 }
