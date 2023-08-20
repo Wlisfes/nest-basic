@@ -11,8 +11,22 @@ export interface MailerApplication extends Scheme {
     user: IUser
 }
 
+export interface MailerPackage extends Scheme {
+    name: string
+    type: string
+    comment: string
+    expire: number
+    total: number
+    stock: number
+    surplus: number
+    max: number
+    price: number
+    discount: number
+    label: number
+}
+
 /**创建邮件应用**/
-export function httpCreateMailService(data: { name: string }) {
+export function httpCreateMailerService(data: { name: string }) {
     return request<Notice>({
         url: `/api-basic/mailer/app/create`,
         method: 'POST',
@@ -21,7 +35,7 @@ export function httpCreateMailService(data: { name: string }) {
 }
 
 /**邮件应用列表**/
-export function httpColumnMailService(params: Pick<IColumn, 'page' | 'size'>) {
+export function httpColumnMailerService(params: Pick<IColumn, 'page' | 'size'>) {
     return request<Result<MailerApplication>>({
         url: `/api-basic/mailer/app/column`,
         method: 'GET',
@@ -30,10 +44,19 @@ export function httpColumnMailService(params: Pick<IColumn, 'page' | 'size'>) {
 }
 
 /**修改应用名称**/
-export function httpUpdateMailNameService(data: { appId: number; name: string }) {
+export function httpUpdateMailerNameService(data: { appId: number; name: string }) {
     return request<Notice>({
         url: `/api-basic/mailer/app/update/name`,
         method: 'PUT',
         data
+    })
+}
+
+/**邮件套餐包列表**/
+export function httpColumnMailerPackage(params: {}) {
+    return request<Result<MailerPackage>>({
+        url: `/api-basic/package/mailer/column`,
+        method: 'GET',
+        params
     })
 }

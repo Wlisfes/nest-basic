@@ -52,6 +52,7 @@ export const RemixUI = {
     Secret: h(<Icon-Secret />),
     LockRound: h(<Icon-LockRound />),
     Rotate: h(<Icon-Rotate />),
+    RotateSmall: h(<Icon-RotateSmall />),
     Package: h(<Icon-Package />)
 }
 

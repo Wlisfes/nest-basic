@@ -6,7 +6,7 @@ import { compute, sompute } from '@/utils/utils-remix'
 import { whereProperter, createElement } from '@/utils/utils-layout'
 import { divineColumn, divineHandler } from '@/utils/utils-common'
 import { createNotice } from '@/utils/utils-naive'
-import { httpUpdateMailNameService, type MailerApplication } from '@/api/http-email.service'
+import { httpUpdateMailerNameService, type MailerApplication } from '@/api/http-email.service'
 import { fetchService } from '@/components/hooks/fetch-instance'
 
 export default defineComponent({
@@ -46,7 +46,7 @@ export default defineComponent({
                 observer.on('submit', async ({ done, data }) => {
                     try {
                         await done({ loading: true })
-                        const { message } = await httpUpdateMailNameService({
+                        const { message } = await httpUpdateMailerNameService({
                             appId: props.node.appId,
                             name: data.name
                         })
@@ -157,4 +157,3 @@ export default defineComponent({
     position: relative;
 }
 </style>
-@/api/http-email.service
