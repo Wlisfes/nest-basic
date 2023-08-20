@@ -6,7 +6,7 @@ import { compute, sompute } from '@/utils/utils-remix'
 import { whereProperter, createElement } from '@/utils/utils-layout'
 import { divineColumn, divineHandler } from '@/utils/utils-common'
 import { createNotice } from '@/utils/utils-naive'
-import { httpUpdateMailNameService, type MailerApplication } from '@/api/http-email'
+import { httpUpdateMailNameService, type MailerApplication } from '@/api/http-email.service'
 import { fetchService } from '@/components/hooks/fetch-instance'
 
 export default defineComponent({
@@ -157,3 +157,4 @@ export default defineComponent({
     position: relative;
 }
 </style>
+@/api/http-email.service

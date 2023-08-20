@@ -4,8 +4,8 @@ import { useResize } from '@/hooks/hook-resize'
 import { useSource } from '@/hooks/hook-source'
 import { divineDelay } from '@/utils/utils-common'
 import { whereProperter, createElement } from '@/utils/utils-layout'
-import { compute, sompute } from '@/utils/utils-remix'
-import { httpColumnMailService, type MailerApplication } from '@/api/http-email'
+import { sompute } from '@/utils/utils-remix'
+import { httpColumnMailService, type MailerApplication } from '@/api/http-email.service'
 
 export default defineComponent({
     name: 'Service',
@@ -34,7 +34,7 @@ export default defineComponent({
                         onHandler={() => console.log('111111')}
                         vertical={mobile.value}
                         title="应用服务"
-                        content="应用服务应用服务应用服务应用服务应用服务应用服务应用服务应用服务"
+                        //content="应用服务应用服务应用服务应用服务应用服务应用服务应用服务应用服务"
                     >
                         <n-space class="w-full h-full" size={14} wrap-item={false} align="center" justify="end">
                             <n-form-item show-feedback={false} show-label={false} style={{ flex: 1, maxWidth: '280px' }}>
@@ -77,3 +77,4 @@ export default defineComponent({
     }
 })
 </script>
+@/api/http-email.service
