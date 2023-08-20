@@ -7,6 +7,7 @@ export default defineComponent({
     props: {
         loading: { type: Boolean, default: false },
         disabled: { type: Boolean, default: false },
+        size: { type: String, default: 'large' },
         cancel: { type: [String, Boolean] as PropType<string | boolean>, default: true },
         submit: { type: [String, Boolean] as PropType<string | boolean>, default: true }
     },
@@ -17,7 +18,7 @@ export default defineComponent({
         return () => (
             <n-space class="common-inspector" justify="center" style={{ flex: 'auto' }}>
                 {props.cancel && (
-                    <n-button class="el-customize el-medium" onClick={(e: Event) => emit('cancel', e)}>
+                    <n-button class="el-customize el-medium" size={props.size} onClick={(e: Event) => emit('cancel', e)}>
                         {typeof props.cancel === 'boolean' ? t('common.cancel.value') : props.cancel}
                     </n-button>
                 )}
@@ -25,6 +26,7 @@ export default defineComponent({
                     <n-button
                         class="el-customize el-medium"
                         type="primary"
+                        size={props.size}
                         disabled={props.disabled}
                         loading={props.loading}
                         onClick={(e: Event) => emit('submit', e)}

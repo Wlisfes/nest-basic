@@ -1,6 +1,7 @@
 <script lang="tsx">
 import { defineComponent, Fragment, computed, type PropType, type VNodeChild, type CSSProperties } from 'vue'
 import { type TooltipProps } from 'naive-ui'
+import { compute } from '@/utils/utils-remix'
 
 export default defineComponent({
     name: 'CommonReactive',
@@ -13,12 +14,14 @@ export default defineComponent({
         contentStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
         contentNone: { type: Boolean, default: false },
         contentTooltip: { type: [Boolean, Object] as PropType<Boolean | TooltipProps>, default: false },
+        copyIcon: { type: Boolean, default: false },
         direction: { type: String as PropType<CSSProperties['flex-direction']>, default: 'column' },
         xGap: { type: Number, default: 0 },
         yGap: { type: Number, default: 0 },
         reverse: { type: Boolean, default: false }
     },
-    setup(props) {
+    emits: ['copy'],
+    setup(props, { emit }) {
         const styleReact = computed<CSSProperties>(() => ({
             fontSize: 'var(--font-size)',
             lineHeight: 'var(--height-tiny)',
@@ -50,9 +53,25 @@ export default defineComponent({
                             {props.content && typeof props.content === 'object' ? (
                                 <Fragment>{props.content}</Fragment>
                             ) : props.content ? (
-                                <n-text style={{ color: 'var(--text-color-1)' }}>
-                                    <n-ellipsis tooltip={props.contentTooltip}>{props.content}</n-ellipsis>
-                                </n-text>
+                                <Fragment>
+                                    {props.copyIcon ? (
+                                        <n-text class="n-flex n-center" style={{ color: 'var(--text-color-1)' }}>
+                                            <n-ellipsis tooltip={props.contentTooltip}>{props.content}</n-ellipsis>
+                                            <n-button
+                                                text
+                                                focusable={false}
+                                                style={{ marginLeft: '5px' }}
+                                                onClick={(e: Event) => emit('copy', e)}
+                                            >
+                                                <n-icon component={compute('BoxCopy')} size={18} />
+                                            </n-button>
+                                        </n-text>
+                                    ) : (
+                                        <n-text style={{ color: 'var(--text-color-1)' }}>
+                                            <n-ellipsis tooltip={props.contentTooltip}>{props.content}</n-ellipsis>
+                                        </n-text>
+                                    )}
+                                </Fragment>
                             ) : (
                                 <span style={{ display: 'inline-block' }}>--</span>
                             )}

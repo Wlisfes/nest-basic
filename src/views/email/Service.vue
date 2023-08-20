@@ -6,7 +6,6 @@ import { divineDelay } from '@/utils/utils-common'
 import { whereProperter, createElement } from '@/utils/utils-layout'
 import { compute, sompute } from '@/utils/utils-remix'
 import { httpColumnMailService, type MailerApplication } from '@/api/http-email'
-import type { CnState } from '@/interface/common-interface'
 
 export default defineComponent({
     name: 'Service',
@@ -66,10 +65,10 @@ export default defineComponent({
                     page-sizes={[20, 30, 40, 50, 60]}
                     total={state.total}
                     data-source={state.dataSource}
-                    cols={{ 840: 1, 1280: 2, 1680: 3, 2280: 4, 2680: 5 }}
+                    cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
                     default-cols={3}
                     data-render={(data: MailerApplication) => {
-                        return <client-service key={data.id} node={data} mobile={mobile.value}></client-service>
+                        return <client-service key={data.id} node={data} mobile={mobile.value} onUpdate={fetchUpdate}></client-service>
                     }}
                     onUpdate={fetchUpdate}
                 ></common-source>

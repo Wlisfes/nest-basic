@@ -5,7 +5,10 @@ import { setupI18n } from '@/locale/instance'
 import { setupStore } from '@/store'
 import { setupRouter } from '@/router'
 export type Event = 'close' | 'submit' | 'cancel' | 'confirm' | 'refresh'
-export type IOnspector = { done: (e?: Partial<{ loading: false; visible: false }>) => Promise<void> }
+export type IOnspector = {
+    data: any
+    done: (e?: Partial<{ loading: boolean; visible: boolean }>) => Promise<void>
+}
 export type IObserver = Record<Event, IOnspector>
 
 export async function createComponent<T>(Component: Parameters<typeof createApp>['0'], props: T) {

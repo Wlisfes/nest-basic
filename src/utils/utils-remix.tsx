@@ -15,12 +15,14 @@ export const RemixUI = {
     CloseBold: h(<Icon-CloseBold />),
     CloseRound: h(<Icon-CloseRound />),
     CopyRound: h(<Icon-CopyRound />),
+    BoxCopy: h(<Icon-BoxCopy />),
     DeleteBold: h(<Icon-DeleteBold />),
     DisableRound: h(<Icon-DisableRound />),
     EnableRound: h(<Icon-EnableRound />),
     InduceBold: h(<Icon-InduceBold />),
     IssueRound: h(<Icon-IssueRound />),
     RadixEdit: h(<Icon-RadixEdit />),
+    EditLine: h(<Icon-EditLine />),
     RadixMore: h(<Icon-RadixMore />),
     RadixSpin: h(<Icon-RadixSpin />),
     RadixSpinWith: h(<Icon-RadixSpinWith />),
@@ -46,7 +48,10 @@ export const RemixUI = {
     Describe: h(<Icon-Describe />),
     DataBase: h(<Icon-DataBase />),
     Compute: h(<Icon-Compute />),
-    Schedule: h(<Icon-Schedule />)
+    Schedule: h(<Icon-Schedule />),
+    Secret: h(<Icon-Secret />),
+    LockRound: h(<Icon-LockRound />),
+    Rotate: h(<Icon-Rotate />)
 }
 
 /**图标类型拆解**/
