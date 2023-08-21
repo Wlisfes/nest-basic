@@ -11,6 +11,9 @@ export interface IUser extends Scheme {
     openid: string
     appKey: string
     appSecret: string
+    authorize: string
+    credit: number
+    balance: number
     routes: Array<IRoute>
 }
 

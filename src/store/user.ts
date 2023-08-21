@@ -12,7 +12,10 @@ export const useUser = defineStore({
             mobile: undefined,
             status: undefined,
             appKey: undefined,
-            appSecret: undefined
+            appSecret: undefined,
+            authorize: 'initialize',
+            credit: 0,
+            balance: 0
         })
     },
     actions: {
@@ -26,6 +29,9 @@ export const useUser = defineStore({
                 this.status = data.status
                 this.appKey = data.appKey
                 this.appSecret = data.appSecret
+                this.authorize = data.authorize
+                this.credit = data.credit
+                this.balance = data.balance
                 return data
             })
         }

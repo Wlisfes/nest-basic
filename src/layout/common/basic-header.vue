@@ -7,7 +7,7 @@ import { useResize } from '@/hooks/hook-resize'
 import { useState } from '@/hooks/hook-state'
 import { useCurrent } from '@/locale/instance'
 import { compute } from '@/utils/utils-remix'
-import { divineDelay } from '@/utils/utils-common'
+import { divineDelay, divineTransfer } from '@/utils/utils-common'
 import { router } from '@/router'
 
 export default defineComponent({
@@ -95,7 +95,7 @@ export default defineComponent({
                                             <n-h3 class="n-flex n-center" style={{ margin: 0 }}>
                                                 <n-icon component={compute('Money')} size={18} />
                                                 <n-text style={{ marginLeft: '-2px', overflow: 'hidden' }}>
-                                                    <n-ellipsis tooltip={false}>8592.56</n-ellipsis>
+                                                    <n-ellipsis tooltip={false}>{divineTransfer(user.balance)}</n-ellipsis>
                                                 </n-text>
                                             </n-h3>
                                         </n-el>
@@ -104,7 +104,7 @@ export default defineComponent({
                                             <n-h3 class="n-flex n-center" style={{ margin: 0 }}>
                                                 <n-icon component={compute('Money')} size={18} color="var(--warning-color)" />
                                                 <n-text style={{ color: 'var(--warning-color)', marginLeft: '-2px', overflow: 'hidden' }}>
-                                                    <n-ellipsis tooltip={false}>200.00</n-ellipsis>
+                                                    <n-ellipsis tooltip={false}>{divineTransfer(user.credit)}</n-ellipsis>
                                                 </n-text>
                                             </n-h3>
                                         </n-el>
