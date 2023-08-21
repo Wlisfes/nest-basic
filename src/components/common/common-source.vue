@@ -2,7 +2,7 @@
 import type { PropType, CSSProperties, VNodeChild } from 'vue'
 import type { ScrollbarInst } from 'naive-ui'
 import { defineComponent, computed, Fragment, ref, watch } from 'vue'
-import { useElementSize } from '@vueuse/core'
+import { useCurrentElement, useElementSize } from '@vueuse/core'
 import { divineCols } from '@/utils/utils-common'
 
 export default defineComponent({
@@ -15,6 +15,8 @@ export default defineComponent({
         total: { type: Number, default: 0 },
         dataSource: { type: Array as PropType<Array<Record<string, unknown>>>, default: () => [] },
         dataRender: { type: Function as PropType<(e: Record<string, unknown>, c: unknown) => VNodeChild> },
+        dataSpin: { type: Object as PropType<VNodeChild> },
+        dataEmpty: { type: Object as PropType<VNodeChild> },
         cameStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
         cols: { type: Object as PropType<Record<number, number>>, default: () => ({}) },
         defaultCols: { type: Number, default: 24 },
@@ -25,9 +27,8 @@ export default defineComponent({
     emits: ['update', 'resize'],
     setup(props, { emit }) {
         const scrollbar = ref<ScrollbarInst>()
-        const element = ref<HTMLElement>()
+        const element = useCurrentElement<HTMLElement>()
         const { width, height } = useElementSize(element)
-
         const cols = computed(() => {
             return divineCols(props.cols, width.value, props.defaultCols)
         })
@@ -53,19 +54,23 @@ export default defineComponent({
         }
 
         return () => (
-            <section ref={element} class={{ 'common-source': true }}>
+            <n-element class="common-source">
                 {props.loading && props.total === 0 ? (
-                    <n-spin stroke-width={12} size={60} style={{ minHeight: '240px' }}></n-spin>
+                    <Fragment>{props.dataSpin ?? <n-spin stroke-width={12} size={60} style={{ minHeight: '240px' }}></n-spin>}</Fragment>
                 ) : !props.loading && props.total === 0 ? (
-                    <n-empty style={{ minHeight: '240px', justifyContent: 'center' }}>
-                        {{
-                            default: () => (
-                                <n-text depth="3" style={{ fontSize: '20px' }}>
-                                    暂无内容
-                                </n-text>
-                            )
-                        }}
-                    </n-empty>
+                    <Fragment>
+                        {props.dataEmpty ?? (
+                            <n-empty style={{ minHeight: '240px', justifyContent: 'center' }}>
+                                {{
+                                    default: () => (
+                                        <n-text depth="3" style={{ fontSize: '20px' }}>
+                                            暂无内容
+                                        </n-text>
+                                    )
+                                }}
+                            </n-empty>
+                        )}
+                    </Fragment>
                 ) : (
                     <n-spin class="common-source__spin" stroke-width={12} size={60} show={props.loading}>
                         <n-scrollbar ref={scrollbar} x-scrollable>
@@ -96,7 +101,7 @@ export default defineComponent({
                         </n-scrollbar>
                     </n-spin>
                 )}
-            </section>
+            </n-element>
         )
     }
 })

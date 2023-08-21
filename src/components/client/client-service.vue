@@ -142,7 +142,7 @@ export default defineComponent({
                             <n-icon component={compute('Captcha')} size={28} />
                         </n-button>
                         <n-button text focusable={false}>
-                            <n-icon component={compute('Rotate')} size={30} />
+                            <n-icon component={compute('Settings')} size={30} />
                         </n-button>
                     </n-space>
                 </n-space>

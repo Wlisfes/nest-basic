@@ -9,7 +9,7 @@ export default defineComponent({
     setup() {
         return () => (
             <common-container native-style={{ padding: '20px' }} react-style={{ padding: '64px 32px 32px' }}>
-                概述
+                <common-resize></common-resize>
                 <n-space vertical>
                     {Client.email.map(item => (
                         <n-button key={item.key} onClick={() => router.push(item.key)}>

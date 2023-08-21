@@ -53,7 +53,8 @@ export const RemixUI = {
     LockRound: h(<Icon-LockRound />),
     Rotate: h(<Icon-Rotate />),
     RotateSmall: h(<Icon-RotateSmall />),
-    Package: h(<Icon-Package />)
+    Package: h(<Icon-Package />),
+    Settings: h(<Icon-Settings />)
 }
 
 /**图标类型拆解**/
