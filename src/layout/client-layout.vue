@@ -17,6 +17,7 @@ export default defineComponent({
 
         return () => (
             <n-layout has-sider style={{ height: '100%' }}>
+                <basic-sider data-client={dataClient.value}></basic-sider>
                 <n-layout-sider
                     bordered
                     inverted={inverted.value}

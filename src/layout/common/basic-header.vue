@@ -14,7 +14,7 @@ export default defineComponent({
     name: 'BasicHeader',
     setup(props) {
         const user = useUser()
-        const { mobile, xs } = useResize()
+        const { mobile, xs, sider, setSider } = useResize()
         const { locale, t, tm, setLocale } = useCurrent()
         const { isFullscreen, toggle } = useFullscreen()
         const { inverted, setTheme } = useProvider()
@@ -39,14 +39,14 @@ export default defineComponent({
         return () => (
             <n-el tag="header" class="basic-header n-flex n-center not-selecter" style={headerReact.value}>
                 {mobile.value ? (
-                    <n-button text focusable={false}>
-                        <n-icon component={compute('Simple')} size={28} style />
+                    <n-button text focusable={false} onClick={(e: Event) => setSider(!sider.value)}>
+                        <n-icon component={compute('Simple')} size={28} />
                     </n-button>
                 ) : (
                     <router-link to="/" style={{ textDecoration: 'none' }}>
                         <n-space size={8} wrap-item={false}>
                             <n-button text focusable={false}>
-                                <n-icon component={compute('Simple')} size={28} style />
+                                <n-icon component={compute('Simple')} size={28} />
                             </n-button>
                             <n-text style={{ fontSize: '24px', lineHeight: '28px' }}>{t('client.title')}</n-text>
                         </n-space>

@@ -20,6 +20,10 @@ export function useResize(option?: Option) {
         return await common.setCurrent(current)
     }
 
+    async function setSider(sider: boolean) {
+        return await common.setSider(sider)
+    }
+
     async function onResize() {
         if (width.value >= 1280) {
             common.setDevice('PC')
@@ -54,8 +58,10 @@ export function useResize(option?: Option) {
         collapse: computed(() => common.collapse),
         device: computed(() => common.device),
         current: computed(() => common.current),
+        sider: computed(() => common.sider),
         mobile: computed(() => IsMobile() || common.device === 'Mobile'),
         setCollapse,
-        setCurrent
+        setCurrent,
+        setSider
     }
 }

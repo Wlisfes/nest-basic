@@ -16,6 +16,7 @@ export default defineComponent({
                 mobile={mobile.value}
                 content-style={whereProperter(mobile.value, { padding: '0 20px' }, { padding: '0 40px' })}
                 request-style={whereProperter(mobile.value, { padding: '40px 20px 20px' }, { padding: '60px 40px 30px' })}
+                request={<common-header vertical={mobile.value} title="概览"></common-header>}
             >
                 <n-space vertical>
                     {Client.email.map(item => (

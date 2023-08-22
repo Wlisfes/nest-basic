@@ -4,6 +4,7 @@ export interface IState {
     theme: string
     primaryColor: string
     collapse: boolean
+    sider: boolean
     device: 'PC' | 'IPAD' | 'Mobile'
     current: string
 }
@@ -14,6 +15,7 @@ export const useCommon = defineStore({
         theme: window.$cookie.getStore(window.$cookie.APP_AUTH_theme, 'light'),
         primaryColor: window.$cookie.getStore(window.$cookie.APP_AUTH_primaryColor, '#18a058'),
         collapse: false,
+        sider: false,
         device: 'PC',
         current: '/'
     }),
@@ -28,6 +30,9 @@ export const useCommon = defineStore({
         },
         async setCollapse(collapse: boolean) {
             return (this.collapse = collapse)
+        },
+        async setSider(sider: boolean) {
+            return (this.sider = sider)
         },
         async setDevice(device: 'PC' | 'IPAD' | 'Mobile') {
             return (this.device = device)
