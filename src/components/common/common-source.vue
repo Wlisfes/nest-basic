@@ -33,11 +33,11 @@ export default defineComponent({
             return divineCols(props.cols, width.value, props.defaultCols)
         })
         const cameStyle = computed<CSSProperties>(() => ({
-            ...props.cameStyle,
             paddingBottom: props.pagination ? '48px' : '64px',
             rowGap: props.yGap + 'px',
             columnGap: props.xGap + 'px',
-            gridTemplateColumns: `repeat(${cols.value}, minmax(0px, 1fr))`
+            gridTemplateColumns: `repeat(${cols.value}, minmax(0px, 1fr))`,
+            ...props.cameStyle
         }))
 
         watch(
