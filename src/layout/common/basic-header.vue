@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, computed, type CSSProperties } from 'vue'
+import { defineComponent, computed, Fragment, type CSSProperties } from 'vue'
 import { useFullscreen } from '@vueuse/core'
 import { useUser } from '@/store/user'
 import { useProvider } from '@/hooks/hook-provider'
@@ -14,15 +14,15 @@ export default defineComponent({
     name: 'BasicHeader',
     setup(props) {
         const user = useUser()
-        const { device } = useResize()
+        const { mobile, xs } = useResize()
         const { locale, t, tm, setLocale } = useCurrent()
         const { isFullscreen, toggle } = useFullscreen()
         const { inverted, setTheme } = useProvider()
         const { state, setState } = useState({ loading: false })
         const headerReact = computed<CSSProperties>(() => ({
             height: '100%',
-            padding: device.value === 'Mobile' ? '0 20px' : '0 32px',
-            justifyContent: device.value !== 'Mobile' ? 'space-between' : 'flex-end',
+            justifyContent: 'space-between',
+            padding: mobile.value ? '0 20px' : '0 32px',
             transition: 'padding 0.3s var(--cubic-bezier-ease-in-out)'
         }))
 
@@ -38,7 +38,11 @@ export default defineComponent({
 
         return () => (
             <n-el tag="header" class="basic-header n-flex n-center not-selecter" style={headerReact.value}>
-                {device.value !== 'Mobile' && (
+                {mobile.value ? (
+                    <n-button text focusable={false}>
+                        <n-icon component={compute('Simple')} size={28} style />
+                    </n-button>
+                ) : (
                     <router-link to="/" style={{ textDecoration: 'none' }}>
                         <n-space size={8} wrap-item={false}>
                             <n-button text focusable={false}>
@@ -49,30 +53,34 @@ export default defineComponent({
                     </router-link>
                 )}
                 <n-space size={24} wrap-item={false} align="center">
-                    <n-button text focusable={false}>
-                        <n-badge>
+                    {!xs.value && (
+                        <Fragment>
                             <n-button text focusable={false}>
-                                <n-icon class="n-pointer" component={compute('Speaker')} size={22} />
+                                <n-badge>
+                                    <n-button text focusable={false}>
+                                        <n-icon class="n-pointer" component={compute('Speaker')} size={22} />
+                                    </n-button>
+                                </n-badge>
                             </n-button>
-                        </n-badge>
-                    </n-button>
-                    <n-popselect
-                        show-arrow
-                        trigger="click"
-                        value={locale.value}
-                        options={tm('client.language.column')}
-                        on-update:value={(value: 'en' | 'cn') => setLocale(value)}
-                    >
-                        <n-button text focusable={false}>
-                            <n-icon class="n-pointer" component={compute('Language')} size={24} />
-                        </n-button>
-                    </n-popselect>
-                    <n-button text focusable={false} onClick={toggle}>
-                        <n-icon class="n-pointer" component={compute(isFullscreen.value ? 'Foutscreen' : 'Fullscreen')} size={25} />
-                    </n-button>
-                    <n-button text focusable={false} onClick={(e: Event) => setTheme(inverted.value ? 'light' : 'dark')}>
-                        <n-icon class="n-pointer" component={compute(inverted.value ? 'ThemeDark' : 'ThemeLight')} size={24} />
-                    </n-button>
+                            <n-popselect
+                                show-arrow
+                                trigger="click"
+                                value={locale.value}
+                                options={tm('client.language.column')}
+                                on-update:value={(value: 'en' | 'cn') => setLocale(value)}
+                            >
+                                <n-button text focusable={false}>
+                                    <n-icon class="n-pointer" component={compute('Language')} size={24} />
+                                </n-button>
+                            </n-popselect>
+                            <n-button text focusable={false} onClick={toggle}>
+                                <n-icon class="n-pointer" component={compute(isFullscreen.value ? 'Foutscreen' : 'Fullscreen')} size={25} />
+                            </n-button>
+                            <n-button text focusable={false} onClick={(e: Event) => setTheme(inverted.value ? 'light' : 'dark')}>
+                                <n-icon class="n-pointer" component={compute(inverted.value ? 'ThemeDark' : 'ThemeLight')} size={24} />
+                            </n-button>
+                        </Fragment>
+                    )}
                     <n-popover trigger="click" placement="bottom-end" style={{ width: '300px', padding: '14px 10px' }}>
                         {{
                             trigger: () => (

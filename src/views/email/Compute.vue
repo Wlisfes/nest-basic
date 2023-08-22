@@ -1,11 +1,20 @@
 <script lang="tsx">
 import { defineComponent } from 'vue'
+import { useResize } from '@/hooks/hook-resize'
+import { whereProperter } from '@/utils/utils-layout'
 
 export default defineComponent({
     name: 'Compute',
     setup() {
+        const { mobile } = useResize()
+
         return () => (
-            <common-container native-style={{ padding: '20px' }} react-style={{ padding: '64px 32px 32px' }}>
+            <common-container
+                bordered
+                mobile={mobile.value}
+                content-style={whereProperter(mobile.value, { padding: '0 20px' }, { padding: '0 40px' })}
+                request-style={whereProperter(mobile.value, { padding: '40px 20px 20px' }, { padding: '60px 40px 30px' })}
+            >
                 验证统计
             </common-container>
         )
