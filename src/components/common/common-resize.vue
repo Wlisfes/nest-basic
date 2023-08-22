@@ -31,7 +31,6 @@ export default defineComponent({
         watch(
             () => [width.value, height.value],
             () => {
-                console.log({ width: width.value, height: height.value, cols: cols.value })
                 emit('resize', { width: width.value, height: height.value, cols: cols.value })
             },
             { immediate: true }

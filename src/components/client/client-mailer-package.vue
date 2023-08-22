@@ -12,6 +12,10 @@ export default defineComponent({
         mobile: { type: Boolean, default: false }
     },
     setup(props) {
+        async function onSubscriber(done: Function) {
+            done({ loading: true })
+        }
+
         return () => (
             <n-card class="client-mailer-package" embedded content-style={whereProperter(props.mobile, { padding: '16px 16px' })}>
                 {props.node.label && (
@@ -53,9 +57,22 @@ export default defineComponent({
                     </n-h3>
                 </n-space>
                 <n-space size={10} wrap-item={false} align="center" justify="space-between">
-                    <n-button strong secondary round type="primary" style={{ minWidth: '140px' }}>
-                        立即购买
-                    </n-button>
+                    <common-state
+                        data-render={(e: any, done: Function) => (
+                            <n-button
+                                type="primary"
+                                strong
+                                round
+                                secondary
+                                disabled={e.loading || e.disabled}
+                                loading={e.loading}
+                                style={{ minWidth: '140px' }}
+                                onClick={(evt: Event) => onSubscriber(done)}
+                            >
+                                立即购买
+                            </n-button>
+                        )}
+                    ></common-state>
                     <n-tag bordered={false} size={props.mobile ? 'small' : 'medium'}>
                         {`套餐剩余${props.node.surplus}个`}
                     </n-tag>

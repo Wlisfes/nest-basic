@@ -1,12 +1,13 @@
 <script lang="tsx">
-import { defineComponent, Fragment, watch } from 'vue'
+import { defineComponent, Fragment, watch, type PropType, type VNodeChild } from 'vue'
 import { useState } from '@/hooks/hook-state'
 
 export default defineComponent({
     name: 'CommonState',
     props: {
         disabled: { type: Boolean, default: false },
-        loading: { type: Boolean, default: false }
+        loading: { type: Boolean, default: false },
+        dataRender: { type: Function as PropType<(e: Record<string, unknown>, c: unknown) => VNodeChild> }
     },
     setup(props, { slots, emit }) {
         const { state, setState } = useState({
@@ -23,7 +24,11 @@ export default defineComponent({
             () => setState({ loading: props.loading })
         )
 
-        return () => <Fragment>{slots.default ? slots.default(state, setState) : undefined}</Fragment>
+        return () => (
+            <Fragment>
+                {props.dataRender ? props.dataRender(state, setState) : slots.default ? slots.default(state, setState) : undefined}
+            </Fragment>
+        )
     }
 })
 </script>
