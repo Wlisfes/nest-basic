@@ -12,6 +12,7 @@ export interface MailerApplication extends Scheme {
 }
 
 export interface MailerPackage extends Scheme {
+    bundle: number
     name: string
     type: string
     comment: string

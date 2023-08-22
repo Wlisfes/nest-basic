@@ -1,3 +1,5 @@
+import { Fragment, h, type Component } from 'vue'
+
 export function prevent(e: Event, handler?: Function) {
     e.preventDefault()
     return handler?.()
@@ -23,6 +25,10 @@ export function divineDelay(delay = 100, handler?: Function) {
             clearTimeout(timeout)
         }, delay)
     })
+}
+
+export function divineSkeleton(length: number, component: Component) {
+    return <Fragment>{Array.from({ length }, (item, key) => h(component, { key }))}</Fragment>
 }
 
 /**单位转换**/
