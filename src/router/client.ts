@@ -122,6 +122,11 @@ export const client: Array<RouteRecordRaw> = [
                         component: () => import('@/views/email/Service.vue')
                     },
                     {
+                        path: '/email/template',
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
+                        component: () => import('@/views/email/Template.vue')
+                    },
+                    {
                         path: '/email/schedule',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
                         component: () => import('@/views/email/Schedule.vue')
