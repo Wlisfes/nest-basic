@@ -5,7 +5,7 @@ export default defineComponent({
     name: 'CommonContainer',
     props: {
         bordered: { type: Boolean, default: false },
-        mobile: { type: Boolean, default: false },
+        mobile: { type: Boolean, default: true },
         maxWidth: { type: String, default: 'auto' },
         scrollbarStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
         contentStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },

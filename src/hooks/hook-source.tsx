@@ -11,6 +11,7 @@ type Option<T extends Record<string, any>, R extends Record<string, any>> = {
     form: R
     immediate?: boolean
     dataSource?: Array<T>
+    data?: Record<string, any>
 }
 
 export function useSource<T extends Object, R extends Object>(
@@ -24,7 +25,8 @@ export function useSource<T extends Object, R extends Object>(
         size: option.size ?? 10,
         total: option.total ?? 0,
         loading: option.loading ?? true,
-        dataSource: option.dataSource ?? []
+        dataSource: option.dataSource ?? [],
+        data: option.data ?? {}
     })
 
     onMounted(async () => {

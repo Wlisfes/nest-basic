@@ -26,7 +26,6 @@ export default defineComponent({
         return () => (
             <common-container
                 bordered
-                mobile={mobile.value}
                 content-style={whereProperter(mobile.value, { padding: '0 20px' }, { padding: '0 40px' })}
                 request-style={whereProperter(mobile.value, { padding: '40px 20px 20px' }, { padding: '60px 40px 30px' })}
                 request={

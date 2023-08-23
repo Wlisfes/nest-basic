@@ -40,6 +40,8 @@ export const RemixUI = {
     Speaker: h(<Icon-Speaker />),
     Captcha: h(<Icon-Captcha />),
     MailGmail: h(<Icon-MailGmail />),
+    MailForwar: h(<Icon-MailForwar />),
+    MailReadr: h(<Icon-MailReadr />),
     Message: h(<Icon-Message />),
     Language: h(<Icon-Language />),
     Money: h(<Icon-Money />),
@@ -54,7 +56,8 @@ export const RemixUI = {
     Rotate: h(<Icon-Rotate />),
     RotateSmall: h(<Icon-RotateSmall />),
     Package: h(<Icon-Package />),
-    Settings: h(<Icon-Settings />)
+    Settings: h(<Icon-Settings />),
+    Template: h(<Icon-Template />)
 }
 
 /**图标类型拆解**/
