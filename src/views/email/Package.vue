@@ -27,7 +27,7 @@ export default defineComponent({
         const dataSmall = computed(() => state.dataSource.filter(item => item.type === 'small'))
         const dataLarge = computed(() => state.dataSource.filter(item => item.type === 'large'))
         const dataCompute = computed<Array<{ name: string; value: number; icon: INameUI }>>(() => [
-            { name: '套餐总余量:', value: state.data.total, icon: 'DataBase' },
+            { name: '套餐总余量:', value: state.data.total, icon: 'Package' },
             { name: '本月发送:', value: state.data.total, icon: 'MailReadr' },
             { name: '上月发送:', value: state.data.total, icon: 'MailForwar' }
         ])
@@ -42,16 +42,15 @@ export default defineComponent({
                 <common-render
                     loading={state.loading}
                     spin={
-                        <n-element style={{ paddingBottom: '48px' }}>
+                        <n-element style={{ paddingBottom: '64px' }}>
                             <n-skeleton height="35.2px" width="100%" style={{ marginBottom: '10px', maxWidth: '256px' }} />
-                            <n-skeleton height={80} style={{ borderRadius: '3px' }} />
+                            <n-skeleton height={72} style={{ borderRadius: '3px' }} />
                         </n-element>
                     }
                     component={
-                        <n-element style={{ paddingBottom: '48px' }}>
+                        <n-element style={{ paddingBottom: '64px' }}>
                             <n-h2 style={{ marginBottom: '10px' }}>我的资源包</n-h2>
                             <common-resize
-                                style={{ paddingBottom: '48px' }}
                                 cols={{ 960: 1 }}
                                 default-cols={3}
                                 data-render={(e: { cols: number }) => (
@@ -60,7 +59,7 @@ export default defineComponent({
                                             <n-card embedded>
                                                 <n-space wrap-item={false} size={5} align="center">
                                                     <n-button text focusable={false}>
-                                                        <n-icon component={compute(item.icon)} size={32} />
+                                                        <n-icon component={compute(item.icon)} size={30} />
                                                     </n-button>
                                                     <n-h3 style={{ margin: 0, fontSize: '20px' }}>{item.name}</n-h3>
                                                     <n-text type="success" style={{ fontSize: '20px' }}>
