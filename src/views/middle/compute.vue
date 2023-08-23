@@ -10,7 +10,7 @@ export default defineComponent({
 
         return () => (
             <n-el class="compute-container">
-                <common-screen></common-screen>
+                {/* <common-screen></common-screen> */}
                 <div class="app-compute">
                     <div class="n-locale">
                         <n-text class="n-locale__value" depth={1} onClick={() => setLocale(locale.value === 'cn' ? 'en' : 'cn')}>
@@ -27,7 +27,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .compute-container {
-    background: url('@/assets/basic/login-cover.jpg') center center / cover no-repeat;
+    background: url('https://oss.lisfes.cn/stomer/2023-08/cover/1692758385264.jpg') center center / cover no-repeat;
     position: relative;
     height: 100%;
     display: flex;
