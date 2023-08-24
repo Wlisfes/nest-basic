@@ -5,13 +5,13 @@ import { useSource } from '@/hooks/hook-source'
 import { whereProperter } from '@/utils/utils-layout'
 import { compute, type INameUI } from '@/utils/utils-remix'
 import { divineDelay, divineSkeleton } from '@/utils/utils-common'
-import { httpColumnMailerPackage, type MailerPackage } from '@/api/http-email.service'
+import { httpColumnMailerPackage, httpUserComputeMailer, type MailerPackage } from '@/api/http-email.service'
 
 export default defineComponent({
     name: 'Package',
     setup() {
         const { mobile, l } = useResize()
-        const { state, fetchUpdate } = useSource<MailerPackage, Object>(
+        const { state, fetchUpdate, setState } = useSource<MailerPackage, Object>(
             {
                 immediate: true,
                 size: 50,
@@ -19,17 +19,30 @@ export default defineComponent({
                 data: { total: 0, current: 0, prevent: 0 }
             },
             async ({ size, page }) => {
-                await divineDelay(0)
+                await fetchUserComputeMailer()
                 return await httpColumnMailerPackage({ size, page })
             }
         )
 
+        /**统计当前用户套餐包余量**/
+        async function fetchUserComputeMailer() {
+            return await httpUserComputeMailer().then(({ data }) => {
+                return setState({
+                    data: {
+                        total: data.total ?? 0,
+                        current: data.current ?? 0,
+                        prevent: data.prevent ?? 0
+                    }
+                })
+            })
+        }
+
         const dataSmall = computed(() => state.dataSource.filter(item => item.type === 'small'))
         const dataLarge = computed(() => state.dataSource.filter(item => item.type === 'large'))
-        const dataCompute = computed<Array<{ name: string; value: number; icon: INameUI }>>(() => [
-            { name: '套餐总余量:', value: state.data.total, icon: 'Package' },
-            { name: '本月发送:', value: state.data.total, icon: 'MailReadr' },
-            { name: '上月发送:', value: state.data.total, icon: 'MailForwar' }
+        const dataCompute = computed<Array<{ name: string; value: number; icon: INameUI; type: string }>>(() => [
+            { name: '套餐总余量:', value: state.data.total, icon: 'Package', type: 'success' },
+            { name: '本月发送:', value: state.data.current, icon: 'MailReadr', type: 'info' },
+            { name: '上月发送:', value: state.data.prevent, icon: 'MailForwar', type: 'warning' }
         ])
 
         return () => (
@@ -62,7 +75,7 @@ export default defineComponent({
                                                         <n-icon component={compute(item.icon)} size={30} />
                                                     </n-button>
                                                     <n-h3 style={{ margin: 0, fontSize: '20px' }}>{item.name}</n-h3>
-                                                    <n-text type="success" style={{ fontSize: '20px' }}>
+                                                    <n-text type={item.type} style={{ fontSize: '20px' }}>
                                                         {`${item.value}条`}
                                                     </n-text>
                                                 </n-space>

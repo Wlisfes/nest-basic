@@ -61,3 +61,11 @@ export function httpColumnMailerPackage(params: {}) {
         params
     })
 }
+
+/**统计当前用户套餐包余量**/
+export function httpUserComputeMailer() {
+    return request<{ total: number; current: number; prevent: number }>({
+        url: `/api-basic/package/mailer/compute`,
+        method: 'GET'
+    })
+}
