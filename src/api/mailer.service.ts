@@ -30,11 +30,10 @@ export function httpUpdateMailerNameService(data: { appId: number; name: string 
 }
 
 /**邮件套餐包列表**/
-export function httpColumnBundleMailer(params: {}) {
+export function httpColumnBundleMailer() {
     return request<Result<BundleMailer>>({
         url: `/api-basic/package/mailer/column`,
-        method: 'GET',
-        params
+        method: 'GET'
     })
 }
 
@@ -43,5 +42,14 @@ export function httpUserComputeMailer() {
     return request<{ total: number; current: number; prevent: number }>({
         url: `/api-basic/package/mailer/compute`,
         method: 'GET'
+    })
+}
+
+/**用户已购套餐列表**/
+export function httpColumnUserMailer(params: { page: number; size: number }) {
+    return request<{ total: number; current: number; prevent: number }>({
+        url: `/api-basic/package/mailer/user/column`,
+        method: 'GET',
+        params
     })
 }

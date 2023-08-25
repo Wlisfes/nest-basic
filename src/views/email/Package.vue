@@ -21,7 +21,7 @@ export default defineComponent({
             },
             async ({ size, page }) => {
                 await fetchUserComputeMailer()
-                return await httpColumnBundleMailer({ size, page })
+                return await httpColumnBundleMailer()
             }
         )
 
