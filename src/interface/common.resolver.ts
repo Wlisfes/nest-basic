@@ -1,12 +1,13 @@
-export interface Scheme {
+export interface CommonResolver {
     id: number
     createTime: string
     updateTime: string
-    status: 'delete' | 'disable' | 'enable' | 'inactivated' | 'activated'
 }
+
 export interface Notice {
     message: string
 }
+
 export interface Result<T = Object> {
     page: number
     size: number
@@ -14,6 +15,7 @@ export interface Result<T = Object> {
     list: Array<T>
     message: string
 }
+
 export interface IColumn<T = Object> {
     page: number
     size: number

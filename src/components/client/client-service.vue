@@ -6,13 +6,14 @@ import { compute, sompute } from '@/utils/utils-remix'
 import { whereProperter, createElement } from '@/utils/utils-layout'
 import { divineColumn, divineHandler } from '@/utils/utils-common'
 import { createNotice } from '@/utils/utils-naive'
-import { httpUpdateMailerNameService, type MailerApplication } from '@/api/http-email.service'
+import { httpUpdateMailerNameService } from '@/api/mailer.service'
 import { fetchService } from '@/components/hooks/fetch-instance'
+import type { ServiceMailer } from '@/interface/mailer.resolver'
 
 export default defineComponent({
     name: 'ClientService',
     props: {
-        node: { type: Object as PropType<MailerApplication>, required: true },
+        node: { type: Object as PropType<ServiceMailer>, required: true },
         mobile: { type: Boolean, default: false }
     },
     emits: ['update'],

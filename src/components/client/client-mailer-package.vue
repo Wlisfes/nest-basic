@@ -3,12 +3,12 @@ import { defineComponent, Fragment, type PropType } from 'vue'
 import { compute, sompute } from '@/utils/utils-remix'
 import { divineTransfer } from '@/utils/utils-common'
 import { whereProperter, createElement } from '@/utils/utils-layout'
-import { type MailerPackage } from '@/api/http-email.service'
+import type { BundleMailer } from '@/interface/mailer.resolver'
 
 export default defineComponent({
     name: 'ClientMailerPackage',
     props: {
-        node: { type: Object as PropType<MailerPackage>, required: true },
+        node: { type: Object as PropType<BundleMailer>, required: true },
         mobile: { type: Boolean, default: false }
     },
     setup(props) {

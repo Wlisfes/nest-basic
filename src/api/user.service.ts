@@ -1,21 +1,6 @@
 import { request } from '@/utils/utils-request'
-import type { Scheme, Result, IColumn } from '@/interface/http-interface'
-import type { IRoute } from '@/api/http-route'
-export interface IUser extends Scheme {
-    uid: number
-    nickname: string
-    password: string
-    mobile: string
-    email: string
-    avatar: string
-    openid: string
-    appKey: string
-    appSecret: string
-    authorize: string
-    credit: number
-    balance: number
-    routes: Array<IRoute>
-}
+import type { Result, IColumn } from '@/interface/common.resolver'
+import type { IUser } from '@/interface/user.resolver'
 
 /**注册**/
 export function httpRegister(data: { nickname: string; password: string; mobile: string; code: string }) {

@@ -6,7 +6,7 @@ import { useCurrent } from '@/locale/instance'
 import { useCustomize } from '@/hooks/hook-customize'
 import { createNotice } from '@/utils/utils-naive'
 import { stop, loadFile } from '@/utils/utils-common'
-import { httpAuthorize } from '@/api/http-user'
+import { httpAuthorize } from '@/api/user.service'
 
 export default defineComponent({
     name: 'Login',
@@ -136,3 +136,4 @@ export default defineComponent({
     }
 })
 </script>
+@/api/user.service

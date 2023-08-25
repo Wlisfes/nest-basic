@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
-import { httpBasicUser, type IUser } from '@/api/http-user'
+import { httpBasicUser } from '@/api/user.service'
+import type { IUser } from '@/interface/user.resolver'
 
 export const useUser = defineStore({
     id: 'user',

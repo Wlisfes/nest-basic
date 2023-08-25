@@ -5,13 +5,14 @@ import { useSource } from '@/hooks/hook-source'
 import { whereProperter } from '@/utils/utils-layout'
 import { compute, type INameUI } from '@/utils/utils-remix'
 import { divineDelay, divineSkeleton } from '@/utils/utils-common'
-import { httpColumnMailerPackage, httpUserComputeMailer, type MailerPackage } from '@/api/http-email.service'
+import { httpColumnBundleMailer, httpUserComputeMailer } from '@/api/mailer.service'
+import type { BundleMailer } from '@/interface/mailer.resolver'
 
 export default defineComponent({
     name: 'Package',
     setup() {
         const { mobile, l } = useResize()
-        const { state, fetchUpdate, setState } = useSource<MailerPackage, Object>(
+        const { state, fetchUpdate, setState } = useSource<BundleMailer, Object>(
             {
                 immediate: true,
                 size: 50,
@@ -20,7 +21,7 @@ export default defineComponent({
             },
             async ({ size, page }) => {
                 await fetchUserComputeMailer()
-                return await httpColumnMailerPackage({ size, page })
+                return await httpColumnBundleMailer({ size, page })
             }
         )
 
@@ -101,7 +102,7 @@ export default defineComponent({
                         came-style={{ paddingBottom: '48px' }}
                         cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
                         default-cols={3}
-                        data-render={(data: MailerPackage) => {
+                        data-render={(data: BundleMailer) => {
                             return <client-mailer-package key={data.id} node={data} mobile={mobile.value}></client-mailer-package>
                         }}
                         data-spin={
@@ -130,7 +131,7 @@ export default defineComponent({
                         data-source={dataLarge.value}
                         cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
                         default-cols={3}
-                        data-render={(data: MailerPackage) => {
+                        data-render={(data: BundleMailer) => {
                             return <client-mailer-package key={data.id} node={data} mobile={mobile.value}></client-mailer-package>
                         }}
                         data-spin={
