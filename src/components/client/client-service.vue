@@ -65,10 +65,17 @@ export default defineComponent({
         return () => (
             <n-card class="client-service" embedded content-style={whereProperter(props.mobile, { padding: '16px 16px' })}>
                 <n-space size={10} wrap-item={false} align="center">
-                    <n-alert class="el-customize" type="success" show-icon={false} style={{ padding: '8px', borderRadius: '50%' }}>
-                        <n-button text focusable={false}>
-                            <n-icon component={compute('Service')} size={32} />
-                        </n-button>
+                    <n-alert
+                        class="el-customize"
+                        type={CLIENT_TAG_TYPE[props.node.status as keyof typeof CLIENT_TAG_TYPE]}
+                        show-icon={false}
+                        style={{ padding: '8px', borderRadius: '50%' }}
+                    >
+                        {props.node.status === 'inactivated' ? (
+                            <n-icon component={compute('Service')} size={32} depth={3} color="var(--n-icon-color)" />
+                        ) : (
+                            <n-icon component={compute('Service')} size={32} depth={1} color="var(--n-icon-color)" />
+                        )}
                     </n-alert>
                     <common-reactive
                         reverse

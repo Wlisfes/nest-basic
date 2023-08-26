@@ -42,11 +42,8 @@ export default defineComponent({
                                     onSearch={fetchUpdate}
                                 ></common-search>
                             </n-form-item>
-                            <n-button strong focusable={false} type="primary" size="large">
-                                {{
-                                    icon: createElement(sompute('AddRound')),
-                                    default: createElement(<span>创建应用</span>)
-                                }}
+                            <n-button strong focusable={false} type="primary" size="large" disabled={state.loading}>
+                                {{ icon: createElement(sompute('AddRound')), default: createElement(<span>创建应用</span>) }}
                             </n-button>
                         </n-space>
                     </common-header>
