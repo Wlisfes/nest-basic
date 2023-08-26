@@ -1,5 +1,6 @@
 <script lang="tsx">
 import { defineComponent } from 'vue'
+import { transfer } from '@/utils/utils-transfer'
 import { useCustomize } from '@/hooks/hook-customize'
 
 export default defineComponent({
@@ -44,6 +45,7 @@ export default defineComponent({
                 preset="dialog"
                 class="el-customize"
                 style={{ width: '540px' }}
+                onAfterEnter={transfer}
                 onAfterLeave={() => emit('close')}
                 action={() => (
                     <common-inspector
