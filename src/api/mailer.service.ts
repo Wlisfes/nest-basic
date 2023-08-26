@@ -47,7 +47,7 @@ export function httpUserComputeMailer() {
 
 /**用户已购套餐列表**/
 export function httpColumnUserMailer(params: { page: number; size: number }) {
-    return request<{ total: number; current: number; prevent: number }>({
+    return request<Result<BundleMailer>>({
         url: `/api-basic/package/mailer/user/column`,
         method: 'GET',
         params

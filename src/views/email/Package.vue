@@ -1,11 +1,11 @@
 <script lang="tsx">
-import { defineComponent, computed, Fragment } from 'vue'
+import { defineComponent, computed, Fragment, onMounted } from 'vue'
 import { useResize } from '@/hooks/hook-resize'
 import { useSource } from '@/hooks/hook-source'
 import { whereProperter } from '@/utils/utils-layout'
 import { compute, type INameUI } from '@/utils/utils-remix'
 import { divineDelay, divineSkeleton } from '@/utils/utils-common'
-import { httpColumnBundleMailer, httpUserComputeMailer } from '@/api/mailer.service'
+import { httpColumnBundleMailer, httpUserComputeMailer, httpColumnUserMailer } from '@/api/mailer.service'
 import type { BundleMailer } from '@/interface/mailer.resolver'
 
 export default defineComponent({
@@ -17,29 +17,37 @@ export default defineComponent({
                 immediate: true,
                 size: 50,
                 form: {},
-                data: { total: 0, current: 0, prevent: 0 }
+                data: {
+                    total: 0,
+                    current: 0,
+                    prevent: 0,
+                    dataExper: [],
+                    dataOffer: []
+                }
             },
             async ({ size, page }) => {
-                await fetchUserComputeMailer()
-                return await httpColumnBundleMailer()
+                return await httpColumnUserMailer({ size, page })
             }
         )
 
+        onMounted(fetchComputeMailer)
+
         /**统计当前用户套餐包余量**/
-        async function fetchUserComputeMailer() {
-            return await httpUserComputeMailer().then(({ data }) => {
+        async function fetchComputeMailer() {
+            const { data } = await httpColumnBundleMailer()
+            return await httpUserComputeMailer().then(response => {
                 return setState({
                     data: {
-                        total: data.total ?? 0,
-                        current: data.current ?? 0,
-                        prevent: data.prevent ?? 0
+                        total: response.data.total ?? 0,
+                        current: response.data.current ?? 0,
+                        prevent: response.data.prevent ?? 0,
+                        dataExper: data.list.filter(item => item.type === 'small'),
+                        dataOffer: data.list.filter(item => item.type === 'large')
                     }
                 })
             })
         }
 
-        const dataSmall = computed(() => state.dataSource.filter(item => item.type === 'small'))
-        const dataLarge = computed(() => state.dataSource.filter(item => item.type === 'large'))
         const dataCompute = computed<Array<{ name: string; value: number; icon: INameUI; type: string }>>(() => [
             { name: '套餐总余量:', value: state.data.total, icon: 'Package', type: 'success' },
             { name: '本月发送:', value: state.data.current, icon: 'MailReadr', type: 'info' },
@@ -97,8 +105,8 @@ export default defineComponent({
                     <common-source
                         loading={state.loading}
                         pagination={false}
-                        total={dataSmall.value.length}
-                        data-source={dataSmall.value}
+                        total={state.data.dataExper.length}
+                        data-source={state.data.dataExper}
                         came-style={{ paddingBottom: '48px' }}
                         cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
                         default-cols={3}
@@ -127,8 +135,8 @@ export default defineComponent({
                     <common-source
                         loading={state.loading}
                         pagination={false}
-                        total={dataLarge.value.length}
-                        data-source={dataLarge.value}
+                        total={state.data.dataOffer.length}
+                        data-source={state.data.dataOffer}
                         cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
                         default-cols={3}
                         data-render={(data: BundleMailer) => {
