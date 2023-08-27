@@ -60,7 +60,7 @@ export default defineComponent({
                     cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
                     default-cols={3}
                     data-render={(data: ServiceMailer) => {
-                        return <client-service key={data.id} node={data} mobile={mobile.value} onUpdate={fetchUpdate}></client-service>
+                        return <mailer-service key={data.id} node={data} mobile={mobile.value} onUpdate={fetchUpdate}></mailer-service>
                     }}
                     onUpdate={fetchUpdate}
                 ></common-source>

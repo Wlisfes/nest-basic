@@ -64,14 +64,14 @@ export default defineComponent({
                 <common-render
                     loading={state.loading}
                     spin={
-                        <n-element style={{ paddingBottom: '64px' }}>
+                        <n-element style={{ paddingBottom: '48px' }}>
                             <n-skeleton height="35.2px" width="100%" style={{ marginBottom: '10px', maxWidth: '256px' }} />
                             <n-skeleton height={72} style={{ borderRadius: '3px' }} />
                         </n-element>
                     }
                     component={
-                        <n-element style={{ paddingBottom: '64px' }}>
-                            <n-h2 style={{ marginBottom: '10px' }}>我的资源包</n-h2>
+                        <n-element style={{ paddingBottom: '48px' }}>
+                            <n-h2 style={{ marginBottom: '10px' }}>资源包余量</n-h2>
                             <common-resize
                                 cols={{ 960: 1 }}
                                 default-cols={3}
@@ -100,7 +100,7 @@ export default defineComponent({
                     <common-render
                         loading={state.loading}
                         spin={<n-skeleton height="35.2px" width="100%" style={{ marginBottom: '10px', maxWidth: '256px' }} />}
-                        component={<n-h2 style={{ marginBottom: '10px' }}>小额体验套餐包</n-h2>}
+                        component={<n-h2 style={{ marginBottom: '10px' }}>体验套餐包</n-h2>}
                     ></common-render>
                     <common-source
                         loading={state.loading}
@@ -130,6 +130,35 @@ export default defineComponent({
                     <common-render
                         loading={state.loading}
                         spin={<n-skeleton height="35.2px" width="100%" style={{ marginBottom: '10px', maxWidth: '256px' }} />}
+                        component={<n-h2 style={{ marginBottom: '10px' }}>特惠套餐包</n-h2>}
+                    ></common-render>
+                    <common-source
+                        loading={state.loading}
+                        pagination={false}
+                        total={state.data.dataOffer.length}
+                        data-source={state.data.dataOffer}
+                        cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
+                        default-cols={3}
+                        data-render={(data: BundleMailer) => {
+                            return <mailer-package key={data.id} node={data} mobile={mobile.value}></mailer-package>
+                        }}
+                        data-spin={
+                            <common-resize
+                                style={{ paddingBottom: '64px' }}
+                                cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
+                                default-cols={3}
+                                data-render={(e: { cols: number }) => {
+                                    return divineSkeleton(e.cols, <n-skeleton height={215.58} style={{ borderRadius: '3px' }} />)
+                                }}
+                            ></common-resize>
+                        }
+                        onUpdate={fetchUpdate}
+                    ></common-source>
+                </n-element>
+                <n-element>
+                    <common-render
+                        loading={state.loading}
+                        spin={<n-skeleton height="35.2px" width="100%" style={{ marginBottom: '10px', maxWidth: '256px' }} />}
                         component={<n-h2 style={{ marginBottom: '10px' }}>大额特惠套餐包</n-h2>}
                     ></common-render>
                     <common-source
@@ -140,7 +169,7 @@ export default defineComponent({
                         cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
                         default-cols={3}
                         data-render={(data: BundleMailer) => {
-                            return <client-mailer-package key={data.id} node={data} mobile={mobile.value}></client-mailer-package>
+                            return <mailer-package key={data.id} node={data} mobile={mobile.value}></mailer-package>
                         }}
                         data-spin={
                             <common-resize

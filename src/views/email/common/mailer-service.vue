@@ -11,7 +11,7 @@ import { fetchService } from '@/components/hooks/fetch-instance'
 import type { ServiceMailer } from '@/interface/mailer.resolver'
 
 export default defineComponent({
-    name: 'ClientService',
+    name: 'MailerService',
     props: {
         node: { type: Object as PropType<ServiceMailer>, required: true },
         mobile: { type: Boolean, default: false }
@@ -63,7 +63,7 @@ export default defineComponent({
         }
 
         return () => (
-            <n-card class="client-service" embedded content-style={whereProperter(props.mobile, { padding: '16px 16px' })}>
+            <n-card class="mailer-service" embedded content-style={whereProperter(props.mobile, { padding: '16px 16px' })}>
                 <n-space size={10} wrap-item={false} align="center">
                     <n-alert
                         class="el-customize"
@@ -159,9 +159,3 @@ export default defineComponent({
     }
 })
 </script>
-
-<style lang="scss" scoped>
-.client-service {
-    position: relative;
-}
-</style>

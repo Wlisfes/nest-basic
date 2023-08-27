@@ -1,5 +1,5 @@
 import { toRefs, onMounted, nextTick } from 'vue'
-import { type Result } from '@/interface/common.resolver'
+import { type Result } from '@/interface/'
 import { type Response } from '@/utils/utils-request'
 import { divineHandler } from '@/utils/utils-common'
 import { useState } from '@/hooks/hook-state'
