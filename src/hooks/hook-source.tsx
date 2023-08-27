@@ -1,8 +1,9 @@
 import { toRefs, onMounted, nextTick } from 'vue'
-import { type Result } from '@/interface/'
-import { type Response } from '@/utils/utils-request'
 import { divineHandler } from '@/utils/utils-common'
 import { useState } from '@/hooks/hook-state'
+import type { DataTableBaseColumn } from 'naive-ui'
+import type { Result } from '@/interface/common.resolver'
+import type { Response } from '@/utils/utils-request'
 type Option<T extends Record<string, any>, R extends Record<string, any>> = {
     page?: number
     size?: number
@@ -12,8 +13,10 @@ type Option<T extends Record<string, any>, R extends Record<string, any>> = {
     immediate?: boolean
     dataSource?: Array<T>
     data?: Record<string, any>
+    dataColumn?: Array<any>
 }
 
+//@ts-ignore
 export function useSource<T extends Object, R extends Object>(
     option: Option<T, R>,
     request: (e: Required<Option<T, R>>) => Promise<Response<Result<T>>>
@@ -26,7 +29,8 @@ export function useSource<T extends Object, R extends Object>(
         total: option.total ?? 0,
         loading: option.loading ?? true,
         dataSource: option.dataSource ?? [],
-        data: option.data ?? {}
+        data: option.data ?? {},
+        dataColumn: (option.dataColumn ?? []) as unknown as Array<DataTableBaseColumn>
     })
 
     onMounted(async () => {

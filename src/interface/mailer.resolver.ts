@@ -24,5 +24,21 @@ export interface BundleMailer extends CommonResolver {
     max: number
     price: number
     discount: number
-    label: number
+    label: string
+}
+
+export interface UserBundleMailer extends CommonResolver {
+    orderId: number
+    userId: number
+    bundle: number
+    name: string
+    type: string
+    comment: string
+    total: number
+    expire: number
+    label: string
+    consume: number
+    expense: number
+    expireTime: string
+    status: 'effect' | 'invalid' | 'refund' | 'disable'
 }

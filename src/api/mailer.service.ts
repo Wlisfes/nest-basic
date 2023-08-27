@@ -1,6 +1,6 @@
 import { request } from '@/utils/utils-request'
 import type { Result, IColumn, Notice } from '@/interface/common.resolver'
-import type { ServiceMailer, BundleMailer } from '@/interface/mailer.resolver'
+import type { ServiceMailer, BundleMailer, UserBundleMailer } from '@/interface/mailer.resolver'
 
 /**创建邮件应用**/
 export function httpCreateServiceMailer(data: { name: string }) {
@@ -47,7 +47,7 @@ export function httpUserComputeMailer() {
 
 /**用户已购套餐列表**/
 export function httpColumnUserMailer(params: { page: number; size: number }) {
-    return request<Result<BundleMailer>>({
+    return request<Result<UserBundleMailer>>({
         url: `/api-basic/package/mailer/user/column`,
         method: 'GET',
         params

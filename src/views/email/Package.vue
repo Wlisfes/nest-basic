@@ -4,15 +4,15 @@ import { useResize } from '@/hooks/hook-resize'
 import { useSource } from '@/hooks/hook-source'
 import { whereProperter } from '@/utils/utils-layout'
 import { compute, type INameUI } from '@/utils/utils-remix'
-import { divineDelay, divineSkeleton } from '@/utils/utils-common'
+import { divineDelay, divineSkeleton, divineTransfer } from '@/utils/utils-common'
 import { httpColumnBundleMailer, httpUserComputeMailer, httpColumnUserMailer } from '@/api/mailer.service'
-import type { BundleMailer } from '@/interface/mailer.resolver'
+import type { BundleMailer, UserBundleMailer } from '@/interface/mailer.resolver'
 
 export default defineComponent({
     name: 'Package',
     setup() {
-        const { mobile, l } = useResize()
-        const { state, fetchUpdate, setState } = useSource<BundleMailer, Object>(
+        const { mobile } = useResize()
+        const { state, fetchUpdate, setState } = useSource<UserBundleMailer, Object>(
             {
                 immediate: true,
                 size: 50,
@@ -23,7 +23,29 @@ export default defineComponent({
                     prevent: 0,
                     dataExper: [],
                     dataOffer: []
-                }
+                },
+                dataColumn: [
+                    { title: '套餐包名称', key: 'name' },
+                    { title: '套餐包类型', key: 'type' },
+                    {
+                        title: '实付价',
+                        key: 'expense',
+                        render: (e: UserBundleMailer) => (
+                            <n-h3 type="warning" class="n-flex n-center" style={{ margin: 0 }}>
+                                <n-icon component={compute('Money')} size={20} color="var(--n-bar-color)" />
+                                <n-text type="warning" style={{ marginLeft: '-2px', fontSize: '20px' }}>
+                                    {divineTransfer(e.expense)}
+                                </n-text>
+                            </n-h3>
+                        )
+                    },
+                    { title: '购买时间', key: 'createTime' },
+                    { title: '总条数', key: 'total' },
+                    { title: '剩余量', key: 'consume', render: (e: UserBundleMailer) => <n-text>{e.total - e.consume}</n-text> },
+                    { title: '失效时间', key: 'expireTime' },
+                    { title: '状态', key: 'status' },
+                    { title: '操作', key: 'command' }
+                ]
             },
             async ({ size, page }) => {
                 return await httpColumnUserMailer({ size, page })
@@ -111,7 +133,7 @@ export default defineComponent({
                         cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
                         default-cols={3}
                         data-render={(data: BundleMailer) => {
-                            return <client-mailer-package key={data.id} node={data} mobile={mobile.value}></client-mailer-package>
+                            return <mailer-package key={data.id} node={data} mobile={mobile.value}></mailer-package>
                         }}
                         data-spin={
                             <common-resize
@@ -137,6 +159,7 @@ export default defineComponent({
                         pagination={false}
                         total={state.data.dataOffer.length}
                         data-source={state.data.dataOffer}
+                        came-style={{ paddingBottom: '48px' }}
                         cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
                         default-cols={3}
                         data-render={(data: BundleMailer) => {
@@ -144,7 +167,7 @@ export default defineComponent({
                         }}
                         data-spin={
                             <common-resize
-                                style={{ paddingBottom: '64px' }}
+                                style={{ paddingBottom: '48px' }}
                                 cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
                                 default-cols={3}
                                 data-render={(e: { cols: number }) => {
@@ -155,34 +178,20 @@ export default defineComponent({
                         onUpdate={fetchUpdate}
                     ></common-source>
                 </n-element>
-                <n-element>
+                <n-element style={{ paddingBottom: '64px' }}>
                     <common-render
                         loading={state.loading}
                         spin={<n-skeleton height="35.2px" width="100%" style={{ marginBottom: '10px', maxWidth: '256px' }} />}
-                        component={<n-h2 style={{ marginBottom: '10px' }}>大额特惠套餐包</n-h2>}
+                        component={<n-h2 style={{ marginBottom: '10px' }}>已购资源套餐</n-h2>}
                     ></common-render>
-                    <common-source
+                    <n-data-table
+                        size="large"
+                        bordered={false}
                         loading={state.loading}
-                        pagination={false}
-                        total={state.data.dataOffer.length}
-                        data-source={state.data.dataOffer}
-                        cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
-                        default-cols={3}
-                        data-render={(data: BundleMailer) => {
-                            return <mailer-package key={data.id} node={data} mobile={mobile.value}></mailer-package>
-                        }}
-                        data-spin={
-                            <common-resize
-                                style={{ paddingBottom: '64px' }}
-                                cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
-                                default-cols={3}
-                                data-render={(e: { cols: number }) => {
-                                    return divineSkeleton(e.cols, <n-skeleton height={215.58} style={{ borderRadius: '3px' }} />)
-                                }}
-                            ></common-resize>
-                        }
-                        onUpdate={fetchUpdate}
-                    ></common-source>
+                        data={state.dataSource}
+                        columns={state.dataColumn}
+                        pagination={{ page: state.page, pageSize: state.size }}
+                    ></n-data-table>
                 </n-element>
             </common-container>
         )

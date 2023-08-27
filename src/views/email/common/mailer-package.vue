@@ -6,7 +6,7 @@ import { whereProperter, createElement } from '@/utils/utils-layout'
 import type { BundleMailer } from '@/interface/mailer.resolver'
 
 export default defineComponent({
-    name: 'ClientMailerPackage',
+    name: 'MailerPackage',
     props: {
         node: { type: Object as PropType<BundleMailer>, required: true },
         mobile: { type: Boolean, default: false }
@@ -17,7 +17,7 @@ export default defineComponent({
         }
 
         return () => (
-            <n-card class="client-mailer-package" embedded content-style={whereProperter(props.mobile, { padding: '16px 16px' })}>
+            <n-card class="mailer-package" embedded content-style={whereProperter(props.mobile, { padding: '16px 16px' })}>
                 {props.node.label && (
                     <n-el tag="div" style={{ position: 'absolute', top: 0, right: 0, userSelect: 'none' }}>
                         <n-tag bordered={false} type="success" size={props.mobile ? 'small' : 'medium'}>
