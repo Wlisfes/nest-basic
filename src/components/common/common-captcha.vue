@@ -16,7 +16,7 @@ export default defineComponent({
         successText: { type: String, default: '验证通过！' },
         failText: { type: String, default: '验证失败，请重试' },
         sliderText: { type: String, default: '拖动滑块完成拼图' },
-        appKey: { type: String, default: 'EqsqFt7pqp4FB1oD' }
+        appId: { type: Number, default: 1692282119372458 }
     },
     emits: ['close', 'success', 'fail'],
     setup(props, { emit }) {
@@ -88,7 +88,7 @@ export default defineComponent({
         })
 
         /**注册验证码配置**/ //prettier-ignore
-        function fetchReducer(body: { width: number; height: number; offset: number; appKey: string }) {
+        function fetchReducer(body: { width: number; height: number; offset: number; appId: number }) {
             return new Promise(async (resolve, reject) => {
                 try {
                     const { code, data } = await fetch(`https://api.lisfes.cn/api-basic/captcha/supervisor/reducer`, {
@@ -111,7 +111,7 @@ export default defineComponent({
         }
 
         /**生成校验凭证**/ //prettier-ignore
-        function fetchAuthorize(body: { session: string; appKey: string }) {
+        function fetchAuthorize(body: { session: string; appId: string }) {
             return new Promise(async (resolve, reject) => {
                 try {
                     const { code, data } = await fetch(`https://api.lisfes.cn/api-basic/captcha/supervisor/authorize`, {
@@ -307,7 +307,7 @@ export default defineComponent({
                     width: props.canvasWidth,
                     height: props.canvasHeight,
                     offset: puzzleBaseSize.value,
-                    appKey: props.appKey
+                    appId: props.appId
                 })
                 // await setState({
                 //     pinX: getRandom(puzzleBaseSize.value, props.canvasWidth - puzzleBaseSize.value - 20), //留20的边距
@@ -449,7 +449,7 @@ export default defineComponent({
                     await fetchAuthorize(
                         Object.assign({
                             session: state.session,
-                            appKey: props.appKey
+                            appId: props.appId
                         })
                     )
                     await setState({
@@ -464,7 +464,7 @@ export default defineComponent({
                             distance,
                             token: state.token,
                             session: state.session,
-                            appKey: props.appKey,
+                            appId: props.appId,
                             reset: reset
                         })
                     })
