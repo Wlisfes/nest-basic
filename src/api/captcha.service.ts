@@ -37,3 +37,12 @@ export function httpBasicCaptchaService(params: { appId: number }) {
         params
     })
 }
+
+/**修改应用名称**/
+export function httpUpdateCaptchaNameService(data: { appId: number; name: string }) {
+    return request<Notice>({
+        url: `/api-basic/captcha/app/update/name`,
+        method: 'PUT',
+        data
+    })
+}

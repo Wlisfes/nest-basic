@@ -6,6 +6,7 @@ export interface ServiceCaptcha extends CommonResolver {
     name: string
     appSecret: string
     comment: string
+    iv: string
     bucket: Array<string>
     ip: Array<string>
     user: IUser

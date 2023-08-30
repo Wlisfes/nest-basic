@@ -25,7 +25,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
                 deep: true,
                 extensions: ['vue', 'tsx'],
                 include: [/\.vue$/, /\.vue\?vue/, /\.tsx$/, /\.tsx\?tsx/],
-                dirs: ['src/components', 'src/layout', 'src/views/email/common'],
+                dirs: ['src/components', 'src/layout', 'src/views/email/common', 'src/views/captcha/common'],
                 resolvers: [
                     NaiveUiResolver(),
                     IconsResolver({

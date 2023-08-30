@@ -1,6 +1,7 @@
 <script lang="tsx">
 import type { PropType, CSSProperties, VNodeChild } from 'vue'
 import type { ScrollbarInst } from 'naive-ui'
+import { watchOnce } from '@vueuse/core'
 import { defineComponent, computed, Fragment, ref, watch } from 'vue'
 import { useCurrentElement, useElementSize } from '@vueuse/core'
 import { divineCols } from '@/utils/utils-common'
@@ -26,6 +27,7 @@ export default defineComponent({
     },
     emits: ['update', 'resize'],
     setup(props, { emit }) {
+        const spin = ref(false)
         const scrollbar = ref<ScrollbarInst>()
         const element = useCurrentElement<HTMLElement>()
         const { width, height } = useElementSize(element)
@@ -39,6 +41,11 @@ export default defineComponent({
             gridTemplateColumns: `repeat(${cols.value}, minmax(0px, 1fr))`,
             ...props.cameStyle
         }))
+
+        watchOnce(
+            () => props.loading,
+            () => (spin.value = true)
+        )
 
         watch(
             () => [width.value, height.value],
@@ -72,7 +79,12 @@ export default defineComponent({
                         )}
                     </Fragment>
                 ) : (
-                    <n-spin class="common-source__spin" stroke-width={12} size={60} show={props.loading}>
+                    <n-spin
+                        class="common-source__spin"
+                        stroke-width={12}
+                        size={60}
+                        show={props.dataSpin ? spin.value && props.loading : props.loading}
+                    >
                         <n-scrollbar ref={scrollbar} x-scrollable>
                             <Fragment>
                                 <div class="common-source__container" style={cameStyle.value}>

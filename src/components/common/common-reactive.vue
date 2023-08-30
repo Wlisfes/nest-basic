@@ -34,7 +34,10 @@ export default defineComponent({
             <n-el tag="div" class={{ 'common-reactive': true }} style={styleReact.value}>
                 <Fragment>
                     {!props.labelNone && (
-                        <div class="common-reactive__label" style={{ color: 'var(--text-color-3)', order: props.reverse ? 2 : 1 }}>
+                        <div
+                            class="common-reactive__label"
+                            style={{ color: 'var(--text-color-3)', lineHeight: '24px', order: props.reverse ? 2 : 1 }}
+                        >
                             {props.label && typeof props.label === 'object' ? (
                                 <Fragment>{props.label}</Fragment>
                             ) : props.label ? (
@@ -49,7 +52,10 @@ export default defineComponent({
                 </Fragment>
                 <Fragment>
                     {!props.contentNone && (
-                        <div class="common-reactive__content" style={{ color: 'var(--text-color-1)', order: props.reverse ? 1 : 2 }}>
+                        <div
+                            class="common-reactive__content"
+                            style={{ color: 'var(--text-color-1)', lineHeight: '24px', order: props.reverse ? 1 : 2 }}
+                        >
                             {props.content && typeof props.content === 'object' ? (
                                 <Fragment>{props.content}</Fragment>
                             ) : props.content ? (
