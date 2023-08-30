@@ -11,6 +11,11 @@ declare module '*.module.scss' {
     export default scssModule
 }
 
+declare module 'mjml-browser' {
+    const mjmlBrowser: (value: string) => { json: Record<string, any>; html: string }
+    export default mjmlBrowser
+}
+
 interface ImportMetaEnv {
     readonly VITE_PORT: string
 }
