@@ -27,10 +27,10 @@ export default defineComponent({
             delete: 'error'
         }
 
-        async function onSupporter(value: string) {
+        async function onSupporter(value: string | number) {
             return await divineHandler(isSupported.value, async () => {
                 try {
-                    await copy(value)
+                    await copy(value.toString())
                     return await createNotice({ title: t('common.copy.notice') })
                 } catch (e) {
                     return await createNotice({ type: 'error', title: t('common.copy.fail') })
@@ -112,15 +112,15 @@ export default defineComponent({
                 </n-space>
                 <n-grid x-gap={16} y-gap={8} cols={2} style={whereProperter(props.mobile, { marginTop: '16px' }, { marginTop: '20px' })}>
                     <n-grid-item>
-                        <common-reactive label="App ID" content={props.node.appId}></common-reactive>
+                        <common-reactive
+                            label="App ID"
+                            content={props.node.appId}
+                            copy-icon={Boolean(props.node.appId)}
+                            onCopy={() => onSupporter(props.node.appId)}
+                        ></common-reactive>
                     </n-grid-item>
                     <n-grid-item>
-                        <common-reactive
-                            label="App Key"
-                            content={props.node.appKey}
-                            copy-icon={Boolean(props.node.appKey)}
-                            onCopy={() => onSupporter(props.node.appKey)}
-                        ></common-reactive>
+                        <common-reactive label="App IV" content={props.node.iv}></common-reactive>
                     </n-grid-item>
                     <n-grid-item span={2}>
                         <common-reactive

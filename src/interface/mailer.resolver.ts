@@ -4,8 +4,8 @@ import type { IUser } from '@/interface/user.resolver'
 export interface ServiceMailer extends CommonResolver {
     appId: number
     name: string
-    appKey: string
     appSecret: string
+    iv: string
     bucket: Array<string>
     ip: Array<string>
     user: IUser

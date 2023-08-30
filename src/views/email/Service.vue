@@ -2,7 +2,7 @@
 import { defineComponent } from 'vue'
 import { useResize } from '@/hooks/hook-resize'
 import { useSource } from '@/hooks/hook-source'
-import { divineDelay } from '@/utils/utils-common'
+import { divineSkeleton } from '@/utils/utils-common'
 import { whereProperter, createElement } from '@/utils/utils-layout'
 import { sompute } from '@/utils/utils-remix'
 import { httpColumnMailerService } from '@/api/mailer.service'
@@ -19,7 +19,6 @@ export default defineComponent({
                 size: 20
             },
             async ({ size, page }) => {
-                await divineDelay(0)
                 return await httpColumnMailerService({ size, page })
             }
         )
@@ -59,10 +58,20 @@ export default defineComponent({
                     data-source={state.dataSource}
                     cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
                     default-cols={3}
+                    onUpdate={fetchUpdate}
                     data-render={(data: ServiceMailer) => {
                         return <mailer-service key={data.id} node={data} mobile={mobile.value} onUpdate={fetchUpdate}></mailer-service>
                     }}
-                    onUpdate={fetchUpdate}
+                    data-spin={
+                        <common-resize
+                            style={{ paddingBottom: '64px' }}
+                            cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
+                            default-cols={3}
+                            data-render={(e: { cols: number }) => {
+                                return divineSkeleton(e.cols, <n-skeleton height={301} style={{ borderRadius: '3px' }} />)
+                            }}
+                        ></common-resize>
+                    }
                 ></common-source>
             </common-container>
         )
