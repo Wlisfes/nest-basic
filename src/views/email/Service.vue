@@ -19,7 +19,7 @@ export default defineComponent({
                 size: 20
             },
             async ({ size, page }) => {
-                await divineDelay(1000)
+                await divineDelay(0)
                 return await httpColumnMailerService({ size, page })
             }
         )

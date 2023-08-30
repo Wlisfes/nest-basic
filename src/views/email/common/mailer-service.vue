@@ -82,7 +82,7 @@ export default defineComponent({
                         style={{ flex: 1, overflow: 'hidden' }}
                         label="应用名称"
                         content={
-                            <n-h2 tag="h3" style={{ margin: 0 }}>
+                            <n-h2 tag="h3" style={{ margin: 0, fontSize: '20px' }}>
                                 <n-ellipsis tooltip={{ width: '300px', trigger: props.mobile ? 'click' : 'hover' }}>
                                     {props.node.name ?? '--'}
                                 </n-ellipsis>
