@@ -19,7 +19,7 @@ export default defineComponent({
                 request={<common-header vertical={mobile.value} title="概览"></common-header>}
             >
                 <n-space vertical>
-                    {Client.email.map(item => (
+                    {Client.mailer.map(item => (
                         <n-button key={item.key} onClick={() => router.push(item.key)}>
                             {{
                                 icon: () => sompute(item.icon as INameUI),

@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { useResize } from '@/hooks/hook-resize'
 import { useState } from '@/hooks/hook-state'
 import { whereProperter } from '@/utils/utils-layout'
@@ -11,13 +11,14 @@ export default defineComponent({
     components: { VueDraggable },
     setup() {
         const { mobile } = useResize()
-
-        const dataColumn = ref([
-            { name: 'Image', uid: 1693405215423 },
-            { name: 'Button', uid: 1693405215424 },
-            { name: 'Layout', uid: 1693405215425 },
-            { name: 'Text', uid: 1693405215426 }
-        ])
+        const { dataColumn } = useState({
+            dataColumn: [
+                { name: 'Image', uid: 1693405215423 },
+                { name: 'Button', uid: 1693405215424 },
+                { name: 'Layout', uid: 1693405215425 },
+                { name: 'Text', uid: 1693405215426 }
+            ]
+        })
 
         return () => (
             <common-container

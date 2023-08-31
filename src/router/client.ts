@@ -100,46 +100,46 @@ export const client: Array<RouteRecordRaw> = [
                 ]
             },
             {
-                path: '/email',
-                redirect: '/email/describe',
-                name: 'EmailLoyout',
+                path: '/mailer',
+                redirect: '/mailer/describe',
+                name: 'MailerLoyout',
                 meta: { Authorize: 'AUTH' },
-                component: createLoyout(ClientLoyout, { client: Client.email }),
+                component: createLoyout(ClientLoyout, { client: Client.mailer }),
                 children: [
                     {
-                        path: '/email/describe',
+                        path: '/mailer/describe',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
-                        component: () => import('@/views/email/Describe.vue')
+                        component: () => import('@/views/mailer/Describe.vue')
                     },
                     {
-                        path: '/email/package',
+                        path: '/mailer/package',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
-                        component: () => import('@/views/email/Package.vue')
+                        component: () => import('@/views/mailer/Package.vue')
                     },
                     {
-                        path: '/email/service',
+                        path: '/mailer/service',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
-                        component: () => import('@/views/email/Service.vue')
+                        component: () => import('@/views/mailer/Service.vue')
                     },
                     {
-                        path: '/email/template',
+                        path: '/mailer/template',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
-                        component: () => import('@/views/email/Template.vue')
+                        component: () => import('@/views/mailer/Template.vue')
                     },
                     {
-                        path: '/email/schedule',
+                        path: '/mailer/schedule',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
-                        component: () => import('@/views/email/Schedule.vue')
+                        component: () => import('@/views/mailer/Schedule.vue')
                     },
                     {
-                        path: '/email/recorder',
+                        path: '/mailer/recorder',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
-                        component: () => import('@/views/email/Recorder.vue')
+                        component: () => import('@/views/mailer/Recorder.vue')
                     },
                     {
-                        path: '/email/compute',
+                        path: '/mailer/compute',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', current: true },
-                        component: () => import('@/views/email/Compute.vue')
+                        component: () => import('@/views/mailer/Compute.vue')
                     }
                 ]
             }

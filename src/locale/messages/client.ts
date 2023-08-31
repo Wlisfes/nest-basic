@@ -29,7 +29,7 @@ export const client = {
             column: [
                 { icon: 'Captcha', name: '人机验证', path: '/captcha', document: '致力于为客户提供高效、安全的人机验证解决方案。' },
                 { icon: 'Message', name: '短信', path: '/message', document: '致力于为客户提供高质量、可靠的短信解决方案。' },
-                { icon: 'MailGmail', name: '邮件', path: '/email', document: '致力于为客户提供高效可靠的邮件解决方案。' }
+                { icon: 'MailGmail', name: '邮件', path: '/mailer', document: '致力于为客户提供高效可靠的邮件解决方案。' }
             ]
         },
         basic: {
@@ -83,7 +83,7 @@ export const client = {
                 {
                     icon: 'MailGmail',
                     name: 'Email',
-                    path: '/email',
+                    path: '/mailer',
                     document: 'Committed to providing customers with efficient and reliable mail solutions.'
                 }
             ]

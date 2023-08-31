@@ -53,13 +53,13 @@ export const Client = {
         { label: '发送记录', key: '/message/recorder', icon: 'DataBase', size: 28 },
         { label: '发送统计', key: '/message/compute', icon: 'Compute', size: 30 }
     ],
-    email: [
-        { label: '概述', key: '/email/describe', icon: 'Describe', size: 30 },
-        { label: '应用服务', key: '/email/service', icon: 'Service', size: 28 },
-        { label: '资源套餐', key: '/email/package', icon: 'Package', size: 28 },
-        { label: '模板管理', key: '/email/template', icon: 'Template', size: 30 },
-        { label: '任务队列', key: '/email/schedule', icon: 'Schedule', size: 30 },
-        { label: '发送记录', key: '/email/recorder', icon: 'DataBase', size: 30 },
-        { label: '发送统计', key: '/email/compute', icon: 'Compute', size: 28 }
+    mailer: [
+        { label: '概述', key: '/mailer/describe', icon: 'Describe', size: 30 },
+        { label: '应用服务', key: '/mailer/service', icon: 'Service', size: 28 },
+        { label: '资源套餐', key: '/mailer/package', icon: 'Package', size: 28 },
+        { label: '模板管理', key: '/mailer/template', icon: 'Template', size: 30 },
+        { label: '任务队列', key: '/mailer/schedule', icon: 'Schedule', size: 30 },
+        { label: '发送记录', key: '/mailer/recorder', icon: 'DataBase', size: 30 },
+        { label: '发送统计', key: '/mailer/compute', icon: 'Compute', size: 28 }
     ]
 }
