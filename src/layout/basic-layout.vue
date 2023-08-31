@@ -1,32 +1,26 @@
 <script lang="tsx">
-import { defineComponent, computed, watch, type CSSProperties } from 'vue'
-import { RouterView, useRoute } from 'vue-router'
+import { defineComponent, computed, type CSSProperties } from 'vue'
+import { RouterView } from 'vue-router'
 import { useProvider } from '@/hooks/hook-provider'
+import { useLoyout } from '@/utils/utils-layout'
 
 export default defineComponent({
     name: 'BasicLayout',
     setup() {
-        const route = useRoute()
+        const { IsHeader } = useLoyout()
         const { vars, inverted } = useProvider()
         const headerReact = computed<CSSProperties>(() => ({
             height: '60px',
             backgroundColor: inverted.value ? vars.value.cardColor : vars.value.cardColor
         }))
         const layoutReact = computed<CSSProperties>(() => ({
-            top: '60px',
+            top: IsHeader.value ? '60px' : '0px',
             backgroundColor: vars.value.backColor
         }))
 
-        watch(
-            () => route.path,
-            () => {
-                console.log(route)
-            }
-        )
-
         return () => (
             <n-layout style={{ height: '100%' }}>
-                {!(route.meta.Header === 'HIDE') && (
+                {IsHeader.value && (
                     <n-layout-header inverted={inverted.value} style={headerReact.value}>
                         <basic-header></basic-header>
                     </n-layout-header>

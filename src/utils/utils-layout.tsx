@@ -1,10 +1,31 @@
-import { createVNode, type Component, type CSSProperties } from 'vue'
+import { createVNode, computed, type Component, type CSSProperties } from 'vue'
+import { useRoute } from 'vue-router'
 import { sompute, type INameUI } from '@/utils/utils-remix'
 export interface ClientOption {
     label: string
     key: string
     icon: INameUI
     size: number
+}
+
+export function useLoyout() {
+    const route = useRoute()
+
+    const IsHeader = computed(() => {
+        return route.meta.Header === 'HIDE' ? false : true
+    })
+
+    const IsSidebar = computed(() => {
+        return route.meta.Sidebar === 'HIDE' ? false : true
+    })
+
+    return {
+        query: computed(() => route.query),
+        params: computed(() => route.params),
+        path: computed(() => route.path),
+        IsHeader,
+        IsSidebar
+    }
 }
 
 export function createLoyout(component: Component, props: Record<string, unknown>) {
