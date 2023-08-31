@@ -18,7 +18,7 @@ export default defineComponent({
     },
     emits: ['update'],
     setup(props, { emit }) {
-        const { setSupporter } = useSupporter()
+        const { setSupporter, isSupported } = useSupporter()
         const { CLIENT_SERVICE, t } = useLocale()
         const CLIENT_TAG_TYPE = {
             inactivated: 'default',
@@ -100,7 +100,7 @@ export default defineComponent({
                         <common-reactive
                             label="App ID"
                             content={props.node.appId}
-                            copy-icon={Boolean(props.node.appId)}
+                            copy-icon={isSupported.value && Boolean(props.node.appId)}
                             onCopy={() => setSupporter(props.node.appId)}
                         ></common-reactive>
                     </n-grid-item>
@@ -112,7 +112,7 @@ export default defineComponent({
                             label="App Secret"
                             tooltip
                             trigger={props.mobile ? 'click' : 'hover'}
-                            copy-icon={Boolean(props.node.appSecret)}
+                            copy-icon={isSupported.value && Boolean(props.node.appSecret)}
                             content={props.node.appSecret}
                             onCopy={() => setSupporter(props.node.appSecret)}
                         ></common-reactive>

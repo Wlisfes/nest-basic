@@ -67,13 +67,7 @@ export const client: Array<RouteRecordRaw> = [
                     },
                     {
                         path: '/captcha/compute',
-                        meta: {
-                            title: { cn: '', en: '' },
-                            Authorize: 'AUTH',
-                            Current: 'SAVE',
-                            Sidebar: 'HIDE',
-                            Header: 'HIDE'
-                        },
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE' },
                         component: () => import('@/views/captcha/Compute.vue')
                     }
                 ]
@@ -138,6 +132,11 @@ export const client: Array<RouteRecordRaw> = [
                         path: '/mailer/template',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE' },
                         component: () => import('@/views/mailer/Template.vue')
+                    },
+                    {
+                        path: '/mailer/currenter',
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE', Sidebar: 'HIDE' },
+                        component: () => import('@/views/mailer/Currenter.vue')
                     },
                     {
                         path: '/mailer/schedule',
