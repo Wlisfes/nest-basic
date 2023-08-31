@@ -1,11 +1,12 @@
 <script lang="tsx">
-import { defineComponent, computed, type CSSProperties } from 'vue'
-import { RouterView } from 'vue-router'
+import { defineComponent, computed, watch, type CSSProperties } from 'vue'
+import { RouterView, useRoute } from 'vue-router'
 import { useProvider } from '@/hooks/hook-provider'
 
 export default defineComponent({
     name: 'BasicLayout',
     setup() {
+        const route = useRoute()
         const { vars, inverted } = useProvider()
         const headerReact = computed<CSSProperties>(() => ({
             height: '60px',
@@ -16,11 +17,20 @@ export default defineComponent({
             backgroundColor: vars.value.backColor
         }))
 
+        watch(
+            () => route.path,
+            () => {
+                console.log(route)
+            }
+        )
+
         return () => (
             <n-layout style={{ height: '100%' }}>
-                <n-layout-header inverted={inverted.value} style={headerReact.value}>
-                    <basic-header></basic-header>
-                </n-layout-header>
+                {!(route.meta.Header === 'HIDE') && (
+                    <n-layout-header inverted={inverted.value} style={headerReact.value}>
+                        <basic-header></basic-header>
+                    </n-layout-header>
+                )}
                 <n-layout position="absolute" inverted={inverted.value} style={layoutReact.value}>
                     <RouterView></RouterView>
                 </n-layout>

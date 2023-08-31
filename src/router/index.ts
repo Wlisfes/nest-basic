@@ -52,7 +52,7 @@ export function setupGuardRouter(router: Router) {
     })
 
     router.afterEach(async (to, form) => {
-        if (to.meta.current) {
+        if (to.meta.Current === 'SAVE') {
             await common.setCurrent(to.path)
         }
         window.$loading.finish()
