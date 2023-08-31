@@ -4,7 +4,7 @@ import { useResize } from '@/hooks/hook-resize'
 import { useSource } from '@/hooks/hook-source'
 import { whereProperter } from '@/utils/utils-layout'
 import { compute, type INameUI } from '@/utils/utils-remix'
-import { divineDelay, divineSkeleton, divineTransfer } from '@/utils/utils-common'
+import { divineAsyncBatch, divineSkeleton, divineTransfer, divineDelay } from '@/utils/utils-common'
 import { httpColumnBundleMailer, httpUserComputeMailer, httpColumnUserMailer } from '@/api/mailer.service'
 import type { BundleMailer, UserBundleMailer } from '@/interface/mailer.resolver'
 
@@ -14,7 +14,7 @@ export default defineComponent({
         const { mobile } = useResize()
         const { state, fetchUpdate, setState } = useSource<UserBundleMailer, Object>(
             {
-                immediate: true,
+                immediate: false,
                 size: 50,
                 form: {},
                 data: {
@@ -25,11 +25,12 @@ export default defineComponent({
                     dataOffer: []
                 },
                 dataColumn: [
-                    { title: '套餐包名称', key: 'name' },
-                    { title: '套餐包类型', key: 'type' },
+                    { title: '套餐包名称', key: 'name', minWidth: 180 },
+                    { title: '套餐包类型', key: 'type', minWidth: 120 },
                     {
                         title: '实付价',
                         key: 'expense',
+                        minWidth: 120,
                         render: (e: UserBundleMailer) => (
                             <n-h3 type="warning" class="n-flex n-center" style={{ margin: 0 }}>
                                 <n-icon component={compute('Money')} size={20} color="var(--n-bar-color)" />
@@ -39,12 +40,17 @@ export default defineComponent({
                             </n-h3>
                         )
                     },
-                    { title: '购买时间', key: 'createTime' },
-                    { title: '总条数', key: 'total' },
-                    { title: '剩余量', key: 'consume', render: (e: UserBundleMailer) => <n-text>{e.total - e.consume}</n-text> },
-                    { title: '失效时间', key: 'expireTime' },
-                    { title: '状态', key: 'status' },
-                    { title: '操作', key: 'command' }
+                    { title: '购买时间', key: 'createTime', minWidth: 170 },
+                    { title: '总条数', key: 'total', minWidth: 100 },
+                    {
+                        title: '剩余量',
+                        key: 'consume',
+                        minWidth: 100,
+                        render: (e: UserBundleMailer) => <n-text>{e.total - e.consume}</n-text>
+                    },
+                    { title: '失效时间', key: 'expireTime', minWidth: 170 },
+                    { title: '状态', key: 'status', minWidth: 140 },
+                    { title: '操作', key: 'command', minWidth: 120 }
                 ]
             },
             async ({ size, page }) => {
@@ -52,7 +58,10 @@ export default defineComponent({
             }
         )
 
-        onMounted(fetchComputeMailer)
+        onMounted(async () => {
+            await divineAsyncBatch([fetchUpdate, fetchComputeMailer])
+            return await setState({ loading: false })
+        })
 
         /**统计当前用户套餐包余量**/
         async function fetchComputeMailer() {
@@ -186,6 +195,7 @@ export default defineComponent({
                     ></common-render>
                     <n-data-table
                         size="large"
+                        scroll-x={state.dataColumn.reduce((a, b) => a + b.minWidth, 0)}
                         bordered={false}
                         loading={state.loading}
                         data={state.dataSource}
