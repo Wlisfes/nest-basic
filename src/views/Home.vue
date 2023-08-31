@@ -1,20 +1,20 @@
 <script lang="tsx">
 import { defineComponent, computed } from 'vue'
-import { useNow, useDateFormat, useClipboard } from '@vueuse/core'
+import { useNow, useDateFormat } from '@vueuse/core'
 import { compute, sompute, type INameUI } from '@/utils/utils-remix'
 import { useUser } from '@/store/user'
 import { useState } from '@/hooks/hook-state'
+import { useSupporter } from '@/hooks/hook-reuser'
 import { useCurrent } from '@/locale/instance'
 import { useResize } from '@/hooks/hook-resize'
-import { divineCols, divineHandler } from '@/utils/utils-common'
-import { createNotice } from '@/utils/utils-naive'
+import { divineCols } from '@/utils/utils-common'
 
 export default defineComponent({
     name: 'Home',
     setup(props) {
-        const { copy, isSupported } = useClipboard()
-        const { width } = useResize()
+        const { setSupporter } = useSupporter()
         const { t, tm } = useCurrent()
+        const { width } = useResize()
         const { state } = useState({ loading: false })
         const user = useUser()
         const hours = computed(() => Number(useDateFormat(useNow(), 'HH').value))
@@ -34,22 +34,6 @@ export default defineComponent({
                 column: tm('client.service.column') as Array<{ icon: INameUI; name: string; path: string; document: string }>
             }
         }))
-
-        /**复制事件**/
-        async function onSupporter(value: string) {
-            return await divineHandler(isSupported.value, async () => {
-                try {
-                    await copy(value)
-                    return await createNotice({ title: t('common.copy.notice') })
-                } catch (e) {
-                    return await createNotice({ type: 'error', title: t('common.copy.fail') })
-                }
-            }).then(result => {
-                return divineHandler(!result, () => {
-                    return createNotice({ type: 'error', title: t('common.copy.supported') })
-                })
-            })
-        }
 
         return () => (
             <common-container max-width="1680px" scrollbar-style={{ padding: '20px' }} content-style={{ padding: '64px 32px 32px' }}>
@@ -71,12 +55,12 @@ export default defineComponent({
                         <n-form ref="formRef" size="large" label-placement="top">
                             <n-form-item label="API Key">
                                 <n-input-group>
-                                    <n-input value={user.appKey} type="text" placeholder="API Key" readonly />
+                                    <n-input value={(user.appId ?? '').toString()} type="text" placeholder="App ID" readonly />
                                     <n-button
                                         focusable={false}
                                         style={{ padding: '0 12px', backgroundColor: 'var(--input-color-disabled)' }}
                                         v-slots={{ icon: () => sompute('CopyRound', { size: '18px', color: 'var(--n-icon-color)' }) }}
-                                        onClick={(e: Event) => onSupporter(user.appKey)}
+                                        onClick={(e: Event) => setSupporter(user.appId)}
                                     ></n-button>
                                 </n-input-group>
                             </n-form-item>
@@ -93,7 +77,7 @@ export default defineComponent({
                                         focusable={false}
                                         style={{ padding: '0 12px', backgroundColor: 'var(--input-color-disabled)' }}
                                         v-slots={{ icon: () => sompute('CopyRound', { size: '18px', color: 'var(--n-icon-color)' }) }}
-                                        onClick={(e: Event) => onSupporter(user.appSecret)}
+                                        onClick={(e: Event) => setSupporter(user.appSecret)}
                                     ></n-button>
                                 </n-input-group>
                             </n-form-item>

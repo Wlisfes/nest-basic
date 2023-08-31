@@ -1,10 +1,10 @@
 <script lang="tsx">
 import { defineComponent, Fragment, type PropType } from 'vue'
-import { useClipboard } from '@vueuse/core'
+import { useSupporter } from '@/hooks/hook-reuser'
 import { useLocale } from '@/hooks/hook-locale'
 import { compute, sompute } from '@/utils/utils-remix'
 import { whereProperter, createElement } from '@/utils/utils-layout'
-import { divineColumn, divineHandler } from '@/utils/utils-common'
+import { divineColumn } from '@/utils/utils-common'
 import { createNotice } from '@/utils/utils-naive'
 import { httpUpdateCaptchaNameService } from '@/api/captcha.service'
 import { fetchService } from '@/components/hooks/fetch-instance'
@@ -18,27 +18,12 @@ export default defineComponent({
     },
     emits: ['update'],
     setup(props, { emit }) {
-        const { copy, isSupported } = useClipboard()
+        const { setSupporter } = useSupporter()
         const { CLIENT_SERVICE, t } = useLocale()
         const CLIENT_TAG_TYPE = {
             activated: 'success',
             disable: 'warning',
             delete: 'error'
-        }
-
-        async function onSupporter(value: string | number) {
-            return await divineHandler(isSupported.value, async () => {
-                try {
-                    await copy(value.toString())
-                    return await createNotice({ title: t('common.copy.notice') })
-                } catch (e) {
-                    return await createNotice({ type: 'error', title: t('common.copy.fail') })
-                }
-            }).then(result => {
-                return divineHandler(!result, () => {
-                    return createNotice({ type: 'error', title: t('common.copy.supported') })
-                })
-            })
         }
 
         function fetchUpdateService() {
@@ -109,7 +94,7 @@ export default defineComponent({
                             label="App ID"
                             content={props.node.appId}
                             copy-icon={Boolean(props.node.appId)}
-                            onCopy={() => onSupporter(props.node.appId)}
+                            onCopy={() => setSupporter(props.node.appId)}
                         ></common-reactive>
                     </n-grid-item>
                     <n-grid-item>
@@ -122,7 +107,7 @@ export default defineComponent({
                             trigger={props.mobile ? 'click' : 'hover'}
                             copy-icon={Boolean(props.node.appSecret)}
                             content={props.node.appSecret}
-                            onCopy={() => onSupporter(props.node.appSecret)}
+                            onCopy={() => setSupporter(props.node.appSecret)}
                         ></common-reactive>
                     </n-grid-item>
                 </n-grid>

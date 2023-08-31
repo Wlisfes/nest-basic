@@ -12,7 +12,7 @@ export const useUser = defineStore({
             email: undefined,
             mobile: undefined,
             status: undefined,
-            appKey: undefined,
+            appId: undefined,
             appSecret: undefined,
             authorize: 'initialize',
             credit: 0,
@@ -28,7 +28,7 @@ export const useUser = defineStore({
                 this.email = data.email
                 this.mobile = data.mobile
                 this.status = data.status
-                this.appKey = data.appKey
+                this.appId = data.appId
                 this.appSecret = data.appSecret
                 this.authorize = data.authorize
                 this.credit = data.credit

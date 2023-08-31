@@ -8,7 +8,7 @@ export interface IUser extends CommonResolver {
     email: string
     avatar: string
     openid: string
-    appKey: string
+    appId: number
     appSecret: string
     authorize: string
     credit: number
