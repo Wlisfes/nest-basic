@@ -12,7 +12,12 @@ export default defineComponent({
         const { dataColumn, dataSource } = useState({
             dataSource: [],
             dataColumn: [
-                { name: 'Image', uid: 1693405215423 },
+                {
+                    name: 'Image',
+                    component: '',
+
+                    uid: 1693405215423
+                },
                 { name: 'Button', uid: 1693405215424 },
                 { name: 'Layout', uid: 1693405215425 },
                 { name: 'Text', uid: 1693405215426 }
