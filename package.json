@@ -12,8 +12,6 @@
         "format": "prettier --write src/"
     },
     "dependencies": {
-        "@ckeditor/ckeditor5-build-classic": "^39.0.1",
-        "@ckeditor/ckeditor5-vue": "^5.1.0",
         "@iconify/json": "^2.2.79",
         "@vueuse/components": "^10.2.1",
         "@vueuse/core": "^10.2.1",

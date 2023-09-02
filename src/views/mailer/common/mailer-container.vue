@@ -1,7 +1,7 @@
 <script lang="tsx">
 import { defineComponent, ref, computed, watch } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
-import { createJsonTransfor, createMjmlTransfor } from '@/utils/utils-mailer'
+import { createJsonTransfor, createMjmlTransfor, NentBlock, type NestOption } from '@/utils/utils-mailer'
 
 export default defineComponent({
     name: 'MailerContainer',
@@ -10,7 +10,7 @@ export default defineComponent({
         maxWidth: { type: Number, default: 640 }
     },
     setup(props) {
-        const dataSource = ref([])
+        const dataSource = ref<Array<NestOption>>([])
         const JsonRender = computed(() => ({
             tagName: 'mjml',
             attributes: {},
@@ -23,7 +23,13 @@ export default defineComponent({
             ]
         }))
 
-        console.log(createJsonTransfor(JsonRender.value))
+        watch(
+            () => JsonRender.value,
+            () => {
+                console.log(createJsonTransfor(JsonRender.value))
+            },
+            { immediate: true, deep: true }
+        )
 
         return () => (
             <n-element class="mailer-container">
@@ -33,10 +39,18 @@ export default defineComponent({
                         ghostClass="ghost"
                         group="element"
                         animation={150}
-                        style={{ flex: 1, margin: '0 auto', width: '100%', maxWidth: props.maxWidth + 'px' }}
+                        style={{
+                            flex: 1,
+                            margin: '0 auto',
+                            width: '100%',
+                            maxWidth: props.maxWidth + 'px',
+                            backgroundColor: 'var(--card-color)'
+                        }}
                     >
-                        {dataSource.value.map((item: any) => {
-                            return (
+                        {dataSource.value.map(item => {
+                            return item.tagName === NentBlock.MJ_TEXT ? (
+                                <element-text key={item.uid} v-model:node={item}></element-text>
+                            ) : (
                                 <n-card key={item.uid} embedded content-style={{ padding: '10px', textAlign: 'center' }}>
                                     <n-text style={{ fontSize: '16px', marginTop: '0', display: 'block' }}>{item.tagName}</n-text>
                                 </n-card>

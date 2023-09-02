@@ -28,7 +28,7 @@ export default defineComponent({
                 case NentBlock.MJ_COLUMN:
                     return createColumnComponent(1, {})
                 case NentBlock.MJ_TEXT:
-                    return createTextComponent({})
+                    return createTextComponent({ attributes: {}, content: 'Holle' })
                 case NentBlock.MJ_BUTTON:
                     return createButtonComponent({})
                 case NentBlock.MJ_IMAGE:

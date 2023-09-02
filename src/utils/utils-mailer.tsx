@@ -20,10 +20,12 @@ export interface NestBlocks {
     icon: INameUI
 }
 export interface NestSource {}
-export interface NestComponent {
-    tagName: string
+export interface NestOption {
+    uid: number
+    tagName: NentBlock
     attributes: Record<string, any>
-    children: Array<NestComponent>
+    children: Array<NestOption>
+    content?: string
 }
 
 /**组件列表**/
@@ -52,95 +54,107 @@ export function createMjmlTransfor(value: string) {
 }
 
 /**根据毫秒生成16位整数**/
-export function createMathRandom() {
+export function createMathNumber() {
     return Number(Date.now().toString() + (Math.ceil(Math.random() * (9 - 1)) + 1).toString())
 }
 
 /**Section组件JSON**/
-export function createSectionComponent(attributes: Record<string, any>, children: Array<NestComponent> = []) {
+export function createSectionComponent(attributes: Record<string, any>, children: Array<NestOption> = []) {
     return {
-        tagName: 'mj-section',
+        uid: createMathNumber(),
+        tagName: NentBlock.MJ_SECTION,
         attributes,
         children
     }
 }
 
 /**Column组件JSON**/
-export function createColumnComponent(line: number = 1, attributes: Record<string, any>, children: Array<NestComponent> = []) {
+export function createColumnComponent(line: number = 1, attributes: Record<string, any>, children: Array<NestOption> = []) {
     return {
-        tagName: 'mj-column',
+        uid: createMathNumber(),
+        tagName: NentBlock.MJ_COLUMN,
         attributes,
         children
     }
 }
 
 /**Text组件JSON**/
-export function createTextComponent(attributes: Record<string, any>, children: Array<NestComponent> = []) {
+export function createTextComponent(option: { attributes: Record<string, any>; content: string }, children: Array<NestOption> = []) {
+    const { attributes = {}, content = '' } = option
     return {
-        tagName: 'mj-text',
+        uid: createMathNumber(),
+        tagName: NentBlock.MJ_TEXT,
         attributes,
+        content,
         children
     }
 }
 
 /**Button组件JSON**/
-export function createButtonComponent(attributes: Record<string, any>, children: Array<NestComponent> = []) {
+export function createButtonComponent(attributes: Record<string, any>, children: Array<NestOption> = []) {
     return {
-        tagName: 'mj-button',
+        uid: createMathNumber(),
+        tagName: NentBlock.MJ_BUTTON,
         attributes,
         children
     }
 }
 
 /**Image组件JSON**/
-export function createImageComponent(attributes: Record<string, any>, children: Array<NestComponent> = []) {
+export function createImageComponent(attributes: Record<string, any>, children: Array<NestOption> = []) {
     return {
-        tagName: 'mj-image',
+        uid: createMathNumber(),
+        tagName: NentBlock.MJ_IMAGE,
         attributes,
         children
     }
 }
 
 /**Divider组件JSON**/
-export function createDividerComponent(attributes: Record<string, any>, children: Array<NestComponent> = []) {
+export function createDividerComponent(attributes: Record<string, any>, children: Array<NestOption> = []) {
     return {
-        tagName: 'mj-divider',
+        uid: createMathNumber(),
+        tagName: NentBlock.MJ_DIVIDER,
         attributes,
         children
     }
 }
 
 /**Social组件JSON**/
-export function createSocialComponent(attributes: Record<string, any>, children: Array<NestComponent> = []) {
+export function createSocialComponent(attributes: Record<string, any>, children: Array<NestOption> = []) {
     return {
-        tagName: 'mj-social',
+        uid: createMathNumber(),
+        tagName: NentBlock.MJ_SOCIAL,
         attributes,
         children
     }
 }
 
 /**Navbar组件JSON**/
-export function createNavbarComponent(attributes: Record<string, any>, children: Array<NestComponent> = []) {
+export function createNavbarComponent(attributes: Record<string, any>, children: Array<NestOption> = []) {
     return {
-        tagName: 'mj-navbar',
+        uid: createMathNumber(),
+        tagName: NentBlock.MJ_NAVBAR,
         attributes,
         children
     }
 }
 
 /**Hero组件JSON**/
-export function createHeroComponent(attributes: Record<string, any>, children: Array<NestComponent> = []) {
+export function createHeroComponent(attributes: Record<string, any>, children: Array<NestOption> = []) {
     return {
-        tagName: 'mj-hero',
+        uid: createMathNumber(),
+        tagName: NentBlock.MJ_HERO,
         attributes,
         children
     }
 }
 
 /**Wrapper组件JSON**/
-export function createWrapperComponent(attributes: Record<string, any>, children: Array<NestComponent> = []) {
+export function createWrapperComponent(attributes: Record<string, any>, children: Array<NestOption> = []) {
     return {
-        tagName: 'mj-wrapper',
+        uid: createMathNumber(),
+        tagName: NentBlock.MJ_WRAPPER,
         attributes,
         children
     }
