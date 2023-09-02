@@ -15,6 +15,10 @@ declare module 'mjml-browser' {
     const mjmlBrowser: (value: string) => { json: Record<string, any>; html: string }
     export default mjmlBrowser
 }
+declare module 'json2mjml' {
+    const json2MjmlBrowser: Function
+    export default json2MjmlBrowser
+}
 
 interface ImportMetaEnv {
     readonly VITE_PORT: string

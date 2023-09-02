@@ -6,6 +6,7 @@ export default defineComponent({
     props: {
         bordered: { type: Boolean, default: false },
         mobile: { type: Boolean, default: true },
+        position: { type: String as PropType<'static' | 'customize'>, default: 'static' },
         maxWidth: { type: String, default: 'auto' },
         scrollbarStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
         contentStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
@@ -34,23 +35,29 @@ export default defineComponent({
 
         return () => (
             <n-el tag="section" class={{ 'common-container': true, 'is-bordered': props.bordered }}>
-                {props.request && !props.mobile && (
-                    <div class="common-container__request" style={props.requestStyle}>
-                        {props.request}
-                    </div>
-                )}
-                <div class="common-container__scrollbar">
-                    <n-scrollbar>
-                        {props.request && props.mobile && (
+                {props.position === 'customize' ? (
+                    <div class="common-container__customize">{slots.default && slots.default()}</div>
+                ) : (
+                    <Fragment>
+                        {props.request && !props.mobile && (
                             <div class="common-container__request" style={props.requestStyle}>
                                 {props.request}
                             </div>
                         )}
-                        <div style={scrollbarStyle.value}>
-                            <div style={contentStyle.value}>{slots.default && <Fragment>{slots.default()}</Fragment>}</div>
+                        <div class="common-container__scrollbar">
+                            <n-scrollbar>
+                                {props.request && props.mobile && (
+                                    <div class="common-container__request" style={props.requestStyle}>
+                                        {props.request}
+                                    </div>
+                                )}
+                                <div style={scrollbarStyle.value}>
+                                    <div style={contentStyle.value}>{slots.default && <Fragment>{slots.default()}</Fragment>}</div>
+                                </div>
+                            </n-scrollbar>
                         </div>
-                    </n-scrollbar>
-                </div>
+                    </Fragment>
+                )}
             </n-el>
         )
     }
@@ -85,7 +92,8 @@ export default defineComponent({
         background-color: var(--card-color);
         box-sizing: border-box;
     }
-    &__scrollbar {
+    &__scrollbar,
+    &__customize {
         position: relative;
         flex: 1;
         display: flex;

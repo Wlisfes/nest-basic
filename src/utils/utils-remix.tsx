@@ -57,7 +57,18 @@ export const RemixUI = {
     RotateSmall: h(<Icon-RotateSmall />),
     Package: h(<Icon-Package />),
     Settings: h(<Icon-Settings />),
-    Template: h(<Icon-Template />)
+    Template: h(<Icon-Template />),
+    BasicColumn: h(<Icon-BasicColumn />),
+    BasicDouble: h(<Icon-BasicDouble />),
+    BasicThree: h(<Icon-BasicThree />),
+    BasicText: h(<Icon-BasicText />),
+    BasicButton: h(<Icon-BasicButton />),
+    BasicImage: h(<Icon-BasicImage />),
+    BasicDivider: h(<Icon-BasicDivider />),
+    BasicSocial: h(<Icon-BasicSocial />),
+    BasicNavbar: h(<Icon-BasicNavbar />),
+    BasicHero: h(<Icon-BasicHero />),
+    BasicWrapper: h(<Icon-BasicWrapper />)
 }
 
 /**图标类型拆解**/
