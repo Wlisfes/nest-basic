@@ -79,7 +79,10 @@ export function createColumnComponent(children: Array<NestOption> = []) {
         uid: createMathNumber(),
         tagName: NestBlock.MJ_COLUMN,
         attributes: {
-            padding: '20px'
+            paddingLeft: 0,
+            paddingRight: 0,
+            paddingBottom: 0,
+            paddingTop: 0
         },
         children
     }

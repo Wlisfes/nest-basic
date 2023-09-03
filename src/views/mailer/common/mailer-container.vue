@@ -7,7 +7,7 @@ export default defineComponent({
     name: 'MailerContainer',
     components: { VueDraggable },
     props: {
-        maxWidth: { type: Number, default: 640 }
+        maxWidth: { type: Number, default: 600 }
     },
     setup(props) {
         const content = ref<string>('')

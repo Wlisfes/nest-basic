@@ -11,11 +11,13 @@ export default defineComponent({
     setup(props, { emit, slots }) {
         const { node } = useVModels(props, emit)
         const elementColumn = computed<CSSProperties>(() => ({
-            textAlign: 'center',
-            padding: '20px 0px',
             fontSize: '0px',
+            textAlign: 'left',
             direction: 'ltr',
-            border: 'none'
+            display: 'inline-block',
+            verticalAlign: 'top',
+            padding: '20px 0',
+            backgroundColor: 'yellowgreen'
         }))
 
         return () => (

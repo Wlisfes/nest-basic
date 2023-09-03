@@ -13,9 +13,10 @@ export default defineComponent({
         const elementSection = computed<CSSProperties>(() => ({
             direction: 'ltr',
             fontSize: '0px',
-            padding: '20px 0px',
             textAlign: 'center',
-            border: 'none'
+            border: 'none',
+            padding: '20px 0',
+            backgroundColor: 'red'
         }))
 
         return () => (
@@ -23,7 +24,11 @@ export default defineComponent({
                 {node.value.children && node.value.children.length > 0 && (
                     <Fragment>
                         {node.value.children.map(item => (
-                            <element-component key={item.uid} v-model:node={item}></element-component>
+                            <element-component
+                                key={item.uid}
+                                v-model:node={item}
+                                style={{ width: 100 / node.value.children.length + '%' }}
+                            ></element-component>
                         ))}
                     </Fragment>
                 )}
