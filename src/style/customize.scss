@@ -1,3 +1,11 @@
+.ck-body-wrapper {
+    .ck-dropdown {
+        .ck-dropdown__arrow {
+            display: none;
+        }
+    }
+}
+
 .n-scrollbar .n-scrollbar-content {
     position: relative;
     min-height: 100%;
