@@ -1,11 +1,12 @@
 <script lang="tsx">
 import { defineComponent, ref } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
-import { compute } from '@/utils/utils-remix'
+import { compute, type INameUI } from '@/utils/utils-remix'
 import {
     nestBlocks,
-    NentBlock,
+    NestBlock,
     type NestBlocks,
+    createSectionComponent,
     createColumnComponent,
     createTextComponent,
     createButtonComponent,
@@ -24,25 +25,28 @@ export default defineComponent({
         const dataBlocks = ref(nestBlocks)
 
         function clone(data: NestBlocks) {
-            switch (data.component) {
-                case NentBlock.MJ_COLUMN:
-                    return createColumnComponent(1, {})
-                case NentBlock.MJ_TEXT:
-                    return createTextComponent({ attributes: {}, content: 'Holle' })
-                case NentBlock.MJ_BUTTON:
-                    return createButtonComponent({})
-                case NentBlock.MJ_IMAGE:
-                    return createImageComponent({})
-                case NentBlock.MJ_DIVIDER:
-                    return createDividerComponent({})
-                case NentBlock.MJ_SOCIAL:
-                    return createSocialComponent({})
-                case NentBlock.MJ_NAVBAR:
-                    return createNavbarComponent({})
-                case NentBlock.MJ_HERO:
-                    return createHeroComponent({})
-                case NentBlock.MJ_WRAPPER:
-                    return createWrapperComponent({})
+            if (data.component === NestBlock.MJ_COLUMN) {
+                const COUNT_COLUMN = { BasicColumn: 1, BasicDouble: 2, BasicThree: 3 }
+                const children = Array.from({ length: COUNT_COLUMN[data.icon as keyof typeof COUNT_COLUMN] }).map(item => {
+                    return createColumnComponent([createTextComponent({ attributes: {}, content: 'Holle' })])
+                })
+                return createSectionComponent(children)
+            } else if (data.component === NestBlock.MJ_TEXT) {
+                return createTextComponent({ attributes: {}, content: 'Holle' })
+            } else if (data.component === NestBlock.MJ_BUTTON) {
+                return createButtonComponent({})
+            } else if (data.component === NestBlock.MJ_IMAGE) {
+                return createImageComponent({})
+            } else if (data.component === NestBlock.MJ_DIVIDER) {
+                return createDividerComponent({})
+            } else if (data.component === NestBlock.MJ_SOCIAL) {
+                return createSocialComponent({})
+            } else if (data.component === NestBlock.MJ_NAVBAR) {
+                return createNavbarComponent({})
+            } else if (data.component === NestBlock.MJ_HERO) {
+                return createHeroComponent({})
+            } else if (data.component === NestBlock.MJ_WRAPPER) {
+                return createWrapperComponent({})
             }
         }
 

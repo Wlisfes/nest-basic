@@ -30,7 +30,7 @@ export default defineComponent({
             })
         })
 
-        return () => <div class="element-text" ref={element}></div>
+        return () => <div class="mj-text element-text" ref={element} style={{ height: '50px' }}></div>
     }
 })
 </script>

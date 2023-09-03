@@ -1,7 +1,7 @@
 <script lang="tsx">
-import { defineComponent, ref, computed, watch } from 'vue'
+import { defineComponent, ref, computed, watch, onMounted } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
-import { createJsonTransfor, createMjmlTransfor, NentBlock, type NestOption } from '@/utils/utils-mailer'
+import { createJsonTransfor, createMjmlTransfor, type NestOption } from '@/utils/utils-mailer'
 
 export default defineComponent({
     name: 'MailerContainer',
@@ -10,6 +10,7 @@ export default defineComponent({
         maxWidth: { type: Number, default: 640 }
     },
     setup(props) {
+        const content = ref<string>('')
         const dataSource = ref<Array<NestOption>>([])
         const JsonRender = computed(() => ({
             tagName: 'mjml',
@@ -23,10 +24,29 @@ export default defineComponent({
             ]
         }))
 
+        onMounted(() => {
+            // const html = createMjmlTransfor(`
+            //     <mjml>
+            //         <mj-body border="1px solid #ff0000">
+            //             <mj-section background-color="#f0f0f0">
+            //                 <mj-column>
+            //                     <mj-text font-style="italic" font-size="20px" color="#626262">Column1</mj-text>
+            //                 </mj-column>
+            //                 <mj-column>
+            //                     <mj-text font-style="italic" font-size="20px" color="#626262">Column2</mj-text>
+            //                 </mj-column>
+            //             </mj-section>
+            //         </mj-body>
+            //     </mjml>
+            // `).html
+            // content.value = html
+            // console.log(html)
+        })
+
         watch(
             () => JsonRender.value,
             () => {
-                console.log(createJsonTransfor(JsonRender.value))
+                content.value = createMjmlTransfor(createJsonTransfor(JsonRender.value)).html
             },
             { immediate: true, deep: true }
         )
@@ -47,19 +67,13 @@ export default defineComponent({
                             backgroundColor: 'var(--card-color)'
                         }}
                     >
-                        {dataSource.value.map(item => {
-                            return item.tagName === NentBlock.MJ_TEXT ? (
-                                <element-text key={item.uid} v-model:node={item}></element-text>
-                            ) : (
-                                <n-card key={item.uid} embedded content-style={{ padding: '10px', textAlign: 'center' }}>
-                                    <n-text style={{ fontSize: '16px', marginTop: '0', display: 'block' }}>{item.tagName}</n-text>
-                                </n-card>
-                            )
-                        })}
+                        {dataSource.value.map(item => (
+                            <element-component key={item.uid} v-model:node={item}></element-component>
+                        ))}
                     </vue-draggable>
                 </n-scrollbar>
                 <n-scrollbar>
-                    <div v-html={createMjmlTransfor(createJsonTransfor(JsonRender.value)).html}></div>
+                    <div v-html={content.value}></div>
                 </n-scrollbar>
             </n-element>
         )

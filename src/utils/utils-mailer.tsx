@@ -1,7 +1,7 @@
 import { type INameUI } from '@/utils/utils-remix'
 import MjmlTransfor from 'mjml-browser'
 import JsonTransfor from 'json2mjml'
-export enum NentBlock {
+export enum NestBlock {
     MJ_SECTION = 'mj-section',
     MJ_COLUMN = 'mj-column',
     MJ_TEXT = 'mj-text',
@@ -16,13 +16,13 @@ export enum NentBlock {
 export interface NestBlocks {
     uid: number
     name: string
-    component: NentBlock
+    component: NestBlock
     icon: INameUI
 }
 export interface NestSource {}
 export interface NestOption {
     uid: number
-    tagName: NentBlock
+    tagName: NestBlock
     attributes: Record<string, any>
     children: Array<NestOption>
     content?: string
@@ -30,17 +30,17 @@ export interface NestOption {
 
 /**组件列表**/
 export const nestBlocks: Array<NestBlocks> = [
-    { uid: 1693405215421, name: '1 Column', component: NentBlock.MJ_COLUMN, icon: 'BasicColumn' },
-    { uid: 1693405215422, name: '2 Columns', component: NentBlock.MJ_COLUMN, icon: 'BasicDouble' },
-    { uid: 1693405215423, name: '3 Columns', component: NentBlock.MJ_COLUMN, icon: 'BasicThree' },
-    { uid: 1693405215424, name: 'Text', component: NentBlock.MJ_TEXT, icon: 'BasicText' },
-    { uid: 1693405215425, name: 'Button', component: NentBlock.MJ_BUTTON, icon: 'BasicButton' },
-    { uid: 1693405215425, name: 'Image', component: NentBlock.MJ_IMAGE, icon: 'BasicImage' },
-    { uid: 1693405215426, name: 'Divider', component: NentBlock.MJ_DIVIDER, icon: 'BasicDivider' },
-    { uid: 1693405215428, name: 'Social', component: NentBlock.MJ_SOCIAL, icon: 'BasicSocial' },
-    { uid: 1693405215429, name: 'Navbar', component: NentBlock.MJ_NAVBAR, icon: 'BasicNavbar' },
-    { uid: 1693405215430, name: 'Hero', component: NentBlock.MJ_HERO, icon: 'BasicHero' },
-    { uid: 1693405215431, name: 'Wrapper', component: NentBlock.MJ_WRAPPER, icon: 'BasicWrapper' }
+    { uid: 1693405215421, name: '1 Column', component: NestBlock.MJ_COLUMN, icon: 'BasicColumn' },
+    { uid: 1693405215422, name: '2 Columns', component: NestBlock.MJ_COLUMN, icon: 'BasicDouble' },
+    { uid: 1693405215423, name: '3 Columns', component: NestBlock.MJ_COLUMN, icon: 'BasicThree' },
+    { uid: 1693405215424, name: 'Text', component: NestBlock.MJ_TEXT, icon: 'BasicText' },
+    { uid: 1693405215425, name: 'Button', component: NestBlock.MJ_BUTTON, icon: 'BasicButton' },
+    { uid: 1693405215425, name: 'Image', component: NestBlock.MJ_IMAGE, icon: 'BasicImage' },
+    { uid: 1693405215426, name: 'Divider', component: NestBlock.MJ_DIVIDER, icon: 'BasicDivider' },
+    { uid: 1693405215428, name: 'Social', component: NestBlock.MJ_SOCIAL, icon: 'BasicSocial' },
+    { uid: 1693405215429, name: 'Navbar', component: NestBlock.MJ_NAVBAR, icon: 'BasicNavbar' },
+    { uid: 1693405215430, name: 'Hero', component: NestBlock.MJ_HERO, icon: 'BasicHero' },
+    { uid: 1693405215431, name: 'Wrapper', component: NestBlock.MJ_WRAPPER, icon: 'BasicWrapper' }
 ]
 
 /**JSON转MJML**/
@@ -59,21 +59,28 @@ export function createMathNumber() {
 }
 
 /**Section组件JSON**/
-export function createSectionComponent(attributes: Record<string, any>, children: Array<NestOption> = []) {
+export function createSectionComponent(children: Array<NestOption> = []) {
     return {
         uid: createMathNumber(),
-        tagName: NentBlock.MJ_SECTION,
-        attributes,
+        tagName: NestBlock.MJ_SECTION,
+        attributes: {
+            paddingLeft: 0,
+            paddingRight: 0,
+            paddingBottom: 0,
+            paddingTop: 0
+        },
         children
     }
 }
 
 /**Column组件JSON**/
-export function createColumnComponent(line: number = 1, attributes: Record<string, any>, children: Array<NestOption> = []) {
+export function createColumnComponent(children: Array<NestOption> = []) {
     return {
         uid: createMathNumber(),
-        tagName: NentBlock.MJ_COLUMN,
-        attributes,
+        tagName: NestBlock.MJ_COLUMN,
+        attributes: {
+            padding: '20px'
+        },
         children
     }
 }
@@ -83,7 +90,7 @@ export function createTextComponent(option: { attributes: Record<string, any>; c
     const { attributes = {}, content = '' } = option
     return {
         uid: createMathNumber(),
-        tagName: NentBlock.MJ_TEXT,
+        tagName: NestBlock.MJ_TEXT,
         attributes,
         content,
         children
@@ -94,7 +101,7 @@ export function createTextComponent(option: { attributes: Record<string, any>; c
 export function createButtonComponent(attributes: Record<string, any>, children: Array<NestOption> = []) {
     return {
         uid: createMathNumber(),
-        tagName: NentBlock.MJ_BUTTON,
+        tagName: NestBlock.MJ_BUTTON,
         attributes,
         children
     }
@@ -104,7 +111,7 @@ export function createButtonComponent(attributes: Record<string, any>, children:
 export function createImageComponent(attributes: Record<string, any>, children: Array<NestOption> = []) {
     return {
         uid: createMathNumber(),
-        tagName: NentBlock.MJ_IMAGE,
+        tagName: NestBlock.MJ_IMAGE,
         attributes,
         children
     }
@@ -114,7 +121,7 @@ export function createImageComponent(attributes: Record<string, any>, children: 
 export function createDividerComponent(attributes: Record<string, any>, children: Array<NestOption> = []) {
     return {
         uid: createMathNumber(),
-        tagName: NentBlock.MJ_DIVIDER,
+        tagName: NestBlock.MJ_DIVIDER,
         attributes,
         children
     }
@@ -124,7 +131,7 @@ export function createDividerComponent(attributes: Record<string, any>, children
 export function createSocialComponent(attributes: Record<string, any>, children: Array<NestOption> = []) {
     return {
         uid: createMathNumber(),
-        tagName: NentBlock.MJ_SOCIAL,
+        tagName: NestBlock.MJ_SOCIAL,
         attributes,
         children
     }
@@ -134,7 +141,7 @@ export function createSocialComponent(attributes: Record<string, any>, children:
 export function createNavbarComponent(attributes: Record<string, any>, children: Array<NestOption> = []) {
     return {
         uid: createMathNumber(),
-        tagName: NentBlock.MJ_NAVBAR,
+        tagName: NestBlock.MJ_NAVBAR,
         attributes,
         children
     }
@@ -144,7 +151,7 @@ export function createNavbarComponent(attributes: Record<string, any>, children:
 export function createHeroComponent(attributes: Record<string, any>, children: Array<NestOption> = []) {
     return {
         uid: createMathNumber(),
-        tagName: NentBlock.MJ_HERO,
+        tagName: NestBlock.MJ_HERO,
         attributes,
         children
     }
@@ -154,7 +161,7 @@ export function createHeroComponent(attributes: Record<string, any>, children: A
 export function createWrapperComponent(attributes: Record<string, any>, children: Array<NestOption> = []) {
     return {
         uid: createMathNumber(),
-        tagName: NentBlock.MJ_WRAPPER,
+        tagName: NestBlock.MJ_WRAPPER,
         attributes,
         children
     }
