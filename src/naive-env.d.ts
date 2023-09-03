@@ -11,12 +11,9 @@ declare global {
         $notification: NotificationApiInjection
         $dialog: DialogApiInjection
         $cookie: CookieStorage
+        InlineEditor: typeof import('@ckeditor/ckeditor5-build-inline')['default']
         AliyunUpload: {
             Vod: new (option) => any
-        }
-        fbq: Function
-        FB: {
-            login: Function
         }
     }
 }
