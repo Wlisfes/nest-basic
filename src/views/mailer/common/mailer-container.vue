@@ -1,7 +1,13 @@
 <script lang="tsx">
 import { defineComponent, ref, computed, watch, onMounted } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
-import { createJsonTransfor, createMjmlTransfor, type NestOption } from '@/utils/utils-mailer'
+import {
+    createJsonTransfor,
+    createMjmlTransfor,
+    createJsonCameTransfor,
+    createStyleCameTransfor,
+    type NestOption
+} from '@/utils/utils-mailer'
 
 export default defineComponent({
     name: 'MailerContainer',
@@ -25,28 +31,40 @@ export default defineComponent({
         }))
 
         onMounted(() => {
-            // const html = createMjmlTransfor(`
-            //     <mjml>
-            //         <mj-body border="1px solid #ff0000">
-            //             <mj-section background-color="#f0f0f0">
-            //                 <mj-column>
-            //                     <mj-text font-style="italic" font-size="20px" color="#626262">Column1</mj-text>
-            //                 </mj-column>
-            //                 <mj-column>
-            //                     <mj-text font-style="italic" font-size="20px" color="#626262">Column2</mj-text>
-            //                 </mj-column>
-            //             </mj-section>
-            //         </mj-body>
-            //     </mjml>
-            // `).html
-            // content.value = html
-            // console.log(html)
+            const node = createMjmlTransfor(`
+                <mjml>
+                    <mj-head>
+                        <mj-style inline="inline">
+                            .blue-text div {
+                                color: blue !important;
+                            }
+                        </mj-style>
+                    </mj-head>
+                    <mj-body border="1px solid #ff0000">
+                        <mj-section background-color="#f0f0f0">
+                            <mj-column>
+                                <mj-text font-style="italic" font-size="20px" color="#626262">Column1</mj-text>
+                            </mj-column>
+                            <mj-column>
+                                <mj-text font-style="italic" font-size="20px" color="#626262">Column2</mj-text>
+                            </mj-column>
+                        </mj-section>
+                    </mj-body>
+                </mjml>
+            `)
+            console.log(node.json)
+            console.log(node.html)
         })
 
         watch(
             () => JsonRender.value,
             () => {
-                content.value = createMjmlTransfor(createJsonTransfor(JsonRender.value)).html
+                const json = createJsonCameTransfor(JSON.parse(JSON.stringify(JsonRender.value)))
+                const mjml = createJsonTransfor(json)
+                const html = createMjmlTransfor(mjml).html
+                content.value = html
+                // console.log(json)
+                // console.log(mjml)
             },
             { immediate: true, deep: true }
         )

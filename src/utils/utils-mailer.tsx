@@ -43,9 +43,9 @@ export const nestBlocks: Array<NestBlocks> = [
     { uid: 1693405215431, name: 'Wrapper', component: NestBlock.MJ_WRAPPER, icon: 'BasicWrapper' }
 ]
 
-/**JSON转MJML**/
-export function createJsonTransfor(value: Record<string, any>) {
-    return JsonTransfor(value)
+/**根据毫秒生成16位整数**/
+export function createMathNumber() {
+    return Number(Date.now().toString() + (Math.ceil(Math.random() * (9 - 1)) + 1).toString())
 }
 
 /**MJML转(JSON、HTML)**/
@@ -53,9 +53,77 @@ export function createMjmlTransfor(value: string) {
     return MjmlTransfor(value)
 }
 
-/**根据毫秒生成16位整数**/
-export function createMathNumber() {
-    return Number(Date.now().toString() + (Math.ceil(Math.random() * (9 - 1)) + 1).toString())
+/**JSON转MJML**/
+export function createJsonTransfor(value: Record<string, any>) {
+    return JsonTransfor(value)
+}
+
+/**对象Key转化**/
+export function createCameTransfor(data: Record<string, any>, reverse: boolean = false) {
+    return Object.keys(data).reduce((current, key) => {
+        if (reverse) {
+            const name = key.replace(/-([a-z])/g, (match, letter) => letter.toUpperCase())
+            current[name] = data[key]
+        } else {
+            const name = key.replace(/[A-Z]/g, match => '-' + match.toLowerCase())
+            current[name] = data[key]
+        }
+        return current
+    }, Object.assign({}))
+}
+
+/**json样式值转化**/
+export function createStyleCameTransfor(data: Record<string, any>, reverse: boolean = false) {
+    if (reverse) {
+    } else {
+        const CSSPropertie = {
+            paddingLeft: (value: number) => value + 'px',
+            paddingRight: (value: number) => value + 'px',
+            paddingBottom: (value: number) => value + 'px',
+            paddingTop: (value: number) => value + 'px',
+            fontSize: (value: number) => value + 'px'
+        }
+        return Object.keys(data).reduce((current, key) => {
+            const valueTransfor = CSSPropertie[key as keyof typeof CSSPropertie]
+            current[key] = valueTransfor ? valueTransfor(data[key]) : data[key]
+            return current
+        }, Object.assign({}))
+    }
+}
+
+/**默认JSON参数**/
+export function createJsonRender(children: Array<NestOption> = []) {
+    return {
+        tagName: 'mjml',
+        attributes: {},
+        children: [
+            {
+                tagName: 'mj-head',
+                attributes: {},
+                children: [
+                    {
+                        tagName: 'mj-style',
+                        attributes: { inline: 'inline' },
+                        content: `.reset-p p { margin: '0px' }`
+                    }
+                ]
+            },
+            {
+                tagName: 'mj-body',
+                attributes: {},
+                children
+            }
+        ]
+    }
+}
+
+/**json样式驼峰字段转化**/
+export function createJsonCameTransfor(data: Record<string, any>, reverse: boolean = false) {
+    data.attributes = createCameTransfor(createStyleCameTransfor(data.attributes ?? {}, reverse), reverse)
+    if (data.children && data.children.length > 0) {
+        data.children = data.children.map((node: Record<string, any>) => createJsonCameTransfor(node, reverse))
+    }
+    return data
 }
 
 /**Section组件JSON**/
@@ -64,10 +132,10 @@ export function createSectionComponent(children: Array<NestOption> = []) {
         uid: createMathNumber(),
         tagName: NestBlock.MJ_SECTION,
         attributes: {
-            paddingLeft: 0,
-            paddingRight: 0,
-            paddingBottom: 0,
-            paddingTop: 0
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingBottom: 10,
+            paddingTop: 10
         },
         children
     }
@@ -79,22 +147,29 @@ export function createColumnComponent(children: Array<NestOption> = []) {
         uid: createMathNumber(),
         tagName: NestBlock.MJ_COLUMN,
         attributes: {
-            paddingLeft: 0,
-            paddingRight: 0,
-            paddingBottom: 0,
-            paddingTop: 0
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingBottom: 10,
+            paddingTop: 10
         },
         children
     }
 }
 
 /**Text组件JSON**/
-export function createTextComponent(option: { attributes: Record<string, any>; content: string }, children: Array<NestOption> = []) {
-    const { attributes = {}, content = '' } = option
+export function createTextComponent(content: string, children: Array<NestOption> = []) {
     return {
         uid: createMathNumber(),
         tagName: NestBlock.MJ_TEXT,
-        attributes,
+        attributes: {
+            paddingLeft: 0,
+            paddingRight: 0,
+            paddingBottom: 0,
+            paddingTop: 0,
+            lineHeight: 1.5,
+            fontSize: 14,
+            cssClass: 'reset-p'
+        },
         content,
         children
     }

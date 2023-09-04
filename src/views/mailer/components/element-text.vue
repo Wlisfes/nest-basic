@@ -13,19 +13,32 @@ export default defineComponent({
         const element = ref<HTMLElement>()
         const instance = ref<typeof window.InlineEditor>()
         const elementText = computed<CSSProperties>(() => ({
-            minHeight: '50px',
-            backgroundColor: 'antiquewhite'
+            backgroundColor: 'antiquewhite',
+            boxSizing: 'border-box',
+            fontSize: `${node.value.attributes.fontSize ?? 0}px`,
+            paddingLeft: `${node.value.attributes.paddingLeft ?? 0}px`,
+            paddingRight: `${node.value.attributes.paddingRight ?? 0}px`,
+            paddingBottom: `${node.value.attributes.paddingBottom ?? 0}px`,
+            paddingTop: `${node.value.attributes.paddingTop ?? 0}px`
         }))
 
         onMounted(() => {
-            window.InlineEditor.create(element.value as HTMLElement, {
-                initialData: node.value.content,
-                language: 'zh',
-                placeholder: '请输入',
-                toolbar: {
-                    shouldNotGroupWhenFull: true
-                }
-            }).then((ckeditor: any) => {
+            // console.log(node.value)
+
+            window.InlineEditor.create(
+                element.value as HTMLElement,
+                {
+                    initialData: node.value.content,
+                    language: 'zh-cn',
+                    placeholder: '请输入',
+                    toolbar: {
+                        shouldNotGroupWhenFull: true
+                    },
+                    fontSize: {
+                        options: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36]
+                    }
+                } as never
+            ).then((ckeditor: any) => {
                 ckeditor.model.document.on('change', (e: any) => {
                     node.value.content = ckeditor.getData()
                 })

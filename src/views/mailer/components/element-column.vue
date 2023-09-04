@@ -16,8 +16,12 @@ export default defineComponent({
             direction: 'ltr',
             display: 'inline-block',
             verticalAlign: 'top',
-            padding: '20px 0',
-            backgroundColor: 'yellowgreen'
+            backgroundColor: 'yellowgreen',
+            boxSizing: 'border-box',
+            paddingLeft: `${node.value.attributes.paddingLeft ?? 0}px`,
+            paddingRight: `${node.value.attributes.paddingRight ?? 0}px`,
+            paddingBottom: `${node.value.attributes.paddingBottom ?? 0}px`,
+            paddingTop: `${node.value.attributes.paddingTop ?? 0}px`
         }))
 
         return () => (

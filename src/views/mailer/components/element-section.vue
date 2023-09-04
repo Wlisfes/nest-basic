@@ -15,8 +15,12 @@ export default defineComponent({
             fontSize: '0px',
             textAlign: 'center',
             border: 'none',
-            padding: '20px 0',
-            backgroundColor: 'red'
+            backgroundColor: 'red',
+            boxSizing: 'border-box',
+            paddingLeft: `${node.value.attributes.paddingLeft ?? 0}px`,
+            paddingRight: `${node.value.attributes.paddingRight ?? 0}px`,
+            paddingBottom: `${node.value.attributes.paddingBottom ?? 0}px`,
+            paddingTop: `${node.value.attributes.paddingTop ?? 0}px`
         }))
 
         return () => (
