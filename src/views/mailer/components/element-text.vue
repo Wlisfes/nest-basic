@@ -13,8 +13,8 @@ export default defineComponent({
         const element = ref<HTMLElement>()
         const instance = ref<typeof window.InlineEditor>()
         const elementText = computed<CSSProperties>(() => ({
-            backgroundColor: 'antiquewhite',
             boxSizing: 'border-box',
+            border: 'none',
             fontSize: `${node.value.attributes.fontSize ?? 0}px`,
             paddingLeft: `${node.value.attributes.paddingLeft ?? 0}px`,
             paddingRight: `${node.value.attributes.paddingRight ?? 0}px`,
@@ -36,6 +36,9 @@ export default defineComponent({
                     },
                     fontSize: {
                         options: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36]
+                    },
+                    lineHeight: {
+                        options: [1, 1.3, 1.5, 1.7, 2, 2.5]
                     }
                 } as never
             ).then((ckeditor: any) => {
@@ -51,3 +54,17 @@ export default defineComponent({
     }
 })
 </script>
+
+<style lang="scss" scoped>
+.element-text {
+    position: relative;
+    transition: box-shadow 200ms;
+    &.ck-focused {
+        box-shadow: 0 0 0 2px var(--primary-color-hover) !important;
+    }
+    :deep(p) {
+        margin-top: 13px;
+        margin-bottom: 13px;
+    }
+}
+</style>

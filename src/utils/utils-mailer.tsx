@@ -162,8 +162,8 @@ export function createTextComponent(content: string, children: Array<NestOption>
         uid: createMathNumber(),
         tagName: NestBlock.MJ_TEXT,
         attributes: {
-            paddingLeft: 0,
-            paddingRight: 0,
+            paddingLeft: 10,
+            paddingRight: 10,
             paddingBottom: 0,
             paddingTop: 0,
             lineHeight: 1.5,
