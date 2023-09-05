@@ -166,7 +166,7 @@ export function createTextComponent(content: string, children: Array<NestOption>
             paddingRight: 10,
             paddingBottom: 0,
             paddingTop: 0,
-            lineHeight: 1.5,
+            lineHeight: 1.6,
             fontSize: 14,
             cssClass: 'reset-p'
         },

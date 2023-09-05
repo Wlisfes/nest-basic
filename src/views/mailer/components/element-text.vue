@@ -62,9 +62,5 @@ export default defineComponent({
     &.ck-focused {
         box-shadow: 0 0 0 2px var(--primary-color-hover) !important;
     }
-    :deep(p) {
-        margin-top: 13px;
-        margin-bottom: 13px;
-    }
 }
 </style>

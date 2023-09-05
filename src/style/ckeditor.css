@@ -10,7 +10,6 @@
 	--ck-sample-color-blue: #1a9aef;
 	--ck-sample-container-width: 1285px;
 	--ck-sample-sidebar-width: 350px;
-	--ck-sample-editor-min-height: 47px;
 	--ck-sample-editor-z-index: 10;
 }
 
@@ -27,8 +26,7 @@ main .ck-editor[role='application'] .ck.ck-content,
 	width: 100%;
 	background: #fff;
 	font-size: 1em;
-	line-height: 1.5em;
-	min-height: var(--ck-sample-editor-min-height);
+	line-height: 1.6em;
 	padding: 1.5em 2em;
 }
 
