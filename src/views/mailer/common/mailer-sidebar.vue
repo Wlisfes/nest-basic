@@ -28,11 +28,12 @@ export default defineComponent({
             if (data.component === NestBlock.MJ_COLUMN) {
                 const COUNT_COLUMN = { BasicColumn: 1, BasicDouble: 2, BasicThree: 3 }
                 const children = Array.from({ length: COUNT_COLUMN[data.icon as keyof typeof COUNT_COLUMN] }).map(item => {
-                    return createColumnComponent([createTextComponent('<p>Holle</b>')])
+                    return createColumnComponent()
+                    // [createTextComponent('<p>Holle</b>')]
                 })
                 return createSectionComponent(children)
             } else if (data.component === NestBlock.MJ_TEXT) {
-                return createTextComponent('Holle')
+                return createTextComponent('<p>Holle</b>')
             } else if (data.component === NestBlock.MJ_BUTTON) {
                 return createButtonComponent({})
             } else if (data.component === NestBlock.MJ_IMAGE) {

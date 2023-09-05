@@ -13,7 +13,7 @@ export default defineComponent({
     name: 'MailerContainer',
     components: { VueDraggable },
     props: {
-        maxWidth: { type: Number, default: 600 }
+        maxWidth: { type: Number, default: 840 }
     },
     setup(props) {
         const content = ref<string>('')
@@ -90,9 +90,9 @@ export default defineComponent({
                         ))}
                     </vue-draggable>
                 </n-scrollbar>
-                <n-scrollbar>
+                {/* <n-scrollbar>
                     <div v-html={content.value}></div>
-                </n-scrollbar>
+                </n-scrollbar> */}
             </n-element>
         )
     }

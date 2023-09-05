@@ -68,7 +68,8 @@ export const RemixUI = {
     BasicSocial: h(<Icon-BasicSocial />),
     BasicNavbar: h(<Icon-BasicNavbar />),
     BasicHero: h(<Icon-BasicHero />),
-    BasicWrapper: h(<Icon-BasicWrapper />)
+    BasicWrapper: h(<Icon-BasicWrapper />),
+    BasicContent: h(<Icon-BasicContent />)
 }
 
 /**图标类型拆解**/
