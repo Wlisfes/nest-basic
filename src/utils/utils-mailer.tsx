@@ -132,10 +132,10 @@ export function createSectionComponent(children: Array<NestOption> = []) {
         uid: createMathNumber(),
         tagName: NestBlock.MJ_SECTION,
         attributes: {
-            paddingLeft: 10,
-            paddingRight: 10,
-            paddingBottom: 10,
-            paddingTop: 10
+            paddingLeft: 0,
+            paddingRight: 0,
+            paddingBottom: 0,
+            paddingTop: 0
         },
         children
     }
@@ -147,10 +147,10 @@ export function createColumnComponent(children: Array<NestOption> = []) {
         uid: createMathNumber(),
         tagName: NestBlock.MJ_COLUMN,
         attributes: {
-            paddingLeft: 10,
-            paddingRight: 10,
-            paddingBottom: 10,
-            paddingTop: 10
+            paddingLeft: 0,
+            paddingRight: 0,
+            paddingBottom: 0,
+            paddingTop: 0
         },
         children
     }

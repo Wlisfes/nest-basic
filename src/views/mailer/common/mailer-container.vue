@@ -73,17 +73,12 @@ export default defineComponent({
             <n-element class="mailer-container">
                 <n-scrollbar>
                     <vue-draggable
+                        class="mailer-container__draggable"
+                        style={{ maxWidth: props.maxWidth + 'px' }}
                         v-model={dataSource.value}
                         ghostClass="ghost"
                         group="element"
                         animation={150}
-                        style={{
-                            flex: 1,
-                            margin: '0 auto',
-                            width: '100%',
-                            maxWidth: props.maxWidth + 'px',
-                            backgroundColor: 'var(--card-color)'
-                        }}
                     >
                         {dataSource.value.map(item => (
                             <element-component key={item.uid} v-model:node={item}></element-component>
@@ -104,5 +99,11 @@ export default defineComponent({
     position: relative;
     display: flex;
     flex: 1;
+    &__draggable {
+        flex: 1;
+        margin: 0 auto;
+        width: 100%;
+        background-color: var(--card-color);
+    }
 }
 </style>

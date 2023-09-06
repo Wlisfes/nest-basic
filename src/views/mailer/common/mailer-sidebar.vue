@@ -23,8 +23,10 @@ export default defineComponent({
     components: { VueDraggable },
     setup() {
         const dataBlocks = ref(nestBlocks)
+        const current = ref<NestBlocks>()
 
         function clone(data: NestBlocks) {
+            current.value = data
             if (data.component === NestBlock.MJ_COLUMN) {
                 const COUNT_COLUMN = { BasicColumn: 1, BasicDouble: 2, BasicThree: 3 }
                 const children = Array.from({ length: COUNT_COLUMN[data.icon as keyof typeof COUNT_COLUMN] }).map(item => {
@@ -51,6 +53,37 @@ export default defineComponent({
             }
         }
 
+        function onMove(e: any) {
+            if (!current.value) {
+                return false
+            } else if (current.value.component === NestBlock.MJ_COLUMN) {
+                if (e.to.classList.contains('mailer-container__draggable')) {
+                    return true
+                }
+                return false
+            } else if (current.value.component === NestBlock.MJ_TEXT) {
+                if (e.to.classList.contains('element-column__draggable')) {
+                    return true
+                }
+                return false
+            } else if (current.value.component === NestBlock.MJ_BUTTON) {
+                if (e.to.classList.contains('element-column__draggable')) {
+                    return true
+                }
+                return false
+            }
+
+            return true
+        }
+
+        function onStart(e: any) {
+            console.log('onStart', e)
+        }
+
+        function onEnd(e: any) {
+            console.log('onEnd', e)
+        }
+
         return () => (
             <n-element class="mailer-sidebar">
                 <n-scrollbar>
@@ -61,6 +94,9 @@ export default defineComponent({
                         sort={false}
                         group={{ name: 'element', pull: 'clone', put: false }}
                         clone={clone}
+                        onMove={onMove}
+                        onStart={onStart}
+                        onEnd={onEnd}
                     >
                         {dataBlocks.value.map(item => (
                             <n-card key={item.uid} embedded content-style={{ padding: '10px', textAlign: 'center' }}>

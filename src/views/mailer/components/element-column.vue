@@ -11,7 +11,7 @@ export default defineComponent({
     props: {
         node: { type: Object as PropType<NestOption>, required: true }
     },
-    setup(props, { emit, slots }) {
+    setup(props, { emit }) {
         const { node } = useVModels(props, emit)
         const elementColumn = computed<CSSProperties>(() => ({
             fontSize: '0px',
@@ -19,7 +19,6 @@ export default defineComponent({
             direction: 'ltr',
             display: 'inline-block',
             verticalAlign: 'top',
-            backgroundColor: 'yellowgreen',
             boxSizing: 'border-box',
             paddingLeft: `${node.value.attributes.paddingLeft ?? 0}px`,
             paddingRight: `${node.value.attributes.paddingRight ?? 0}px`,
@@ -29,7 +28,13 @@ export default defineComponent({
 
         return () => (
             <div class="mj-column element-column" style={elementColumn.value}>
-                <vue-draggable v-model={node.value.children} ghostClass="ghost" group="element" animation={150}>
+                <vue-draggable
+                    class="element-column__draggable"
+                    v-model={node.value.children}
+                    ghostClass="ghost"
+                    group="element"
+                    animation={150}
+                >
                     {node.value.children.length === 0 && (
                         <div style={{ textAlign: 'center', padding: '20px 10px 10px' }}>
                             <n-icon size={100} depth={3} color="var(--text-color-2)" component={compute('BasicContent')} />

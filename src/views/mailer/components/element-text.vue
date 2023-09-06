@@ -13,8 +13,8 @@ export default defineComponent({
         const element = ref<HTMLElement>()
         const instance = ref<typeof window.InlineEditor>()
         const elementText = computed<CSSProperties>(() => ({
+            boxShadow: 'none',
             boxSizing: 'border-box',
-            border: 'none',
             fontSize: `${node.value.attributes.fontSize ?? 0}px`,
             paddingLeft: `${node.value.attributes.paddingLeft ?? 0}px`,
             paddingRight: `${node.value.attributes.paddingRight ?? 0}px`,
@@ -23,11 +23,12 @@ export default defineComponent({
         }))
 
         onMounted(() => {
-            // console.log(node.value)
+            console.log(node.value)
 
             window.InlineEditor.create(
                 element.value as HTMLElement,
                 {
+                    readOnly: true,
                     initialData: node.value.content,
                     language: 'zh-cn',
                     placeholder: '请输入',
@@ -45,12 +46,14 @@ export default defineComponent({
                 ckeditor.model.document.on('change', (e: any) => {
                     node.value.content = ckeditor.getData()
                 })
+                ckeditor.enableReadOnlyMode(node.value.uid.toString())
+                console.log(ckeditor.enableReadOnlyMode)
 
                 return (instance.value = ckeditor)
             })
         })
 
-        return () => <div class="mj-text element-text" ref={element} style={elementText.value}></div>
+        return () => <div class="mj-text element-text" id={node.value.uid.toString()} ref={element} style={elementText.value}></div>
     }
 })
 </script>
@@ -58,9 +61,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 .element-text {
     position: relative;
-    transition: box-shadow 200ms;
+    border-color: transparent;
+    transition: border-color 0.2s;
     &.ck-focused {
-        box-shadow: 0 0 0 2px var(--primary-color-hover) !important;
+        border-color: var(--primary-color-hover) !important;
     }
 }
 </style>

@@ -11,10 +11,7 @@ export default defineComponent({
 
         return () => (
             <common-container position="customize" bordered>
-                <n-element style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
-                    <mailer-sidebar></mailer-sidebar>
-                    <mailer-container></mailer-container>
-                </n-element>
+                <element-currenter></element-currenter>
             </common-container>
         )
     }
