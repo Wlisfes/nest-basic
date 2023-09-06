@@ -17,16 +17,15 @@ export default defineComponent({
             if (node.value.tagName === NestBlock.MJ_SECTION) {
                 /**块组件**/
                 return <element-section key={node.value.uid} v-model:node={node.value}></element-section>
-            }
-
-            if (node.value.tagName === NestBlock.MJ_COLUMN) {
+            } else if (node.value.tagName === NestBlock.MJ_COLUMN) {
                 /**列组件**/
                 return <element-column key={node.value.uid} v-model:node={node.value}></element-column>
-            }
-
-            if (node.value.tagName === NestBlock.MJ_TEXT) {
+            } else if (node.value.tagName === NestBlock.MJ_TEXT) {
                 /**文本组件**/
                 return <element-text key={node.value.uid} v-model:node={node.value}></element-text>
+            } else if (node.value.tagName === NestBlock.MJ_BUTTON) {
+                /**按钮组件**/
+                return <element-button key={node.value.uid} v-model:node={node.value}></element-button>
             }
 
             return <div>111</div>

@@ -1,6 +1,8 @@
 import { type INameUI } from '@/utils/utils-remix'
+import { Observer } from '@/utils/utils-observer'
 import MjmlTransfor from 'mjml-browser'
 import JsonTransfor from 'json2mjml'
+
 export enum NestBlock {
     MJ_SECTION = 'mj-section',
     MJ_COLUMN = 'mj-column',
@@ -27,6 +29,10 @@ export interface NestOption {
     children: Array<NestOption>
     content?: string
 }
+
+export const START_DRAG_EVENT = 'START_DRAG_EVENT'
+export const END_DRAG_EVENT = 'END_DRAG_EVENT'
+export const observer = new Observer()
 
 /**组件列表**/
 export const nestBlocks: Array<NestBlocks> = [
@@ -167,8 +173,7 @@ export function createTextComponent(content: string, children: Array<NestOption>
             paddingBottom: 0,
             paddingTop: 0,
             lineHeight: 1.6,
-            fontSize: 14,
-            cssClass: 'reset-p'
+            fontSize: 14
         },
         content,
         children
@@ -176,11 +181,23 @@ export function createTextComponent(content: string, children: Array<NestOption>
 }
 
 /**Button组件JSON**/
-export function createButtonComponent(attributes: Record<string, any>, children: Array<NestOption> = []) {
+export function createButtonComponent(content: string, children: Array<NestOption> = []) {
     return {
         uid: createMathNumber(),
         tagName: NestBlock.MJ_BUTTON,
-        attributes,
+        attributes: {
+            paddingLeft: 25,
+            paddingRight: 25,
+            paddingBottom: 10,
+            paddingTop: 10,
+            lineHeight: 1.6,
+            fontSize: 14,
+            fontWeight: 'normal',
+            align: 'center',
+            color: '#ffffff',
+            backgroundColor: '#414141'
+        },
+        content,
         children
     }
 }

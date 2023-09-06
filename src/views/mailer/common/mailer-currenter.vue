@@ -1,19 +1,19 @@
 <script lang="tsx">
-import { defineComponent, ref, onMounted, computed, type PropType } from 'vue'
-import { useVModels } from '@vueuse/core'
+import { defineComponent, ref, computed, onMounted, watch } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
-import { useState } from '@/hooks/hook-state'
-import { compute, type INameUI } from '@/utils/utils-remix'
+import { compute } from '@/utils/utils-remix'
 import * as mailer from '@/utils/utils-mailer'
 
 export default defineComponent({
     name: 'MailerCurrenter',
     components: { VueDraggable },
     props: {
-        maxWidth: { type: Number, default: 840 }
+        maxWidth: { type: Number, default: 640 }
     },
     setup(props) {
-        const { state, setState } = useState({ current: null, content: '' })
+        // const observer = ref(mailer.observer)
+        const content = ref<string>('')
+        const execute = ref<boolean>(false)
         const current = ref<mailer.NestBlocks>()
         const dataBlocks = ref(mailer.nestBlocks)
         const dataSource = ref<Array<mailer.NestOption>>([])
@@ -29,6 +29,81 @@ export default defineComponent({
             ]
         }))
 
+        onMounted(() => {
+            const node = mailer.createMjmlTransfor(`
+                <mjml>
+                    <mj-head>
+                        <mj-style inline="inline">
+                            .blue-text div {
+                                color: blue !important;
+                            }
+                        </mj-style>
+                    </mj-head>
+                    <mj-body border="1px solid #ff0000">
+                        <mj-section background-color="#f0f0f0">
+                            <mj-column>
+                                <mj-text font-style="italic" font-size="20px" color="#626262">Column1</mj-text>
+                            </mj-column>
+                            <mj-column>
+                                <mj-text font-style="italic" font-size="20px" color="#626262">Column2</mj-text>
+                            </mj-column>
+                        </mj-section>
+                        <mj-section background-color="#f0f0f0">
+                            <mj-column>
+                                <mj-button>
+                                    Get Your Order Here
+                                </mj-button>
+                                <mj-button>
+                                    Get Your Order Here
+                                </mj-button>
+                            </mj-column>
+                        </mj-section>
+                        <mj-section background-color="#f0f0f0">
+                            <mj-column>
+                                <mj-button>
+                                    Get Your Order Here
+                                </mj-button>
+                            </mj-column>
+                            <mj-column>
+                                <mj-button
+                                    align="center"
+                                    background-color="#f3a333"
+                                    color="#ffffff"
+                                    font-weight="normal"
+                                    border-radius="30px"
+                                    line-height="1.6"
+                                    target="_blank"
+                                    vertical-align="middle"
+                                    border="none"
+                                    text-align="center"
+                                    href="#"
+                                    font-size="13px"
+                                    padding="10px 25px 10px 25px"
+                                >
+                                    Get Your Order Here
+                                </mj-button>
+                            </mj-column>
+                        </mj-section>
+                    </mj-body>
+                </mjml>
+            `)
+            console.log(node.json)
+            content.value = node.html
+        })
+
+        watch(
+            () => JsonRender.value,
+            () => {
+                const json = mailer.createJsonCameTransfor(JSON.parse(JSON.stringify(JsonRender.value)))
+                const mjml = mailer.createJsonTransfor(json)
+                const html = mailer.createMjmlTransfor(mjml).html
+
+                // console.log(json)
+                // console.log(mjml)
+            },
+            { immediate: true, deep: true }
+        )
+
         function clone(data: mailer.NestBlocks) {
             current.value = data
             if (data.component === mailer.NestBlock.MJ_COLUMN) {
@@ -40,7 +115,7 @@ export default defineComponent({
             } else if (data.component === mailer.NestBlock.MJ_TEXT) {
                 return mailer.createTextComponent('<p>Holle</b>')
             } else if (data.component === mailer.NestBlock.MJ_BUTTON) {
-                return mailer.createButtonComponent({})
+                return mailer.createButtonComponent('Get Your Order Here')
             } else if (data.component === mailer.NestBlock.MJ_IMAGE) {
                 return mailer.createImageComponent({})
             } else if (data.component === mailer.NestBlock.MJ_DIVIDER) {
@@ -56,11 +131,19 @@ export default defineComponent({
             }
         }
 
+        function onStart() {
+            return mailer.observer.emit(mailer.START_DRAG_EVENT)
+        }
+
+        function onEnd() {
+            return mailer.observer.emit(mailer.END_DRAG_EVENT)
+        }
+
         function onMove(e: any) {
             if (!current.value) {
                 return false
             } else if (current.value.component === mailer.NestBlock.MJ_COLUMN) {
-                if (e.to.classList.contains('mailer-container__draggable')) {
+                if (e.to.classList.contains('context-draggable')) {
                     return true
                 }
                 return false
@@ -77,14 +160,6 @@ export default defineComponent({
             }
 
             return true
-        }
-
-        function onStart(e: any) {
-            console.log('onStart', e)
-        }
-
-        function onEnd(e: any) {
-            console.log('onEnd', e)
         }
 
         return () => (
@@ -122,9 +197,12 @@ export default defineComponent({
                             animation={150}
                         >
                             {dataSource.value.map(item => (
-                                <element-component key={item.uid} v-model:node={item}></element-component>
+                                <element-component key={item.uid} v-model:node={item} execute={execute.value}></element-component>
                             ))}
                         </vue-draggable>
+                    </n-scrollbar>
+                    <n-scrollbar>
+                        <div v-html={content.value}></div>
                     </n-scrollbar>
                 </n-element>
             </n-element>

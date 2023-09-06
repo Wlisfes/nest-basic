@@ -1,17 +1,17 @@
 <script lang="tsx">
 import { defineComponent, ref, onMounted, computed, type PropType, type CSSProperties } from 'vue'
 import { useVModels } from '@vueuse/core'
-import { type NestOption } from '@/utils/utils-mailer'
+import * as mailer from '@/utils/utils-mailer'
 
 export default defineComponent({
     name: 'ElementText',
     props: {
-        node: { type: Object as PropType<NestOption>, required: true }
+        node: { type: Object as PropType<mailer.NestOption>, required: true }
     },
     setup(props, { emit }) {
         const { node } = useVModels(props, emit)
         const element = ref<HTMLElement>()
-        const instance = ref<typeof window.InlineEditor>()
+        const instance = ref<any>()
         const elementText = computed<CSSProperties>(() => ({
             boxShadow: 'none',
             boxSizing: 'border-box',
@@ -22,13 +22,18 @@ export default defineComponent({
             paddingTop: `${node.value.attributes.paddingTop ?? 0}px`
         }))
 
-        onMounted(() => {
-            console.log(node.value)
+        mailer.observer.on(mailer.START_DRAG_EVENT, () => {
+            console.log('开始')
+        })
 
+        mailer.observer.on(mailer.END_DRAG_EVENT, () => {
+            console.log('结束')
+        })
+
+        onMounted(() => {
             window.InlineEditor.create(
                 element.value as HTMLElement,
                 {
-                    readOnly: true,
                     initialData: node.value.content,
                     language: 'zh-cn',
                     placeholder: '请输入',
@@ -46,14 +51,12 @@ export default defineComponent({
                 ckeditor.model.document.on('change', (e: any) => {
                     node.value.content = ckeditor.getData()
                 })
-                ckeditor.enableReadOnlyMode(node.value.uid.toString())
-                console.log(ckeditor.enableReadOnlyMode)
 
                 return (instance.value = ckeditor)
             })
         })
 
-        return () => <div class="mj-text element-text" id={node.value.uid.toString()} ref={element} style={elementText.value}></div>
+        return () => <div class="mj-text element-text" ref={element} style={elementText.value}></div>
     }
 })
 </script>

@@ -36,7 +36,7 @@ export default defineComponent({
                     animation={150}
                 >
                     {node.value.children.length === 0 && (
-                        <div style={{ textAlign: 'center', padding: '20px 10px 10px' }}>
+                        <div style={{ textAlign: 'center', padding: '10px 10px 20px' }}>
                             <n-icon size={100} depth={3} color="var(--text-color-2)" component={compute('BasicContent')} />
                             <n-text style={{ fontSize: '16px', color: 'var(--text-color-3)', display: 'block' }}>
                                 Drop Content block here
