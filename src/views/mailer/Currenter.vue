@@ -11,7 +11,7 @@ export default defineComponent({
 
         return () => (
             <common-container position="customize" bordered>
-                <element-currenter></element-currenter>
+                <mailer-currenter></mailer-currenter>
             </common-container>
         )
     }
