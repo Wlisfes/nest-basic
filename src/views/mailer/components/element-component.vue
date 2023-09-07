@@ -26,6 +26,9 @@ export default defineComponent({
             } else if (node.value.tagName === NestBlock.MJ_BUTTON) {
                 /**按钮组件**/
                 return <element-button key={node.value.uid} v-model:node={node.value}></element-button>
+            } else if (node.value.tagName === NestBlock.MJ_IMAGE) {
+                /**图片组件**/
+                return <element-image key={node.value.uid} v-model:node={node.value}></element-image>
             }
 
             return <div>111</div>

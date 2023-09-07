@@ -12,6 +12,7 @@ export default defineComponent({
     },
     setup(props) {
         const content = ref<string>('')
+        const html = ref<string>('')
         const execute = ref<boolean>(false)
         const current = ref<Mailer.NestBlocks>()
         const dataBlocks = ref(Mailer.nestBlocks)
@@ -45,6 +46,11 @@ export default defineComponent({
                             </mj-column>
                             <mj-column>
                                 <mj-text font-style="italic" font-size="20px" color="#626262">Column2</mj-text>
+                            </mj-column>
+                        </mj-section>
+                        <mj-section background-color="#f0f0f0">
+                            <mj-column>
+                                <mj-image width="100%" src="https://www.online-image-editor.com//styles/2014/images/example_image.png" />
                             </mj-column>
                         </mj-section>
                         <mj-section background-color="#f0f0f0">
@@ -87,7 +93,7 @@ export default defineComponent({
                 </mjml>
             `)
             console.log(node.json)
-            content.value = node.html
+            html.value = node.html
         })
 
         watch(
@@ -99,7 +105,7 @@ export default defineComponent({
 
                 // console.log(json)
                 console.log(mjml)
-                // content.value = html
+                content.value = html
             },
             { immediate: true, deep: true }
         )
@@ -117,7 +123,7 @@ export default defineComponent({
             } else if (data.component === Mailer.NestBlock.MJ_BUTTON) {
                 return Mailer.createButtonComponent('Get Your Order Here')
             } else if (data.component === Mailer.NestBlock.MJ_IMAGE) {
-                return Mailer.createImageComponent({})
+                return Mailer.createImageComponent(`https://www.online-image-editor.com//styles/2014/images/example_image.png`)
             } else if (data.component === Mailer.NestBlock.MJ_DIVIDER) {
                 return Mailer.createDividerComponent({})
             } else if (data.component === Mailer.NestBlock.MJ_SOCIAL) {
@@ -153,6 +159,11 @@ export default defineComponent({
                 }
                 return false
             } else if (current.value.component === Mailer.NestBlock.MJ_BUTTON) {
+                if (e.to.classList.contains('element-column__draggable')) {
+                    return true
+                }
+                return false
+            } else if (current.value.component === Mailer.NestBlock.MJ_IMAGE) {
                 if (e.to.classList.contains('element-column__draggable')) {
                     return true
                 }
@@ -202,6 +213,7 @@ export default defineComponent({
                         </vue-draggable>
                     </n-scrollbar>
                     <n-scrollbar>
+                        <div v-html={html.value}></div>
                         <div v-html={content.value}></div>
                     </n-scrollbar>
                 </n-element>

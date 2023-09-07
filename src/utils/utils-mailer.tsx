@@ -87,7 +87,9 @@ export function createStyleCameTransfor(data: Record<string, any>, reverse: bool
             paddingRight: (value: number) => value + 'px',
             paddingBottom: (value: number) => value + 'px',
             paddingTop: (value: number) => value + 'px',
-            fontSize: (value: number) => value + 'px'
+            fontSize: (value: number) => value + 'px',
+            borderRadius: (value: number) => value + 'px',
+            width: (value: number) => value + 'px'
         }
         return Object.keys(data).reduce((current, key) => {
             const valueTransfor = CSSPropertie[key as keyof typeof CSSPropertie]
@@ -190,14 +192,14 @@ export function createButtonComponent(content: string, children: Array<NestOptio
             paddingRight: 10,
             paddingBottom: 10,
             paddingTop: 10,
-            innerPadding: '10px 16px',
+            innerPadding: '10px 20px',
             align: 'center',
             backgroundColor: '#414141',
             fontSize: 14,
             lineHeight: 1.3,
             color: '#ffffff',
             fontWeight: 'normal',
-            borderRadius: 10
+            borderRadius: 0
         },
         content,
         children
@@ -205,11 +207,22 @@ export function createButtonComponent(content: string, children: Array<NestOptio
 }
 
 /**Image组件JSON**/
-export function createImageComponent(attributes: Record<string, any>, children: Array<NestOption> = []) {
+export function createImageComponent(src = '', children: Array<NestOption> = []) {
     return {
         uid: createMathNumber(),
         tagName: NestBlock.MJ_IMAGE,
-        attributes,
+        attributes: {
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingBottom: 10,
+            paddingTop: 10,
+            align: 'center',
+            src: src,
+            srcset: '',
+            alt: '',
+            width: 400,
+            borderRadius: 0
+        },
         children
     }
 }
