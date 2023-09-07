@@ -11,22 +11,25 @@ export default defineComponent({
     setup(props, { emit }) {
         const { node } = useVModels(props, emit)
         const buttonColumn = computed<CSSProperties>(() => ({
-            textAlign: node.value.attributes.align
+            textAlign: node.value.attributes.align,
+            paddingLeft: `${node.value.attributes.paddingLeft ?? 0}px`,
+            paddingRight: `${node.value.attributes.paddingRight ?? 0}px`,
+            paddingBottom: `${node.value.attributes.paddingBottom ?? 0}px`,
+            paddingTop: `${node.value.attributes.paddingTop ?? 0}px`
         }))
         const buttonColumnText = computed<CSSProperties>(() => ({
-            fontWeight: node.value.attributes.fontWeight,
-            color: node.value.attributes.color,
-            backgroundColor: node.value.attributes.backgroundColor,
-            fontSize: `${node.value.attributes.fontSize ?? 0}px`,
             wordBreak: 'break-word',
             boxSizing: 'border-box',
             outline: 'none',
             border: 'none',
             display: 'inline-block',
-            paddingLeft: `${node.value.attributes.paddingLeft ?? 0}px`,
-            paddingRight: `${node.value.attributes.paddingRight ?? 0}px`,
-            paddingBottom: `${node.value.attributes.paddingBottom ?? 0}px`,
-            paddingTop: `${node.value.attributes.paddingTop ?? 0}px`
+            fontSize: `${node.value.attributes.fontSize ?? 0}px`,
+            lineHeight: node.value.attributes.lineHeight,
+            color: node.value.attributes.color,
+            fontWeight: node.value.attributes.fontWeight,
+            backgroundColor: node.value.attributes.backgroundColor,
+            padding: node.value.attributes.innerPadding,
+            borderRadius: `${node.value.attributes.borderRadius ?? 0}px`
         }))
 
         return () => (

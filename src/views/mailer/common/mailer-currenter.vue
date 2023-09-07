@@ -2,7 +2,7 @@
 import { defineComponent, ref, computed, onMounted, watch } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { compute } from '@/utils/utils-remix'
-import * as mailer from '@/utils/utils-mailer'
+import * as Mailer from '@/utils/utils-mailer'
 
 export default defineComponent({
     name: 'MailerCurrenter',
@@ -11,12 +11,11 @@ export default defineComponent({
         maxWidth: { type: Number, default: 640 }
     },
     setup(props) {
-        // const observer = ref(mailer.observer)
         const content = ref<string>('')
         const execute = ref<boolean>(false)
-        const current = ref<mailer.NestBlocks>()
-        const dataBlocks = ref(mailer.nestBlocks)
-        const dataSource = ref<Array<mailer.NestOption>>([])
+        const current = ref<Mailer.NestBlocks>()
+        const dataBlocks = ref(Mailer.nestBlocks)
+        const dataSource = ref<Array<Mailer.NestOption>>([])
         const JsonRender = computed(() => ({
             tagName: 'mjml',
             attributes: {},
@@ -30,7 +29,7 @@ export default defineComponent({
         }))
 
         onMounted(() => {
-            const node = mailer.createMjmlTransfor(`
+            const node = Mailer.createMjmlTransfor(`
                 <mjml>
                     <mj-head>
                         <mj-style inline="inline">
@@ -50,7 +49,7 @@ export default defineComponent({
                         </mj-section>
                         <mj-section background-color="#f0f0f0">
                             <mj-column>
-                                <mj-button>
+                                <mj-button inner-padding="20px 30px">
                                     Get Your Order Here
                                 </mj-button>
                                 <mj-button>
@@ -60,7 +59,7 @@ export default defineComponent({
                         </mj-section>
                         <mj-section background-color="#f0f0f0">
                             <mj-column>
-                                <mj-button>
+                                <mj-button padding-bottom="10px" padding-left="10px" padding-right="10px" padding-top="10px">
                                     Get Your Order Here
                                 </mj-button>
                             </mj-column>
@@ -94,65 +93,66 @@ export default defineComponent({
         watch(
             () => JsonRender.value,
             () => {
-                const json = mailer.createJsonCameTransfor(JSON.parse(JSON.stringify(JsonRender.value)))
-                const mjml = mailer.createJsonTransfor(json)
-                const html = mailer.createMjmlTransfor(mjml).html
+                const json = Mailer.createJsonCameTransfor(JSON.parse(JSON.stringify(JsonRender.value)))
+                const mjml = Mailer.createJsonTransfor(json)
+                const html = Mailer.createMjmlTransfor(mjml).html
 
                 // console.log(json)
-                // console.log(mjml)
+                console.log(mjml)
+                // content.value = html
             },
             { immediate: true, deep: true }
         )
 
-        function clone(data: mailer.NestBlocks) {
+        function clone(data: Mailer.NestBlocks) {
             current.value = data
-            if (data.component === mailer.NestBlock.MJ_COLUMN) {
+            if (data.component === Mailer.NestBlock.MJ_COLUMN) {
                 const COUNT_COLUMN = { BasicColumn: 1, BasicDouble: 2, BasicThree: 3 }
                 const children = Array.from({ length: COUNT_COLUMN[data.icon as keyof typeof COUNT_COLUMN] }).map(item => {
-                    return mailer.createColumnComponent()
+                    return Mailer.createColumnComponent()
                 })
-                return mailer.createSectionComponent(children)
-            } else if (data.component === mailer.NestBlock.MJ_TEXT) {
-                return mailer.createTextComponent('<p>Holle</b>')
-            } else if (data.component === mailer.NestBlock.MJ_BUTTON) {
-                return mailer.createButtonComponent('Get Your Order Here')
-            } else if (data.component === mailer.NestBlock.MJ_IMAGE) {
-                return mailer.createImageComponent({})
-            } else if (data.component === mailer.NestBlock.MJ_DIVIDER) {
-                return mailer.createDividerComponent({})
-            } else if (data.component === mailer.NestBlock.MJ_SOCIAL) {
-                return mailer.createSocialComponent({})
-            } else if (data.component === mailer.NestBlock.MJ_NAVBAR) {
-                return mailer.createNavbarComponent({})
-            } else if (data.component === mailer.NestBlock.MJ_HERO) {
-                return mailer.createHeroComponent({})
-            } else if (data.component === mailer.NestBlock.MJ_WRAPPER) {
-                return mailer.createWrapperComponent({})
+                return Mailer.createSectionComponent(children)
+            } else if (data.component === Mailer.NestBlock.MJ_TEXT) {
+                return Mailer.createTextComponent('<p>Holle</b>')
+            } else if (data.component === Mailer.NestBlock.MJ_BUTTON) {
+                return Mailer.createButtonComponent('Get Your Order Here')
+            } else if (data.component === Mailer.NestBlock.MJ_IMAGE) {
+                return Mailer.createImageComponent({})
+            } else if (data.component === Mailer.NestBlock.MJ_DIVIDER) {
+                return Mailer.createDividerComponent({})
+            } else if (data.component === Mailer.NestBlock.MJ_SOCIAL) {
+                return Mailer.createSocialComponent({})
+            } else if (data.component === Mailer.NestBlock.MJ_NAVBAR) {
+                return Mailer.createNavbarComponent({})
+            } else if (data.component === Mailer.NestBlock.MJ_HERO) {
+                return Mailer.createHeroComponent({})
+            } else if (data.component === Mailer.NestBlock.MJ_WRAPPER) {
+                return Mailer.createWrapperComponent({})
             }
         }
 
         function onStart() {
-            return mailer.observer.emit(mailer.START_DRAG_EVENT)
+            return Mailer.observer.emit(Mailer.START_DRAG_EVENT)
         }
 
         function onEnd() {
-            return mailer.observer.emit(mailer.END_DRAG_EVENT)
+            return Mailer.observer.emit(Mailer.END_DRAG_EVENT)
         }
 
         function onMove(e: any) {
             if (!current.value) {
                 return false
-            } else if (current.value.component === mailer.NestBlock.MJ_COLUMN) {
+            } else if (current.value.component === Mailer.NestBlock.MJ_COLUMN) {
                 if (e.to.classList.contains('context-draggable')) {
                     return true
                 }
                 return false
-            } else if (current.value.component === mailer.NestBlock.MJ_TEXT) {
+            } else if (current.value.component === Mailer.NestBlock.MJ_TEXT) {
                 if (e.to.classList.contains('element-column__draggable')) {
                     return true
                 }
                 return false
-            } else if (current.value.component === mailer.NestBlock.MJ_BUTTON) {
+            } else if (current.value.component === Mailer.NestBlock.MJ_BUTTON) {
                 if (e.to.classList.contains('element-column__draggable')) {
                     return true
                 }

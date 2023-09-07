@@ -186,16 +186,18 @@ export function createButtonComponent(content: string, children: Array<NestOptio
         uid: createMathNumber(),
         tagName: NestBlock.MJ_BUTTON,
         attributes: {
-            paddingLeft: 25,
-            paddingRight: 25,
+            paddingLeft: 10,
+            paddingRight: 10,
             paddingBottom: 10,
             paddingTop: 10,
-            lineHeight: 1.6,
-            fontSize: 14,
-            fontWeight: 'normal',
+            innerPadding: '10px 16px',
             align: 'center',
+            backgroundColor: '#414141',
+            fontSize: 14,
+            lineHeight: 1.3,
             color: '#ffffff',
-            backgroundColor: '#414141'
+            fontWeight: 'normal',
+            borderRadius: 10
         },
         content,
         children

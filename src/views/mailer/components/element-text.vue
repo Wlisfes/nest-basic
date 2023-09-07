@@ -1,12 +1,12 @@
 <script lang="tsx">
 import { defineComponent, ref, onMounted, computed, type PropType, type CSSProperties } from 'vue'
 import { useVModels } from '@vueuse/core'
-import * as mailer from '@/utils/utils-mailer'
+import * as Mailer from '@/utils/utils-mailer'
 
 export default defineComponent({
     name: 'ElementText',
     props: {
-        node: { type: Object as PropType<mailer.NestOption>, required: true }
+        node: { type: Object as PropType<Mailer.NestOption>, required: true }
     },
     setup(props, { emit }) {
         const { node } = useVModels(props, emit)
@@ -21,14 +21,6 @@ export default defineComponent({
             paddingBottom: `${node.value.attributes.paddingBottom ?? 0}px`,
             paddingTop: `${node.value.attributes.paddingTop ?? 0}px`
         }))
-
-        mailer.observer.on(mailer.START_DRAG_EVENT, () => {
-            console.log('开始')
-        })
-
-        mailer.observer.on(mailer.END_DRAG_EVENT, () => {
-            console.log('结束')
-        })
 
         onMounted(() => {
             window.InlineEditor.create(
@@ -52,11 +44,23 @@ export default defineComponent({
                     node.value.content = ckeditor.getData()
                 })
 
+                Mailer.observer.on(Mailer.START_DRAG_EVENT, () => {
+                    if (!ckeditor.isReadOnly) {
+                        ckeditor.enableReadOnlyMode(node.value.uid.toString())
+                    }
+                })
+
+                Mailer.observer.on(Mailer.END_DRAG_EVENT, () => {
+                    if (ckeditor.isReadOnly) {
+                        ckeditor.disableReadOnlyMode(node.value.uid.toString())
+                    }
+                })
+
                 return (instance.value = ckeditor)
             })
         })
 
-        return () => <div class="mj-text element-text" ref={element} style={elementText.value}></div>
+        return () => <div class="mj-text element-text" id={node.value.uid.toString()} ref={element} style={elementText.value}></div>
     }
 })
 </script>
