@@ -1,7 +1,9 @@
 <script lang="tsx">
 import { defineComponent, ref, computed, onMounted, watch } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
-import { type NestOption, createMjmlTransfor, createJsonTransfor, createJsonCameTransfor } from '@/utils/utils-mailer'
+import { useState } from '@/hooks/hook-state'
+import { whereProperter } from '@/utils/utils-layout'
+import { type NestOption, type NestState, createMjmlTransfor, createJsonTransfor, createJsonCameTransfor } from '@/utils/utils-mailer'
 
 export default defineComponent({
     name: 'MailerCurrenter',
@@ -10,8 +12,12 @@ export default defineComponent({
         maxWidth: { type: Number, default: 640 }
     },
     setup(props) {
+        const { state, setState } = useState<NestState>({
+            current: undefined
+        })
         const content = ref<string>('')
         const html = ref<string>('')
+
         const dataSource = ref<Array<NestOption>>([])
         const JsonRender = computed(() => ({
             tagName: 'mjml',
@@ -106,6 +112,12 @@ export default defineComponent({
             { immediate: true, deep: true }
         )
 
+        async function onCurrentElement(data: NestOption) {
+            await setState({ current: data })
+
+            console.log(data)
+        }
+
         return () => (
             <n-element style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
                 <mailer-browser></mailer-browser>
@@ -113,14 +125,28 @@ export default defineComponent({
                     <n-scrollbar>
                         <vue-draggable
                             class="context-draggable"
-                            style={{ maxWidth: props.maxWidth + 'px' }}
+                            draggable=".context-element"
                             v-model={dataSource.value}
-                            ghostClass="ghost"
-                            group="element"
+                            force-fallback={false}
+                            group={{ name: 'element' }}
                             animation={150}
                         >
                             {dataSource.value.map(item => (
-                                <element-component key={item.uid} v-model:node={item}></element-component>
+                                <div key={item.uid} class={{ 'context-element': true }} onClick={(e: Event) => onCurrentElement(item)}>
+                                    <div
+                                        class="context-element__wrapper"
+                                        style={whereProperter(state.current?.uid === item.uid, {
+                                            borderColor: 'var(--primary-color-hover)'
+                                        })}
+                                    ></div>
+                                    {item.children.length === 0 ? (
+                                        <div class="context-element__children">
+                                            <vue-draggable></vue-draggable>
+                                        </div>
+                                    ) : (
+                                        <div class="context-element__children"></div>
+                                    )}
+                                </div>
                             ))}
                         </vue-draggable>
                     </n-scrollbar>
@@ -141,11 +167,33 @@ export default defineComponent({
     display: flex;
     flex: 1;
     overflow: hidden;
-    .context-draggable {
-        flex: 1;
-        margin: 0 auto;
-        width: 100%;
-        background-color: var(--card-color);
+    :deep(.element-browser.sortable-ghost) {
+        border-width: 2px;
+        border-style: dashed;
+        border-color: var(--primary-color-hover);
+    }
+}
+.context-draggable {
+    flex: 1;
+    margin: 0 auto;
+    width: 100%;
+    background-color: var(--card-color);
+}
+.context-element {
+    height: 120px;
+    position: relative;
+    overflow: hidden;
+    &__wrapper {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        border: 2px solid transparent;
+        border-radius: 2px;
+        &:hover {
+            border-color: var(--primary-color-hover);
+        }
     }
 }
 </style>
