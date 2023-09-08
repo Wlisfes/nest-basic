@@ -1,12 +1,12 @@
 <script lang="tsx">
 import { defineComponent, ref, onMounted, computed, type PropType, type CSSProperties } from 'vue'
 import { useVModels } from '@vueuse/core'
-import * as Mailer from '@/utils/utils-mailer'
+import { type NestOption, observer, OBSERVER_START_DRAG_EVENT, OBSERVER_END_DRAG_EVENT } from '@/utils/utils-mailer'
 
 export default defineComponent({
     name: 'ElementText',
     props: {
-        node: { type: Object as PropType<Mailer.NestOption>, required: true }
+        node: { type: Object as PropType<NestOption>, required: true }
     },
     setup(props, { emit }) {
         const { node } = useVModels(props, emit)
@@ -44,13 +44,13 @@ export default defineComponent({
                     node.value.content = ckeditor.getData()
                 })
 
-                Mailer.observer.on(Mailer.START_DRAG_EVENT, () => {
+                observer.on(OBSERVER_START_DRAG_EVENT, () => {
                     if (!ckeditor.isReadOnly) {
                         ckeditor.enableReadOnlyMode(node.value.uid.toString())
                     }
                 })
 
-                Mailer.observer.on(Mailer.END_DRAG_EVENT, () => {
+                observer.on(OBSERVER_END_DRAG_EVENT, () => {
                     if (ckeditor.isReadOnly) {
                         ckeditor.disableReadOnlyMode(node.value.uid.toString())
                     }

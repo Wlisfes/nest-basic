@@ -39,25 +39,30 @@ export default defineComponent({
         }
 
         function onMove(e: any) {
-            if (!current.value) {
+            console.log(e)
+            const { component } = current.value ?? {}
+
+            if (!component) {
                 return false
-            } else if (current.value.component === NestBlock.MJ_COLUMN) {
+            }
+            if ([NestBlock.MJ_SECTION, NestBlock.MJ_COLUMN, NestBlock.MJ_HERO, NestBlock.MJ_WRAPPER].includes(component)) {
                 if (e.to.classList.contains('context-draggable')) {
                     return true
                 }
                 return false
-            } else if (current.value.component === NestBlock.MJ_TEXT) {
-                if (e.to.classList.contains('element-column__draggable')) {
-                    return true
-                }
-                return false
-            } else if (current.value.component === NestBlock.MJ_BUTTON) {
-                if (e.to.classList.contains('element-column__draggable')) {
-                    return true
-                }
-                return false
-            } else if (current.value.component === NestBlock.MJ_IMAGE) {
-                if (e.to.classList.contains('element-column__draggable')) {
+            }
+
+            if (
+                [
+                    NestBlock.MJ_TEXT,
+                    NestBlock.MJ_BUTTON,
+                    NestBlock.MJ_IMAGE,
+                    NestBlock.MJ_DIVIDER,
+                    NestBlock.MJ_SOCIAL,
+                    NestBlock.MJ_NAVBAR
+                ].includes(component)
+            ) {
+                if (e.to.classList.contains('element-column__children')) {
                     return true
                 }
                 return false
@@ -71,7 +76,8 @@ export default defineComponent({
             if (data.component === NestBlock.MJ_COLUMN) {
                 const COUNT_COLUMN = { BasicColumn: 1, BasicDouble: 2, BasicThree: 3 }
                 const children = Array.from({ length: COUNT_COLUMN[data.icon as keyof typeof COUNT_COLUMN] }).map(item => {
-                    return createColumnComponent([createTextComponent('<p>Holle</b>')])
+                    // return createColumnComponent([createTextComponent('<p>Holle</b>')])
+                    return createColumnComponent()
                 })
                 return createSectionComponent(children)
             } else if (data.component === NestBlock.MJ_TEXT) {
@@ -96,7 +102,7 @@ export default defineComponent({
         return () => (
             <n-element class="mailer-browser">
                 <n-scrollbar>
-                    <n-element style={{ padding: '15px' }}>
+                    <n-element style={{ padding: '15px', userSelect: 'none' }}>
                         <n-h2 prefix="bar" style={{ marginBottom: '15px' }}>
                             Layout
                         </n-h2>
@@ -108,6 +114,7 @@ export default defineComponent({
                             sort={false}
                             group={{ name: 'element', pull: 'clone', put: false }}
                             clone={clone}
+                            onMove={onMove}
                             onStart={onStart}
                             onEnd={onEnd}
                         >
@@ -124,7 +131,7 @@ export default defineComponent({
                             ))}
                         </vue-draggable>
                     </n-element>
-                    <n-element style={{ padding: '15px' }}>
+                    <n-element style={{ padding: '15px', userSelect: 'none' }}>
                         <n-h2 prefix="bar" type="info" style={{ marginBottom: '15px' }}>
                             Element
                         </n-h2>
@@ -136,8 +143,9 @@ export default defineComponent({
                             sort={false}
                             group={{ name: 'elements', pull: 'clone', put: false }}
                             clone={clone}
-                            //onStart={onStart}
-                            //onEnd={onEnd}
+                            onMove={onMove}
+                            onStart={onStart}
+                            onEnd={onEnd}
                         >
                             {dataElementBlocks.value.map(item => (
                                 <n-card

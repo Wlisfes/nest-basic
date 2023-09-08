@@ -1,9 +1,16 @@
 <script lang="tsx">
-import { defineComponent, ref, computed, onMounted, watch } from 'vue'
+import { defineComponent, ref, computed, onMounted, watch, Fragment } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { useState } from '@/hooks/hook-state'
 import { whereProperter } from '@/utils/utils-layout'
-import { type NestOption, type NestState, createMjmlTransfor, createJsonTransfor, createJsonCameTransfor } from '@/utils/utils-mailer'
+import {
+    type NestOption,
+    type NestState,
+    NestBlock,
+    createMjmlTransfor,
+    createJsonTransfor,
+    createJsonCameTransfor
+} from '@/utils/utils-mailer'
 
 export default defineComponent({
     name: 'MailerCurrenter',
@@ -105,12 +112,16 @@ export default defineComponent({
                 const mjml = createJsonTransfor(json)
                 const html = createMjmlTransfor(mjml).html
 
-                // console.log(json)
+                console.log(json)
                 console.log(mjml)
                 content.value = html
             },
             { immediate: true, deep: true }
         )
+
+        function onMouseover(e: MouseEvent) {}
+
+        function onMouseout(e: MouseEvent) {}
 
         async function onCurrentElement(data: NestOption) {
             await setState({ current: data })
@@ -126,26 +137,27 @@ export default defineComponent({
                         <vue-draggable
                             class="context-draggable"
                             draggable=".context-element"
+                            ghostClass="context-draggable-ghost"
                             v-model={dataSource.value}
                             force-fallback={false}
                             group={{ name: 'element' }}
                             animation={150}
                         >
                             {dataSource.value.map(item => (
-                                <div key={item.uid} class={{ 'context-element': true }} onClick={(e: Event) => onCurrentElement(item)}>
+                                <div
+                                    class="context-element"
+                                    key={item.uid}
+                                    onClick={(e: Event) => onCurrentElement(item)}
+                                    onMouseover={onMouseover}
+                                    onMouseout={onMouseout}
+                                >
                                     <div
                                         class="context-element__wrapper"
                                         style={whereProperter(state.current?.uid === item.uid, {
                                             borderColor: 'var(--primary-color-hover)'
                                         })}
                                     ></div>
-                                    {item.children.length === 0 ? (
-                                        <div class="context-element__children">
-                                            <vue-draggable></vue-draggable>
-                                        </div>
-                                    ) : (
-                                        <div class="context-element__children"></div>
-                                    )}
+                                    {item.tagName === NestBlock.MJ_SECTION ? <element-section v-model:node={item}></element-section> : null}
                                 </div>
                             ))}
                         </vue-draggable>
@@ -168,8 +180,10 @@ export default defineComponent({
     flex: 1;
     overflow: hidden;
     :deep(.element-browser.sortable-ghost) {
+        opacity: 1;
         border-width: 2px;
         border-style: dashed;
+        border-radius: 0;
         border-color: var(--primary-color-hover);
     }
 }
@@ -177,12 +191,15 @@ export default defineComponent({
     flex: 1;
     margin: 0 auto;
     width: 100%;
-    background-color: var(--card-color);
+}
+.context-draggable-ghost {
+    opacity: 1;
+    background-color: var(--placeholder-color);
 }
 .context-element {
-    height: 120px;
     position: relative;
     overflow: hidden;
+    cursor: pointer;
     &__wrapper {
         position: absolute;
         left: 0;
@@ -191,6 +208,7 @@ export default defineComponent({
         bottom: 0;
         border: 2px solid transparent;
         border-radius: 2px;
+        transition: border-color 200ms;
         &:hover {
             border-color: var(--primary-color-hover);
         }

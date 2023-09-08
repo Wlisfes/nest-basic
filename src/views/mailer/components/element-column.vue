@@ -3,7 +3,7 @@ import { defineComponent, ref, computed, Fragment, onMounted, type PropType, typ
 import { useVModels } from '@vueuse/core'
 import { VueDraggable } from 'vue-draggable-plus'
 import { compute } from '@/utils/utils-remix'
-import { type NestOption } from '@/utils/utils-mailer'
+import { type NestOption, NestBlock } from '@/utils/utils-mailer'
 
 export default defineComponent({
     name: 'ElementColumn',
@@ -14,6 +14,7 @@ export default defineComponent({
     setup(props, { emit }) {
         const { node } = useVModels(props, emit)
         const elementColumn = computed<CSSProperties>(() => ({
+            width: '100%',
             fontSize: '0px',
             textAlign: 'left',
             direction: 'ltr',
@@ -28,27 +29,38 @@ export default defineComponent({
 
         return () => (
             <div class="mj-column element-column" style={elementColumn.value}>
-                <vue-draggable
-                    class="element-column__draggable"
-                    v-model={node.value.children}
-                    ghostClass="ghost"
-                    group="element"
-                    animation={150}
-                >
-                    {node.value.children.length === 0 && (
-                        <div style={{ textAlign: 'center', padding: '10px 10px 20px' }}>
-                            <n-icon size={100} depth={3} color="var(--text-color-2)" component={compute('BasicContent')} />
-                            <n-text style={{ fontSize: '16px', color: 'var(--text-color-3)', display: 'block' }}>
-                                Drop Content block here
-                            </n-text>
-                        </div>
-                    )}
-                    {node.value.children.map(item => (
-                        <element-component key={item.uid} v-model:node={item}></element-component>
-                    ))}
-                </vue-draggable>
+                {node.value.children.length === 0 ? (
+                    <vue-draggable
+                        class="element-column__children"
+                        style={{ height: '98px', border: '2px dashed #e0e0e6' }}
+                        draggable=".element-component"
+                        v-model={node.value.children}
+                        group={{ name: 'elements', pull: false, put: ['elements'] }}
+                    >
+                        <div></div>
+                    </vue-draggable>
+                ) : (
+                    <vue-draggable
+                        class="element-column__children"
+                        draggable=".element-component"
+                        v-model={node.value.children}
+                        group={{ name: 'elements', pull: false, put: ['elements'] }}
+                    >
+                        {node.value.children.map(item => (
+                            <div key={item.uid} class="element-component">
+                                {item.tagName === NestBlock.MJ_TEXT ? <element-text v-model:node={item}></element-text> : null}
+                            </div>
+                        ))}
+                    </vue-draggable>
+                )}
             </div>
         )
     }
 })
 </script>
+
+<style lang="scss" scoped>
+.element-column {
+    position: relative;
+}
+</style>

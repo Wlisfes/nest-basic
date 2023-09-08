@@ -1,21 +1,26 @@
 <script lang="tsx">
 import { defineComponent, ref, onMounted, computed, Fragment, type PropType, type CSSProperties } from 'vue'
+import { VueDraggable } from 'vue-draggable-plus'
 import { useVModels } from '@vueuse/core'
 import { NestBlock, type NestOption } from '@/utils/utils-mailer'
 
 export default defineComponent({
     name: 'ElementSection',
+    components: { VueDraggable },
     props: {
+        maxWidth: { type: Number, default: 640 },
         node: { type: Object as PropType<NestOption>, required: true }
     },
     setup(props, { emit }) {
         const { node } = useVModels(props, emit)
-        const elementSection = computed<CSSProperties>(() => ({
+        const nodeSection = computed<CSSProperties>(() => ({
             direction: 'ltr',
             fontSize: '0px',
             textAlign: 'center',
             border: 'none',
             boxSizing: 'border-box',
+            margin: '0 auto',
+            maxWidth: `${props.maxWidth}px`,
             paddingLeft: `${node.value.attributes.paddingLeft ?? 0}px`,
             paddingRight: `${node.value.attributes.paddingRight ?? 0}px`,
             paddingBottom: `${node.value.attributes.paddingBottom ?? 0}px`,
@@ -23,51 +28,49 @@ export default defineComponent({
         }))
 
         return () => (
-            <div class="mj-section element-section" style={elementSection.value}>
-                {node.value.children && node.value.children.length > 0 && (
-                    <Fragment>
+            <div class="mj-section element-section" style={nodeSection.value}>
+                {node.value.children.length === 0 ? (
+                    <vue-draggable
+                        class="element-section__children"
+                        style={{ minHeight: '98px', border: '2px dashed var(--border-color)' }}
+                        draggable=".element-component"
+                        v-model={node.value.children}
+                        group={{ name: 'elements', pull: false, put: ['elements'] }}
+                    >
+                        <div></div>
+                    </vue-draggable>
+                ) : (
+                    <vue-draggable
+                        class="element-section__children"
+                        draggable=".element-component"
+                        v-model={node.value.children}
+                        group={{ name: 'elements', pull: false, put: ['elements'] }}
+                    >
                         {node.value.children.map(item => (
-                            <element-component
+                            <div
+                                class="element-component"
                                 key={item.uid}
-                                v-model:node={item}
-                                style={{ width: 100 / node.value.children.length + '%' }}
-                            ></element-component>
+                                style={{
+                                    display: 'flex',
+                                    width: item.attributes.width ? `${item.attributes.width}%` : `${100 / node.value.children.length}%`
+                                }}
+                            >
+                                {item.tagName === NestBlock.MJ_COLUMN ? <element-column v-model:node={item}></element-column> : null}
+                            </div>
                         ))}
-                    </Fragment>
+                    </vue-draggable>
                 )}
-
-                {/* {node.value.tagName === NestBlock.MJ_COLUMN ? (
-                    <element-column
-                        v-model:node={node.value}
-                        v-slots={{
-                            default: () => (
-                                <Fragment>
-                                    {(node.value.children ?? []).map(item => (
-                                        <element-section key={node.value.uid} v-model:node={item}></element-section>
-                                    ))}
-                                </Fragment>
-                            )
-                        }}
-                    ></element-column>
-                ) : node.value.tagName === NestBlock.MJ_TEXT ? (
-                    <element-text v-model:node={node.value}></element-text>
-                ) : node.value.tagName === NestBlock.MJ_BUTTON ? (
-                    <element-button v-model:node={node.value}></element-button>
-                ) : node.value.tagName === NestBlock.MJ_IMAGE ? (
-                    <element-image v-model:node={node.value}></element-image>
-                ) : node.value.tagName === NestBlock.MJ_DIVIDER ? (
-                    <element-divider v-model:node={node.value}></element-divider>
-                ) : node.value.tagName === NestBlock.MJ_SOCIAL ? (
-                    <element-social v-model:node={node.value}></element-social>
-                ) : node.value.tagName === NestBlock.MJ_NAVBAR ? (
-                    <element-navbar v-model:node={node.value}></element-navbar>
-                ) : node.value.tagName === NestBlock.MJ_HERO ? (
-                    <element-hero v-model:node={node.value}></element-hero>
-                ) : node.value.tagName === NestBlock.MJ_WRAPPER ? (
-                    <element-wrapper v-model:node={node.value}></element-wrapper>
-                ) : null} */}
             </div>
         )
     }
 })
 </script>
+
+<style lang="scss" scoped>
+.element-section {
+    position: relative;
+    &__children {
+        display: flex;
+    }
+}
+</style>

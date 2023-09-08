@@ -97,8 +97,8 @@ export function createStyleCameTransfor(data: Record<string, any>, reverse: bool
             paddingBottom: (value: number) => value + 'px',
             paddingTop: (value: number) => value + 'px',
             fontSize: (value: number) => value + 'px',
-            borderRadius: (value: number) => value + 'px',
-            width: (value: number) => value + 'px'
+            borderRadius: (value: number) => value + 'px'
+            // width: (value: number) => value + 'px'
         }
         return Object.keys(data).reduce((current, key) => {
             const valueTransfor = CSSPropertie[key as keyof typeof CSSPropertie]
@@ -151,8 +151,8 @@ export function createSectionComponent(children: Array<NestOption> = []) {
         attributes: {
             paddingLeft: 0,
             paddingRight: 0,
-            paddingBottom: 0,
-            paddingTop: 0
+            paddingBottom: 20,
+            paddingTop: 20
         },
         children
     }
@@ -164,8 +164,8 @@ export function createColumnComponent(children: Array<NestOption> = []) {
         uid: createMathNumber(),
         tagName: NestBlock.MJ_COLUMN,
         attributes: {
-            paddingLeft: 0,
-            paddingRight: 0,
+            paddingLeft: 20,
+            paddingRight: 20,
             paddingBottom: 0,
             paddingTop: 0
         },
