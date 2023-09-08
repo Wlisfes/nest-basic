@@ -30,8 +30,8 @@ export interface NestOption {
     content?: string
 }
 
-export const START_DRAG_EVENT = 'START_DRAG_EVENT'
-export const END_DRAG_EVENT = 'END_DRAG_EVENT'
+export const OBSERVER_START_DRAG_EVENT = 'OBSERVER_START_DRAG_EVENT'
+export const OBSERVER_END_DRAG_EVENT = 'OBSERVER_END_DRAG_EVENT'
 export const observer = new Observer()
 
 /**组件列表**/

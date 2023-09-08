@@ -1,8 +1,7 @@
 <script lang="tsx">
 import { defineComponent, ref, computed, onMounted, watch } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
-import { compute } from '@/utils/utils-remix'
-import * as Mailer from '@/utils/utils-mailer'
+import { type NestOption, createMjmlTransfor, createJsonTransfor, createJsonCameTransfor } from '@/utils/utils-mailer'
 
 export default defineComponent({
     name: 'MailerCurrenter',
@@ -13,10 +12,7 @@ export default defineComponent({
     setup(props) {
         const content = ref<string>('')
         const html = ref<string>('')
-        const execute = ref<boolean>(false)
-        const current = ref<Mailer.NestBlocks>()
-        const dataBlocks = ref(Mailer.nestBlocks)
-        const dataSource = ref<Array<Mailer.NestOption>>([])
+        const dataSource = ref<Array<NestOption>>([])
         const JsonRender = computed(() => ({
             tagName: 'mjml',
             attributes: {},
@@ -30,7 +26,7 @@ export default defineComponent({
         }))
 
         onMounted(() => {
-            const node = Mailer.createMjmlTransfor(`
+            const node = createMjmlTransfor(`
                 <mjml>
                     <mj-head>
                         <mj-style inline="inline">
@@ -99,9 +95,9 @@ export default defineComponent({
         watch(
             () => JsonRender.value,
             () => {
-                const json = Mailer.createJsonCameTransfor(JSON.parse(JSON.stringify(JsonRender.value)))
-                const mjml = Mailer.createJsonTransfor(json)
-                const html = Mailer.createMjmlTransfor(mjml).html
+                const json = createJsonCameTransfor(JSON.parse(JSON.stringify(JsonRender.value)))
+                const mjml = createJsonTransfor(json)
+                const html = createMjmlTransfor(mjml).html
 
                 // console.log(json)
                 console.log(mjml)
@@ -110,94 +106,10 @@ export default defineComponent({
             { immediate: true, deep: true }
         )
 
-        function clone(data: Mailer.NestBlocks) {
-            current.value = data
-            if (data.component === Mailer.NestBlock.MJ_COLUMN) {
-                const COUNT_COLUMN = { BasicColumn: 1, BasicDouble: 2, BasicThree: 3 }
-                const children = Array.from({ length: COUNT_COLUMN[data.icon as keyof typeof COUNT_COLUMN] }).map(item => {
-                    return Mailer.createColumnComponent()
-                })
-                return Mailer.createSectionComponent(children)
-            } else if (data.component === Mailer.NestBlock.MJ_TEXT) {
-                return Mailer.createTextComponent('<p>Holle</b>')
-            } else if (data.component === Mailer.NestBlock.MJ_BUTTON) {
-                return Mailer.createButtonComponent('Get Your Order Here')
-            } else if (data.component === Mailer.NestBlock.MJ_IMAGE) {
-                return Mailer.createImageComponent(`https://www.online-image-editor.com//styles/2014/images/example_image.png`)
-            } else if (data.component === Mailer.NestBlock.MJ_DIVIDER) {
-                return Mailer.createDividerComponent({})
-            } else if (data.component === Mailer.NestBlock.MJ_SOCIAL) {
-                return Mailer.createSocialComponent({})
-            } else if (data.component === Mailer.NestBlock.MJ_NAVBAR) {
-                return Mailer.createNavbarComponent({})
-            } else if (data.component === Mailer.NestBlock.MJ_HERO) {
-                return Mailer.createHeroComponent({})
-            } else if (data.component === Mailer.NestBlock.MJ_WRAPPER) {
-                return Mailer.createWrapperComponent({})
-            }
-        }
-
-        function onStart() {
-            return Mailer.observer.emit(Mailer.START_DRAG_EVENT)
-        }
-
-        function onEnd() {
-            return Mailer.observer.emit(Mailer.END_DRAG_EVENT)
-        }
-
-        function onMove(e: any) {
-            if (!current.value) {
-                return false
-            } else if (current.value.component === Mailer.NestBlock.MJ_COLUMN) {
-                if (e.to.classList.contains('context-draggable')) {
-                    return true
-                }
-                return false
-            } else if (current.value.component === Mailer.NestBlock.MJ_TEXT) {
-                if (e.to.classList.contains('element-column__draggable')) {
-                    return true
-                }
-                return false
-            } else if (current.value.component === Mailer.NestBlock.MJ_BUTTON) {
-                if (e.to.classList.contains('element-column__draggable')) {
-                    return true
-                }
-                return false
-            } else if (current.value.component === Mailer.NestBlock.MJ_IMAGE) {
-                if (e.to.classList.contains('element-column__draggable')) {
-                    return true
-                }
-                return false
-            }
-
-            return true
-        }
-
         return () => (
-            <n-element class="mailer-currenter" style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
-                <n-element class="current-sidebar">
-                    <n-scrollbar>
-                        <vue-draggable
-                            class="sidebar-draggable"
-                            v-model={dataBlocks.value}
-                            animation={150}
-                            sort={false}
-                            group={{ name: 'element', pull: 'clone', put: false }}
-                            clone={clone}
-                            onMove={onMove}
-                            onStart={onStart}
-                            onEnd={onEnd}
-                        >
-                            {dataBlocks.value.map(item => (
-                                <n-card key={item.uid} embedded content-style={{ padding: '10px', textAlign: 'center' }}>
-                                    <n-icon component={compute(item.icon)} size={68} />
-                                    <n-text style={{ fontSize: '16px', marginTop: '0', display: 'block' }}>{item.name}</n-text>
-                                </n-card>
-                            ))}
-                        </vue-draggable>
-                    </n-scrollbar>
-                </n-element>
-                <n-element class="current-context">
+            <n-element style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
+                <mailer-browser></mailer-browser>
+                <n-element class="mailer-currenter">
                     <n-scrollbar>
                         <vue-draggable
                             class="context-draggable"
@@ -208,7 +120,7 @@ export default defineComponent({
                             animation={150}
                         >
                             {dataSource.value.map(item => (
-                                <element-component key={item.uid} v-model:node={item} execute={execute.value}></element-component>
+                                <element-component key={item.uid} v-model:node={item}></element-component>
                             ))}
                         </vue-draggable>
                     </n-scrollbar>
@@ -225,40 +137,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .mailer-currenter {
-    flex: 1;
-    display: flex;
-    overflow: hidden;
-}
-
-.current-sidebar {
-    position: relative;
-    width: 320px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    background-color: var(--card-color);
-    .sidebar-draggable {
-        padding: 15px;
-        display: grid;
-        gap: 15px;
-        grid-template-columns: repeat(2, minmax(0px, 1fr));
-        .n-card {
-            color: var(--text-color-3);
-            cursor: all-scroll;
-            &:hover {
-                color: var(--primary-color-hover);
-                .n-text {
-                    color: var(--primary-color-hover);
-                }
-            }
-        }
-    }
-}
-
-.current-context {
     position: relative;
     display: flex;
     flex: 1;
+    overflow: hidden;
     .context-draggable {
         flex: 1;
         margin: 0 auto;
