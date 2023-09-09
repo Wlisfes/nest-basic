@@ -132,12 +132,10 @@ export default defineComponent({
         return () => (
             <n-element style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
                 <mailer-browser></mailer-browser>
-                {/* <n-element class="element-currenter">
+                <n-element class="element-currenter">
                     <n-scrollbar>
                         <vue-draggable
                             class="app-currenter"
-                            //draggable=".context-element"
-                            ghostClass="context-draggable-ghost"
                             v-model={dataSource.value}
                             force-fallback={false}
                             group={{ name: 'element' }}
@@ -145,19 +143,19 @@ export default defineComponent({
                         >
                             {dataSource.value.map(item => (
                                 <div
-                                    class="context-element"
+                                    class="element-component"
                                     key={item.uid}
                                     onClick={(e: Event) => onCurrentElement(item)}
                                     onMouseover={onMouseover}
                                     onMouseout={onMouseout}
                                 >
+                                    {item.tagName === NestBlock.MJ_SECTION ? <element-section v-model:node={item}></element-section> : null}
                                     <div
-                                        class="context-element__wrapper"
+                                        class="element-component__wrapper"
                                         style={whereProperter(state.current?.uid === item.uid, {
                                             borderColor: 'var(--primary-color-hover)'
                                         })}
                                     ></div>
-                                    {item.tagName === NestBlock.MJ_SECTION ? <element-section v-model:node={item}></element-section> : null}
                                 </div>
                             ))}
                         </vue-draggable>
@@ -166,7 +164,7 @@ export default defineComponent({
                         <div v-html={html.value}></div>
                         <div v-html={content.value}></div>
                     </n-scrollbar>
-                </n-element> */}
+                </n-element>
             </n-element>
         )
     }
@@ -179,27 +177,32 @@ export default defineComponent({
     display: flex;
     flex: 1;
     overflow: hidden;
-    :deep(.element-browser.sortable-ghost) {
-        opacity: 1;
-        border-width: 2px;
-        border-style: dashed;
-        border-radius: 0;
-        border-color: var(--primary-color-hover);
-    }
 }
+
 .app-currenter {
     flex: 1;
     margin: 0 auto;
     width: 100%;
+    :deep(.block-browser > .n-card) {
+        color: var(--text-color-3);
+        cursor: all-scroll;
+        border-width: 2px;
+        border-style: dashed;
+        border-color: var(--primary-color-hover);
+        height: 42px;
+        .n-icon {
+            display: none;
+        }
+    }
 }
-.context-draggable-ghost {
-    opacity: 1;
-    background-color: var(--placeholder-color);
-}
-.context-element {
+
+.element-component {
     position: relative;
     overflow: hidden;
     cursor: pointer;
+    &.sortable-ghost {
+        background-color: #ff0000;
+    }
     &__wrapper {
         position: absolute;
         left: 0;

@@ -3,6 +3,7 @@ import { defineComponent, ref, computed, Fragment, onMounted, type PropType, typ
 import { useVModels } from '@vueuse/core'
 import { VueDraggable } from 'vue-draggable-plus'
 import { compute } from '@/utils/utils-remix'
+import { whereProperter } from '@/utils/utils-layout'
 import { type NestOption, NestBlock } from '@/utils/utils-mailer'
 
 export default defineComponent({
@@ -13,60 +14,52 @@ export default defineComponent({
     },
     setup(props, { emit }) {
         const { node } = useVModels(props, emit)
-        const elementColumn = computed<CSSProperties>(() => ({
+        const element = computed<CSSProperties>(() => ({
+            position: 'relative',
             width: '100%',
             fontSize: '0px',
-            textAlign: 'left',
-            direction: 'ltr',
-            display: 'inline-block',
-            verticalAlign: 'top',
             boxSizing: 'border-box',
+            flex: 1,
             paddingLeft: `${node.value.attributes.paddingLeft ?? 0}px`,
             paddingRight: `${node.value.attributes.paddingRight ?? 0}px`,
             paddingBottom: `${node.value.attributes.paddingBottom ?? 0}px`,
             paddingTop: `${node.value.attributes.paddingTop ?? 0}px`
         }))
 
+        //prettier-ignore
+        function elementProperter(data: NestOption): CSSProperties {
+            return whereProperter(data.children.length === 0, {
+                    height: '46px',
+                    border: '2px dashed #e0e0e6'
+                }, {
+                    height: '100%'
+                }
+            )
+        }
+        Text
+
         return () => (
-            <div class="mj-column element-column" style={elementColumn.value}>
-                {node.value.children.length === 0 ? (
-                    <vue-draggable
-                        class="element-column__children"
-                        style={{ height: '98px', border: '2px dashed #e0e0e6' }}
-                        draggable=".element-component"
-                        v-model={node.value.children}
-                        group={{ name: 'elements', pull: false, put: ['elements'] }}
-                    >
-                        <div></div>
-                    </vue-draggable>
-                ) : (
-                    <vue-draggable
-                        class="element-column__children"
-                        draggable=".element-component"
-                        v-model={node.value.children}
-                        group={{ name: 'elements', pull: false, put: ['elements'] }}
-                    >
-                        {node.value.children.map(item => (
-                            <div key={item.uid} class="element-component">
-                                {item.tagName === NestBlock.MJ_TEXT ? (
-                                    <element-text v-model:node={item}></element-text>
-                                ) : item.tagName === NestBlock.MJ_BUTTON ? (
-                                    <element-button v-model:node={item}></element-button>
-                                ) : item.tagName === NestBlock.MJ_IMAGE ? (
-                                    <element-image v-model:node={item}></element-image>
-                                ) : null}
-                            </div>
-                        ))}
-                    </vue-draggable>
-                )}
+            <div class="mj-column element-column" style={element.value}>
+                <vue-draggable
+                    class="component-currenter"
+                    style={elementProperter(node.value)}
+                    v-model={node.value.children}
+                    group={{ name: 'elements', pull: false, put: ['elements'] }}
+                >
+                    {node.value.children.map(item => (
+                        <div key={item.uid} class="element-component">
+                            {item.tagName === NestBlock.MJ_TEXT ? (
+                                <element-text v-model:node={item}></element-text>
+                            ) : item.tagName === NestBlock.MJ_BUTTON ? (
+                                <element-button v-model:node={item}></element-button>
+                            ) : item.tagName === NestBlock.MJ_IMAGE ? (
+                                <element-image v-model:node={item}></element-image>
+                            ) : null}
+                        </div>
+                    ))}
+                </vue-draggable>
             </div>
         )
     }
 })
 </script>
-
-<style lang="scss" scoped>
-.element-column {
-    position: relative;
-}
-</style>

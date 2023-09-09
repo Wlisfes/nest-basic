@@ -13,80 +13,44 @@ export default defineComponent({
     },
     setup(props, { emit }) {
         const { node } = useVModels(props, emit)
-        const nodeSection = computed<CSSProperties>(() => ({
+        const element = computed<CSSProperties>(() => ({
             position: 'relative',
-            fontSize: '0px',
-            textAlign: 'center',
-            border: 'none',
             boxSizing: 'border-box',
+            fontSize: '0px',
+            display: 'flex',
             margin: '0 auto',
-            backgroundColor: node.value.attributes.backgroundColor,
             maxWidth: `${props.maxWidth}px`,
+            backgroundColor: node.value.attributes.backgroundColor,
             paddingLeft: `${node.value.attributes.paddingLeft ?? 0}px`,
             paddingRight: `${node.value.attributes.paddingRight ?? 0}px`,
             paddingBottom: `${node.value.attributes.paddingBottom ?? 0}px`,
             paddingTop: `${node.value.attributes.paddingTop ?? 0}px`
         }))
 
+        function elementProperter(data: NestOption): CSSProperties {
+            return {
+                position: 'relative',
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                width: data.attributes.width ? `${data.attributes.width}%` : `${100 / node.value.children.length}%`
+            }
+        }
+
         return () => (
             <vue-draggable
                 class="mj-section element-section"
-                style={nodeSection.value}
+                style={element.value}
                 v-model={node.value.children}
-                group={{ name: 'element', pull: false, put: ['element'] }}
+                group={{ name: 'elements', pull: false, put: ['elements'] }}
             >
                 {node.value.children.map(item => (
-                    <div class="element-component" style={{ fontSize: '20px' }} key={item.uid}>
-                        {item.uid}
+                    <div class="element-component" style={elementProperter(item)} key={item.uid}>
+                        {item.tagName === NestBlock.MJ_COLUMN ? <element-column v-model:node={item}></element-column> : null}
                     </div>
                 ))}
             </vue-draggable>
         )
-
-        // return () => (
-        //     <div class="mj-section element-section" style={nodeSection.value}>
-        //         {node.value.children.length === 0 ? (
-        //             <vue-draggable
-        //                 class="element-section__children"
-        //                 style={{ minHeight: '98px', border: '2px dashed var(--border-color)' }}
-        //                 draggable=".element-component"
-        //                 v-model={node.value.children}
-        //                 group={{ name: 'elements', pull: false, put: ['elements'] }}
-        //             >
-        //                 <div></div>
-        //             </vue-draggable>
-        //         ) : (
-        //             <vue-draggable
-        //                 class="element-section__children"
-        //                 draggable=".element-component"
-        //                 v-model={node.value.children}
-        //                 group={{ name: 'elements', pull: false, put: ['elements'] }}
-        //             >
-        //                 {node.value.children.map(item => (
-        //                     <div
-        //                         class="element-component"
-        //                         key={item.uid}
-        //                         style={{
-        //                             display: 'flex',
-        //                             width: item.attributes.width ? `${item.attributes.width}%` : `${100 / node.value.children.length}%`
-        //                         }}
-        //                     >
-        //                         {item.tagName === NestBlock.MJ_COLUMN ? <element-column v-model:node={item}></element-column> : null}
-        //                     </div>
-        //                 ))}
-        //             </vue-draggable>
-        //         )}
-        //     </div>
-        // )
     }
 })
 </script>
-
-<style lang="scss" scoped>
-.element-section {
-    position: relative;
-    &__children {
-        display: flex;
-    }
-}
-</style>
