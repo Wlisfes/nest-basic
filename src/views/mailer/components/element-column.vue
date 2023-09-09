@@ -48,7 +48,13 @@ export default defineComponent({
                     >
                         {node.value.children.map(item => (
                             <div key={item.uid} class="element-component">
-                                {item.tagName === NestBlock.MJ_TEXT ? <element-text v-model:node={item}></element-text> : null}
+                                {item.tagName === NestBlock.MJ_TEXT ? (
+                                    <element-text v-model:node={item}></element-text>
+                                ) : item.tagName === NestBlock.MJ_BUTTON ? (
+                                    <element-button v-model:node={item}></element-button>
+                                ) : item.tagName === NestBlock.MJ_IMAGE ? (
+                                    <element-image v-model:node={item}></element-image>
+                                ) : null}
                             </div>
                         ))}
                     </vue-draggable>

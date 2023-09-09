@@ -14,12 +14,13 @@ export default defineComponent({
     setup(props, { emit }) {
         const { node } = useVModels(props, emit)
         const nodeSection = computed<CSSProperties>(() => ({
-            direction: 'ltr',
+            position: 'relative',
             fontSize: '0px',
             textAlign: 'center',
             border: 'none',
             boxSizing: 'border-box',
             margin: '0 auto',
+            backgroundColor: node.value.attributes.backgroundColor,
             maxWidth: `${props.maxWidth}px`,
             paddingLeft: `${node.value.attributes.paddingLeft ?? 0}px`,
             paddingRight: `${node.value.attributes.paddingRight ?? 0}px`,
@@ -28,40 +29,55 @@ export default defineComponent({
         }))
 
         return () => (
-            <div class="mj-section element-section" style={nodeSection.value}>
-                {node.value.children.length === 0 ? (
-                    <vue-draggable
-                        class="element-section__children"
-                        style={{ minHeight: '98px', border: '2px dashed var(--border-color)' }}
-                        draggable=".element-component"
-                        v-model={node.value.children}
-                        group={{ name: 'elements', pull: false, put: ['elements'] }}
-                    >
-                        <div></div>
-                    </vue-draggable>
-                ) : (
-                    <vue-draggable
-                        class="element-section__children"
-                        draggable=".element-component"
-                        v-model={node.value.children}
-                        group={{ name: 'elements', pull: false, put: ['elements'] }}
-                    >
-                        {node.value.children.map(item => (
-                            <div
-                                class="element-component"
-                                key={item.uid}
-                                style={{
-                                    display: 'flex',
-                                    width: item.attributes.width ? `${item.attributes.width}%` : `${100 / node.value.children.length}%`
-                                }}
-                            >
-                                {item.tagName === NestBlock.MJ_COLUMN ? <element-column v-model:node={item}></element-column> : null}
-                            </div>
-                        ))}
-                    </vue-draggable>
-                )}
-            </div>
+            <vue-draggable
+                class="mj-section element-section"
+                style={nodeSection.value}
+                v-model={node.value.children}
+                group={{ name: 'element', pull: false, put: ['element'] }}
+            >
+                {node.value.children.map(item => (
+                    <div class="element-component" style={{ fontSize: '20px' }} key={item.uid}>
+                        {item.uid}
+                    </div>
+                ))}
+            </vue-draggable>
         )
+
+        // return () => (
+        //     <div class="mj-section element-section" style={nodeSection.value}>
+        //         {node.value.children.length === 0 ? (
+        //             <vue-draggable
+        //                 class="element-section__children"
+        //                 style={{ minHeight: '98px', border: '2px dashed var(--border-color)' }}
+        //                 draggable=".element-component"
+        //                 v-model={node.value.children}
+        //                 group={{ name: 'elements', pull: false, put: ['elements'] }}
+        //             >
+        //                 <div></div>
+        //             </vue-draggable>
+        //         ) : (
+        //             <vue-draggable
+        //                 class="element-section__children"
+        //                 draggable=".element-component"
+        //                 v-model={node.value.children}
+        //                 group={{ name: 'elements', pull: false, put: ['elements'] }}
+        //             >
+        //                 {node.value.children.map(item => (
+        //                     <div
+        //                         class="element-component"
+        //                         key={item.uid}
+        //                         style={{
+        //                             display: 'flex',
+        //                             width: item.attributes.width ? `${item.attributes.width}%` : `${100 / node.value.children.length}%`
+        //                         }}
+        //                     >
+        //                         {item.tagName === NestBlock.MJ_COLUMN ? <element-column v-model:node={item}></element-column> : null}
+        //                     </div>
+        //                 ))}
+        //             </vue-draggable>
+        //         )}
+        //     </div>
+        // )
     }
 })
 </script>

@@ -27,6 +27,8 @@ export default defineComponent({
     components: { VueDraggable },
     setup() {
         const current = ref<NestBlocks>()
+        const dataBlocks = ref<Array<NestBlocks>>(nestBlocks)
+        const dataBlocks1 = ref<Array<NestBlocks>>([])
         const dataLayoutBlocks = ref<Array<NestBlocks>>(createNestBlocks('Layout'))
         const dataElementBlocks = ref<Array<NestBlocks>>(createNestBlocks('Element'))
 
@@ -39,20 +41,15 @@ export default defineComponent({
         }
 
         function onMove(e: any) {
-            console.log(e)
             const { component } = current.value ?? {}
-
             if (!component) {
                 return false
-            }
-            if ([NestBlock.MJ_SECTION, NestBlock.MJ_COLUMN, NestBlock.MJ_HERO, NestBlock.MJ_WRAPPER].includes(component)) {
-                if (e.to.classList.contains('context-draggable')) {
+            } else if ([NestBlock.MJ_SECTION, NestBlock.MJ_COLUMN, NestBlock.MJ_HERO, NestBlock.MJ_WRAPPER].includes(component)) {
+                if (e.to.classList.contains('app-currenter')) {
                     return true
                 }
                 return false
-            }
-
-            if (
+            } else if (
                 [
                     NestBlock.MJ_TEXT,
                     NestBlock.MJ_BUTTON,
@@ -68,7 +65,7 @@ export default defineComponent({
                 return false
             }
 
-            return true
+            return false
         }
 
         function clone(data: NestBlocks) {
@@ -100,9 +97,50 @@ export default defineComponent({
         }
 
         return () => (
-            <n-element class="mailer-browser">
+            <n-element class="element-browser">
                 <n-scrollbar>
                     <n-element style={{ padding: '15px', userSelect: 'none' }}>
+                        <vue-draggable
+                            class="app-browser"
+                            v-model={dataBlocks1.value}
+                            force-fallback={false}
+                            group={{ name: 'element' }}
+                            animation={150}
+                            style={{ minHeight: '500px' }}
+                        >
+                            {dataBlocks1.value.map(item => (
+                                <n-card key={item.uid} embedded content-style={{ padding: '10px', textAlign: 'center' }}>
+                                    {/* <n-icon component={compute(item.icon)} size={50} /> */}
+                                    <n-text style={{ fontSize: '14px', marginTop: '0', display: 'block' }}>{item.name}</n-text>
+                                </n-card>
+                            ))}
+                        </vue-draggable>
+                    </n-element>
+                </n-scrollbar>
+                <n-scrollbar>
+                    <n-element style={{ padding: '15px', userSelect: 'none' }}>
+                        <vue-draggable
+                            class="app-browser"
+                            draggable=".n-card"
+                            v-model={dataBlocks.value}
+                            animation={150}
+                            sort={false}
+                            group={{ name: 'element', pull: 'clone', put: false }}
+                            clone={clone}
+                            onMove={onMove}
+                            onStart={onStart}
+                            onEnd={onEnd}
+                        >
+                            {dataBlocks.value.map(item => (
+                                <n-card key={item.uid} embedded content-style={{ padding: '10px', textAlign: 'center' }}>
+                                    <n-icon component={compute(item.icon)} size={50} />
+                                    <n-text style={{ fontSize: '14px', marginTop: '0', display: 'block' }}>{item.name}</n-text>
+                                </n-card>
+                            ))}
+                        </vue-draggable>
+                    </n-element>
+
+                    {/* <n-element style={{ padding: '15px', userSelect: 'none' }}>
                         <n-h2 prefix="bar" style={{ marginBottom: '15px' }}>
                             Layout
                         </n-h2>
@@ -119,12 +157,7 @@ export default defineComponent({
                             onEnd={onEnd}
                         >
                             {dataLayoutBlocks.value.map(item => (
-                                <n-card
-                                    class="element-browser"
-                                    key={item.uid}
-                                    embedded
-                                    content-style={{ padding: '10px', textAlign: 'center' }}
-                                >
+                                <n-card key={item.uid} embedded content-style={{ padding: '10px', textAlign: 'center' }}>
                                     <n-icon component={compute(item.icon)} size={50} />
                                     <n-text style={{ fontSize: '14px', marginTop: '0', display: 'block' }}>{item.name}</n-text>
                                 </n-card>
@@ -148,18 +181,13 @@ export default defineComponent({
                             onEnd={onEnd}
                         >
                             {dataElementBlocks.value.map(item => (
-                                <n-card
-                                    class="element-browser"
-                                    key={item.uid}
-                                    embedded
-                                    content-style={{ padding: '10px', textAlign: 'center' }}
-                                >
+                                <n-card key={item.uid} embedded content-style={{ padding: '10px', textAlign: 'center' }}>
                                     <n-icon component={compute(item.icon)} size={50} />
                                     <n-text style={{ fontSize: '14px', marginTop: '0', display: 'block' }}>{item.name}</n-text>
                                 </n-card>
                             ))}
                         </vue-draggable>
-                    </n-element>
+                    </n-element> */}
                 </n-scrollbar>
             </n-element>
         )
@@ -168,14 +196,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.mailer-browser {
+.element-browser {
     position: relative;
-    width: 260px;
+    width: 1000px;
     display: flex;
-    flex-direction: column;
+    // flex-direction: column;
     overflow: hidden;
     background-color: var(--card-color);
-    .browser-draggable {
+    .app-browser {
         display: grid;
         gap: 15px;
         grid-template-columns: repeat(2, minmax(0px, 1fr));
@@ -183,12 +211,12 @@ export default defineComponent({
             color: var(--text-color-3);
             cursor: all-scroll;
             border-width: 2px;
-            &:hover {
-                color: var(--primary-color-hover);
-                .n-text {
-                    color: var(--primary-color-hover);
-                }
-            }
+            // &:hover {
+            //     color: var(--primary-color-hover);
+            //     .n-text {
+            //         color: var(--primary-color-hover);
+            //     }
+            // }
             &.sortable-ghost {
                 border-style: dashed;
                 border-color: var(--primary-color-hover);

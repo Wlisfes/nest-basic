@@ -132,11 +132,11 @@ export default defineComponent({
         return () => (
             <n-element style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
                 <mailer-browser></mailer-browser>
-                <n-element class="mailer-currenter">
+                {/* <n-element class="element-currenter">
                     <n-scrollbar>
                         <vue-draggable
-                            class="context-draggable"
-                            draggable=".context-element"
+                            class="app-currenter"
+                            //draggable=".context-element"
                             ghostClass="context-draggable-ghost"
                             v-model={dataSource.value}
                             force-fallback={false}
@@ -166,7 +166,7 @@ export default defineComponent({
                         <div v-html={html.value}></div>
                         <div v-html={content.value}></div>
                     </n-scrollbar>
-                </n-element>
+                </n-element> */}
             </n-element>
         )
     }
@@ -174,7 +174,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.mailer-currenter {
+.element-currenter {
     position: relative;
     display: flex;
     flex: 1;
@@ -187,7 +187,7 @@ export default defineComponent({
         border-color: var(--primary-color-hover);
     }
 }
-.context-draggable {
+.app-currenter {
     flex: 1;
     margin: 0 auto;
     width: 100%;

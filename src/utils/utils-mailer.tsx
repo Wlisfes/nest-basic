@@ -40,17 +40,17 @@ export const observer = new Observer()
 
 /**组件列表**/
 export const nestBlocks: Array<NestBlocks> = [
-    { uid: 1693405215421, name: '1 Column', source: 'Layout', component: NestBlock.MJ_COLUMN, icon: 'BasicColumn' },
-    { uid: 1693405215422, name: '2 Columns', source: 'Layout', component: NestBlock.MJ_COLUMN, icon: 'BasicDouble' },
-    { uid: 1693405215423, name: '3 Columns', source: 'Layout', component: NestBlock.MJ_COLUMN, icon: 'BasicThree' },
-    { uid: 1693405215424, name: 'Text', source: 'Element', component: NestBlock.MJ_TEXT, icon: 'BasicText' },
-    { uid: 1693405215425, name: 'Button', source: 'Element', component: NestBlock.MJ_BUTTON, icon: 'BasicButton' },
-    { uid: 1693405215425, name: 'Image', source: 'Element', component: NestBlock.MJ_IMAGE, icon: 'BasicImage' },
-    { uid: 1693405215426, name: 'Divider', source: 'Element', component: NestBlock.MJ_DIVIDER, icon: 'BasicDivider' },
-    { uid: 1693405215428, name: 'Social', source: 'Element', component: NestBlock.MJ_SOCIAL, icon: 'BasicSocial' },
-    { uid: 1693405215429, name: 'Navbar', source: 'Element', component: NestBlock.MJ_NAVBAR, icon: 'BasicNavbar' },
-    { uid: 1693405215430, name: 'Hero', source: 'Layout', component: NestBlock.MJ_HERO, icon: 'BasicHero' },
-    { uid: 1693405215431, name: 'Wrapper', source: 'Layout', component: NestBlock.MJ_WRAPPER, icon: 'BasicWrapper' }
+    { uid: 1694254623436221, name: '1 Column', source: 'Layout', component: NestBlock.MJ_COLUMN, icon: 'BasicColumn' },
+    { uid: 1694254623436222, name: '2 Columns', source: 'Layout', component: NestBlock.MJ_COLUMN, icon: 'BasicDouble' },
+    { uid: 1694254623436223, name: '3 Columns', source: 'Layout', component: NestBlock.MJ_COLUMN, icon: 'BasicThree' },
+    { uid: 1694254623436224, name: 'Text', source: 'Element', component: NestBlock.MJ_TEXT, icon: 'BasicText' },
+    { uid: 1694254623436225, name: 'Button', source: 'Element', component: NestBlock.MJ_BUTTON, icon: 'BasicButton' },
+    { uid: 1694254623436226, name: 'Image', source: 'Element', component: NestBlock.MJ_IMAGE, icon: 'BasicImage' },
+    { uid: 1694254623436227, name: 'Divider', source: 'Element', component: NestBlock.MJ_DIVIDER, icon: 'BasicDivider' },
+    { uid: 1694254623436228, name: 'Social', source: 'Element', component: NestBlock.MJ_SOCIAL, icon: 'BasicSocial' },
+    { uid: 1694254623436229, name: 'Navbar', source: 'Element', component: NestBlock.MJ_NAVBAR, icon: 'BasicNavbar' },
+    { uid: 1694254623436230, name: 'Hero', source: 'Layout', component: NestBlock.MJ_HERO, icon: 'BasicHero' },
+    { uid: 1694254623436231, name: 'Wrapper', source: 'Layout', component: NestBlock.MJ_WRAPPER, icon: 'BasicWrapper' }
 ]
 
 /**过滤组件列表**/
@@ -60,7 +60,7 @@ export function createNestBlocks(source: 'Layout' | 'Element') {
 
 /**根据毫秒生成16位整数**/
 export function createMathNumber() {
-    return Number(Date.now().toString() + (Math.ceil(Math.random() * (9 - 1)) + 1).toString())
+    return Number(Date.now().toString() + (Math.ceil(Math.random() * 888) + 111).toString())
 }
 
 /**MJML转(JSON、HTML)**/
@@ -152,7 +152,8 @@ export function createSectionComponent(children: Array<NestOption> = []) {
             paddingLeft: 0,
             paddingRight: 0,
             paddingBottom: 20,
-            paddingTop: 20
+            paddingTop: 20,
+            backgroundColor: '#ffffff'
         },
         children
     }

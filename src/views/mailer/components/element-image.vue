@@ -20,6 +20,7 @@ export default defineComponent({
             paddingTop: `${node.value.attributes.paddingTop ?? 0}px`
         }))
         const imageColumn = computed<CSSProperties>(() => ({
+            width: '100%',
             fontSize: '0px',
             outline: 'none',
             display: 'inline-block',
