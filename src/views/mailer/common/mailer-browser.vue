@@ -2,44 +2,40 @@
 import { defineComponent, ref } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { compute } from '@/utils/utils-remix'
+import { useState } from '@/hooks/hook-state'
 import {
     type NestBlocks,
+    NestBlock,
     observer,
     OBSERVER_START_DRAG_EVENT,
     OBSERVER_END_DRAG_EVENT,
-    nestBlocks,
-    NestBlock,
-    createNestBlocks,
-    createColumnComponent,
-    createSectionComponent,
-    createTextComponent,
-    createButtonComponent,
-    createImageComponent,
-    createDividerComponent,
-    createSocialComponent,
-    createNavbarComponent,
-    createHeroComponent,
-    createWrapperComponent
+    cloneElement,
+    createNestBlocks
 } from '@/utils/utils-mailer'
 
 export default defineComponent({
     name: 'MailerBrowser',
     components: { VueDraggable },
     setup() {
-        const current = ref<NestBlocks>()
         const dataLayoutBlocks = ref<Array<NestBlocks>>(createNestBlocks('Layout'))
         const dataElementBlocks = ref<Array<NestBlocks>>(createNestBlocks('Element'))
+        const { state, setState } = useState<{ current: NestBlocks | undefined }>({
+            current: undefined
+        })
 
-        function onStart() {
+        /**开始拖拽**/
+        async function onStartElement() {
             return observer.emit(OBSERVER_START_DRAG_EVENT)
         }
 
-        function onEnd() {
+        /**结束拖拽**/
+        async function onEndElement() {
             return observer.emit(OBSERVER_END_DRAG_EVENT)
         }
 
-        function onMove(e: any) {
-            const { component } = current.value ?? {}
+        /**拖拽中**/
+        async function onMoveElement(e: any, r: any) {
+            const { component } = (state.current ?? {}) as NestBlocks
             if (!component) {
                 return false
             } else if ([NestBlock.MJ_SECTION, NestBlock.MJ_COLUMN, NestBlock.MJ_HERO, NestBlock.MJ_WRAPPER].includes(component)) {
@@ -66,34 +62,6 @@ export default defineComponent({
             return false
         }
 
-        function clone(data: NestBlocks) {
-            current.value = data
-            if (data.component === NestBlock.MJ_COLUMN) {
-                const COUNT_COLUMN = { BasicColumn: 1, BasicDouble: 2, BasicThree: 3 }
-                const children = Array.from({ length: COUNT_COLUMN[data.icon as keyof typeof COUNT_COLUMN] }).map(item => {
-                    // return createColumnComponent([createTextComponent('<p>Holle</b>')])
-                    return createColumnComponent()
-                })
-                return createSectionComponent(children)
-            } else if (data.component === NestBlock.MJ_TEXT) {
-                return createTextComponent()
-            } else if (data.component === NestBlock.MJ_BUTTON) {
-                return createButtonComponent('Get Your Order Here')
-            } else if (data.component === NestBlock.MJ_IMAGE) {
-                return createImageComponent(`https://www.online-image-editor.com//styles/2014/images/example_image.png`)
-            } else if (data.component === NestBlock.MJ_DIVIDER) {
-                return createDividerComponent()
-            } else if (data.component === NestBlock.MJ_SOCIAL) {
-                return createSocialComponent({})
-            } else if (data.component === NestBlock.MJ_NAVBAR) {
-                return createNavbarComponent({})
-            } else if (data.component === NestBlock.MJ_HERO) {
-                return createHeroComponent({})
-            } else if (data.component === NestBlock.MJ_WRAPPER) {
-                return createWrapperComponent({})
-            }
-        }
-
         return () => (
             <n-element class="element-browser">
                 <n-scrollbar>
@@ -107,10 +75,10 @@ export default defineComponent({
                             animation={150}
                             sort={false}
                             group={{ name: 'element', pull: 'clone', put: false }}
-                            clone={clone}
-                            onMove={onMove}
-                            onStart={onStart}
-                            onEnd={onEnd}
+                            clone={(data: NestBlocks) => cloneElement(() => setState({ current: data }), data)}
+                            onMove={onMoveElement}
+                            onStart={onStartElement}
+                            onEnd={onEndElement}
                         >
                             {dataLayoutBlocks.value.map(item => (
                                 <div class="block-browser block-layout" key={item.uid}>
@@ -132,10 +100,10 @@ export default defineComponent({
                             animation={150}
                             sort={false}
                             group={{ name: 'elements', pull: 'clone', put: false }}
-                            clone={clone}
-                            onMove={onMove}
-                            onStart={onStart}
-                            onEnd={onEnd}
+                            onMove={onMoveElement}
+                            clone={(data: NestBlocks) => cloneElement(() => setState({ current: data }), data)}
+                            onStart={onStartElement}
+                            onEnd={onEndElement}
                         >
                             {dataElementBlocks.value.map(item => (
                                 <div class="block-browser block-element" key={item.uid}>

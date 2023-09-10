@@ -3,14 +3,18 @@ import { defineComponent, ref, computed, onMounted, watch, Fragment } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { useState } from '@/hooks/hook-state'
 import { whereProperter } from '@/utils/utils-layout'
+import { compute } from '@/utils/utils-remix'
 import {
     type NestOption,
     type NestState,
     NestBlock,
+    observer,
     createMjmlTransfor,
     createJsonTransfor,
     createJsonCameTransfor,
-    createCheckElement
+    createCheckElement,
+    OBSERVER_START_DRAG_EVENT,
+    OBSERVER_END_DRAG_EVENT
 } from '@/utils/utils-mailer'
 
 export default defineComponent({
@@ -21,7 +25,8 @@ export default defineComponent({
     },
     setup(props) {
         const { state, setState } = useState<NestState>({
-            current: undefined
+            current: undefined,
+            execute: false
         })
         const dataSource = ref<Array<NestOption>>([])
         const JsonRender = computed(() => ({
@@ -34,7 +39,8 @@ export default defineComponent({
         function elementClassName(data: NestOption) {
             return {
                 'element-component': true,
-                'is-selecter': state.current && state.current.uid === data.uid
+                'is-execute': state.execute,
+                'is-selecter': state.current?.uid === data.uid
             }
         }
 
@@ -50,6 +56,13 @@ export default defineComponent({
         function onSubmitElement() {}
 
         onMounted(() => {
+            observer.on('OBSERVER_START_DRAG_EVENT', async () => {
+                return await setState({ execute: true })
+            })
+            observer.on('OBSERVER_END_DRAG_EVENT', async () => {
+                return await setState({ execute: false })
+            })
+
             const node = createMjmlTransfor(`
                 <mjml>
                     <mj-head>
@@ -179,7 +192,9 @@ export default defineComponent({
                                         <div class="element-border is-bottom"></div>
                                         <div class="element-border is-left"></div>
                                         <div class="element-border is-right"></div>
-                                        <div></div>
+                                        <div class="element-anchor">
+                                            <n-icon size={20} color="#ffffff" component={compute('Fullscreen')} />
+                                        </div>
                                     </div>
                                 ))}
                             </vue-draggable>
@@ -215,7 +230,7 @@ export default defineComponent({
 .app-currenter {
     flex: 1;
     margin: 0 auto;
-    padding: 15px;
+    padding: 30px 15px;
     width: 100%;
     :deep(.block-browser > .n-card) {
         color: var(--text-color-3);
@@ -233,66 +248,68 @@ export default defineComponent({
 
 .element-component {
     position: relative;
-    overflow: hidden;
     cursor: pointer;
-    &.is-selecter > .element-border,
-    &:hover > .element-border {
+    // &:hover:not(.is-execute) {
+    //     &:not(.is-selecter) > .element-border {
+    //         border-style: dashed !important;
+    //         border-color: var(--primary-color-hover) !important;
+    //     }
+    // }
+    &.is-selecter > .element-border {
+        border-style: solid !important;
         border-color: var(--primary-color-hover) !important;
     }
     &.sortable-ghost {
+        opacity: 1;
         background-color: #ffffff;
-        .element-border {
-            border-style: dashed;
-            border-color: var(--primary-color-hover);
-            &.is-left {
-                left: -2px;
-            }
-            &.is-right {
-                right: -2px;
-            }
-            &.is-top {
-                top: -2px;
-            }
-            &.is-bottom {
-                bottom: -2px;
-            }
+        > .element-border {
+            border-style: dashed !important;
+            border-color: var(--primary-color-hover) !important;
         }
+    }
+
+    .element-anchor {
+        position: absolute;
+        opacity: 0;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        cursor: all-scroll;
+        padding: 5px 5px 5px 8px;
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+        background-color: var(--primary-color-hover);
+        transition: opacity 200ms;
     }
 
     .element-border {
         position: absolute;
+        border-width: 0;
         transition: border-color 200ms;
         &.is-left {
             top: 0;
             bottom: 0;
             left: 0;
-            border-left-color: transparent;
-            border-left-width: 2px;
-            border-left-style: solid;
+            border-left: 2px solid transparent;
         }
         &.is-right {
             top: 0;
             bottom: 0;
             right: 0;
-            border-right-color: transparent;
-            border-right-width: 2px;
-            border-right-style: solid;
+            border-right: 2px solid transparent;
         }
         &.is-top {
             left: 0;
             right: 0;
             top: 0;
-            border-top-color: transparent;
-            border-top-width: 2px;
-            border-top-style: solid;
+            border-top: 2px solid transparent;
         }
         &.is-bottom {
             left: 0;
             right: 0;
             bottom: 0;
-            border-bottom-color: transparent;
-            border-bottom-width: 2px;
-            border-bottom-style: solid;
+            border-bottom: 2px solid transparent;
         }
     }
 }

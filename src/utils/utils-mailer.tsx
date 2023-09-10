@@ -32,11 +32,50 @@ export interface NestOption {
 }
 export interface NestState {
     current: NestOption | undefined
+    execute: boolean
 }
 
 export const OBSERVER_START_DRAG_EVENT = 'OBSERVER_START_DRAG_EVENT'
 export const OBSERVER_END_DRAG_EVENT = 'OBSERVER_END_DRAG_EVENT'
 export const observer = new Observer()
+export type EventListener = typeof OBSERVER_START_DRAG_EVENT | typeof OBSERVER_END_DRAG_EVENT
+
+/**事件监听**/
+export function elementListener(type: EventListener, handler: Function) {
+    return observer.on(type, (data: any) => handler(data))
+}
+
+/**拖拽中**/
+export function onMoveDraggableElement() {}
+
+/**组件克隆**/
+export function cloneElement(setState: Function, data: NestBlocks) {
+    setState && setState()
+    if (data.component === NestBlock.MJ_COLUMN) {
+        const COUNT_COLUMN = { BasicColumn: 1, BasicDouble: 2, BasicThree: 3 }
+        const children = Array.from({ length: COUNT_COLUMN[data.icon as keyof typeof COUNT_COLUMN] }).map(item => {
+            // return createColumnComponent([createTextComponent('<p>Holle</b>')])
+            return createColumnComponent()
+        })
+        return createSectionComponent(children)
+    } else if (data.component === NestBlock.MJ_TEXT) {
+        return createTextComponent()
+    } else if (data.component === NestBlock.MJ_BUTTON) {
+        return createButtonComponent('Get Your Order Here')
+    } else if (data.component === NestBlock.MJ_IMAGE) {
+        return createImageComponent(`https://www.online-image-editor.com//styles/2014/images/example_image.png`)
+    } else if (data.component === NestBlock.MJ_DIVIDER) {
+        return createDividerComponent()
+    } else if (data.component === NestBlock.MJ_SOCIAL) {
+        return createSocialComponent({})
+    } else if (data.component === NestBlock.MJ_NAVBAR) {
+        return createNavbarComponent({})
+    } else if (data.component === NestBlock.MJ_HERO) {
+        return createHeroComponent({})
+    } else if (data.component === NestBlock.MJ_WRAPPER) {
+        return createWrapperComponent({})
+    }
+}
 
 /**组件列表**/
 export const nestBlocks: Array<NestBlocks> = [
