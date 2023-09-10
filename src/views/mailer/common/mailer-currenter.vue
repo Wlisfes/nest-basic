@@ -44,8 +44,10 @@ export default defineComponent({
             }
         }
 
+        /**退出**/
         function onBackElement() {}
 
+        /**预览**/
         async function onCheckElement() {
             const json = createJsonCameTransfor(JSON.parse(JSON.stringify(JsonRender.value)))
             const mjml = createJsonTransfor(json)
@@ -53,9 +55,36 @@ export default defineComponent({
             return await createCheckElement(html)
         }
 
-        function onSubmitElement() {}
+        /**保存**/
+        function onSubmitElement() {
+            window.localStorage.setItem('dataSourceElement', JSON.stringify(JsonRender.value))
+        }
+
+        async function onCurrentElement(data: NestOption) {
+            await setState({ current: data })
+
+            console.log(data)
+        }
+
+        watch(
+            () => JsonRender.value,
+            () => {
+                // const json = createJsonCameTransfor(JSON.parse(JSON.stringify(JsonRender.value)))
+                // const mjml = createJsonTransfor(json)
+                // const html = createMjmlTransfor(mjml).html
+                // console.log(json)
+                // console.log(mjml)
+            },
+            { immediate: true, deep: true }
+        )
 
         onMounted(() => {
+            const data = window.localStorage.getItem('dataSourceElement') as string
+            const evt = JSON.parse(data ?? {})
+            if (evt.children && evt.children.length > 0) {
+                dataSource.value = evt.children[0].children ?? []
+            }
+
             observer.on('OBSERVER_START_DRAG_EVENT', async () => {
                 return await setState({ execute: true })
             })
@@ -125,31 +154,8 @@ export default defineComponent({
                     </mj-body>
                 </mjml>
             `)
-            console.log(node.json)
+            // console.log(node.json)
         })
-
-        watch(
-            () => JsonRender.value,
-            () => {
-                const json = createJsonCameTransfor(JSON.parse(JSON.stringify(JsonRender.value)))
-                const mjml = createJsonTransfor(json)
-                const html = createMjmlTransfor(mjml).html
-
-                console.log(json)
-                console.log(mjml)
-            },
-            { immediate: true, deep: true }
-        )
-
-        function onMouseover(e: MouseEvent) {}
-
-        function onMouseout(e: MouseEvent) {}
-
-        async function onCurrentElement(data: NestOption) {
-            await setState({ current: data })
-
-            console.log(data)
-        }
 
         return () => (
             <n-element class="mailer-currenter">
@@ -178,13 +184,7 @@ export default defineComponent({
                                 animation={150}
                             >
                                 {dataSource.value.map(item => (
-                                    <div
-                                        key={item.uid}
-                                        class={elementClassName(item)}
-                                        onClick={e => onCurrentElement(item)}
-                                        onMouseover={onMouseover}
-                                        onMouseout={onMouseout}
-                                    >
+                                    <div key={item.uid} class={elementClassName(item)} onClick={e => onCurrentElement(item)}>
                                         {item.tagName === NestBlock.MJ_SECTION ? (
                                             <element-section v-model:node={item}></element-section>
                                         ) : null}
