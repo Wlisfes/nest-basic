@@ -134,7 +134,7 @@ export const client: Array<RouteRecordRaw> = [
                         component: () => import('@/views/mailer/Template.vue')
                     },
                     {
-                        path: '/mailer/currenter',
+                        path: '/mailer/create/currenter',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE', Header: 'HIDE', Sidebar: 'HIDE' },
                         component: () => import('@/views/mailer/Currenter.vue')
                     },

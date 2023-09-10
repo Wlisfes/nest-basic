@@ -23,8 +23,10 @@ export default defineComponent({
     props: {
         maxWidth: { type: Number, default: 640 }
     },
-    setup(props) {
+    emits: ['submit'],
+    setup(props, { emit }) {
         const { state, setState } = useState<NestState>({
+            loading: false,
             current: undefined,
             execute: false
         })
@@ -52,12 +54,20 @@ export default defineComponent({
             const json = createJsonCameTransfor(JSON.parse(JSON.stringify(JsonRender.value)))
             const mjml = createJsonTransfor(json)
             const html = createMjmlTransfor(mjml).html
+            console.log(createMjmlTransfor(mjml))
             return await createCheckElement(html)
         }
 
         /**保存**/
-        function onSubmitElement() {
-            window.localStorage.setItem('dataSourceElement', JSON.stringify(JsonRender.value))
+        function onSubmitElement(evt: Event) {
+            emit('submit', {
+                setState,
+                evt,
+                mjml: createJsonTransfor(createJsonCameTransfor(JSON.parse(JSON.stringify(JsonRender.value)))),
+                json: JsonRender.value
+            })
+
+            // window.localStorage.setItem('dataSourceElement', JSON.stringify(JsonRender.value))
         }
 
         async function onCurrentElement(data: NestOption) {
@@ -167,7 +177,14 @@ export default defineComponent({
                         <n-button size="large" type="info" style={{ minWidth: '88px' }} onClick={onCheckElement}>
                             预览
                         </n-button>
-                        <n-button size="large" type="primary" style={{ minWidth: '88px' }} onClick={onSubmitElement}>
+                        <n-button
+                            size="large"
+                            type="primary"
+                            disabled={state.loading}
+                            loading={state.loading}
+                            style={{ minWidth: '88px' }}
+                            onClick={onSubmitElement}
+                        >
                             保存
                         </n-button>
                     </n-space>

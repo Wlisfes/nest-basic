@@ -1,6 +1,6 @@
 import { request } from '@/utils/utils-request'
 import type { Result, IColumn, Notice } from '@/interface/common.resolver'
-import type { ServiceMailer, BundleMailer, UserBundleMailer } from '@/interface/mailer.resolver'
+import type { ServiceMailer, BundleMailer, UserBundleMailer, MailerTemplate } from '@/interface/mailer.resolver'
 
 /**创建邮件应用**/
 export function httpCreateServiceMailer(data: { name: string }) {
@@ -49,6 +49,24 @@ export function httpUserComputeMailer() {
 export function httpColumnUserMailer(params: { page: number; size: number }) {
     return request<Result<UserBundleMailer>>({
         url: `/api-basic/package/mailer/user/column`,
+        method: 'GET',
+        params
+    })
+}
+
+/**创建邮件模板**/
+export function httpCreateMailerTemplate(data: { name: string; mjml: string }) {
+    return request<Notice>({
+        url: `/api-basic/mailer/template/create`,
+        method: 'POST',
+        data
+    })
+}
+
+/**邮件模板列表**/
+export function httpColumnMailerTemplate(params: { page: number; size: number }) {
+    return request<Result<MailerTemplate>>({
+        url: `/api-basic/mailer/template/column`,
         method: 'GET',
         params
     })

@@ -33,6 +33,7 @@ export interface NestOption {
 export interface NestState {
     current: NestOption | undefined
     execute: boolean
+    loading: boolean
 }
 
 export const OBSERVER_START_DRAG_EVENT = 'OBSERVER_START_DRAG_EVENT'

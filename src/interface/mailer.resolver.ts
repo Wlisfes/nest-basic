@@ -42,3 +42,5 @@ export interface UserBundleMailer extends CommonResolver {
     expireTime: string
     status: 'effect' | 'invalid' | 'refund' | 'disable'
 }
+
+export interface MailerTemplate extends CommonResolver {}
