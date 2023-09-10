@@ -76,13 +76,13 @@ export default defineComponent({
                 })
                 return createSectionComponent(children)
             } else if (data.component === NestBlock.MJ_TEXT) {
-                return createTextComponent('<p>Holle</b>')
+                return createTextComponent()
             } else if (data.component === NestBlock.MJ_BUTTON) {
                 return createButtonComponent('Get Your Order Here')
             } else if (data.component === NestBlock.MJ_IMAGE) {
                 return createImageComponent(`https://www.online-image-editor.com//styles/2014/images/example_image.png`)
             } else if (data.component === NestBlock.MJ_DIVIDER) {
-                return createDividerComponent({})
+                return createDividerComponent()
             } else if (data.component === NestBlock.MJ_SOCIAL) {
                 return createSocialComponent({})
             } else if (data.component === NestBlock.MJ_NAVBAR) {
@@ -113,7 +113,7 @@ export default defineComponent({
                             onEnd={onEnd}
                         >
                             {dataLayoutBlocks.value.map(item => (
-                                <div class="block-browser" key={item.uid}>
+                                <div class="block-browser block-layout" key={item.uid}>
                                     <n-card embedded content-style={{ padding: '10px', textAlign: 'center' }}>
                                         <n-icon component={compute(item.icon)} size={50} />
                                         <n-text style={{ fontSize: '14px', marginTop: '0', display: 'block' }}>{item.name}</n-text>
@@ -138,7 +138,7 @@ export default defineComponent({
                             onEnd={onEnd}
                         >
                             {dataElementBlocks.value.map(item => (
-                                <div class="block-browser" key={item.uid}>
+                                <div class="block-browser block-element" key={item.uid}>
                                     <n-card embedded content-style={{ padding: '10px', textAlign: 'center' }}>
                                         <n-icon component={compute(item.icon)} size={50} />
                                         <n-text style={{ fontSize: '14px', marginTop: '0', display: 'block' }}>{item.name}</n-text>

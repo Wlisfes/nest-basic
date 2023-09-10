@@ -29,7 +29,7 @@ export default defineComponent({
         //prettier-ignore
         function elementProperter(data: NestOption): CSSProperties {
             return whereProperter(data.children.length === 0, {
-                    height: '46px',
+                    height: '48px',
                     border: '2px dashed #e0e0e6'
                 }, {
                     height: '100%'

@@ -53,6 +53,12 @@ export const nestBlocks: Array<NestBlocks> = [
     { uid: 1694254623436231, name: 'Wrapper', source: 'Layout', component: NestBlock.MJ_WRAPPER, icon: 'BasicWrapper' }
 ]
 
+/**预览**/
+export async function createCheckElement(value: string) {
+    const min = window.open() as Window
+    return (min.document.body.innerHTML = value)
+}
+
 /**过滤组件列表**/
 export function createNestBlocks(source: 'Layout' | 'Element') {
     return nestBlocks.filter(item => item.source === source)
@@ -174,10 +180,11 @@ export function createColumnComponent(children: Array<NestOption> = []) {
 }
 
 /**Text组件JSON**/
-export function createTextComponent(content: string, children: Array<NestOption> = []) {
+export function createTextComponent(content: string = '') {
     return {
         uid: createMathNumber(),
         tagName: NestBlock.MJ_TEXT,
+        content,
         attributes: {
             paddingLeft: 10,
             paddingRight: 10,
@@ -185,22 +192,21 @@ export function createTextComponent(content: string, children: Array<NestOption>
             paddingTop: 0,
             lineHeight: 1.6,
             fontSize: 14
-        },
-        content,
-        children
+        }
     }
 }
 
 /**Button组件JSON**/
-export function createButtonComponent(content: string, children: Array<NestOption> = []) {
+export function createButtonComponent(content: string = '') {
     return {
         uid: createMathNumber(),
         tagName: NestBlock.MJ_BUTTON,
+        content,
         attributes: {
             paddingLeft: 10,
             paddingRight: 10,
-            paddingBottom: 10,
-            paddingTop: 10,
+            paddingBottom: 5,
+            paddingTop: 5,
             innerPadding: '10px 20px',
             align: 'center',
             backgroundColor: '#414141',
@@ -209,14 +215,12 @@ export function createButtonComponent(content: string, children: Array<NestOptio
             color: '#ffffff',
             fontWeight: 'normal',
             borderRadius: 0
-        },
-        content,
-        children
+        }
     }
 }
 
 /**Image组件JSON**/
-export function createImageComponent(src = '', children: Array<NestOption> = []) {
+export function createImageComponent(src: string = '') {
     return {
         uid: createMathNumber(),
         tagName: NestBlock.MJ_IMAGE,
@@ -231,18 +235,16 @@ export function createImageComponent(src = '', children: Array<NestOption> = [])
             alt: '',
             width: 400,
             borderRadius: 0
-        },
-        children
+        }
     }
 }
 
 /**Divider组件JSON**/
-export function createDividerComponent(attributes: Record<string, any>, children: Array<NestOption> = []) {
+export function createDividerComponent() {
     return {
         uid: createMathNumber(),
         tagName: NestBlock.MJ_DIVIDER,
-        attributes,
-        children
+        attributes: {}
     }
 }
 

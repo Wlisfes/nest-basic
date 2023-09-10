@@ -29,6 +29,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
                     'src/components',
                     'src/layout',
                     'src/views/mailer/common',
+                    'src/views/mailer/custom',
                     'src/views/mailer/components',
                     'src/views/captcha/common'
                 ],

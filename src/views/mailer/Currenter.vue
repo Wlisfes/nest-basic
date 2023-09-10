@@ -10,12 +10,10 @@ export default defineComponent({
         const { mobile } = useResize()
 
         return () => (
-            <common-container position="customize" bordered>
+            <common-container position="customize">
                 <mailer-currenter></mailer-currenter>
             </common-container>
         )
     }
 })
 </script>
-
-<style lang="scss" scoped></style>
