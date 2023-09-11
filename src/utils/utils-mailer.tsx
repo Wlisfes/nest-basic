@@ -185,29 +185,13 @@ export function createJsonCameTransfor(data: Record<string, any>, reverse: boole
     return data
 }
 
-/**默认JSON参数**/
+/**储存、预览JSON包装**/
 export function createJsonRender(children: Array<NestOption> = []) {
     return {
+        uid: createMathNumber(),
         tagName: 'mjml',
         attributes: {},
-        children: [
-            {
-                tagName: 'mj-head',
-                attributes: {},
-                children: [
-                    {
-                        tagName: 'mj-style',
-                        attributes: { inline: 'inline' },
-                        content: `.reset-p p { margin: '0px' }`
-                    }
-                ]
-            },
-            {
-                tagName: 'mj-body',
-                attributes: {},
-                children
-            }
-        ]
+        children: [{ uid: createMathNumber(), tagName: 'mj-body', attributes: {}, children: children }]
     }
 }
 

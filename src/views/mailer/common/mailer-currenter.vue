@@ -10,6 +10,7 @@ import {
     NestBlock,
     observer,
     createMjmlTransfor,
+    createJsonRender,
     createJsonTransfor,
     createJsonCameTransfor,
     createJsonRemoveTransfer,
@@ -50,11 +51,12 @@ export default defineComponent({
 
         async function fetchBasicMailerTemplate() {
             try {
-                const { data } = await http.httpBasicMailerTemplate({ id: 1 })
+                const { data } = await http.httpBasicMailerTemplate({ id: 15 })
                 const { html, json } = createMjmlTransfor(data.mjml)
-                const jsonData = createJsonCameTransfor(createJsonRemoveTransfer(json), true)
-                console.log(jsonData.children[0].children)
-                dataSource.value = jsonData.children[0].children ?? []
+                // const jsonData = createJsonCameTransfor(createJsonRemoveTransfer(json), true)
+                // console.log(jsonData.children[0].children)
+                dataSource.value = data.json.children[0].children ?? []
+                console.log(data.json.children[0].children ?? [])
             } catch (e) {
                 console.log(e)
             }
@@ -78,7 +80,7 @@ export default defineComponent({
                 setState,
                 evt,
                 mjml: createJsonTransfor(createJsonCameTransfor(JSON.parse(JSON.stringify(JsonRender.value)))),
-                json: JsonRender.value
+                json: createJsonRender(dataSource.value)
             })
 
             // window.localStorage.setItem('dataSourceElement', JSON.stringify(JsonRender.value))

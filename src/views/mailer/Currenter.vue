@@ -13,12 +13,13 @@ export default defineComponent({
         const { mobile } = useResize()
 
         /**保存表单**/
-        async function onSubmit(evt: { json: string; mjml: string; setState: Function }) {
+        async function onSubmit(evt: { json: Record<string, any>; mjml: string; setState: Function }) {
             try {
                 await evt.setState({ loading: true })
                 const { message } = await http.httpCreateMailerTemplate({
                     name: '测试模板',
-                    mjml: evt.mjml
+                    mjml: evt.mjml,
+                    json: evt.json
                 })
                 return await createNotice({
                     type: 'success',
