@@ -71,3 +71,12 @@ export function httpColumnMailerTemplate(params: { page: number; size: number })
         params
     })
 }
+
+/**邮件模板信息**/
+export function httpBasicMailerTemplate(params: { id: number }) {
+    return request<MailerTemplate>({
+        url: `/api-basic/mailer/template/basic`,
+        method: 'GET',
+        params
+    })
+}

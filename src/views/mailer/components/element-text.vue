@@ -43,24 +43,21 @@ export default defineComponent({
                 ckeditor.model.document.on('change', (e: any) => {
                     node.value.content = ckeditor.getData()
                 })
-
-                observer.on(OBSERVER_START_DRAG_EVENT, () => {
-                    if (!ckeditor.isReadOnly) {
-                        ckeditor.enableReadOnlyMode(node.value.uid.toString())
-                    }
-                })
-
-                observer.on(OBSERVER_END_DRAG_EVENT, () => {
-                    if (ckeditor.isReadOnly) {
-                        ckeditor.disableReadOnlyMode(node.value.uid.toString())
-                    }
-                })
-
+                // observer.on(OBSERVER_START_DRAG_EVENT, () => {
+                //     if (!ckeditor.isReadOnly) {
+                //         ckeditor.enableReadOnlyMode(node.value.uid.toString())
+                //     }
+                // })
+                // observer.on(OBSERVER_END_DRAG_EVENT, () => {
+                //     if (ckeditor.isReadOnly) {
+                //         ckeditor.disableReadOnlyMode(node.value.uid.toString())
+                //     }
+                // })
                 return (instance.value = ckeditor)
             })
         })
 
-        return () => <div class="mj-text element-text" id={node.value.uid.toString()} ref={element} style={elementText.value}></div>
+        return () => <div class="mj-text element-text" ref={element} style={elementText.value}></div>
     }
 })
 </script>

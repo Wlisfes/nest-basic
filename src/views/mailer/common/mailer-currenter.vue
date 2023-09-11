@@ -12,10 +12,12 @@ import {
     createMjmlTransfor,
     createJsonTransfor,
     createJsonCameTransfor,
+    createJsonRemoveTransfer,
     createCheckElement,
     OBSERVER_START_DRAG_EVENT,
     OBSERVER_END_DRAG_EVENT
 } from '@/utils/utils-mailer'
+import * as http from '@/api/instance.service'
 
 export default defineComponent({
     name: 'MailerCurrenter',
@@ -42,7 +44,19 @@ export default defineComponent({
             return {
                 'element-component': true,
                 'is-execute': state.execute,
-                'is-selecter': state.current?.uid === data.uid
+                'is-selecter': state.current && state.current.uid === data.uid
+            }
+        }
+
+        async function fetchBasicMailerTemplate() {
+            try {
+                const { data } = await http.httpBasicMailerTemplate({ id: 1 })
+                const { html, json } = createMjmlTransfor(data.mjml)
+                const jsonData = createJsonCameTransfor(createJsonRemoveTransfer(json), true)
+                console.log(jsonData.children[0].children)
+                dataSource.value = jsonData.children[0].children ?? []
+            } catch (e) {
+                console.log(e)
             }
         }
 
@@ -89,11 +103,12 @@ export default defineComponent({
         )
 
         onMounted(() => {
-            const data = window.localStorage.getItem('dataSourceElement') as string
-            const evt = JSON.parse(data ?? {})
-            if (evt.children && evt.children.length > 0) {
-                dataSource.value = evt.children[0].children ?? []
-            }
+            fetchBasicMailerTemplate()
+            // const data = window.localStorage.getItem('dataSourceElement') as string
+            // const evt = JSON.parse(data ?? {})
+            // if (evt.children && evt.children.length > 0) {
+            //     dataSource.value = evt.children[0].children ?? []
+            // }
 
             observer.on('OBSERVER_START_DRAG_EVENT', async () => {
                 return await setState({ execute: true })

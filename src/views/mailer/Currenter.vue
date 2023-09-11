@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent } from 'vue'
+import { defineComponent, onMounted } from 'vue'
 import { useResize } from '@/hooks/hook-resize'
 import { VueDraggable } from 'vue-draggable-plus'
 import { createNotice } from '@/utils/utils-naive'

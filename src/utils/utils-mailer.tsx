@@ -119,6 +119,16 @@ export function createJsonTransfor(value: Record<string, any>) {
     return JsonTransfor(value)
 }
 
+/**邮件模板JSON转换、去除多余字段**/
+export function createJsonRemoveTransfer(data: Record<string, any>) {
+    return {
+        attributes: data.attributes ?? {},
+        tagName: data.tagName ?? '',
+        content: data.content ?? '',
+        children: (data.children ?? []).map((item: any) => createJsonRemoveTransfer(item))
+    }
+}
+
 /**对象Key转化**/
 export function createCameTransfor(data: Record<string, any>, reverse: boolean = false) {
     return Object.keys(data).reduce((current, key) => {
@@ -136,6 +146,19 @@ export function createCameTransfor(data: Record<string, any>, reverse: boolean =
 /**json样式值转化**/
 export function createStyleCameTransfor(data: Record<string, any>, reverse: boolean = false) {
     if (reverse) {
+        const CSSPropertie = {
+            'padding-left': (value: string) => parseFloat(value),
+            'padding-right': (value: string) => parseFloat(value),
+            'padding-bottom': (value: string) => parseFloat(value),
+            'padding-top': (value: string) => parseFloat(value),
+            'font-size': (value: string) => parseFloat(value),
+            'border-radius': (value: string) => parseFloat(value)
+        }
+        return Object.keys(data).reduce((current, key) => {
+            const valueTransfor = CSSPropertie[key as keyof typeof CSSPropertie]
+            current[key] = valueTransfor ? valueTransfor(data[key]) : data[key]
+            return current
+        }, Object.assign({}))
     } else {
         const CSSPropertie = {
             paddingLeft: (value: number) => value + 'px',
@@ -151,6 +174,15 @@ export function createStyleCameTransfor(data: Record<string, any>, reverse: bool
             return current
         }, Object.assign({}))
     }
+}
+
+/**json样式驼峰字段转化**/
+export function createJsonCameTransfor(data: Record<string, any>, reverse: boolean = false) {
+    data.attributes = createCameTransfor(createStyleCameTransfor(data.attributes ?? {}, reverse), reverse)
+    if (data.children && data.children.length > 0) {
+        data.children = data.children.map((node: Record<string, any>) => createJsonCameTransfor(node, reverse))
+    }
+    return data
 }
 
 /**默认JSON参数**/
@@ -177,15 +209,6 @@ export function createJsonRender(children: Array<NestOption> = []) {
             }
         ]
     }
-}
-
-/**json样式驼峰字段转化**/
-export function createJsonCameTransfor(data: Record<string, any>, reverse: boolean = false) {
-    data.attributes = createCameTransfor(createStyleCameTransfor(data.attributes ?? {}, reverse), reverse)
-    if (data.children && data.children.length > 0) {
-        data.children = data.children.map((node: Record<string, any>) => createJsonCameTransfor(node, reverse))
-    }
-    return data
 }
 
 /**Section组件JSON**/

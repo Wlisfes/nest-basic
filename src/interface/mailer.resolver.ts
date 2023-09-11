@@ -43,4 +43,8 @@ export interface UserBundleMailer extends CommonResolver {
     status: 'effect' | 'invalid' | 'refund' | 'disable'
 }
 
-export interface MailerTemplate extends CommonResolver {}
+export interface MailerTemplate extends CommonResolver {
+    name: string
+    mjml: string
+    user: IUser
+}
