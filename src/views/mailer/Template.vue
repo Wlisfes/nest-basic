@@ -41,6 +41,16 @@ export default defineComponent({
                                 type="primary"
                                 size="large"
                                 disabled={state.loading}
+                                onClick={() => router.push(`/mailer/update/currenter`)}
+                            >
+                                {{ icon: createElement(sompute('AddRound')), default: createElement(<span>编辑模板</span>) }}
+                            </n-button>
+                            <n-button
+                                strong
+                                focusable={false}
+                                type="primary"
+                                size="large"
+                                disabled={state.loading}
                                 onClick={() => router.push(`/mailer/create/currenter`)}
                             >
                                 {{ icon: createElement(sompute('AddRound')), default: createElement(<span>创建模板</span>) }}

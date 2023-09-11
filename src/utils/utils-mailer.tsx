@@ -1,7 +1,8 @@
 import { type INameUI } from '@/utils/utils-remix'
 import { Observer } from '@/utils/utils-observer'
-import MjmlTransfor from 'mjml-browser'
-import JsonTransfor from 'json2mjml'
+import createMjmlTransfor from 'mjml-browser'
+import createJsonTransfor from 'json2mjml'
+import _ from 'lodash'
 
 export enum NestBlock {
     MJ_SECTION = 'mj-section',
@@ -40,14 +41,6 @@ export const OBSERVER_START_DRAG_EVENT = 'OBSERVER_START_DRAG_EVENT'
 export const OBSERVER_END_DRAG_EVENT = 'OBSERVER_END_DRAG_EVENT'
 export const observer = new Observer()
 export type EventListener = typeof OBSERVER_START_DRAG_EVENT | typeof OBSERVER_END_DRAG_EVENT
-
-/**事件监听**/
-export function elementListener(type: EventListener, handler: Function) {
-    return observer.on(type, (data: any) => handler(data))
-}
-
-/**拖拽中**/
-export function onMoveDraggableElement() {}
 
 /**组件克隆**/
 export function cloneElement(setState: Function, data: NestBlocks) {
@@ -109,38 +102,16 @@ export function createMathNumber() {
     return Number(Date.now().toString() + (Math.ceil(Math.random() * 888) + 111).toString())
 }
 
-/**MJML转(JSON、HTML)**/
-export function createMjmlTransfor(value: string) {
-    return MjmlTransfor(value)
-}
-
-/**JSON转MJML**/
-export function createJsonTransfor(value: Record<string, any>) {
-    return JsonTransfor(value)
-}
-
-/**邮件模板JSON转换、去除多余字段**/
-export function createJsonRemoveTransfer(data: Record<string, any>) {
-    return {
-        attributes: data.attributes ?? {},
-        tagName: data.tagName ?? '',
-        content: data.content ?? '',
-        children: (data.children ?? []).map((item: any) => createJsonRemoveTransfer(item))
-    }
-}
-
-/**对象Key转化**/
-export function createCameTransfor(data: Record<string, any>, reverse: boolean = false) {
-    return Object.keys(data).reduce((current, key) => {
-        if (reverse) {
-            const name = key.replace(/-([a-z])/g, (match, letter) => letter.toUpperCase())
-            current[name] = data[key]
-        } else {
-            const name = key.replace(/[A-Z]/g, match => '-' + match.toLowerCase())
-            current[name] = data[key]
+/**查找body节点JSON数据**/
+export function createJsonSource(data: Record<string, any> = {}): Array<NestOption> {
+    if (data.tagName === 'mj-body') {
+        return data.children ?? []
+    } else if (data.children && data.children.length > 0) {
+        for (let index = 0; index < data.children.length; index++) {
+            return createJsonSource(data.children[index])
         }
-        return current
-    }, Object.assign({}))
+    }
+    return []
 }
 
 /**json样式值转化**/
@@ -176,6 +147,20 @@ export function createStyleCameTransfor(data: Record<string, any>, reverse: bool
     }
 }
 
+/**对象Key转化**/
+export function createCameTransfor(data: Record<string, any>, reverse: boolean = false) {
+    return Object.keys(data).reduce((current, key) => {
+        if (reverse) {
+            const name = key.replace(/-([a-z])/g, (match, letter) => letter.toUpperCase())
+            current[name] = data[key]
+        } else {
+            const name = key.replace(/[A-Z]/g, match => '-' + match.toLowerCase())
+            current[name] = data[key]
+        }
+        return current
+    }, Object.assign({}))
+}
+
 /**json样式驼峰字段转化**/
 export function createJsonCameTransfor(data: Record<string, any>, reverse: boolean = false) {
     data.attributes = createCameTransfor(createStyleCameTransfor(data.attributes ?? {}, reverse), reverse)
@@ -185,14 +170,19 @@ export function createJsonCameTransfor(data: Record<string, any>, reverse: boole
     return data
 }
 
-/**储存、预览JSON包装**/
-export function createJsonRender(children: Array<NestOption> = []) {
-    return {
+/**基础数据转换**/
+export async function createBasicRender(data: Array<NestOption> = [], reverse: boolean = false) {
+    const jsonDate = {
         uid: createMathNumber(),
         tagName: 'mjml',
         attributes: {},
-        children: [{ uid: createMathNumber(), tagName: 'mj-body', attributes: {}, children: children }]
+        children: [{ uid: createMathNumber(), tagName: 'mj-body', attributes: {}, children: _.cloneDeep(data) }]
     }
+    const jsonCame = createJsonCameTransfor(_.cloneDeep(jsonDate), reverse)
+    const jsonMjml = createJsonTransfor(_.cloneDeep(jsonCame))
+    const { json, html } = createMjmlTransfor(jsonMjml)
+
+    return { jsonDate, jsonCame, jsonMjml, json, html }
 }
 
 /**Section组件JSON**/

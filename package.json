@@ -20,6 +20,7 @@
         "dayjs": "^1.11.7",
         "is-mobile": "^4.0.0",
         "json2mjml": "^1.0.3",
+        "lodash": "^4.17.21",
         "mjml-browser": "^4.14.1",
         "naive-ui": "^2.34.4",
         "normalize.css": "^8.0.1",

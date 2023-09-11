@@ -136,6 +136,13 @@ export const client: Array<RouteRecordRaw> = [
                     {
                         path: '/mailer/create/currenter',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE', Header: 'HIDE', Sidebar: 'HIDE' },
+                        props: { command: 'CREATE' },
+                        component: () => import('@/views/mailer/Currenter.vue')
+                    },
+                    {
+                        path: '/mailer/update/currenter',
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE', Header: 'HIDE', Sidebar: 'HIDE' },
+                        props: { command: 'UPDATE' },
                         component: () => import('@/views/mailer/Currenter.vue')
                     },
                     {

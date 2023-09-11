@@ -63,6 +63,15 @@ export function httpCreateMailerTemplate(data: { name: string; mjml: string; jso
     })
 }
 
+/**编辑邮件模板**/
+export function httpUpdateMailerTemplate(data: { id: number; name: string; mjml: string; json: Record<string, any> }) {
+    return request<Notice>({
+        url: `/api-basic/mailer/template/update`,
+        method: 'PUT',
+        data
+    })
+}
+
 /**邮件模板列表**/
 export function httpColumnMailerTemplate(params: { page: number; size: number }) {
     return request<Result<MailerTemplate>>({

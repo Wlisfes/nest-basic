@@ -38,12 +38,7 @@ export default defineComponent({
         }
 
         return () => (
-            <vue-draggable
-                class="mj-section element-section"
-                style={element.value}
-                v-model={node.value.children}
-                group={{ name: 'elements', pull: false, put: ['elements'] }}
-            >
+            <vue-draggable class="mj-section element-section" style={element.value} v-model={node.value.children}>
                 {node.value.children.map(item => (
                     <div class="element-component" style={elementProperter(item)} key={item.uid}>
                         {item.tagName === NestBlock.MJ_COLUMN ? <element-column v-model:node={item}></element-column> : null}
