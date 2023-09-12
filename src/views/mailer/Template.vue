@@ -75,6 +75,8 @@ export default defineComponent({
                     page-sizes={[20, 30, 40, 50, 60]}
                     total={state.total}
                     data-source={state.dataSource}
+                    y-gap={30}
+                    x-gap={30}
                     cols={{ 480: 1, 750: 2, 1080: 3, 1480: 4, 1880: 5, 2680: 6 }}
                     default-cols={5}
                     onUpdate={fetchUpdate}
