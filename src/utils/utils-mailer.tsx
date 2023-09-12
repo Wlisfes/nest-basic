@@ -32,6 +32,8 @@ export interface NestOption {
     content?: string
 }
 export interface NestState {
+    width: number
+    dataSource: Array<NestOption>
     current: NestOption | undefined
     execute: boolean
     loading: boolean
@@ -171,12 +173,21 @@ export function createJsonCameTransfor(data: Record<string, any>, reverse: boole
 }
 
 /**基础数据转换**/
-export async function createBasicRender(data: Array<NestOption> = [], reverse: boolean = false) {
+export async function createBasicRender(attributes: Record<string, any>, data: Array<NestOption> = [], reverse: boolean = false) {
     const jsonDate = {
         uid: createMathNumber(),
         tagName: 'mjml',
         attributes: {},
-        children: [{ uid: createMathNumber(), tagName: 'mj-body', attributes: {}, children: _.cloneDeep(data) }]
+        children: [
+            {
+                uid: createMathNumber(),
+                tagName: 'mj-body',
+                attributes: {
+                    width: (attributes.width ?? 640) + 'px'
+                },
+                children: _.cloneDeep(data)
+            }
+        ]
     }
     const jsonCame = createJsonCameTransfor(_.cloneDeep(jsonDate), reverse)
     const jsonMjml = createJsonTransfor(_.cloneDeep(jsonCame))

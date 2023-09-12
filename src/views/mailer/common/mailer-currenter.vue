@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, ref, onMounted, type PropType } from 'vue'
+import { defineComponent, onMounted, type PropType } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { useState } from '@/hooks/hook-state'
 import { compute } from '@/utils/utils-remix'
@@ -19,15 +19,15 @@ export default defineComponent({
     components: { VueDraggable },
     emits: ['submit'],
     props: {
-        maxWidth: { type: Number, default: 640 },
         command: {
             type: String as PropType<'CREATE' | 'UPDATE'>,
             default: 'CREATE'
         }
     },
     setup(props, { emit }) {
-        const dataSource = ref<Array<NestOption>>([])
-        const { state, setState } = useState<NestState>({
+        const { state, dataSource, setState } = useState<NestState>({
+            dataSource: [],
+            width: 640,
             loading: false,
             current: undefined,
             execute: false
@@ -46,6 +46,7 @@ export default defineComponent({
         async function fetchBasicMailerTemplate() {
             try {
                 const { data } = await http.httpBasicMailerTemplate({ id: 16 })
+                await setState
                 dataSource.value = createJsonSource(data.json)
             } catch (e) {
                 console.log(e)
@@ -57,14 +58,14 @@ export default defineComponent({
 
         /**预览**/
         async function onCheckElement() {
-            return await createBasicRender(dataSource.value).then(async ({ html }) => {
+            return await createBasicRender({ width: state.width }, dataSource.value).then(async ({ html }) => {
                 return await createCheckElement(html)
             })
         }
 
         /**保存**/
         async function onSubmitElement(evt: Event) {
-            return await createBasicRender(dataSource.value).then(data => {
+            return await createBasicRender({ width: state.width }, dataSource.value).then(data => {
                 emit('submit', { setState, evt, ...data })
             })
         }
@@ -123,7 +124,7 @@ export default defineComponent({
                                         {dataSource.value.map(item => (
                                             <div key={item.uid} class={elementClassName(item)} onClick={e => onCurrentElement(item)}>
                                                 {item.tagName === NestBlock.MJ_SECTION ? (
-                                                    <element-section v-model:node={item}></element-section>
+                                                    <element-section v-model:node={item} width={state.width}></element-section>
                                                 ) : null}
                                                 <div class="element-border is-top"></div>
                                                 <div class="element-border is-bottom"></div>

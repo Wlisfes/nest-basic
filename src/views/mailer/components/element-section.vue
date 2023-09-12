@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, ref, onMounted, computed, Fragment, type PropType, type CSSProperties } from 'vue'
+import { defineComponent, computed, type PropType, type CSSProperties } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { useVModels } from '@vueuse/core'
 import { NestBlock, type NestOption } from '@/utils/utils-mailer'
@@ -8,7 +8,7 @@ export default defineComponent({
     name: 'ElementSection',
     components: { VueDraggable },
     props: {
-        maxWidth: { type: Number, default: 640 },
+        width: { type: Number, default: 640 },
         node: { type: Object as PropType<NestOption>, required: true }
     },
     setup(props, { emit }) {
@@ -19,7 +19,7 @@ export default defineComponent({
             fontSize: '0px',
             display: 'flex',
             margin: '0 auto',
-            maxWidth: `${props.maxWidth}px`,
+            width: `${props.width}px`,
             backgroundColor: node.value.attributes.backgroundColor,
             paddingLeft: `${node.value.attributes.paddingLeft ?? 0}px`,
             paddingRight: `${node.value.attributes.paddingRight ?? 0}px`,
