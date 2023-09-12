@@ -19,13 +19,14 @@ export default defineComponent({
         const { mobile } = useResize()
 
         /**保存表单**/
-        async function onSubmit(evt: { jsonDate: Record<string, any>; jsonMjml: string; setState: Function }) {
+        async function onSubmit(evt: { width: number; jsonDate: Record<string, any>; jsonMjml: string; setState: Function }) {
             if (props.command === 'CREATE') {
                 /**创建邮件模板**/
                 try {
                     await evt.setState({ loading: true })
                     const { message } = await http.httpCreateMailerTemplate({
                         name: '测试模板',
+                        width: evt.width,
                         mjml: evt.jsonMjml,
                         json: evt.jsonDate
                     })
@@ -44,6 +45,7 @@ export default defineComponent({
                     const { message } = await http.httpUpdateMailerTemplate({
                         id: 16,
                         name: '测试模板',
+                        width: evt.width,
                         mjml: evt.jsonMjml,
                         json: evt.jsonDate
                     })

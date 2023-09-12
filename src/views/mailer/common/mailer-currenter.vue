@@ -66,7 +66,7 @@ export default defineComponent({
         /**保存**/
         async function onSubmitElement(evt: Event) {
             return await createBasicRender({ width: state.width }, dataSource.value).then(data => {
-                emit('submit', { setState, evt, ...data })
+                emit('submit', { setState, evt, width: state.width, ...data })
             })
         }
 

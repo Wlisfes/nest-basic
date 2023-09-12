@@ -55,7 +55,7 @@ export function httpColumnUserMailer(params: { page: number; size: number }) {
 }
 
 /**创建邮件模板**/
-export function httpCreateMailerTemplate(data: { name: string; mjml: string; json: Record<string, any> }) {
+export function httpCreateMailerTemplate(data: { width: number; name: string; mjml: string; json: Record<string, any> }) {
     return request<Notice>({
         url: `/api-basic/mailer/template/create`,
         method: 'POST',
@@ -64,7 +64,7 @@ export function httpCreateMailerTemplate(data: { name: string; mjml: string; jso
 }
 
 /**编辑邮件模板**/
-export function httpUpdateMailerTemplate(data: { id: number; name: string; mjml: string; json: Record<string, any> }) {
+export function httpUpdateMailerTemplate(data: { id: number; width: number; name: string; mjml: string; json: Record<string, any> }) {
     return request<Notice>({
         url: `/api-basic/mailer/template/update`,
         method: 'PUT',

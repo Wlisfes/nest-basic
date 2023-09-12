@@ -1,21 +1,29 @@
 <script lang="tsx">
 import { defineComponent } from 'vue'
 import { useResize } from '@/hooks/hook-resize'
-import { useState } from '@/hooks/hook-state'
+import { useSource } from '@/hooks/hook-source'
+import { divineSkeleton } from '@/utils/utils-common'
 import { whereProperter, createElement } from '@/utils/utils-layout'
 import { sompute } from '@/utils/utils-remix'
 import { router } from '@/router'
 import { VueDraggable } from 'vue-draggable-plus'
+import type { MailerTemplate } from '@/interface/mailer.resolver'
+import * as http from '@/api/instance.service'
 
 export default defineComponent({
     name: 'Template',
     components: { VueDraggable },
     setup() {
         const { mobile } = useResize()
-        const { state } = useState({
-            loading: false,
-            form: { name: undefined }
-        })
+        const { state, fetchUpdate } = useSource(
+            {
+                immediate: true,
+                loading: true,
+                form: { name: undefined },
+                size: 10
+            },
+            ({ size, page }) => http.httpColumnMailerTemplate({ size, page })
+        )
 
         return () => (
             <common-container
@@ -32,7 +40,7 @@ export default defineComponent({
                                     disabled={state.loading}
                                     size="large"
                                     placeholder="模板名称"
-                                    //onSearch={fetchUpdate}
+                                    onSearch={fetchUpdate}
                                 ></common-search>
                             </n-form-item>
                             <n-button
@@ -58,7 +66,33 @@ export default defineComponent({
                         </n-space>
                     </common-header>
                 }
-            ></common-container>
+            >
+                <common-source
+                    loading={state.loading}
+                    page={state.page}
+                    size={state.size}
+                    pagination={state.total > 20}
+                    page-sizes={[20, 30, 40, 50, 60]}
+                    total={state.total}
+                    data-source={state.dataSource}
+                    cols={{ 480: 1, 750: 2, 1080: 3, 1480: 4, 1880: 5, 2680: 6 }}
+                    default-cols={5}
+                    onUpdate={fetchUpdate}
+                    data-render={(data: MailerTemplate) => {
+                        return <mailer-template key={data.id} node={data} mobile={mobile.value}></mailer-template>
+                    }}
+                    data-spin={
+                        <common-resize
+                            style={{ paddingBottom: '64px' }}
+                            cols={{ 480: 1, 750: 2, 1080: 3, 1480: 4, 1880: 5, 2680: 6 }}
+                            default-cols={5}
+                            data-render={(e: { cols: number }) => {
+                                return divineSkeleton(e.cols * 2, <n-skeleton height={301} style={{ borderRadius: '3px' }} />)
+                            }}
+                        ></common-resize>
+                    }
+                ></common-source>
+            </common-container>
         )
     }
 })

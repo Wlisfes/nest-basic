@@ -1,7 +1,7 @@
 import { type INameUI } from '@/utils/utils-remix'
 import { Observer } from '@/utils/utils-observer'
-import createMjmlTransfor from 'mjml-browser'
-import createJsonTransfor from 'json2mjml'
+import useMjmlTransfor from 'mjml-browser'
+import useJsonTransfor from 'json2mjml'
 import _ from 'lodash'
 
 export enum NestBlock {
@@ -92,6 +92,11 @@ export const nestBlocks: Array<NestBlocks> = [
 export async function createCheckElement(value: string) {
     const min = window.open() as Window
     return (min.document.body.innerHTML = value)
+}
+
+/**MJML转化HTML、JSON**/
+export function createMjmlTransfor(mjml: string) {
+    return useMjmlTransfor(mjml)
 }
 
 /**过滤组件列表**/
@@ -190,8 +195,8 @@ export async function createBasicRender(attributes: Record<string, any>, data: A
         ]
     }
     const jsonCame = createJsonCameTransfor(_.cloneDeep(jsonDate), reverse)
-    const jsonMjml = createJsonTransfor(_.cloneDeep(jsonCame))
-    const { json, html } = createMjmlTransfor(jsonMjml)
+    const jsonMjml = useJsonTransfor(_.cloneDeep(jsonCame))
+    const { json, html } = useMjmlTransfor(jsonMjml)
 
     return { jsonDate, jsonCame, jsonMjml, json, html }
 }
