@@ -19,6 +19,7 @@
         "axios": "^1.4.0",
         "class-validator": "^0.13.2",
         "dayjs": "^1.11.7",
+        "html2canvas": "^1.4.1",
         "is-mobile": "^4.0.0",
         "json2mjml": "^1.0.3",
         "lodash": "^4.17.21",

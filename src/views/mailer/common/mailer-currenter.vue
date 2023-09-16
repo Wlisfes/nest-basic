@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, onMounted, type PropType } from 'vue'
+import { defineComponent, onMounted, ref, type PropType } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { useState } from '@/hooks/hook-state'
 import { compute } from '@/utils/utils-remix'
@@ -10,7 +10,8 @@ import {
     observer,
     createBasicRender,
     createJsonSource,
-    createCheckElement
+    createCheckElement,
+    createHtml2Canvas
 } from '@/utils/utils-mailer'
 import * as http from '@/api/instance.service'
 
@@ -25,6 +26,7 @@ export default defineComponent({
         }
     },
     setup(props, { emit }) {
+        const element = ref<HTMLElement>()
         const { state, dataSource, setState } = useState<NestState>({
             dataSource: [],
             width: 640,
@@ -58,16 +60,27 @@ export default defineComponent({
 
         /**预览**/
         async function onCheckElement() {
-            return await createBasicRender({ width: state.width }, dataSource.value).then(async ({ html }) => {
-                return await createCheckElement(html)
+            // return await createBasicRender(
+            //     element
+            //     {}
+            // ).then(async ({ html }) => {
+            //     return await createCheckElement(html)
+            // })
+            return await createBasicRender(document.querySelector('.app-currenter') as HTMLElement, {
+                attributes: { width: state.width },
+                data: dataSource.value,
+                reverse: false
+            }).then(e => {
+                console.log(e)
+                // return await createCheckElement(html)
             })
         }
 
         /**保存**/
         async function onSubmitElement(evt: Event) {
-            return await createBasicRender({ width: state.width }, dataSource.value).then(data => {
-                emit('submit', { setState, evt, width: state.width, ...data })
-            })
+            // return await createBasicRender({ width: state.width }, dataSource.value).then(data => {
+            //     emit('submit', { setState, evt, width: state.width, ...data })
+            // })
         }
 
         /**选中组件**/

@@ -88,6 +88,8 @@ export default defineComponent({
                             style={{ paddingBottom: '64px' }}
                             cols={{ 480: 1, 750: 2, 1080: 3, 1480: 4, 1880: 5, 2680: 6 }}
                             default-cols={5}
+                            y-gap={30}
+                            x-gap={30}
                             data-render={(e: { cols: number }) => {
                                 return divineSkeleton(e.cols * 2, <n-skeleton height={301} style={{ borderRadius: '3px' }} />)
                             }}

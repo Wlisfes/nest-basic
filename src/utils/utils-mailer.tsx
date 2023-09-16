@@ -3,6 +3,7 @@ import { Observer } from '@/utils/utils-observer'
 import useMjmlTransfor from 'mjml-browser'
 import useJsonTransfor from 'json2mjml'
 import _ from 'lodash'
+import hml2Canvas from 'html2canvas'
 
 export enum NestBlock {
     MJ_SECTION = 'mj-section',
@@ -177,8 +178,28 @@ export function createJsonCameTransfor(data: Record<string, any>, reverse: boole
     return data
 }
 
+/**HTML转换图片**/
+export function createHtml2Canvas(element: HTMLElement, option: { width: number; height: number }): Promise<Blob> {
+    return new Promise(resolve => {
+        hml2Canvas(element, {
+            allowTaint: false,
+            useCORS: true,
+            x: (element.clientWidth - option.width) / 2,
+            y: 30,
+            width: option.width,
+            height: option.height
+        }).then(canvas => {
+            canvas.toBlob(blob => resolve(blob as Blob), 'image/jpg', 1)
+        })
+    })
+}
+
 /**基础数据转换**/
-export async function createBasicRender(attributes: Record<string, any>, data: Array<NestOption> = [], reverse: boolean = false) {
+export async function createBasicRender(
+    element: HTMLElement,
+    option: { attributes: Record<string, any>; data: Array<NestOption>; reverse?: boolean }
+) {
+    const { attributes, data, reverse } = Object.assign({ attributes: {}, data: [], reverse: false }, option)
     const jsonDate = {
         uid: createMathNumber(),
         tagName: 'mjml',
@@ -196,9 +217,10 @@ export async function createBasicRender(attributes: Record<string, any>, data: A
     }
     const jsonCame = createJsonCameTransfor(_.cloneDeep(jsonDate), reverse)
     const jsonMjml = useJsonTransfor(_.cloneDeep(jsonCame))
+    const blob = await createHtml2Canvas(element, { width: attributes.width ?? 640, height: attributes.width * 0.7 })
     const { json, html } = useMjmlTransfor(jsonMjml)
 
-    return { jsonDate, jsonCame, jsonMjml, json, html }
+    return { jsonDate, jsonCame, jsonMjml, json, html, blob }
 }
 
 /**Section组件JSON**/

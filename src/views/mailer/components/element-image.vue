@@ -33,7 +33,7 @@ export default defineComponent({
         return () => (
             <div class="mj-image element-image" style={imageScale.value}>
                 <img
-                    src={node.value.attributes.src}
+                    src={`https://oss.lisfes.cn/stomer/2023-08/cover/1692758385264.jpg`}
                     alt={node.value.attributes.alt}
                     srcset={node.value.attributes.srcset}
                     style={imageColumn.value}
