@@ -29,6 +29,7 @@ export const RemixUI = {
     SemiBold: h(<Icon-SemiBold />),
     SlackBold: h(<Icon-SlackBold />),
     WarningRound: h(<Icon-WarningRound />),
+    PendingRound: h(<Icon-PendingRound />),
     HomeOutlined: h(<Icon-HomeOutlined />),
     Debugger: h(<Icon-Debugger />),
     SearchBlod: h(<Icon-SearchBlod />),
@@ -69,7 +70,8 @@ export const RemixUI = {
     BasicNavbar: h(<Icon-BasicNavbar />),
     BasicHero: h(<Icon-BasicHero />),
     BasicWrapper: h(<Icon-BasicWrapper />),
-    BasicContent: h(<Icon-BasicContent />)
+    BasicContent: h(<Icon-BasicContent />),
+    ImageHolder: h(<Icon-ImageHolder />)
 }
 
 /**图标类型拆解**/

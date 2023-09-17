@@ -1,22 +1,30 @@
 <script lang="tsx">
-import { defineComponent, onMounted, type PropType } from 'vue'
-import { useResize } from '@/hooks/hook-resize'
+import { defineComponent, type PropType } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { isEmpty } from 'class-validator'
+import { createMounte, divineHandler } from '@/utils/utils-common'
 import { VueDraggable } from 'vue-draggable-plus'
 import { createNotice } from '@/utils/utils-naive'
-import { router } from '@/router'
 import * as http from '@/api/instance.service'
 
 export default defineComponent({
     name: 'Currenter',
     components: { VueDraggable },
     props: {
-        command: {
-            type: String as PropType<'CREATE' | 'UPDATE'>,
-            default: 'CREATE'
-        }
+        command: { type: String as PropType<'CREATE' | 'UPDATE'>, default: 'CREATE' }
     },
     setup(props) {
-        const { mobile } = useResize()
+        const route = useRoute()
+        const router = useRouter()
+
+        createMounte(() => {
+            divineHandler(
+                () => props.command === 'UPDATE' && isEmpty(route.query.keyId),
+                () => {
+                    router.replace(`/mailer/template`)
+                }
+            )
+        })
 
         /**保存表单**/
         function onSubmit(evt: { width: number; url: string; jsonMjml: string; jsonDate: Record<string, any>; setState: Function }) {
@@ -29,7 +37,8 @@ export default defineComponent({
                             cover: evt.url,
                             width: evt.width,
                             mjml: evt.jsonMjml,
-                            json: evt.jsonDate
+                            json: evt.jsonDate,
+                            status: 'sketch'
                         })
                         return await createNotice({ type: 'success', title: message, onAfterEnter: router.back })
                     } catch (e) {
@@ -46,14 +55,14 @@ export default defineComponent({
             if (props.command === 'UPDATE') {
                 return evt.setState({ loading: true }).finally(async () => {
                     try {
-                        console.log(evt)
                         const { message } = await http.httpUpdateMailerTemplate({
-                            id: 28,
+                            id: Number(route.query.keyId),
                             name: '测试模板',
                             cover: evt.url,
                             width: evt.width,
                             mjml: evt.jsonMjml,
-                            json: evt.jsonDate
+                            json: evt.jsonDate,
+                            status: 'pending'
                         })
                         return await createNotice({ type: 'success', title: message, onAfterEnter: router.back })
                     } catch (e) {
@@ -69,7 +78,11 @@ export default defineComponent({
 
         return () => (
             <common-container position="customize">
-                <mailer-currenter command={props.command} onSubmit={onSubmit}></mailer-currenter>
+                <mailer-currenter
+                    command={props.command}
+                    keyId={isEmpty(route.query.keyId) ? undefined : Number(route.query.keyId)}
+                    onSubmit={onSubmit}
+                ></mailer-currenter>
             </common-container>
         )
     }

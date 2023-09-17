@@ -49,4 +49,5 @@ export interface MailerTemplate extends CommonResolver {
     mjml: string
     json: Record<string, any>
     user: IUser
+    status: 'pending' | 'sketch' | 'loading' | 'review' | 'rejected' | 'disable' | 'delete'
 }

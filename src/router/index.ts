@@ -1,5 +1,5 @@
 import type { App } from 'vue'
-import { createRouter, createWebHistory, type Router } from 'vue-router'
+import { createRouter, createWebHistory, useRoute as useRouteQuery, type Router } from 'vue-router'
 import { client } from '@/router/client'
 import { useUser } from '@/store/user'
 import { useCommon } from '@/store/common'

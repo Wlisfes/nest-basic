@@ -1,10 +1,12 @@
 <script lang="tsx">
 import { defineComponent, onMounted, ref, type PropType } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
+import { createMounte, divineHandler } from '@/utils/utils-common'
 import { useState } from '@/hooks/hook-state'
 import { useOssService } from '@/hooks/hook-aliyun'
 import { compute } from '@/utils/utils-remix'
 import { createElement } from '@/utils/utils-layout'
+import { router } from '@/router'
 import {
     type NestOption,
     type NestState,
@@ -22,10 +24,8 @@ export default defineComponent({
     components: { VueDraggable },
     emits: ['submit'],
     props: {
-        command: {
-            type: String as PropType<'CREATE' | 'UPDATE'>,
-            default: 'CREATE'
-        }
+        keyId: { type: Number },
+        command: { type: String as PropType<'CREATE' | 'UPDATE'>, default: 'CREATE' }
     },
     setup(props, { emit }) {
         const { createUpload, createRename } = useOssService({ immediate: false })
@@ -34,7 +34,8 @@ export default defineComponent({
             width: 640,
             loading: false,
             current: undefined,
-            execute: false
+            execute: false,
+            error: false
         })
 
         /**组件块样式**/
@@ -46,19 +47,47 @@ export default defineComponent({
             }
         }
 
+        createMounte(() => {
+            console.log(props.keyId)
+
+            divineHandler(Boolean(props.keyId), () => {
+                fetchBasicMailer()
+            })
+
+            observer.on('OBSERVER_START_DRAG_EVENT', async () => {
+                return await setState({ execute: true })
+            })
+            observer.on('OBSERVER_END_DRAG_EVENT', async () => {
+                return await setState({ execute: false })
+            })
+        })
+
         /**邮件模板信息**/
-        async function fetchBasicMailerTemplate() {
+        function fetchBasicMailer() {
+            return new Promise(async resolve => {
+                try {
+                    await setState({ loading: true })
+                    const { data } = await http.httpBasicMailerTemplate({ id: props.keyId as number })
+                    resolve(
+                        await setState({
+                            loading: false,
+                            dataSource: createJsonSource(data.json)
+                        })
+                    )
+                } catch (e) {
+                    resolve(await setState({ loading: false, error: true }))
+                }
+            })
+        }
+
+        /**退出**/
+        function onBackElement(evt: Event) {
             try {
-                const { data } = await http.httpBasicMailerTemplate({ id: 28 })
-                await setState
-                dataSource.value = createJsonSource(data.json)
+                router.back()
             } catch (e) {
                 console.log(e)
             }
         }
-
-        /**退出**/
-        function onBackElement() {}
 
         /**预览**/
         async function onCheckElement() {
@@ -90,30 +119,31 @@ export default defineComponent({
             await setState({ current: data })
         }
 
-        onMounted(() => {
-            fetchBasicMailerTemplate()
-
-            observer.on('OBSERVER_START_DRAG_EVENT', async () => {
-                return await setState({ execute: true })
-            })
-            observer.on('OBSERVER_END_DRAG_EVENT', async () => {
-                return await setState({ execute: false })
-            })
-        })
-
         return () => (
             <n-element class="mailer-currenter">
                 <n-element class="element-header">
-                    <n-button size="large" secondary style={{ minWidth: '100px' }}>
-                        退出
-                    </n-button>
+                    <n-button
+                        size="large"
+                        secondary
+                        focusable={false}
+                        style={{ minWidth: '100px' }}
+                        onClick={onBackElement}
+                        v-slots={{ default: createElement(<span>退出</span>) }}
+                    ></n-button>
                     <n-space wrap-item={false} align="center" justify="end" style={{ height: '60px' }}>
-                        <n-button size="large" type="info" disabled={state.loading} style={{ minWidth: '100px' }} onClick={onCheckElement}>
-                            预览
-                        </n-button>
+                        <n-button
+                            size="large"
+                            type="info"
+                            focusable={false}
+                            disabled={state.loading}
+                            style={{ minWidth: '100px' }}
+                            onClick={onCheckElement}
+                            v-slots={{ default: createElement(<span>预览</span>) }}
+                        ></n-button>
                         <n-button
                             size="large"
                             type="primary"
+                            focusable={false}
                             disabled={state.loading}
                             loading={state.loading}
                             style={{ minWidth: '100px' }}

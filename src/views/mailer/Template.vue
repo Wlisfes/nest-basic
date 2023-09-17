@@ -1,12 +1,12 @@
 <script lang="tsx">
 import { defineComponent } from 'vue'
+import { VueDraggable } from 'vue-draggable-plus'
 import { useResize } from '@/hooks/hook-resize'
 import { useSource } from '@/hooks/hook-source'
 import { divineSkeleton } from '@/utils/utils-common'
 import { whereProperter, createElement } from '@/utils/utils-layout'
 import { sompute } from '@/utils/utils-remix'
 import { router } from '@/router'
-import { VueDraggable } from 'vue-draggable-plus'
 import type { MailerTemplate } from '@/interface/mailer.resolver'
 import * as http from '@/api/instance.service'
 
@@ -20,7 +20,7 @@ export default defineComponent({
                 immediate: true,
                 loading: true,
                 form: { name: undefined },
-                size: 10
+                size: 20
             },
             ({ size, page }) => http.httpColumnMailerTemplate({ size, page })
         )
@@ -43,16 +43,6 @@ export default defineComponent({
                                     onSearch={fetchUpdate}
                                 ></common-search>
                             </n-form-item>
-                            <n-button
-                                strong
-                                focusable={false}
-                                type="primary"
-                                size="large"
-                                disabled={state.loading}
-                                onClick={() => router.push(`/mailer/update/currenter`)}
-                            >
-                                {{ icon: createElement(sompute('AddRound')), default: createElement(<span>编辑模板</span>) }}
-                            </n-button>
                             <n-button
                                 strong
                                 focusable={false}
@@ -91,7 +81,15 @@ export default defineComponent({
                             y-gap={30}
                             x-gap={30}
                             data-render={(e: { cols: number }) => {
-                                return divineSkeleton(e.cols * 2, <n-skeleton height={301} style={{ borderRadius: '3px' }} />)
+                                return divineSkeleton(
+                                    e.cols * 2,
+                                    <n-card embedded content-style={{ padding: 0 }}>
+                                        <common-scale scale={1 / 0.8} full-box={false} flex-box>
+                                            <n-skeleton style={{ height: '100%' }} />
+                                        </common-scale>
+                                        <n-skeleton style={{ height: '87.6px' }} />
+                                    </n-card>
+                                )
                             }}
                         ></common-resize>
                     }

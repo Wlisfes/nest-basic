@@ -3,13 +3,13 @@ import dayjs from 'dayjs'
 
 export function prevent(e: Event, handler?: Function) {
     e.preventDefault()
-    return handler?.()
+    return handler?.(e)
 }
 
 export function stop(e: Event, handler?: Function) {
     e.preventDefault()
     e.stopPropagation()
-    return handler?.()
+    return handler?.(e)
 }
 
 export function moment(date?: dayjs.ConfigType) {
@@ -19,6 +19,11 @@ export function moment(date?: dayjs.ConfigType) {
 /**文件导入函数**/
 export function loadFile(path: string) {
     return new URL(`../assets/${path}`, import.meta.url).href
+}
+
+/**即时函数**/
+export async function createMounte(handler: Function) {
+    return await handler()
 }
 
 /**延时方法**/

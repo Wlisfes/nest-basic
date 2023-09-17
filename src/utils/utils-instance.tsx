@@ -53,7 +53,7 @@ export async function createComponent<T>(Component: Parameters<typeof createApp>
 }
 
 /**DOM生成函数**/
-export async function createElement<T extends Record<string, unknown> & { style: CSSProperties }>(
+export async function createNodeRender<T extends Record<string, unknown> & { style: CSSProperties }>(
     Component: Parameters<typeof createApp>['0'],
     parameter?: T,
     isSVG?: boolean
