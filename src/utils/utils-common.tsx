@@ -1,4 +1,5 @@
 import { Fragment, h, type Component } from 'vue'
+import dayjs from 'dayjs'
 
 export function prevent(e: Event, handler?: Function) {
     e.preventDefault()
@@ -9,6 +10,10 @@ export function stop(e: Event, handler?: Function) {
     e.preventDefault()
     e.stopPropagation()
     return handler?.()
+}
+
+export function moment(date?: dayjs.ConfigType) {
+    return dayjs(date)
 }
 
 /**文件导入函数**/

@@ -32,7 +32,8 @@ export default defineComponent({
 
         return () => (
             <n-card class="mailer-template" embedded content-style={{ padding: '0px' }}>
-                <common-scale scale={1 / 1.2}>
+                <n-image src={props.node.cover} style={{ width: '100%' }} />
+                {/* <common-scale scale={1 / 1.2}>
                     <div ref={element} class="mailer-template__element">
                         <svg width={state.width} height={state.height} viewBox={`0 0 ${state.width} ${state.height}`}>
                             <foreignObject width="100%" height="100%">
@@ -40,7 +41,7 @@ export default defineComponent({
                             </foreignObject>
                         </svg>
                     </div>
-                </common-scale>
+                </common-scale> */}
             </n-card>
         )
     }
@@ -50,6 +51,13 @@ export default defineComponent({
 <style lang="scss" scoped>
 .mailer-template {
     position: relative;
+    .n-image {
+        width: 100%;
+        :deep(img) {
+            width: 100%;
+            display: block;
+        }
+    }
     &__element {
         position: relative;
         height: 100%;

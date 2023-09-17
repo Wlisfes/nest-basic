@@ -19,44 +19,51 @@ export default defineComponent({
         const { mobile } = useResize()
 
         /**保存表单**/
-        async function onSubmit(evt: { width: number; jsonDate: Record<string, any>; jsonMjml: string; setState: Function }) {
+        function onSubmit(evt: { width: number; url: string; jsonMjml: string; jsonDate: Record<string, any>; setState: Function }) {
+            /**创建邮件模板**/
             if (props.command === 'CREATE') {
-                /**创建邮件模板**/
-                try {
-                    await evt.setState({ loading: true })
-                    const { message } = await http.httpCreateMailerTemplate({
-                        name: '测试模板',
-                        width: evt.width,
-                        mjml: evt.jsonMjml,
-                        json: evt.jsonDate
-                    })
-                    return await createNotice({ type: 'success', title: message, onAfterEnter: router.back })
-                } catch (e) {
-                    return await createNotice({
-                        type: 'error',
-                        title: e.message,
-                        onAfterEnter: () => evt.setState({ loading: false })
-                    })
-                }
-            } else if (props.command === 'UPDATE') {
-                /**编辑邮件模板**/
-                try {
-                    await evt.setState({ loading: true })
-                    const { message } = await http.httpUpdateMailerTemplate({
-                        id: 16,
-                        name: '测试模板',
-                        width: evt.width,
-                        mjml: evt.jsonMjml,
-                        json: evt.jsonDate
-                    })
-                    return await createNotice({ type: 'success', title: message, onAfterEnter: router.back })
-                } catch (e) {
-                    return await createNotice({
-                        type: 'error',
-                        title: e.message,
-                        onAfterEnter: () => evt.setState({ loading: false })
-                    })
-                }
+                return evt.setState({ loading: true }).finally(async () => {
+                    try {
+                        const { message } = await http.httpCreateMailerTemplate({
+                            name: '测试模板',
+                            cover: evt.url,
+                            width: evt.width,
+                            mjml: evt.jsonMjml,
+                            json: evt.jsonDate
+                        })
+                        return await createNotice({ type: 'success', title: message, onAfterEnter: router.back })
+                    } catch (e) {
+                        return await createNotice({
+                            type: 'error',
+                            title: e.message,
+                            onAfterEnter: () => evt.setState({ loading: false })
+                        })
+                    }
+                })
+            }
+
+            /**编辑邮件模板**/
+            if (props.command === 'UPDATE') {
+                return evt.setState({ loading: true }).finally(async () => {
+                    try {
+                        console.log(evt)
+                        const { message } = await http.httpUpdateMailerTemplate({
+                            id: 28,
+                            name: '测试模板',
+                            cover: evt.url,
+                            width: evt.width,
+                            mjml: evt.jsonMjml,
+                            json: evt.jsonDate
+                        })
+                        return await createNotice({ type: 'success', title: message, onAfterEnter: router.back })
+                    } catch (e) {
+                        return await createNotice({
+                            type: 'error',
+                            title: e.message,
+                            onAfterEnter: () => evt.setState({ loading: false })
+                        })
+                    }
+                })
             }
         }
 

@@ -2,7 +2,9 @@
 import { defineComponent, onMounted, ref, type PropType } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { useState } from '@/hooks/hook-state'
+import { useOssService } from '@/hooks/hook-aliyun'
 import { compute } from '@/utils/utils-remix'
+import { createElement } from '@/utils/utils-layout'
 import {
     type NestOption,
     type NestState,
@@ -26,7 +28,7 @@ export default defineComponent({
         }
     },
     setup(props, { emit }) {
-        const element = ref<HTMLElement>()
+        const { createUpload, createRename } = useOssService({ immediate: false })
         const { state, dataSource, setState } = useState<NestState>({
             dataSource: [],
             width: 640,
@@ -47,7 +49,7 @@ export default defineComponent({
         /**邮件模板信息**/
         async function fetchBasicMailerTemplate() {
             try {
-                const { data } = await http.httpBasicMailerTemplate({ id: 16 })
+                const { data } = await http.httpBasicMailerTemplate({ id: 28 })
                 await setState
                 dataSource.value = createJsonSource(data.json)
             } catch (e) {
@@ -60,27 +62,27 @@ export default defineComponent({
 
         /**预览**/
         async function onCheckElement() {
-            // return await createBasicRender(
-            //     element
-            //     {}
-            // ).then(async ({ html }) => {
-            //     return await createCheckElement(html)
-            // })
             return await createBasicRender(document.querySelector('.app-currenter') as HTMLElement, {
                 attributes: { width: state.width },
                 data: dataSource.value,
                 reverse: false
-            }).then(e => {
-                console.log(e)
-                // return await createCheckElement(html)
+            }).then(async ({ html }) => {
+                return await createCheckElement(html)
             })
         }
 
         /**保存**/
         async function onSubmitElement(evt: Event) {
-            // return await createBasicRender({ width: state.width }, dataSource.value).then(data => {
-            //     emit('submit', { setState, evt, width: state.width, ...data })
-            // })
+            await setState({ loading: true })
+            return await createBasicRender(document.querySelector('.app-currenter') as HTMLElement, {
+                attributes: { width: state.width },
+                data: dataSource.value,
+                reverse: false
+            }).then(async data => {
+                return await createUpload(data.blob, { fileName: await createRename('.png') }).then(file => {
+                    return emit('submit', { setState, evt, width: state.width, ...file, ...data })
+                })
+            })
         }
 
         /**选中组件**/
@@ -102,11 +104,11 @@ export default defineComponent({
         return () => (
             <n-element class="mailer-currenter">
                 <n-element class="element-header">
+                    <n-button size="large" secondary style={{ minWidth: '100px' }}>
+                        退出
+                    </n-button>
                     <n-space wrap-item={false} align="center" justify="end" style={{ height: '60px' }}>
-                        <n-button size="large" style={{ minWidth: '88px' }}>
-                            返回
-                        </n-button>
-                        <n-button size="large" type="info" style={{ minWidth: '88px' }} onClick={onCheckElement}>
+                        <n-button size="large" type="info" disabled={state.loading} style={{ minWidth: '100px' }} onClick={onCheckElement}>
                             预览
                         </n-button>
                         <n-button
@@ -114,17 +116,16 @@ export default defineComponent({
                             type="primary"
                             disabled={state.loading}
                             loading={state.loading}
-                            style={{ minWidth: '88px' }}
-                            onClick={onSubmitElement}
-                        >
-                            保存
-                        </n-button>
+                            style={{ minWidth: '100px' }}
+                            onClick={(evt: Event) => onSubmitElement(evt)}
+                            v-slots={{ default: createElement(<span>保存</span>) }}
+                        ></n-button>
                     </n-space>
                 </n-element>
                 <n-element style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
                     <mailer-browser></mailer-browser>
                     <n-element class="element-spin">
-                        <n-spin show={state.loading}>
+                        <n-spin show={state.loading} size={64}>
                             <n-element class="element-currenter">
                                 <n-scrollbar>
                                     <vue-draggable
@@ -168,9 +169,12 @@ export default defineComponent({
     flex-direction: column;
     overflow: hidden;
     .element-header {
-        padding: 0 40px;
+        padding: 0 15px;
         background-color: var(--card-color);
         border-bottom: 1px solid var(--divider-color);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
     .element-currenter {
         position: relative;

@@ -217,7 +217,7 @@ export async function createBasicRender(
     }
     const jsonCame = createJsonCameTransfor(_.cloneDeep(jsonDate), reverse)
     const jsonMjml = useJsonTransfor(_.cloneDeep(jsonCame))
-    const blob = await createHtml2Canvas(element, { width: attributes.width ?? 640, height: attributes.width * 0.7 })
+    const blob = await createHtml2Canvas(element, { width: attributes.width ?? 640, height: (attributes.width ?? 640) * 1.414285 })
     const { json, html } = useMjmlTransfor(jsonMjml)
 
     return { jsonDate, jsonCame, jsonMjml, json, html, blob }

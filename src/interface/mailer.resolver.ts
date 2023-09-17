@@ -45,6 +45,7 @@ export interface UserBundleMailer extends CommonResolver {
 
 export interface MailerTemplate extends CommonResolver {
     name: string
+    cover: string
     mjml: string
     json: Record<string, any>
     user: IUser
