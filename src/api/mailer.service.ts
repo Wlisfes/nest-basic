@@ -1,6 +1,6 @@
 import { request } from '@/utils/utils-request'
 import type { Result, IColumn, Notice } from '@/interface/common.resolver'
-import type { ServiceMailer, BundleMailer, UserBundleMailer, MailerTemplate } from '@/interface/mailer.resolver'
+import type { ServiceMailer, BundleMailer, UserBundleMailer, MailerTemplate, MailerSchedule } from '@/interface/mailer.resolver'
 
 /**创建邮件应用**/
 export function httpCreateServiceMailer(data: { name: string }) {
@@ -100,6 +100,15 @@ export function httpColumnMailerTemplate(params: { page: number; size: number })
 export function httpBasicMailerTemplate(params: { id: number }) {
     return request<MailerTemplate>({
         url: `/api-basic/mailer/template/basic`,
+        method: 'GET',
+        params
+    })
+}
+
+/**邮件任务队列列表**/
+export function httpColumnMailerSchedule(params: { page: number; size: number }) {
+    return request<Result<MailerSchedule>>({
+        url: `/api-basic/mailer/schedule/column`,
         method: 'GET',
         params
     })

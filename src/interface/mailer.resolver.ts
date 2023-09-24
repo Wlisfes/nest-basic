@@ -51,3 +51,5 @@ export interface MailerTemplate extends CommonResolver {
     user: IUser
     status: 'pending' | 'sketch' | 'loading' | 'review' | 'rejected' | 'disable' | 'delete'
 }
+
+export interface MailerSchedule extends CommonResolver {}

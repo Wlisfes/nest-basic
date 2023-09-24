@@ -1,5 +1,5 @@
-import { toRefs, onMounted, nextTick } from 'vue'
-import { divineHandler } from '@/utils/utils-common'
+import { toRefs, nextTick } from 'vue'
+import { divineHandler, createMounte } from '@/utils/utils-common'
 import { useState } from '@/hooks/hook-state'
 import type { DataTableBaseColumn } from 'naive-ui'
 import type { Result } from '@/interface/common.resolver'
@@ -33,7 +33,7 @@ export function useSource<T extends Object, R extends Object>(
         dataColumn: (option.dataColumn ?? []) as unknown as Array<DataTableBaseColumn>
     })
 
-    onMounted(async () => {
+    createMounte(async () => {
         await divineHandler(state.immediate, () => {
             fetchColumn()
         })
