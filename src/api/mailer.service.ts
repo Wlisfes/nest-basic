@@ -32,7 +32,7 @@ export function httpUpdateMailerNameService(data: { appId: number; name: string 
 /**邮件套餐包列表**/
 export function httpColumnBundleMailer() {
     return request<Result<BundleMailer>>({
-        url: `/api-basic/package/mailer/column`,
+        url: `/api-basic/mailer/package/column`,
         method: 'GET'
     })
 }
@@ -40,7 +40,7 @@ export function httpColumnBundleMailer() {
 /**统计当前用户套餐包余量**/
 export function httpUserComputeMailer() {
     return request<{ total: number; current: number; prevent: number }>({
-        url: `/api-basic/package/mailer/compute`,
+        url: `/api-basic/mailer/package/compute`,
         method: 'GET'
     })
 }
@@ -48,7 +48,7 @@ export function httpUserComputeMailer() {
 /**用户已购套餐列表**/
 export function httpColumnUserMailer(params: { page: number; size: number }) {
     return request<Result<UserBundleMailer>>({
-        url: `/api-basic/package/mailer/user/column`,
+        url: `/api-basic/mailer/package/user/column`,
         method: 'GET',
         params
     })
