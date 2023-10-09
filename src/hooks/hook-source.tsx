@@ -11,6 +11,7 @@ type Option<T extends Record<string, any>, R extends Record<string, any>> = {
     loading?: boolean
     form: R
     immediate?: boolean
+    initialize?: boolean
     dataSource?: Array<T>
     data?: Record<string, any>
     dataColumn?: Array<any>
@@ -30,6 +31,7 @@ export function useSource<T extends Object, R extends Object>(
         loading: option.loading ?? true,
         dataSource: option.dataSource ?? [],
         data: option.data ?? {},
+        initialize: false,
         dataColumn: (option.dataColumn ?? []) as unknown as Array<DataTableBaseColumn>
     })
 
@@ -52,7 +54,7 @@ export function useSource<T extends Object, R extends Object>(
                 } catch (e) {
                 } finally {
                     nextTick(async () => {
-                        await setState({ loading: false } as typeof option)
+                        await setState({ loading: false, initialize: true } as typeof option)
                         handler?.(state)
                         resolve(state)
                     })

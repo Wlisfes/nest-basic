@@ -66,8 +66,7 @@ export function divineColumn<T extends Record<string, unknown>>(
 
 /**条件函数执行**/
 export async function divineHandler<T>(value: boolean | Function, handler: Function): Promise<T | void> {
-    const isSupported = typeof value === 'function'
-    if ((isSupported && (await value())) || (!isSupported && value)) {
+    if ((typeof value === 'boolean' && value) || (typeof value === 'function' && (await value()))) {
         return await handler()
     }
     return undefined
