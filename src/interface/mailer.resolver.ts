@@ -52,4 +52,6 @@ export interface MailerTemplate extends CommonResolver {
     status: 'pending' | 'sketch' | 'loading' | 'review' | 'rejected' | 'disable' | 'delete'
 }
 
-export interface MailerSchedule extends CommonResolver {}
+export interface MailerSchedule extends CommonResolver {
+    name: string
+}
