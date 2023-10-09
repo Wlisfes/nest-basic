@@ -3,7 +3,6 @@ import { defineComponent } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { useResize } from '@/hooks/hook-resize'
 import { useSource } from '@/hooks/hook-source'
-import { divineSkeleton } from '@/utils/utils-common'
 import { whereProperter, createElement } from '@/utils/utils-layout'
 import { sompute } from '@/utils/utils-remix'
 import { router } from '@/router'
@@ -73,26 +72,6 @@ export default defineComponent({
                     data-render={(data: MailerTemplate) => {
                         return <mailer-template key={data.id} node={data} mobile={mobile.value}></mailer-template>
                     }}
-                    data-spin={
-                        <common-resize
-                            style={{ paddingBottom: '64px' }}
-                            cols={{ 480: 1, 750: 2, 1080: 3, 1480: 4, 1880: 5, 2680: 6 }}
-                            default-cols={5}
-                            y-gap={30}
-                            x-gap={30}
-                            data-render={(e: { cols: number }) => {
-                                return divineSkeleton(
-                                    e.cols * 2,
-                                    <n-card embedded content-style={{ padding: 0 }}>
-                                        <common-scale scale={1 / 0.8} full-box={false} flex-box>
-                                            <n-skeleton style={{ height: '100%' }} />
-                                        </common-scale>
-                                        <n-skeleton style={{ height: '87.6px' }} />
-                                    </n-card>
-                                )
-                            }}
-                        ></common-resize>
-                    }
                 ></common-source>
             </common-container>
         )
