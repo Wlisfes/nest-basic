@@ -12,10 +12,13 @@ export default defineComponent({
         mobile: { type: Boolean, default: false }
     },
     setup(props) {
-        const { state } = useState({ visible: false })
+        const { state, setState } = useState({ visible: false })
+
         return () => (
             <n-card class="mailer-schedule">
-                <n-h2>{props.node.name}</n-h2>
+                <n-h2 onClick={(e: Event) => setState({ visible: !state.visible })} style={{ marginBottom: 0 }}>
+                    {props.node.name}
+                </n-h2>
                 <common-collapse visible={state.visible}>
                     <div>weqweqwe</div>
                 </common-collapse>
