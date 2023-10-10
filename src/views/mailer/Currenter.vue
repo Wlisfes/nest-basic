@@ -17,11 +17,11 @@ export default defineComponent({
         const route = useRoute()
         const router = useRouter()
 
-        createMounte(() => {
-            divineHandler(
+        createMounte(async () => {
+            await divineHandler(
                 () => props.command === 'UPDATE' && isEmpty(route.query.keyId),
                 () => {
-                    router.replace(`/mailer/template`)
+                    return router.replace(`/mailer/template`)
                 }
             )
         })

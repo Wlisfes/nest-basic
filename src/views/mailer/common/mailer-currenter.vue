@@ -47,18 +47,16 @@ export default defineComponent({
             }
         }
 
-        createMounte(() => {
-            console.log(props.keyId)
-
-            divineHandler(Boolean(props.keyId), () => {
-                fetchBasicMailer()
-            })
-
+        createMounte(async () => {
             observer.on('OBSERVER_START_DRAG_EVENT', async () => {
                 return await setState({ execute: true })
             })
             observer.on('OBSERVER_END_DRAG_EVENT', async () => {
                 return await setState({ execute: false })
+            })
+
+            await divineHandler(Boolean(props.keyId), () => {
+                return fetchBasicMailer()
             })
         })
 
