@@ -15,5 +15,11 @@ declare global {
         AliyunUpload: {
             Vod: new (option) => any
         }
+        LZString: {
+            compress: (o: string) => string
+            compressToBase64: (r: string) => string
+            decompress: (r: string) => string
+            decompressFromBase64: (r: string) => string
+        }
     }
 }

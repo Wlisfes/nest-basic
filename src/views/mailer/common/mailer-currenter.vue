@@ -72,7 +72,12 @@ export default defineComponent({
                             dataSource: createJsonSource(data.json)
                         })
                     )
+                    const base64 = window.LZString.compressToBase64(data.mjml)
+                    console.log(window.btoa(data.mjml))
+                    console.log(window.LZString)
+                    // console.log(window.LZString.decompressFromBase64(base64))
                 } catch (e) {
+                    console.error(e)
                     resolve(await setState({ loading: false, error: true }))
                 }
             })
