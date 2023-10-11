@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent } from 'vue'
+import { defineComponent, Fragment } from 'vue'
 import { useVModels } from '@vueuse/core'
 import { isEmpty } from 'class-validator'
 
@@ -28,7 +28,7 @@ export default defineComponent({
 
         return () => (
             <n-collapse-transition appear={appear.value} show={visible.value}>
-                {{ default: slots.default?.({ visible, appear, onUpdate }) }}
+                <Fragment>{slots.default?.({ visible, appear, onUpdate })}</Fragment>
             </n-collapse-transition>
         )
     }
