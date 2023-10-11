@@ -17,12 +17,28 @@ export default defineComponent({
 
         return () => (
             <n-card class="mailer-schedule" content-style={whereProperter(props.mobile, { padding: '16px 16px' })}>
-                <n-space size={10} wrap-item={false} align="center">
-                    <n-button strong secondary round type="primary" style={{ padding: '10px', height: 'auto' }}>
+                <n-grid x-gap={20} cols={12}>
+                    <n-grid-item span={4}>
+                        <n-button strong secondary round type="primary" style={{ padding: '8px', height: 'auto' }}>
+                            <n-icon component={compute('MailGmail')} size={40} />
+                        </n-button>
+                        <div>
+                            <n-h3 style={{ margin: 0 }}>{props.node.name}</n-h3>
+                            <n-text>创建于 2023-09-07 09:17:39</n-text>
+                        </div>
+                    </n-grid-item>
+                </n-grid>
+                {/* <n-space size={20} wrap-item={false} align="center">
+                    <n-button strong secondary round type="primary" style={{ padding: '8px', height: 'auto' }}>
                         <n-icon component={compute('MailGmail')} size={40} />
                     </n-button>
-                    <n-h3 style={{ margin: 0 }}>{props.node.name}</n-h3>
-                </n-space>
+                    <div>
+                        <n-h3 style={{ margin: 0 }}>{props.node.name}</n-h3>
+                        <n-text>创建于 2023-09-07 09:17:39</n-text>
+                    </div>
+
+                    <common-reactive label="App ID" content="11111" copy-icon={false}></common-reactive>
+                </n-space> */}
             </n-card>
         )
     }

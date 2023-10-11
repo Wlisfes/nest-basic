@@ -61,7 +61,7 @@ export default defineComponent({
                             ) : props.content ? (
                                 <Fragment>
                                     {props.copyIcon ? (
-                                        <n-text class="n-flex n-center" style={{ color: 'var(--text-color-1)' }}>
+                                        <n-text class="n-chunk n-center" style={{ color: 'var(--text-color-1)' }}>
                                             <n-ellipsis tooltip={props.contentTooltip}>{props.content}</n-ellipsis>
                                             <n-button
                                                 text

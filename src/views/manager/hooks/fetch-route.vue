@@ -216,13 +216,13 @@ export default defineComponent({
                                     placeholder={t('route.icon.placeholder')}
                                     options={Object.keys(RemixUI).map(value => ({ value, label: value }))}
                                     render-tag={({ option }: { option: SelectOption }) => {
-                                        return h('div', { class: 'n-flex n-center' }, [
+                                        return h('div', { class: 'n-chunk n-center' }, [
                                             <n-icon size={24} component={compute(option.value as INameUI)} />,
                                             <n-text style={{ marginLeft: '5px' }}>{option.value}</n-text>
                                         ])
                                     }}
                                     render-label={(option: SelectOption) => {
-                                        return h('div', { class: 'n-flex n-center' }, [
+                                        return h('div', { class: 'n-chunk n-center' }, [
                                             <n-icon size={24} component={compute(option.value as INameUI)} />,
                                             <n-text style={{ marginLeft: '5px' }}>{option.value}</n-text>
                                         ])

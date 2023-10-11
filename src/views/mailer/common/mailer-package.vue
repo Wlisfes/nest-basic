@@ -41,13 +41,13 @@ export default defineComponent({
                     align="center"
                     style={whereProperter(props.mobile, { margin: '10px 0 20px' }, { margin: '10px 0 20px' })}
                 >
-                    <n-h3 type="warning" class="n-flex n-center" style={{ margin: 0, flex: 1, overflow: 'hidden' }}>
+                    <n-h3 type="warning" class="n-chunk n-center" style={{ margin: 0, flex: 1, overflow: 'hidden' }}>
                         <n-icon component={compute('Money')} size={20} color="var(--n-bar-color)" />
                         <n-text type="warning" style={{ marginLeft: '-2px', fontSize: '22px' }}>
                             {divineTransfer(props.node.price - props.node.discount)}
                         </n-text>
                         {props.node.discount > 0 && (
-                            <n-text delete depth={3} class="n-flex n-center" style={{ marginLeft: '5px', marginTop: '4px' }}>
+                            <n-text delete depth={3} class="n-chunk n-center" style={{ marginLeft: '5px', marginTop: '4px' }}>
                                 <n-icon component={compute('Money')} size={14} color="var(--n-text-color)" />
                                 <n-text depth={3} style={{ marginLeft: '-2px', fontSize: '16px' }}>
                                     {divineTransfer(props.node.price)}

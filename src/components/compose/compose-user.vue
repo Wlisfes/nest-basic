@@ -28,11 +28,11 @@ export default defineComponent({
 
         return () => (
             <n-el tag="div" class={{ 'compose-user': true, 'is-bordered': props.bordered }}>
-                <div class="n-flex" style={{ overflow: 'hidden' }}>
+                <div class="n-chunk" style={{ overflow: 'hidden' }}>
                     <n-avatar size={56} src={props.node.avatar} style={{ margin: '14px' }}></n-avatar>
-                    <div class="n-flex n-column n-auto">
-                        <div class="n-flex not-selecter" style={{ padding: '14px 0', color: 'var(--text-color-1)' }}>
-                            <div class="n-flex n-auto" style={{ overflow: 'hidden', lineHeight: 'var(--height-small)' }}>
+                    <div class="n-chunk n-column n-auto">
+                        <div class="n-chunk not-selecter" style={{ padding: '14px 0', color: 'var(--text-color-1)' }}>
+                            <div class="n-chunk n-auto" style={{ overflow: 'hidden', lineHeight: 'var(--height-small)' }}>
                                 <n-h3 style={{ flex: 1, margin: 0 }}>
                                     <n-ellipsis tooltip={false}>{props.node.nickname}</n-ellipsis>
                                 </n-h3>

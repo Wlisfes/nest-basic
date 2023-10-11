@@ -37,7 +37,7 @@ export default defineComponent({
         }
 
         return () => (
-            <n-el tag="header" class="basic-header n-flex n-center not-selecter" style={headerReact.value}>
+            <n-el tag="header" class="basic-header n-chunk n-center not-selecter" style={headerReact.value}>
                 {mobile.value ? (
                     <n-button text focusable={false} onClick={(e: Event) => setSider(!sider.value)}>
                         <n-icon component={compute('Simple')} size={28} />
@@ -100,7 +100,7 @@ export default defineComponent({
                                     <n-space size={20} wrap-item={false} align="center" style={{ padding: '14px 8px 10px' }}>
                                         <n-el style={{ flex: 1, overflow: 'hidden' }}>
                                             <n-text>{t('client.basic.balance')}</n-text>
-                                            <n-h3 class="n-flex n-center" style={{ margin: 0 }}>
+                                            <n-h3 class="n-chunk n-center" style={{ margin: 0 }}>
                                                 <n-icon component={compute('Money')} size={18} />
                                                 <n-text style={{ marginLeft: '-2px', overflow: 'hidden' }}>
                                                     <n-ellipsis tooltip={false}>{divineTransfer(user.balance)}</n-ellipsis>
@@ -109,7 +109,7 @@ export default defineComponent({
                                         </n-el>
                                         <n-el style={{ flex: 1, overflow: 'hidden' }}>
                                             <n-text>{t('client.basic.credit')}</n-text>
-                                            <n-h3 class="n-flex n-center" style={{ margin: 0 }}>
+                                            <n-h3 class="n-chunk n-center" style={{ margin: 0 }}>
                                                 <n-icon component={compute('Money')} size={18} color="var(--warning-color)" />
                                                 <n-text style={{ color: 'var(--warning-color)', marginLeft: '-2px', overflow: 'hidden' }}>
                                                     <n-ellipsis tooltip={false}>{divineTransfer(user.credit)}</n-ellipsis>

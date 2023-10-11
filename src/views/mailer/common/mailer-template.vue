@@ -69,7 +69,7 @@ export default defineComponent({
                         style={{ width: '100%' }}
                         v-slots={{
                             placeholder: createElement(
-                                <div class="n-flex n-center n-middle" style={{ height: '100%' }}>
+                                <div class="n-chunk n-center n-middle" style={{ height: '100%' }}>
                                     {sompute('ImageHolder', { size: 64, color: 'var(--placeholder-color)' })}
                                 </div>
                             )

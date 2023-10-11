@@ -573,11 +573,11 @@ export default defineComponent({
                                     onTouchstart={onRangeMouseDown}
                                 >
                                     {state.isSuccess ? (
-                                        <div class="n-flex n-center n-middle" style={{ width: '100%', height: '100%' }}>
+                                        <div class="n-chunk n-center n-middle" style={{ width: '100%', height: '100%' }}>
                                             <n-icon color="#ffffff" size={16} component={compute('InduceBold')} />
                                         </div>
                                     ) : state.infoBoxFail && !state.reducer ? (
-                                        <div class="n-flex n-center n-middle" style={{ width: '100%', height: '100%' }}>
+                                        <div class="n-chunk n-center n-middle" style={{ width: '100%', height: '100%' }}>
                                             <n-icon color="#ffffff" size={16} component={compute('CloseBold')} />
                                         </div>
                                     ) : (

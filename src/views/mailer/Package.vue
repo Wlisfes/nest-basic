@@ -32,7 +32,7 @@ export default defineComponent({
                         key: 'expense',
                         minWidth: 120,
                         render: (e: UserBundleMailer) => (
-                            <n-h3 type="warning" class="n-flex n-center" style={{ margin: 0 }}>
+                            <n-h3 type="warning" class="n-chunk n-center" style={{ margin: 0 }}>
                                 <n-icon component={compute('Money')} size={20} color="var(--n-bar-color)" />
                                 <n-text type="warning" style={{ marginLeft: '-2px', fontSize: '20px' }}>
                                     {divineTransfer(e.expense)}
