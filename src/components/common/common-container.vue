@@ -45,7 +45,7 @@ export default defineComponent({
                             </div>
                         )}
                         <div class="common-container__scrollbar">
-                            <n-scrollbar>
+                            <n-scrollbar x-scrollable>
                                 {props.request && props.mobile && (
                                     <div class="common-container__request" style={props.requestStyle}>
                                         {props.request}

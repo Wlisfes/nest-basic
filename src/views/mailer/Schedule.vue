@@ -23,6 +23,7 @@ export default defineComponent({
         return () => (
             <common-container
                 bordered
+                scrollbar-style={{ minWidth: '1280px' }}
                 content-style={whereProperter(mobile.value, { padding: '0 20px' }, { padding: '0 40px' })}
                 request-style={whereProperter(mobile.value, { padding: '40px 20px 20px' }, { padding: '60px 40px 30px' })}
                 request={<common-header vertical={mobile.value} title="任务队列"></common-header>}

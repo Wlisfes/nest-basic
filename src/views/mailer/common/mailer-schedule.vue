@@ -17,8 +17,8 @@ export default defineComponent({
 
         return () => (
             <n-card class="mailer-schedule" content-style={whereProperter(props.mobile, { padding: '16px 16px' })}>
-                <n-grid x-gap={20} cols={12}>
-                    <n-grid-item span={4}>
+                <n-grid x-gap={20} cols={8}>
+                    <n-grid-item span={3} class="n-chunk">
                         <n-button strong secondary round type="primary" style={{ padding: '8px', height: 'auto' }}>
                             <n-icon component={compute('MailGmail')} size={40} />
                         </n-button>
@@ -27,6 +27,11 @@ export default defineComponent({
                             <n-text>创建于 2023-09-07 09:17:39</n-text>
                         </div>
                     </n-grid-item>
+                    <n-grid-item span={1}>1</n-grid-item>
+                    <n-grid-item span={1}>2</n-grid-item>
+                    <n-grid-item span={1}>3</n-grid-item>
+                    <n-grid-item span={1}>4</n-grid-item>
+                    <n-grid-item span={1}>5</n-grid-item>
                 </n-grid>
                 {/* <n-space size={20} wrap-item={false} align="center">
                     <n-button strong secondary round type="primary" style={{ padding: '8px', height: 'auto' }}>
