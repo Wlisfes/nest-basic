@@ -1,7 +1,7 @@
 <script lang="tsx">
 import { defineComponent, onMounted, ref, type PropType } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
-import { createMounte, divineHandler } from '@/utils/utils-common'
+import { createMounte, divineHandler, divineUnzipCompr } from '@/utils/utils-common'
 import { useState } from '@/hooks/hook-state'
 import { useOssService } from '@/hooks/hook-aliyun'
 import { compute } from '@/utils/utils-remix'
@@ -66,13 +66,12 @@ export default defineComponent({
                 try {
                     await setState({ loading: true })
                     const { data } = await http.httpBasicMailerTemplate({ id: props.keyId as number })
-                    const base64 = window.LZString.compressToBase64(data.mjml)
-                    resolve(
-                        await setState({
-                            loading: false,
-                            dataSource: createJsonSource(JSON.parse(data.json))
-                        })
-                    )
+                    const jsonDate = await divineUnzipCompr(data.json)
+                    await setState({
+                        loading: false,
+                        dataSource: createJsonSource(JSON.parse(jsonDate))
+                    })
+                    resolve(data)
                 } catch (e) {
                     console.error(e)
                     resolve(await setState({ loading: false, error: true }))
