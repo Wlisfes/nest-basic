@@ -97,3 +97,13 @@ export function divineCols(data: Record<number, number> = {}, width: number, def
 export function divineColsNode(data: Record<number, number> = {}, cols: number, defaultCols: number) {
     return data[cols] ?? defaultCols
 }
+
+/**字符串压缩**/
+export async function divineCompress(value: string): Promise<string> {
+    return window.LZString.compressToBase64(value)
+}
+
+/**字符串解压**/
+export async function divineUnzipCompr<T extends string>(value: T): Promise<T> {
+    return window.LZString.decompressFromBase64(value) as T
+}

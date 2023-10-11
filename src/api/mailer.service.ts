@@ -60,7 +60,7 @@ export function httpCreateMailerTemplate(data: {
     name: string
     mjml: string
     cover: string
-    json: Record<string, any>
+    json: string
     status: MailerTemplate['status']
 }) {
     return request<Notice>({
@@ -77,7 +77,7 @@ export function httpUpdateMailerTemplate(data: {
     name: string
     mjml: string
     cover: string
-    json: Record<string, any>
+    json: string
     status: MailerTemplate['status']
 }) {
     return request<Notice>({

@@ -2,7 +2,7 @@
 import { defineComponent, type PropType } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { isEmpty } from 'class-validator'
-import { createMounte, divineHandler } from '@/utils/utils-common'
+import { createMounte, divineHandler, divineCompress } from '@/utils/utils-common'
 import { VueDraggable } from 'vue-draggable-plus'
 import { createNotice } from '@/utils/utils-naive'
 import * as http from '@/api/instance.service'
@@ -27,7 +27,7 @@ export default defineComponent({
         })
 
         /**保存表单**/
-        function onSubmit(evt: { width: number; url: string; jsonMjml: string; jsonDate: Record<string, any>; setState: Function }) {
+        function onSubmit(evt: { width: number; url: string; jsonMjml: string; jsonDate: string; setState: Function }) {
             /**创建邮件模板**/
             if (props.command === 'CREATE') {
                 return evt.setState({ loading: true }).finally(async () => {
@@ -60,8 +60,8 @@ export default defineComponent({
                             name: '测试模板',
                             cover: evt.url,
                             width: evt.width,
-                            mjml: evt.jsonMjml,
-                            json: evt.jsonDate,
+                            mjml: await divineCompress(evt.jsonMjml),
+                            json: await divineCompress(JSON.stringify(evt.jsonDate)),
                             status: 'pending'
                         })
                         return await createNotice({ type: 'success', title: message, onAfterEnter: router.back })

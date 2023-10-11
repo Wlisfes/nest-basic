@@ -66,16 +66,13 @@ export default defineComponent({
                 try {
                     await setState({ loading: true })
                     const { data } = await http.httpBasicMailerTemplate({ id: props.keyId as number })
+                    const base64 = window.LZString.compressToBase64(data.mjml)
                     resolve(
                         await setState({
                             loading: false,
-                            dataSource: createJsonSource(data.json)
+                            dataSource: createJsonSource(JSON.parse(data.json))
                         })
                     )
-                    const base64 = window.LZString.compressToBase64(data.mjml)
-                    console.log(window.btoa(data.mjml))
-                    console.log(window.LZString)
-                    // console.log(window.LZString.decompressFromBase64(base64))
                 } catch (e) {
                     console.error(e)
                     resolve(await setState({ loading: false, error: true }))
