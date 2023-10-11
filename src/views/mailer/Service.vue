@@ -4,6 +4,7 @@ import { useResize } from '@/hooks/hook-resize'
 import { useSource } from '@/hooks/hook-source'
 import { whereProperter, createElement } from '@/utils/utils-layout'
 import { sompute } from '@/utils/utils-remix'
+import { divineDelay } from '@/utils/utils-common'
 import { httpColumnMailerService } from '@/api/mailer.service'
 import type { ServiceMailer } from '@/interface/mailer.resolver'
 
@@ -18,6 +19,7 @@ export default defineComponent({
                 size: 20
             },
             async ({ size, page }) => {
+                await divineDelay(5000)
                 return await httpColumnMailerService({ size, page })
             }
         )

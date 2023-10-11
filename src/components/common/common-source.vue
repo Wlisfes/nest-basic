@@ -63,7 +63,7 @@ export default defineComponent({
         return () => (
             <n-element class="common-source">
                 {props.loading && props.total === 0 ? (
-                    <Fragment>{props.dataSpin ?? <n-spin stroke-width={12} size={60} style={{ minHeight: '240px' }}></n-spin>}</Fragment>
+                    <Fragment>{props.dataSpin ?? <n-spin stroke-width={16} size={68} style={{ minHeight: '240px' }}></n-spin>}</Fragment>
                 ) : !props.loading && props.total === 0 ? (
                     <Fragment>
                         {props.dataEmpty ?? (
@@ -81,8 +81,8 @@ export default defineComponent({
                 ) : (
                     <n-spin
                         class="common-source__spin"
-                        stroke-width={12}
-                        size={60}
+                        stroke-width={16}
+                        size={68}
                         show={props.dataSpin ? spin.value && props.loading : props.loading}
                     >
                         <n-scrollbar ref={scrollbar} x-scrollable>

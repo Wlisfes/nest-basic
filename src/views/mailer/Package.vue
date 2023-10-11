@@ -93,7 +93,7 @@ export default defineComponent({
             >
                 <common-render
                     loading={state.loading}
-                    spin={<n-spin stroke-width={12} size={60} style={{ minHeight: '240px' }}></n-spin>}
+                    spin={<n-spin stroke-width={16} size={68} style={{ minHeight: '240px' }}></n-spin>}
                     component={
                         <Fragment>
                             <n-element style={{ paddingBottom: '48px' }}>
