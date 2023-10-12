@@ -14,7 +14,8 @@ export default defineComponent({
         requestStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
         customizeStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) }
     },
-    setup(props, { slots }) {
+    emits: ['scroll'],
+    setup(props, { slots, emit }) {
         const instance = ref<ScrollbarInst>()
 
         /**更新位置**/
@@ -29,7 +30,12 @@ export default defineComponent({
         return () => (
             <n-element tag="section" class={{ 'common-container': true, 'is-bordered': props.bordered }}>
                 {props.scrollbar ? (
-                    <n-scrollbar ref={instance} trigger={props.scrollbarTrigger} x-scrollable>
+                    <n-scrollbar
+                        ref={instance}
+                        trigger={props.scrollbarTrigger}
+                        x-scrollable
+                        onScroll={(evt: Event) => emit('scroll', evt)}
+                    >
                         {props.request && (
                             <div class="common-container__request" style={props.requestStyle}>
                                 {props.request}

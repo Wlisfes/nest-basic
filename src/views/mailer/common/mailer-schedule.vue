@@ -19,12 +19,12 @@ export default defineComponent({
             <n-card class="mailer-schedule" content-style={whereProperter(props.mobile, { padding: '16px 16px' })}>
                 <n-grid x-gap={20} cols={8}>
                     <n-grid-item span={3} class="n-chunk">
-                        <n-button strong secondary round type="primary" style={{ padding: '8px', height: 'auto' }}>
-                            <n-icon component={compute('MailGmail')} size={40} />
+                        <n-button strong secondary round type="primary" style={{ padding: '10px', height: 'min-content' }}>
+                            <n-icon component={compute('Schedule')} size={30} />
                         </n-button>
                         <div>
                             <n-h3 style={{ margin: 0 }}>{props.node.name}</n-h3>
-                            <n-text>创建于 2023-09-07 09:17:39</n-text>
+                            <n-text style={{ lineHeight: '20px' }}>创建于 2023-09-07 09:17:39</n-text>
                         </div>
                     </n-grid-item>
                     <n-grid-item span={1}>1</n-grid-item>
