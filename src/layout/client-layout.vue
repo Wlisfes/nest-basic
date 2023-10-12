@@ -17,7 +17,7 @@ export default defineComponent({
         const dataClient = computed(() => formatter(props.client))
 
         return () => (
-            <n-layout has-sider style={{ height: '100%' }}>
+            <n-layout has-sider inverted={inverted.value} style={{ height: '100%', overflow: 'hidden', position: 'relative' }}>
                 <basic-sider data-client={dataClient.value}></basic-sider>
                 {IsSidebar.value && (
                     <n-layout-sider
@@ -44,11 +44,9 @@ export default defineComponent({
                         />
                     </n-layout-sider>
                 )}
-                <n-layout>
-                    <n-layout position="absolute" inverted={inverted.value} style={{ backgroundColor: vars.value.backColor }}>
-                        <RouterView></RouterView>
-                    </n-layout>
-                </n-layout>
+                <n-layout-content inverted={inverted.value} content-style={{ overflow: 'hidden', position: 'relative' }}>
+                    <RouterView></RouterView>
+                </n-layout-content>
             </n-layout>
         )
     }
