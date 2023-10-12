@@ -55,7 +55,7 @@ export default defineComponent({
             },
             async ({ size, page, initialize }) => {
                 await divineHandler(
-                    () => !initialize,
+                    () => initialize,
                     () => fetchComputeMailer()
                 )
                 return await httpColumnUserMailer({ size, page })

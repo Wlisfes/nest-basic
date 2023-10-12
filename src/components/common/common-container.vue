@@ -9,6 +9,7 @@ export default defineComponent({
         bordered: { type: Boolean, default: false },
         loading: { type: Boolean, default: false },
         scrollbar: { type: Boolean, default: false },
+        initialize: { type: Boolean, default: false },
         scrollbarTrigger: { type: String as PropType<'hover' | 'none'>, default: 'none' },
         contentStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
         request: { type: Object as PropType<VNodeChild> },
@@ -30,7 +31,12 @@ export default defineComponent({
 
         return () => (
             <n-element tag="section" class={{ 'common-container': true, 'is-bordered': props.bordered }}>
-                <n-spin class="common-container__loadiner" stroke-width={16} size={68} show={props.loading}>
+                <n-spin
+                    class={{ 'common-container__loadiner': true, 'is-initialize': props.initialize }}
+                    show={props.loading}
+                    stroke-width={16}
+                    size={68}
+                >
                     {props.scrollbar ? (
                         <n-scrollbar
                             ref={instance}
@@ -91,7 +97,25 @@ export default defineComponent({
         overflow: hidden;
         box-sizing: border-box;
     }
-    &__loadiner,
+    &__loadiner {
+        position: relative;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-sizing: border-box;
+        &.is-initialize > :deep(.n-spin-content) {
+            opacity: 0;
+        }
+        > :deep(.n-spin-content) {
+            position: relative;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+    }
     &__scrollbar,
     &__customize {
         position: relative;
@@ -100,14 +124,6 @@ export default defineComponent({
         flex-direction: column;
         overflow: hidden;
         box-sizing: border-box;
-        :deep(.n-spin-content) {
-            position: relative;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-sizing: border-box;
-        }
     }
 }
 </style>

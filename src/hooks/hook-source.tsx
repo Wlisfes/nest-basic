@@ -31,7 +31,7 @@ export function useSource<T extends Object, R extends Object>(
         loading: option.loading ?? true,
         dataSource: option.dataSource ?? [],
         data: option.data ?? {},
-        initialize: false,
+        initialize: true,
         dataColumn: (option.dataColumn ?? []) as unknown as Array<DataTableBaseColumn>
     })
 
@@ -54,7 +54,7 @@ export function useSource<T extends Object, R extends Object>(
                 } catch (e) {
                 } finally {
                     nextTick(async () => {
-                        await setState({ loading: false, initialize: true } as typeof option)
+                        await setState({ loading: false, initialize: false } as typeof option)
                         handler?.(state)
                         resolve(state)
                     })
