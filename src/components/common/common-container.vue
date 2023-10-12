@@ -1,64 +1,57 @@
 <script lang="tsx">
-import { defineComponent, computed, Fragment, type PropType, type CSSProperties, type VNodeChild } from 'vue'
+import type { PropType, CSSProperties, VNodeChild } from 'vue'
+import type { ScrollbarInst } from 'naive-ui'
+import { defineComponent, ref, Fragment } from 'vue'
 
 export default defineComponent({
     name: 'CommonContainer',
     props: {
         bordered: { type: Boolean, default: false },
-        mobile: { type: Boolean, default: true },
-        position: { type: String as PropType<'static' | 'customize'>, default: 'static' },
-        maxWidth: { type: String, default: 'auto' },
-        scrollbarStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
+        scrollbar: { type: Boolean, default: false },
+        scrollbarTrigger: { type: String as PropType<'hover' | 'none'>, default: 'none' },
         contentStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
         request: { type: Object as PropType<VNodeChild> },
-        requestStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) }
+        requestStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
+        customizeStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) }
     },
     setup(props, { slots }) {
-        const scrollbarStyle = computed<CSSProperties>(() => ({
-            boxSizing: 'border-box',
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            ...props.scrollbarStyle
-        }))
-        const contentStyle = computed<CSSProperties>(() => ({
-            maxWidth: props.maxWidth,
-            width: '100%',
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            backgroundColor: 'var(--card-color)',
-            boxSizing: 'border-box',
-            ...props.contentStyle
-        }))
+        const instance = ref<ScrollbarInst>()
+
+        /**更新位置**/
+        async function onUpdate(option: Parameters<ScrollbarInst['scrollTo']>['0'] = { top: 0, left: 0, behavior: 'smooth' }) {
+            return instance.value?.scrollTo({
+                top: option.top ?? 0,
+                left: option.left ?? 0,
+                behavior: option.behavior ?? 'smooth'
+            })
+        }
 
         return () => (
-            <n-el tag="section" class={{ 'common-container': true, 'is-bordered': props.bordered }}>
-                {props.position === 'customize' ? (
-                    <div class="common-container__customize">{slots.default && slots.default()}</div>
-                ) : (
-                    <Fragment>
-                        {props.request && !props.mobile && (
+            <n-element tag="section" class={{ 'common-container': true, 'is-bordered': props.bordered }}>
+                {props.scrollbar ? (
+                    <n-scrollbar ref={instance} trigger={props.scrollbarTrigger} x-scrollable>
+                        {props.request && (
                             <div class="common-container__request" style={props.requestStyle}>
                                 {props.request}
                             </div>
                         )}
-                        <div class="common-container__scrollbar">
-                            <n-scrollbar x-scrollable>
-                                {props.request && props.mobile && (
-                                    <div class="common-container__request" style={props.requestStyle}>
-                                        {props.request}
-                                    </div>
-                                )}
-                                <div style={scrollbarStyle.value}>
-                                    <div style={contentStyle.value}>{slots.default && <Fragment>{slots.default()}</Fragment>}</div>
-                                </div>
-                            </n-scrollbar>
+                        <div class="common-container__scrollbar" style={props.contentStyle}>
+                            <Fragment>{slots.default?.({ instance: instance.value, onUpdate })}</Fragment>
                         </div>
-                    </Fragment>
+                    </n-scrollbar>
+                ) : (
+                    <div class="common-container__customize" style={props.customizeStyle}>
+                        {props.request && (
+                            <div class="common-container__request" style={props.requestStyle}>
+                                {props.request}
+                            </div>
+                        )}
+                        <div class="common-container__scrollbar" style={props.contentStyle}>
+                            <Fragment>{slots.default?.({ instance: instance.value, onUpdate })}</Fragment>
+                        </div>
+                    </div>
                 )}
-            </n-el>
+            </n-element>
         )
     }
 })
@@ -66,15 +59,12 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .common-container {
+    height: 100%;
+    position: relative;
     overflow: hidden;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    transition: padding 0.3s var(--cubic-bezier-ease-in-out);
     display: flex;
     flex-direction: column;
+    transition: padding 0.3s var(--cubic-bezier-ease-in-out);
     &.is-bordered::after {
         content: '';
         position: absolute;
@@ -85,13 +75,6 @@ export default defineComponent({
         background-color: var(--divider-color);
         transition: background-color 0.3s var(--cubic-bezier-ease-in-out);
     }
-    &__request {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        background-color: var(--card-color);
-        box-sizing: border-box;
-    }
     &__scrollbar,
     &__customize {
         position: relative;
@@ -99,6 +82,14 @@ export default defineComponent({
         display: flex;
         flex-direction: column;
         overflow: hidden;
+        box-sizing: border-box;
+    }
+    &__request {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-sizing: border-box;
     }
 }
 </style>

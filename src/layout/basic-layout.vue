@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, computed, type CSSProperties } from 'vue'
+import { defineComponent } from 'vue'
 import { RouterView } from 'vue-router'
 import { useProvider } from '@/hooks/hook-provider'
 import { useLoyout } from '@/utils/utils-layout'
@@ -9,31 +9,27 @@ export default defineComponent({
     setup() {
         const { IsHeader } = useLoyout()
         const { vars, inverted } = useProvider()
-        const headerReact = computed<CSSProperties>(() => ({
-            height: '60px',
-            backgroundColor: vars.value.cardColor
-        }))
-        const elementReact = computed<CSSProperties>(() => ({
-            position: 'absolute',
-            overflow: 'hidden',
-            left: 0,
-            right: 0,
-            bottom: 0,
-            top: IsHeader.value ? '60px' : '0px',
-            backgroundColor: vars.value.backColor
-        }))
 
         return () => (
-            <n-element tag="section" style={{ height: '100%', overflow: 'hidden', position: 'relative' }}>
+            <n-layout
+                inverted={inverted.value}
+                style={{ height: '100%', overflow: 'hidden', position: 'relative' }}
+                content-style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
+            >
                 {IsHeader.value && (
-                    <n-layout-header inverted={inverted.value} style={headerReact.value}>
+                    <n-layout-header inverted={inverted.value} style={{ height: '60px', backgroundColor: vars.value.cardColor }}>
                         <basic-header></basic-header>
                     </n-layout-header>
                 )}
-                <n-element tag="section" style={elementReact.value}>
+                <n-layout-content
+                    class="n-chunk n-column n-auto"
+                    style={{ overflow: 'hidden', position: 'relative' }}
+                    content-style={{ backgroundColor: vars.value.backColor }}
+                    inverted={inverted.value}
+                >
                     <RouterView></RouterView>
-                </n-element>
-            </n-element>
+                </n-layout-content>
+            </n-layout>
         )
     }
 })

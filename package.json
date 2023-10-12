@@ -24,7 +24,7 @@
         "json2mjml": "^1.0.3",
         "lodash": "^4.17.21",
         "mjml-browser": "^4.14.1",
-        "naive-ui": "^2.34.4",
+        "naive-ui": "^2.35.0",
         "normalize.css": "^8.0.1",
         "pinia": "^2.0.36",
         "vfonts": "^0.0.3",
