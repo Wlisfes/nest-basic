@@ -6,12 +6,10 @@ import { divineDelay } from '@/utils/utils-common'
 import { whereProperter } from '@/utils/utils-layout'
 import type { MailerSchedule } from '@/interface/mailer.resolver'
 import * as http from '@/api/instance.service'
-import { Observer } from '@/utils/utils-observer'
 
 export default defineComponent({
     name: 'Schedule',
     setup() {
-        const observer = new Observer()
         const { mobile } = useResize()
         const { state, fetchUpdate } = useSource(
             {
@@ -30,13 +28,13 @@ export default defineComponent({
             <common-container
                 bordered
                 scrollbar
-                observer={observer}
-                scrollbar-style={{ minWidth: '1280px' }}
-                content-style={whereProperter(mobile.value, { padding: '0 20px' }, { padding: '0 40px' })}
-                request-style={whereProperter(mobile.value, { padding: '40px 20px 20px' }, { padding: '60px 40px 30px' })}
+                loading
+                content-style={{ minWidth: '1280px' }}
+                //content-style={whereProperter(mobile.value, { padding: '0 20px' }, { padding: '0 40px' })}
+                //request-style={whereProperter(mobile.value, { padding: '40px 20px 20px' }, { padding: '60px 40px 30px' })}
                 request={<common-header vertical={mobile.value} title="任务队列"></common-header>}
             >
-                {/* {{
+                {{
                     default: (scope: { onUpdate: Function }) => {
                         return (
                             <Fragment>
@@ -48,9 +46,9 @@ export default defineComponent({
                             </Fragment>
                         )
                     }
-                }} */}
+                }}
 
-                <common-source
+                {/* <common-source
                     loading={state.loading}
                     page={state.page}
                     size={state.size}
@@ -63,7 +61,7 @@ export default defineComponent({
                     data-render={(data: MailerSchedule) => {
                         return <mailer-schedule key={data.id} node={data} mobile={mobile.value} onUpdate={fetchUpdate}></mailer-schedule>
                     }}
-                ></common-source>
+                ></common-source> */}
             </common-container>
         )
     }

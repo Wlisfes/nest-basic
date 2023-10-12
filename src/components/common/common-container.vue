@@ -7,6 +7,7 @@ export default defineComponent({
     name: 'CommonContainer',
     props: {
         bordered: { type: Boolean, default: false },
+        loading: { type: Boolean, default: false },
         scrollbar: { type: Boolean, default: false },
         scrollbarTrigger: { type: String as PropType<'hover' | 'none'>, default: 'none' },
         contentStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
@@ -29,34 +30,36 @@ export default defineComponent({
 
         return () => (
             <n-element tag="section" class={{ 'common-container': true, 'is-bordered': props.bordered }}>
-                {props.scrollbar ? (
-                    <n-scrollbar
-                        ref={instance}
-                        trigger={props.scrollbarTrigger}
-                        x-scrollable
-                        onScroll={(evt: Event) => emit('scroll', evt)}
-                    >
-                        {props.request && (
-                            <div class="common-container__request" style={props.requestStyle}>
-                                {props.request}
+                <n-spin class="common-container__loadiner" stroke-width={16} size={68} show={props.loading}>
+                    {props.scrollbar ? (
+                        <n-scrollbar
+                            ref={instance}
+                            trigger={props.scrollbarTrigger}
+                            x-scrollable
+                            onScroll={(evt: Event) => emit('scroll', evt)}
+                        >
+                            {props.request && (
+                                <div class="common-container__request" style={props.requestStyle}>
+                                    {props.request}
+                                </div>
+                            )}
+                            <div class="common-container__scrollbar" style={props.contentStyle}>
+                                <Fragment>{slots.default?.({ instance: instance.value, onUpdate })}</Fragment>
                             </div>
-                        )}
-                        <div class="common-container__scrollbar" style={props.contentStyle}>
-                            <Fragment>{slots.default?.({ instance: instance.value, onUpdate })}</Fragment>
-                        </div>
-                    </n-scrollbar>
-                ) : (
-                    <div class="common-container__customize" style={props.customizeStyle}>
-                        {props.request && (
-                            <div class="common-container__request" style={props.requestStyle}>
-                                {props.request}
+                        </n-scrollbar>
+                    ) : (
+                        <div class="common-container__customize" style={props.customizeStyle}>
+                            {props.request && (
+                                <div class="common-container__request" style={props.requestStyle}>
+                                    {props.request}
+                                </div>
+                            )}
+                            <div class="common-container__scrollbar" style={props.contentStyle}>
+                                <Fragment>{slots.default?.({ instance: instance.value, onUpdate })}</Fragment>
                             </div>
-                        )}
-                        <div class="common-container__scrollbar" style={props.contentStyle}>
-                            <Fragment>{slots.default?.({ instance: instance.value, onUpdate })}</Fragment>
                         </div>
-                    </div>
-                )}
+                    )}
+                </n-spin>
             </n-element>
         )
     }
@@ -81,6 +84,14 @@ export default defineComponent({
         background-color: var(--divider-color);
         transition: background-color 0.3s var(--cubic-bezier-ease-in-out);
     }
+    &__request {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-sizing: border-box;
+    }
+    &__loadiner,
     &__scrollbar,
     &__customize {
         position: relative;
@@ -89,13 +100,14 @@ export default defineComponent({
         flex-direction: column;
         overflow: hidden;
         box-sizing: border-box;
-    }
-    &__request {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        box-sizing: border-box;
+        :deep(.n-spin-content) {
+            position: relative;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
     }
 }
 </style>
