@@ -1,19 +1,29 @@
 <script lang="tsx">
 import type { ScrollbarInst } from 'naive-ui'
 import type { PropType, CSSProperties } from 'vue'
-import { defineComponent, ref, Fragment } from 'vue'
+import { defineComponent, ref, Fragment, computed } from 'vue'
+import { isEmpty } from 'class-validator'
+import { whereProperter } from '@/utils/utils-layout'
 
 export default defineComponent({
     name: 'CommonScrollbar',
     props: {
         initialize: { type: Boolean, default: false },
         loading: { type: Boolean, default: false },
+        minWidth: { type: Number },
         trigger: { type: String as PropType<'hover' | 'none'>, default: 'none' },
         contentStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) }
     },
     emits: ['scroll'],
     setup(props, { slots, emit }) {
         const instance = ref<ScrollbarInst>()
+
+        const element = computed(() => {
+            return whereProperter(isEmpty(props.minWidth), props.contentStyle, {
+                minWidth: props.minWidth + 'px',
+                ...props.contentStyle
+            })
+        })
 
         /**更新位置**/
         async function onUpdate(option: Parameters<ScrollbarInst['scrollTo']>['0'] = { top: 0, left: 0, behavior: 'smooth' }) {
@@ -33,7 +43,7 @@ export default defineComponent({
                     size={68}
                 >
                     <n-scrollbar ref={instance} trigger={props.trigger} x-scrollable onScroll={(evt: Event) => emit('scroll', evt)}>
-                        <div class="common-container__customize" style={props.contentStyle}>
+                        <div class="common-container__customize" style={element.value}>
                             <Fragment>{slots.default?.({ instance: instance.value, onUpdate })}</Fragment>
                         </div>
                     </n-scrollbar>

@@ -18,7 +18,7 @@ export default defineComponent({
         return () => (
             <n-card class="mailer-schedule" content-style={whereProperter(props.mobile, { padding: '16px 16px' })}>
                 <n-grid x-gap={20} cols={8}>
-                    <n-grid-item span={3} class="n-chunk">
+                    <n-grid-item span={3} class="n-chunk" style={{ columnGap: '14px' }}>
                         <n-button strong secondary round type="primary" style={{ padding: '10px', height: 'min-content' }}>
                             <n-icon component={compute('Schedule')} size={30} />
                         </n-button>

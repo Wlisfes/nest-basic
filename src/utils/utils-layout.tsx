@@ -28,22 +28,26 @@ export function useLoyout() {
     }
 }
 
+/**异步渲染组件**/
 export function createLoyout(component: Component, props: Record<string, unknown>) {
     return async () => {
         return createVNode(component, props)
     }
 }
 
+/**同步渲染组件**/
 export function createElement(component: Component, props: Record<string, unknown> = {}) {
     return () => {
         return createVNode(component, props)
     }
 }
 
+/**条件样式返回值**/
 export function whereProperter(where: boolean, whereValue: CSSProperties = {}, defaultValue: CSSProperties = {}) {
     return where ? whereValue : defaultValue
 }
 
+/**菜单数据转换**/
 export function formatter(data: Array<ClientOption> = []) {
     return data.map(item => {
         return {
