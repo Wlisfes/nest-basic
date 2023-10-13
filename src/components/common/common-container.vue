@@ -9,6 +9,7 @@ export default defineComponent({
     name: 'CommonContainer',
     props: {
         bordered: { type: Boolean, default: false },
+        mobile: { type: Boolean, default: false },
         loading: { type: Boolean, default: false },
         initialize: { type: Boolean, default: false },
         minWidth: { type: Number },
@@ -49,16 +50,29 @@ export default defineComponent({
                     size={68}
                 >
                     {props.scrollbar ? (
-                        <n-scrollbar ref={instance} trigger={props.trigger} x-scrollable onScroll={(evt: Event) => emit('scroll', evt)}>
-                            {props.request && (
-                                <div class="common-container__request" style={props.requestStyle}>
-                                    {props.request}
+                        props.mobile && !props.loading ? (
+                            <common-better>
+                                {props.request && (
+                                    <div class="common-container__request" style={props.requestStyle}>
+                                        {props.request}
+                                    </div>
+                                )}
+                                <div class={{ [`common-container__scrollbar ${props.contentClass}`]: true }} style={element.value}>
+                                    <Fragment>{slots.default?.({ instance: instance.value, onUpdate })}</Fragment>
                                 </div>
-                            )}
-                            <div class={{ [`common-container__scrollbar ${props.contentClass}`]: true }} style={element.value}>
-                                <Fragment>{slots.default?.({ instance: instance.value, onUpdate })}</Fragment>
-                            </div>
-                        </n-scrollbar>
+                            </common-better>
+                        ) : (
+                            <n-scrollbar ref={instance} trigger={props.trigger} x-scrollable onScroll={(evt: Event) => emit('scroll', evt)}>
+                                {props.request && (
+                                    <div class="common-container__request" style={props.requestStyle}>
+                                        {props.request}
+                                    </div>
+                                )}
+                                <div class={{ [`common-container__scrollbar ${props.contentClass}`]: true }} style={element.value}>
+                                    <Fragment>{slots.default?.({ instance: instance.value, onUpdate })}</Fragment>
+                                </div>
+                            </n-scrollbar>
+                        )
                     ) : (
                         <div class="common-container__customize" style={props.customizeStyle}>
                             {props.request && (

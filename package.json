@@ -12,6 +12,10 @@
         "format": "prettier --write src/"
     },
     "dependencies": {
+        "@better-scroll/core": "^2.5.1",
+        "@better-scroll/mouse-wheel": "^2.5.1",
+        "@better-scroll/observe-dom": "^2.5.1",
+        "@better-scroll/scroll-bar": "^2.5.1",
         "@ckeditor/ckeditor5-build-inline": "^39.0.1",
         "@vueuse/components": "^10.2.1",
         "@vueuse/core": "^10.2.1",

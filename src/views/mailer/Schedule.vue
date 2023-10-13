@@ -42,9 +42,10 @@ export default defineComponent({
             <common-container
                 bordered
                 scrollbar={true}
+                mobile={mobile.value}
                 loading={state.loading}
                 initialize={state.initialize}
-                min-width={state.dataColumn.reduce((a, b: any) => a + b.minWidth, 0)}
+                //min-width={state.dataColumn.reduce((a, b: any) => a + b.minWidth, 0)}
                 content-style={whereContent.value}
                 request-style={whereRequest.value}
                 request={<common-header vertical={mobile.value} title="任务队列"></common-header>}
