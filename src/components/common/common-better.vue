@@ -9,6 +9,7 @@ import BScroll from '@better-scroll/core'
 import MouseWheel from '@better-scroll/mouse-wheel'
 import ObserveDOM from '@better-scroll/observe-dom'
 import ScrollBar from '@better-scroll/scroll-bar'
+
 BScroll.use(MouseWheel)
 BScroll.use(ObserveDOM)
 BScroll.use(ScrollBar)
@@ -25,7 +26,8 @@ export default defineComponent({
         scrollY: { type: Boolean, default: true }, //是否开启纵向滚动
         bounce: { type: Boolean, default: false } //是否开启页面回弹
     },
-    setup(props, { slots }) {
+    emits: ['scroll'],
+    setup(props, { slots, emit }) {
         const instance = ref<BScroll>()
         const element = useCurrentElement<HTMLElement>()
 
@@ -36,7 +38,18 @@ export default defineComponent({
         onMounted(() => {
             initScrollber().then(async () => {
                 await divineHandler(!!props.observer, () => {
-                    props.observer.on('update', (option: any) => {})
+                    props.observer.on('update', (option: any) => {
+                        instance.value?.scrollTo(option.left ?? 0, option.top ?? 0, 300)
+                    })
+
+                    /**刷新监听**/
+                    props.observer.on('refresh', () => instance.value?.refresh())
+                    /**禁用监听**/
+                    props.observer.on('disable', () => instance.value?.disable())
+                    /**启用监听**/
+                    props.observer.on('enable', () => instance.value?.enable())
+                    /**滚动监听**/
+                    instance.value?.on('scroll', (evt: Event) => emit('scroll', evt))
                 })
             })
         })

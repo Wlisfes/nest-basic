@@ -36,6 +36,9 @@ export default defineComponent({
 
         /**更新位置**/
         async function onUpdate(option: Parameters<ScrollbarInst['scrollTo']>['0'] = { top: 0, left: 0, behavior: 'smooth' }) {
+            if (props.mobile) {
+                return observer.emit('update', option)
+            }
             return instance.value?.scrollTo({
                 top: option.top ?? 0,
                 left: option.left ?? 0,
@@ -54,7 +57,12 @@ export default defineComponent({
                     {props.scrollbar ? (
                         <Fragment>
                             {props.mobile ? (
-                                <common-better observer={observer} min-width={props.minWidth} loading={props.loading}>
+                                <common-better
+                                    observer={observer}
+                                    min-width={props.minWidth}
+                                    loading={props.loading}
+                                    onScroll={(evt: Event) => emit('scroll', evt)}
+                                >
                                     {props.request && (
                                         <div class="common-container__request" style={props.requestStyle}>
                                             {props.request}
