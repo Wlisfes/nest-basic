@@ -14,7 +14,7 @@ type Option<T extends Record<string, any>, R extends Record<string, any>> = {
     initialize?: boolean
     dataSource?: Array<T>
     data?: Record<string, any>
-    dataColumn?: Array<any>
+    dataColumn?: Array<DataTableBaseColumn>
 }
 
 //@ts-ignore
@@ -64,7 +64,10 @@ export function useSource<T extends Object, R extends Object>(
     }
 
     /**列表更新**/
-    function fetchUpdate(parameter: Partial<typeof option> = {}, handler?: Function): Promise<typeof state> {
+    function fetchUpdate(
+        parameter: Partial<Omit<Option<T, R>, 'dataColumn' | 'initialize' | 'immediate'>> = {},
+        handler?: Function
+    ): Promise<typeof state> {
         return setState(parameter).then(async () => {
             return await fetchColumn(handler)
         })

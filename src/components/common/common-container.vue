@@ -10,10 +10,11 @@ export default defineComponent({
     props: {
         bordered: { type: Boolean, default: false },
         loading: { type: Boolean, default: false },
-        scrollbar: { type: Boolean, default: false },
         initialize: { type: Boolean, default: false },
         minWidth: { type: Number },
-        scrollbarTrigger: { type: String as PropType<'hover' | 'none'>, default: 'none' },
+        scrollbar: { type: Boolean, default: false },
+        trigger: { type: String as PropType<'hover' | 'none'>, default: 'none' },
+        contentClass: { type: String, default: '' },
         contentStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
         request: { type: Object as PropType<VNodeChild> },
         requestStyle: { type: Object as PropType<CSSProperties>, default: () => ({}) },
@@ -48,18 +49,13 @@ export default defineComponent({
                     size={68}
                 >
                     {props.scrollbar ? (
-                        <n-scrollbar
-                            ref={instance}
-                            trigger={props.scrollbarTrigger}
-                            x-scrollable
-                            onScroll={(evt: Event) => emit('scroll', evt)}
-                        >
+                        <n-scrollbar ref={instance} trigger={props.trigger} x-scrollable onScroll={(evt: Event) => emit('scroll', evt)}>
                             {props.request && (
                                 <div class="common-container__request" style={props.requestStyle}>
                                     {props.request}
                                 </div>
                             )}
-                            <div class="common-container__scrollbar" style={element.value}>
+                            <div class={{ [`common-container__scrollbar ${props.contentClass}`]: true }} style={element.value}>
                                 <Fragment>{slots.default?.({ instance: instance.value, onUpdate })}</Fragment>
                             </div>
                         </n-scrollbar>
@@ -70,7 +66,7 @@ export default defineComponent({
                                     {props.request}
                                 </div>
                             )}
-                            <div class="common-container__scrollbar" style={element.value}>
+                            <div class={{ [`common-container__scrollbar ${props.contentClass}`]: true }} style={element.value}>
                                 <Fragment>{slots.default?.({ instance: instance.value, onUpdate })}</Fragment>
                             </div>
                         </div>

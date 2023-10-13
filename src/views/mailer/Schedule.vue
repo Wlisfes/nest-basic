@@ -16,7 +16,14 @@ export default defineComponent({
                 immediate: true,
                 loading: true,
                 form: { name: undefined },
-                size: 10
+                size: 20,
+                dataColumn: [
+                    { key: 'jobId', title: '任务ID', minWidth: 300 },
+                    { key: 'name', title: '任务名称', minWidth: 300 },
+                    { key: 'total', title: '发送总数', minWidth: 300 },
+                    { key: 'success', title: '成功数', minWidth: 300 },
+                    { key: 'failure', title: '失败数', minWidth: 300 }
+                ]
             },
             async ({ size, page }) => {
                 await divineDelay(1000)
@@ -34,42 +41,47 @@ export default defineComponent({
         return () => (
             <common-container
                 bordered
-                scrollbar
+                scrollbar={true}
                 loading={state.loading}
                 initialize={state.initialize}
-                min-width={1280}
+                min-width={state.dataColumn.reduce((a, b: any) => a + b.minWidth, 0)}
                 content-style={whereContent.value}
                 request-style={whereRequest.value}
                 request={<common-header vertical={mobile.value} title="任务队列"></common-header>}
-                v-slots={{
-                    default: (scope: { onUpdate: Function }) => (
-                        <common-source
-                            loading={state.loading}
-                            initialize={state.initialize}
-                            page={state.page}
-                            size={state.size}
-                            pagination={state.total > 10}
-                            page-sizes={[10, 20, 30, 40, 50, 60]}
-                            total={state.total}
-                            data-source={state.dataSource}
-                            default-cols={1}
-                            onUpdate={(evt: typeof state) => fetchUpdate(evt, scope.onUpdate)}
-                            v-slots={{
-                                render: (data: MailerSchedule) => {
-                                    return (
-                                        <mailer-schedule
-                                            key={data.id}
-                                            node={data}
-                                            mobile={mobile.value}
-                                            onUpdate={fetchUpdate}
-                                        ></mailer-schedule>
-                                    )
-                                }
-                            }}
-                        ></common-source>
-                    )
+            >
+                {{
+                    default: (scope: { onUpdate: Function }) => {
+                        return (
+                            <Fragment>
+                                <common-source
+                                    loading={state.loading}
+                                    initialize={state.initialize}
+                                    page={state.page}
+                                    size={state.size}
+                                    pagination={state.total > 10}
+                                    page-sizes={[10, 20, 30, 40, 50, 60]}
+                                    total={state.total}
+                                    data-source={state.dataSource}
+                                    default-cols={1}
+                                    onUpdate={(evt: typeof state) => fetchUpdate(evt, scope.onUpdate)}
+                                    v-slots={{
+                                        render: (data: MailerSchedule) => {
+                                            return (
+                                                <mailer-schedule
+                                                    key={data.id}
+                                                    node={data}
+                                                    mobile={mobile.value}
+                                                    onUpdate={fetchUpdate}
+                                                ></mailer-schedule>
+                                            )
+                                        }
+                                    }}
+                                ></common-source>
+                            </Fragment>
+                        )
+                    }
                 }}
-            ></common-container>
+            </common-container>
         )
     }
 })
