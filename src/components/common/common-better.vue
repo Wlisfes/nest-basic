@@ -87,6 +87,8 @@ export default defineComponent({
     > :deep(.bscroll-vertical-scrollbar),
     > :deep(.bscroll-horizontal-scrollbar) {
         opacity: 1 !important;
+        bottom: 2px !important;
+        right: 2px !important;
         .bscroll-indicator {
             background-color: var(--scrollbar-color) !important;
             border: none !important;
