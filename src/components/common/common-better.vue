@@ -20,6 +20,7 @@ export default defineComponent({
         observer: { type: Object as PropType<Observer<Record<string, any>>>, required: true },
         minWidth: { type: Number },
         loading: { type: Boolean, default: false },
+        initialize: { type: Boolean, default: false },
         probeType: { type: Number, default: 1 }, //1-会截流   2-不会截流   3-看文档
         click: { type: Boolean, default: true }, //点击列表是否派发click事件
         scrollX: { type: Boolean, default: true }, //是否开启横向滚动

@@ -1,7 +1,7 @@
 <script lang="tsx">
 import type { PropType, CSSProperties, VNodeChild } from 'vue'
 import type { ScrollbarInst } from 'naive-ui'
-import { defineComponent, ref, Fragment, computed } from 'vue'
+import { defineComponent, Fragment, computed } from 'vue'
 import { isEmpty } from 'class-validator'
 import { whereProperter } from '@/utils/utils-layout'
 import { Observer } from '@/utils/utils-observer'
@@ -25,26 +25,13 @@ export default defineComponent({
     emits: ['scroll'],
     setup(props, { slots, emit }) {
         const observer = new Observer()
-        const instance = ref<ScrollbarInst>()
 
-        const whereElement = computed(() => {
+        const element = computed(() => {
             return whereProperter(isEmpty(props.minWidth), props.contentStyle, {
                 minWidth: props.minWidth + 'px',
                 ...props.contentStyle
             })
         })
-
-        /**更新位置**/
-        async function onUpdate(option: Parameters<ScrollbarInst['scrollTo']>['0'] = { top: 0, left: 0, behavior: 'smooth' }) {
-            if (props.mobile) {
-                return observer.emit('update', option)
-            }
-            return instance.value?.scrollTo({
-                top: option.top ?? 0,
-                left: option.left ?? 0,
-                behavior: option.behavior ?? 'smooth'
-            })
-        }
 
         return () => (
             <n-element tag="section" class={{ 'common-container': true, 'is-bordered': props.bordered }}>
@@ -55,41 +42,30 @@ export default defineComponent({
                     size={68}
                 >
                     {props.scrollbar ? (
-                        <Fragment>
-                            {props.mobile ? (
-                                <common-better
-                                    observer={observer}
-                                    min-width={props.minWidth}
-                                    loading={props.loading}
-                                    onScroll={(evt: Event) => emit('scroll', evt)}
-                                >
-                                    {props.request && (
-                                        <div class="common-container__request" style={props.requestStyle}>
-                                            {props.request}
+                        <common-scrollbar
+                            observer={observer}
+                            mobile={props.mobile}
+                            initialize={props.initialize}
+                            loading={props.loading}
+                            trigger={props.trigger}
+                            min-width={props.minWidth}
+                            onScroll={(evt: Event) => emit('scroll', evt)}
+                        >
+                            {{
+                                default: (scope: { onUpdate: Function; instance: ScrollbarInst }) => (
+                                    <Fragment>
+                                        {props.request && (
+                                            <div class="common-container__request" style={props.requestStyle}>
+                                                {props.request}
+                                            </div>
+                                        )}
+                                        <div class={{ [`common-container__fragment ${props.contentClass}`]: true }} style={element.value}>
+                                            <Fragment>{slots.default?.({ observer, ...scope })}</Fragment>
                                         </div>
-                                    )}
-                                    <div class={{ [`common-container__fragment ${props.contentClass}`]: true }} style={props.contentStyle}>
-                                        <Fragment>{slots.default?.({ instance: instance.value, onUpdate })}</Fragment>
-                                    </div>
-                                </common-better>
-                            ) : (
-                                <n-scrollbar
-                                    ref={instance}
-                                    trigger={props.trigger}
-                                    x-scrollable
-                                    onScroll={(evt: Event) => emit('scroll', evt)}
-                                >
-                                    {props.request && (
-                                        <div class="common-container__request" style={props.requestStyle}>
-                                            {props.request}
-                                        </div>
-                                    )}
-                                    <div class={{ [`common-container__fragment ${props.contentClass}`]: true }} style={whereElement.value}>
-                                        <Fragment>{slots.default?.({ instance: instance.value, onUpdate })}</Fragment>
-                                    </div>
-                                </n-scrollbar>
-                            )}
-                        </Fragment>
+                                    </Fragment>
+                                )
+                            }}
+                        </common-scrollbar>
                     ) : (
                         <div class="common-container__customize" style={props.customizeStyle}>
                             {props.request && (
@@ -97,8 +73,8 @@ export default defineComponent({
                                     {props.request}
                                 </div>
                             )}
-                            <div class={{ [`common-container__fragment ${props.contentClass}`]: true }} style={whereElement.value}>
-                                <Fragment>{slots.default?.({ instance: instance.value, onUpdate })}</Fragment>
+                            <div class={{ [`common-container__fragment ${props.contentClass}`]: true }} style={element.value}>
+                                <Fragment>{slots.default?.()}</Fragment>
                             </div>
                         </div>
                     )}
@@ -151,24 +127,24 @@ export default defineComponent({
             flex-direction: column;
             overflow: hidden;
             box-sizing: border-box;
-            > .n-scrollbar > .n-scrollbar-rail {
-                &.n-scrollbar-rail--vertical {
-                    right: 2px;
-                    width: 7px;
-                    .n-scrollbar-rail__scrollbar {
-                        width: 7px;
-                        border-radius: 7px;
-                    }
-                }
-                &.n-scrollbar-rail--horizontal {
-                    bottom: 2px;
-                    height: 7px;
-                    .n-scrollbar-rail__scrollbar {
-                        height: 7px;
-                        border-radius: 7px;
-                    }
-                }
-            }
+            // > .n-scrollbar > .n-scrollbar-rail {
+            //     &.n-scrollbar-rail--vertical {
+            //         right: 2px;
+            //         width: 7px;
+            //         .n-scrollbar-rail__scrollbar {
+            //             width: 7px;
+            //             border-radius: 7px;
+            //         }
+            //     }
+            //     &.n-scrollbar-rail--horizontal {
+            //         bottom: 2px;
+            //         height: 7px;
+            //         .n-scrollbar-rail__scrollbar {
+            //             height: 7px;
+            //             border-radius: 7px;
+            //         }
+            //     }
+            // }
         }
     }
     &__fragment,

@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, watch, computed, Fragment, type PropType, type VNodeChild, type CSSProperties } from 'vue'
+import { defineComponent, watch, computed, Fragment, type PropType, type CSSProperties } from 'vue'
 import { useCurrentElement, useElementSize } from '@vueuse/core'
 import { divineCols } from '@/utils/utils-common'
 
@@ -10,8 +10,7 @@ export default defineComponent({
         cols: { type: Object as PropType<Record<number, number>>, default: () => ({}) },
         defaultCols: { type: Number, default: 24 },
         xGap: { type: Number, default: 20 },
-        yGap: { type: Number, default: 20 },
-        dataRender: { type: Function as PropType<(e: Record<string, unknown>) => VNodeChild> }
+        yGap: { type: Number, default: 20 }
     },
     emit: ['resize'],
     setup(props, { emit, slots }) {
@@ -44,11 +43,7 @@ export default defineComponent({
 
         return () => (
             <n-element class="common-resize" style={cameStyle.value}>
-                {slots.default ? (
-                    <Fragment>{slots.default(option.value)}</Fragment>
-                ) : props.dataRender ? (
-                    <Fragment>{props.dataRender(option.value)}</Fragment>
-                ) : null}
+                <Fragment>{slots.default?.(option.value)}</Fragment>
             </n-element>
         )
     }

@@ -109,12 +109,10 @@ export default defineComponent({
                         <Fragment>
                             <n-element style={{ paddingBottom: '48px' }}>
                                 <n-h2 style={{ marginBottom: '10px' }}>资源包余量</n-h2>
-                                <common-resize
-                                    cols={{ 960: 1 }}
-                                    default-cols={3}
-                                    data-render={(e: { cols: number }) => (
-                                        <Fragment>
-                                            {dataCompute.value.map(item => (
+                                <common-resize cols={{ 960: 1 }} default-cols={3}>
+                                    {{
+                                        default: (e: { cols: number }) => {
+                                            return dataCompute.value.map(item => (
                                                 <n-card embedded>
                                                     <n-space wrap-item={false} size={5} align="center">
                                                         <n-button text focusable={false}>
@@ -126,10 +124,10 @@ export default defineComponent({
                                                         </n-text>
                                                     </n-space>
                                                 </n-card>
-                                            ))}
-                                        </Fragment>
-                                    )}
-                                ></common-resize>
+                                            ))
+                                        }
+                                    }}
+                                </common-resize>
                             </n-element>
                             <n-element>
                                 <n-h2 style={{ marginBottom: '10px' }}>体验套餐包</n-h2>
@@ -169,7 +167,7 @@ export default defineComponent({
                             </n-element>
                             <n-element style={{ paddingBottom: '64px' }}>
                                 <n-h2 style={{ marginBottom: '10px' }}>已购资源套餐</n-h2>
-                                <n-data-table
+                                {/* <n-data-table
                                     size="large"
                                     scroll-x={state.dataColumn.reduce((a, b) => a + b.minWidth, 0)}
                                     bordered={false}
@@ -177,7 +175,7 @@ export default defineComponent({
                                     data={state.dataSource}
                                     columns={state.dataColumn}
                                     pagination={{ page: state.page, pageSize: state.size }}
-                                ></n-data-table>
+                                ></n-data-table> */}
                             </n-element>
                         </Fragment>
                     }
