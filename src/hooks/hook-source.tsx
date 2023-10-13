@@ -4,7 +4,8 @@ import { useState } from '@/hooks/hook-state'
 import type { DataTableBaseColumn } from 'naive-ui'
 import type { Result } from '@/interface/common.resolver'
 import type { Response } from '@/utils/utils-request'
-type Option<T extends Record<string, any>, R extends Record<string, any>> = {
+
+interface SourceOption<T, R, S, U> {
     page?: number
     size?: number
     total?: number
@@ -13,14 +14,14 @@ type Option<T extends Record<string, any>, R extends Record<string, any>> = {
     immediate?: boolean
     initialize?: boolean
     dataSource?: Array<T>
-    data?: Record<string, any>
-    dataColumn?: Array<DataTableBaseColumn>
+    data?: S
+    dataColumn?: Array<U>
 }
 
-//@ts-ignore
-export function useSource<T extends Object, R extends Object>(
-    option: Option<T, R>,
-    request: (e: Required<Option<T, R>>) => Promise<Response<Result<T>>>
+/**列表Hooks**/
+export function useSource<T extends Object, R extends Object, S extends Object, U extends DataTableBaseColumn>(
+    option: SourceOption<T, R, S, U>,
+    request: (e: Required<SourceOption<T, R, S, U>>) => Promise<Response<Result<T>>>
 ) {
     const { state, setState } = useState<Required<typeof option>>({
         immediate: option.immediate ?? false,
@@ -30,14 +31,14 @@ export function useSource<T extends Object, R extends Object>(
         total: option.total ?? 0,
         loading: option.loading ?? true,
         dataSource: option.dataSource ?? [],
-        data: option.data ?? {},
+        data: (option.data ?? {}) as S,
         initialize: true,
-        dataColumn: (option.dataColumn ?? []) as unknown as Array<DataTableBaseColumn>
+        dataColumn: option.dataColumn ?? []
     })
 
     createMounte(async () => {
-        await divineHandler(state.immediate, () => {
-            fetchColumn()
+        await divineHandler(state.immediate, async () => {
+            await fetchColumn()
         })
     })
 
@@ -47,14 +48,12 @@ export function useSource<T extends Object, R extends Object>(
             return setState({ loading: true } as Partial<typeof option>).then(async () => {
                 try {
                     const { data } = await request(state as Required<typeof option>)
-                    await setState({
-                        dataSource: data.list,
-                        total: data.total
-                    } as typeof option)
+                    await setState({ dataSource: data.list, total: data.total })
                 } catch (e) {
+                    await setState({ dataSource: [], total: 0 })
                 } finally {
                     nextTick(async () => {
-                        await setState({ loading: false, initialize: false } as typeof option)
+                        await setState({ loading: false, initialize: false })
                         handler?.(state)
                         resolve(state)
                     })
@@ -65,7 +64,7 @@ export function useSource<T extends Object, R extends Object>(
 
     /**列表更新**/
     function fetchUpdate(
-        parameter: Partial<Omit<Option<T, R>, 'dataColumn' | 'initialize' | 'immediate'>> = {},
+        parameter: Partial<Omit<SourceOption<T, R, S, U>, 'initialize' | 'immediate'>> = {},
         handler?: Function
     ): Promise<typeof state> {
         return setState(parameter).then(async () => {
@@ -79,5 +78,22 @@ export function useSource<T extends Object, R extends Object>(
         setState,
         fetchColumn,
         fetchUpdate
+    }
+}
+
+/**块级栅格计算Hooks**/
+export function useColumnter(option: { width: number; column: number; size: [number, number] }) {
+    const { state, setState } = useState(option)
+
+    /**宽度百分比计算**/
+    function compile(value: number, ct: { bit: number; uit: string } = { bit: 3, uit: '%' }) {
+        return ((value / (state.width - (state.column - 1) * state.size[0])) * 100).toFixed(ct.bit) + ct.uit
+    }
+
+    return {
+        state,
+        ...toRefs(state),
+        setState,
+        compile
     }
 }

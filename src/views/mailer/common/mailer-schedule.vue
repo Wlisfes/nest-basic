@@ -1,9 +1,8 @@
 <script lang="tsx">
-import { defineComponent, ref, type PropType } from 'vue'
-import { VueDraggable } from 'vue-draggable-plus'
+import { defineComponent, type PropType } from 'vue'
 import { compute } from '@/utils/utils-remix'
 import { whereProperter } from '@/utils/utils-layout'
-import { useState } from '@/hooks/hook-state'
+import { useColumnter } from '@/hooks/hook-source'
 import type { MailerSchedule } from '@/interface/mailer.resolver'
 
 export default defineComponent({
@@ -13,37 +12,35 @@ export default defineComponent({
         mobile: { type: Boolean, default: false }
     },
     setup(props, { slots }) {
-        const { state, setState } = useState({ visible: false })
+        const { state, compile } = useColumnter({ width: 960, column: 6, size: [16, 0] })
 
         return () => (
-            <n-card class="mailer-schedule" content-style={whereProperter(props.mobile, { padding: '16px 16px' })}>
-                <n-grid x-gap={20} cols={8}>
-                    <n-grid-item span={3} class="n-chunk" style={{ columnGap: '14px' }}>
-                        <n-button strong secondary round type="primary" style={{ padding: '10px', height: 'min-content' }}>
+            <n-card class="mailer-schedule" content-style={{ padding: '20px 20px' }}>
+                <n-space size={state.size} wrap-item={false}>
+                    <common-element element-class="n-chunk" element-style={{ columnGap: '10px', flex: 1 }}>
+                        <n-button
+                            strong
+                            secondary
+                            round
+                            focusable={false}
+                            type="primary"
+                            style={{ padding: '10px', height: 'min-content' }}
+                        >
                             <n-icon component={compute('Schedule')} size={30} />
                         </n-button>
-                        <div>
+                        <n-element>
                             <n-h3 style={{ margin: 0 }}>{props.node.name}</n-h3>
                             <n-text style={{ lineHeight: '20px' }}>创建于 2023-09-07 09:17:39</n-text>
-                        </div>
-                    </n-grid-item>
-                    <n-grid-item span={1}>1</n-grid-item>
-                    <n-grid-item span={1}>2</n-grid-item>
-                    <n-grid-item span={1}>3</n-grid-item>
-                    <n-grid-item span={1}>4</n-grid-item>
-                    <n-grid-item span={1}>5</n-grid-item>
-                </n-grid>
-                {/* <n-space size={20} wrap-item={false} align="center">
-                    <n-button strong secondary round type="primary" style={{ padding: '8px', height: 'auto' }}>
-                        <n-icon component={compute('MailGmail')} size={40} />
-                    </n-button>
-                    <div>
-                        <n-h3 style={{ margin: 0 }}>{props.node.name}</n-h3>
-                        <n-text>创建于 2023-09-07 09:17:39</n-text>
-                    </div>
-
-                    <common-reactive label="App ID" content="11111" copy-icon={false}></common-reactive>
-                </n-space> */}
+                        </n-element>
+                    </common-element>
+                    <common-element element-width={compile(140)}>
+                        <common-reactive label="App ID" content="11111" copy-icon={false}></common-reactive>
+                    </common-element>
+                    <common-element element-width={compile(100)}>2</common-element>
+                    <common-element element-width={compile(100)}>3</common-element>
+                    <common-element element-width={compile(120)}>4</common-element>
+                    <common-element element-width={compile(80)}>5</common-element>
+                </n-space>
             </n-card>
         )
     }
