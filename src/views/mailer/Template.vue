@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { VueDraggable } from 'vue-draggable-plus'
 import { useResize } from '@/hooks/hook-resize'
 import { useSource } from '@/hooks/hook-source'
@@ -24,11 +24,22 @@ export default defineComponent({
             ({ size, page }) => http.httpColumnMailerTemplate({ size, page })
         )
 
+        const whereContent = computed(() => {
+            return whereProperter(mobile.value, { padding: '0 20px' }, { padding: '0 40px' })
+        })
+        const whereRequest = computed(() => {
+            return whereProperter(mobile.value, { padding: '40px 20px 20px' }, { padding: '60px 40px 30px' })
+        })
+
         return () => (
             <common-container
                 bordered
-                content-style={whereProperter(mobile.value, { padding: '0 20px' }, { padding: '0 40px' })}
-                request-style={whereProperter(mobile.value, { padding: '40px 20px 20px' }, { padding: '60px 40px 30px' })}
+                scrollbar={true}
+                mobile={mobile.value}
+                loading={state.loading}
+                initialize={state.initialize}
+                content-style={whereContent.value}
+                request-style={whereRequest.value}
                 request={
                     <common-header vertical={mobile.value} title="发送模板">
                         <n-space class="w-full h-full" size={14} wrap-item={false} align="center" justify="end">
@@ -56,23 +67,30 @@ export default defineComponent({
                     </common-header>
                 }
             >
-                <common-source
-                    loading={state.loading}
-                    page={state.page}
-                    size={state.size}
-                    pagination={state.total > 20}
-                    page-sizes={[20, 30, 40, 50, 60]}
-                    total={state.total}
-                    data-source={state.dataSource}
-                    y-gap={30}
-                    x-gap={30}
-                    cols={{ 480: 1, 750: 2, 1080: 3, 1480: 4, 1880: 5, 2680: 6 }}
-                    default-cols={5}
-                    onUpdate={fetchUpdate}
-                    data-render={(data: MailerTemplate) => {
-                        return <mailer-template key={data.id} node={data} mobile={mobile.value}></mailer-template>
-                    }}
-                ></common-source>
+                {{
+                    default: (scope: { onUpdate: Function }) => (
+                        <common-source
+                            loading={state.loading}
+                            initialize={state.initialize}
+                            page={state.page}
+                            size={state.size}
+                            pagination={state.total > 20}
+                            page-sizes={[20, 30, 40, 50, 60]}
+                            total={state.total}
+                            data-source={state.dataSource}
+                            y-gap={30}
+                            x-gap={30}
+                            cols={{ 480: 1, 750: 2, 1080: 3, 1480: 4, 1880: 5, 2680: 6 }}
+                            default-cols={5}
+                            onUpdate={(evt: typeof state) => fetchUpdate(evt, scope.onUpdate)}
+                            v-slots={{
+                                render: (data: MailerTemplate) => (
+                                    <mailer-template key={data.id} node={data} mobile={mobile.value}></mailer-template>
+                                )
+                            }}
+                        ></common-source>
+                    )
+                }}
             </common-container>
         )
     }

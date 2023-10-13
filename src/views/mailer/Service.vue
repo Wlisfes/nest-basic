@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { useResize } from '@/hooks/hook-resize'
 import { useSource } from '@/hooks/hook-source'
 import { whereProperter, createElement } from '@/utils/utils-layout'
@@ -20,11 +20,22 @@ export default defineComponent({
             ({ size, page }) => httpColumnMailerService({ size, page })
         )
 
+        const whereContent = computed(() => {
+            return whereProperter(mobile.value, { padding: '0 20px' }, { padding: '0 40px' })
+        })
+        const whereRequest = computed(() => {
+            return whereProperter(mobile.value, { padding: '40px 20px 20px' }, { padding: '60px 40px 30px' })
+        })
+
         return () => (
             <common-container
                 bordered
-                content-style={whereProperter(mobile.value, { padding: '0 20px' }, { padding: '0 40px' })}
-                request-style={whereProperter(mobile.value, { padding: '40px 20px 20px' }, { padding: '60px 40px 30px' })}
+                scrollbar={true}
+                mobile={mobile.value}
+                loading={state.loading}
+                initialize={state.initialize}
+                content-style={whereContent.value}
+                request-style={whereRequest.value}
                 request={
                     <common-header vertical={mobile.value} title="应用服务">
                         <n-space class="w-full h-full" size={14} wrap-item={false} align="center" justify="end">
@@ -45,21 +56,28 @@ export default defineComponent({
                     </common-header>
                 }
             >
-                <common-source
-                    loading={state.loading}
-                    page={state.page}
-                    size={state.size}
-                    pagination={state.total > 20}
-                    page-sizes={[20, 30, 40, 50, 60]}
-                    total={state.total}
-                    data-source={state.dataSource}
-                    cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
-                    default-cols={3}
-                    onUpdate={fetchUpdate}
-                    data-render={(data: ServiceMailer) => {
-                        return <mailer-service key={data.id} node={data} mobile={mobile.value} onUpdate={fetchUpdate}></mailer-service>
-                    }}
-                ></common-source>
+                {{
+                    default: (scope: { onUpdate: Function }) => (
+                        <common-source
+                            loading={state.loading}
+                            initialize={state.initialize}
+                            page={state.page}
+                            size={state.size}
+                            pagination={state.total > 20}
+                            page-sizes={[20, 30, 40, 50, 60]}
+                            total={state.total}
+                            data-source={state.dataSource}
+                            cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
+                            default-cols={3}
+                            onUpdate={(evt: typeof state) => fetchUpdate(evt, scope.onUpdate)}
+                            v-slots={{
+                                render: (data: ServiceMailer) => (
+                                    <mailer-service key={data.id} node={data} mobile={mobile.value} onUpdate={fetchUpdate}></mailer-service>
+                                )
+                            }}
+                        ></common-source>
+                    )
+                }}
             </common-container>
         )
     }
