@@ -4,6 +4,7 @@ import type { ScrollbarInst } from 'naive-ui'
 import { defineComponent, ref, Fragment, computed } from 'vue'
 import { isEmpty } from 'class-validator'
 import { whereProperter } from '@/utils/utils-layout'
+import { Observer } from '@/utils/utils-observer'
 
 export default defineComponent({
     name: 'CommonContainer',
@@ -23,9 +24,10 @@ export default defineComponent({
     },
     emits: ['scroll'],
     setup(props, { slots, emit }) {
+        const observer = new Observer()
         const instance = ref<ScrollbarInst>()
 
-        const element = computed(() => {
+        const whereElement = computed(() => {
             return whereProperter(isEmpty(props.minWidth), props.contentStyle, {
                 minWidth: props.minWidth + 'px',
                 ...props.contentStyle
@@ -50,29 +52,36 @@ export default defineComponent({
                     size={68}
                 >
                     {props.scrollbar ? (
-                        props.mobile && !props.loading ? (
-                            <common-better>
-                                {props.request && (
-                                    <div class="common-container__request" style={props.requestStyle}>
-                                        {props.request}
+                        <Fragment>
+                            {props.mobile ? (
+                                <common-better observer={observer} min-width={props.minWidth} loading={props.loading}>
+                                    {props.request && (
+                                        <div class="common-container__request" style={props.requestStyle}>
+                                            {props.request}
+                                        </div>
+                                    )}
+                                    <div class={{ [`common-container__fragment ${props.contentClass}`]: true }} style={props.contentStyle}>
+                                        <Fragment>{slots.default?.({ instance: instance.value, onUpdate })}</Fragment>
                                     </div>
-                                )}
-                                <div class={{ [`common-container__scrollbar ${props.contentClass}`]: true }} style={element.value}>
-                                    <Fragment>{slots.default?.({ instance: instance.value, onUpdate })}</Fragment>
-                                </div>
-                            </common-better>
-                        ) : (
-                            <n-scrollbar ref={instance} trigger={props.trigger} x-scrollable onScroll={(evt: Event) => emit('scroll', evt)}>
-                                {props.request && (
-                                    <div class="common-container__request" style={props.requestStyle}>
-                                        {props.request}
+                                </common-better>
+                            ) : (
+                                <n-scrollbar
+                                    ref={instance}
+                                    trigger={props.trigger}
+                                    x-scrollable
+                                    onScroll={(evt: Event) => emit('scroll', evt)}
+                                >
+                                    {props.request && (
+                                        <div class="common-container__request" style={props.requestStyle}>
+                                            {props.request}
+                                        </div>
+                                    )}
+                                    <div class={{ [`common-container__fragment ${props.contentClass}`]: true }} style={whereElement.value}>
+                                        <Fragment>{slots.default?.({ instance: instance.value, onUpdate })}</Fragment>
                                     </div>
-                                )}
-                                <div class={{ [`common-container__scrollbar ${props.contentClass}`]: true }} style={element.value}>
-                                    <Fragment>{slots.default?.({ instance: instance.value, onUpdate })}</Fragment>
-                                </div>
-                            </n-scrollbar>
-                        )
+                                </n-scrollbar>
+                            )}
+                        </Fragment>
                     ) : (
                         <div class="common-container__customize" style={props.customizeStyle}>
                             {props.request && (
@@ -80,7 +89,7 @@ export default defineComponent({
                                     {props.request}
                                 </div>
                             )}
-                            <div class={{ [`common-container__scrollbar ${props.contentClass}`]: true }} style={element.value}>
+                            <div class={{ [`common-container__fragment ${props.contentClass}`]: true }} style={whereElement.value}>
                                 <Fragment>{slots.default?.({ instance: instance.value, onUpdate })}</Fragment>
                             </div>
                         </div>
@@ -134,9 +143,27 @@ export default defineComponent({
             flex-direction: column;
             overflow: hidden;
             box-sizing: border-box;
+            > .n-scrollbar > .n-scrollbar-rail {
+                &.n-scrollbar-rail--vertical {
+                    right: 2px;
+                    width: 7px;
+                    .n-scrollbar-rail__scrollbar {
+                        width: 7px;
+                        border-radius: 7px;
+                    }
+                }
+                &.n-scrollbar-rail--horizontal {
+                    bottom: 2px;
+                    height: 7px;
+                    .n-scrollbar-rail__scrollbar {
+                        height: 7px;
+                        border-radius: 7px;
+                    }
+                }
+            }
         }
     }
-    &__scrollbar,
+    &__fragment,
     &__customize {
         position: relative;
         flex: 1;
