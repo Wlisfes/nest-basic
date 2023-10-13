@@ -12,7 +12,7 @@ export default defineComponent({
     name: 'Package',
     setup() {
         const { mobile } = useResize()
-        const { state, fetchUpdate, setState } = useSource<UserBundleMailer, Object>(
+        const { state, fetchUpdate, setState } = useSource(
             {
                 immediate: true,
                 size: 50,
@@ -21,8 +21,8 @@ export default defineComponent({
                     total: 0,
                     current: 0,
                     prevent: 0,
-                    dataExper: [],
-                    dataOffer: []
+                    dataExper: [] as Array<BundleMailer>,
+                    dataOffer: [] as Array<BundleMailer>
                 },
                 dataColumn: [
                     { title: '套餐包名称', key: 'name', minWidth: 180 },
@@ -31,7 +31,7 @@ export default defineComponent({
                         title: '实付价',
                         key: 'expense',
                         minWidth: 120,
-                        render: (e: UserBundleMailer) => (
+                        render: (e: any) => (
                             <n-h3 type="warning" class="n-chunk n-center" style={{ margin: 0 }}>
                                 <n-icon component={compute('Money')} size={20} color="var(--n-bar-color)" />
                                 <n-text type="warning" style={{ marginLeft: '-2px', fontSize: '20px' }}>
@@ -46,7 +46,7 @@ export default defineComponent({
                         title: '剩余量',
                         key: 'consume',
                         minWidth: 100,
-                        render: (e: UserBundleMailer) => <n-text>{e.total - e.consume}</n-text>
+                        render: (e: any) => <n-text>{e.total - e.consume}</n-text>
                     },
                     { title: '失效时间', key: 'expireTime', minWidth: 170 },
                     { title: '状态', key: 'status', minWidth: 140 },
@@ -78,6 +78,13 @@ export default defineComponent({
             })
         }
 
+        const whereContent = computed(() => {
+            return whereProperter(mobile.value, { padding: '0 20px' }, { padding: '0 40px' })
+        })
+        const whereRequest = computed(() => {
+            return whereProperter(mobile.value, { padding: '40px 20px 20px' }, { padding: '60px 40px 30px' })
+        })
+
         const dataCompute = computed<Array<{ name: string; value: number; icon: INameUI; type: string }>>(() => [
             { name: '套餐总余量:', value: state.data.total, icon: 'Package', type: 'success' },
             { name: '本月发送:', value: state.data.current, icon: 'MailReadr', type: 'info' },
@@ -87,8 +94,12 @@ export default defineComponent({
         return () => (
             <common-container
                 bordered
-                content-style={whereProperter(mobile.value, { padding: '0 20px' }, { padding: '0 40px' })}
-                request-style={whereProperter(mobile.value, { padding: '40px 20px 20px' }, { padding: '60px 40px 30px' })}
+                scrollbar={true}
+                mobile={mobile.value}
+                loading={state.loading}
+                initialize={state.initialize}
+                content-style={whereContent.value}
+                request-style={whereRequest.value}
                 request={<common-header vertical={mobile.value} title="套餐资源"></common-header>}
             >
                 <common-render
@@ -131,8 +142,10 @@ export default defineComponent({
                                     cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
                                     default-cols={3}
                                     onUpdate={fetchUpdate}
-                                    data-render={(data: BundleMailer) => {
-                                        return <mailer-package key={data.id} node={data} mobile={mobile.value}></mailer-package>
+                                    v-slots={{
+                                        render: (data: BundleMailer) => {
+                                            return <mailer-package key={data.id} node={data} mobile={mobile.value}></mailer-package>
+                                        }
                                     }}
                                 ></common-source>
                             </n-element>
@@ -147,8 +160,10 @@ export default defineComponent({
                                     cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
                                     default-cols={3}
                                     onUpdate={fetchUpdate}
-                                    data-render={(data: BundleMailer) => {
-                                        return <mailer-package key={data.id} node={data} mobile={mobile.value}></mailer-package>
+                                    v-slots={{
+                                        render: (data: BundleMailer) => {
+                                            return <mailer-package key={data.id} node={data} mobile={mobile.value}></mailer-package>
+                                        }
                                     }}
                                 ></common-source>
                             </n-element>
