@@ -2,6 +2,7 @@
 import { defineComponent, computed, type PropType, type CSSProperties } from 'vue'
 import type { ButtonProps } from 'naive-ui'
 import { useColumnter } from '@/hooks/hook-source'
+import { useProvider } from '@/hooks/hook-provider'
 import { compute, sompute, type INameUI } from '@/utils/utils-compute'
 import { whereProperter } from '@/utils/utils-layout'
 import type { MailerSchedule } from '@/interface/mailer.resolver'
@@ -13,6 +14,7 @@ export default defineComponent({
         mobile: { type: Boolean, default: false }
     },
     setup(props, { slots }) {
+        const { inverted } = useProvider()
         const { state, compile } = useColumnter({ width: 960, column: 6, size: [16, 0] })
 
         const whereCusable = computed(() => {
@@ -37,7 +39,11 @@ export default defineComponent({
                 style: whereProperter(
                     props.node.status !== 'closurer',
                     { padding: '0 10px 0 8px' },
-                    { padding: '0 10px 0 8px', color: 'rgba(255, 255, 255, 0.92)', backgroundColor: 'rgba(87, 93, 90, 1)' }
+                    {
+                        padding: '0 10px 0 8px',
+                        color: inverted.value ? 'rgba(255, 255, 255, 0.8)' : 'rgba(255, 255, 255, 1)',
+                        backgroundColor: inverted.value ? 'rgba(87, 93, 90, 0.46)' : 'rgba(87, 93, 90, 0.8)'
+                    }
                 )
             }
         })
@@ -67,16 +73,20 @@ export default defineComponent({
                             }
                         ></common-reactive>
                     </common-element>
-                    {/* <common-element element-class="n-chunk n-center" element-width={compile(80)}>
+                    {/* <common-element element-class="n-chunk n-center" element-width={compile(100)}>
                         <common-reactive
-                            reverse
-                            label="模板"
-                            content={`${props.node.failure ?? 0}封`}
-                            content-props={{ type: 'error', strong: true }}
-                            element-style={{ textAlign: 'left' }}
+                            element-style={{ flex: 1, overflow: 'hidden' }}
+                            label-none
+                            content={
+                                <n-h3 style={{ margin: 0, lineHeight: '26px' }}>
+                                    <n-ellipsis line-clamp={1}>
+                                        测试模板测试模板测试模板测试模板测试模板测试模板测试模板测试模板测试模板测试模板
+                                    </n-ellipsis>
+                                </n-h3>
+                            }
                         ></common-reactive>
                     </common-element> */}
-                    <common-element element-class="n-chunk n-center" element-width={compile(120)}>
+                    <common-element element-class="n-chunk n-center" element-width={compile(110)}>
                         <common-reactive
                             label={
                                 <n-tag size="small" bordered={false} style={{ height: '20px' }}>
@@ -134,7 +144,7 @@ export default defineComponent({
                             }}
                         </n-button>
                     </common-element>
-                    <common-element element-width={compile(80)}>
+                    <common-element element-class="n-chunk n-center" element-width={compile(80)}>
                         <common-compute></common-compute>
                     </common-element>
                 </n-space>

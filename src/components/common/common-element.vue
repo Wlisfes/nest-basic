@@ -13,6 +13,7 @@ export default defineComponent({
     setup(props, { slots }) {
         const whereElement = computed(() => {
             return whereProperter(isEmpty(props.elementWidth), props.elementStyle, {
+                overflow: 'hidden',
                 ...props.elementStyle,
                 width: props.elementWidth
             })

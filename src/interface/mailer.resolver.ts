@@ -66,4 +66,7 @@ export interface MailerSchedule extends CommonResolver {
     sendTime: string
     status: string
     reason: string
+    sample: MailerTemplate
+    app: ServiceMailer
+    user: IUser
 }
