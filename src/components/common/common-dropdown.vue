@@ -30,15 +30,15 @@ export default defineComponent({
         function createRemix(option: DropdownOption) {
             switch (option.key) {
                 case 'create':
-                    return createVNode(<common-remix type="primary" hover={false} icon={sompute('AddBold')}></common-remix>)
+                    return createVNode(<common-compute type="primary" hover={false} icon={sompute('AddBold')}></common-compute>)
                 case 'update':
-                    return createVNode(<common-remix type="info" hover={false} icon={sompute('RadixEdit')}></common-remix>)
+                    return createVNode(<common-compute type="info" hover={false} icon={sompute('RadixEdit')}></common-compute>)
                 case 'delete':
-                    return createVNode(<common-remix type="error" hover={false} icon={sompute('DeleteBold')}></common-remix>)
+                    return createVNode(<common-compute type="error" hover={false} icon={sompute('DeleteBold')}></common-compute>)
                 case 'disable':
-                    return createVNode(<common-remix type="warning" hover={false} icon={sompute('DisableRound')}></common-remix>)
+                    return createVNode(<common-compute type="warning" hover={false} icon={sompute('DisableRound')}></common-compute>)
                 case 'enable':
-                    return createVNode(<common-remix type="success" hover={false} icon={sompute('EnableRound')}></common-remix>)
+                    return createVNode(<common-compute type="success" hover={false} icon={sompute('EnableRound')}></common-compute>)
             }
         }
 
@@ -63,7 +63,7 @@ export default defineComponent({
                     default: () => (
                         <Fragment>
                             {state.loading ? (
-                                <common-remix disabled size={18} icon={sompute('RadixSpinWith')}></common-remix>
+                                <common-compute disabled size={18} icon={sompute('RadixSpinWith')}></common-compute>
                             ) : slots.default ? (
                                 slots.default()
                             ) : null}

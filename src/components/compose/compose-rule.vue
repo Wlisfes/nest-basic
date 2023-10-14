@@ -114,12 +114,12 @@ export default defineComponent({
                     <common-mode value={props.node.status}></common-mode>
                 </n-text>
                 <n-space align="center" wrap-item={false} size={5}>
-                    <common-remix
+                    <common-compute
                         size={18}
                         title={t('common.copy.value')}
                         icon={sompute('CopyRound')}
                         onTrigger={(app: never) => onSelecter('clipboard', app)}
-                    ></common-remix>
+                    ></common-compute>
                     <common-dropdown
                         command={divineAndSelecter([
                             { key: 'update', visible: true },
@@ -129,7 +129,7 @@ export default defineComponent({
                         ])}
                         onSelecter={onSelecter}
                     >
-                        <common-remix size={18} icon={sompute('RadixMore')}></common-remix>
+                        <common-compute size={18} icon={sompute('RadixMore')}></common-compute>
                     </common-dropdown>
                 </n-space>
             </n-alert>

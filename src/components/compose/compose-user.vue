@@ -38,13 +38,13 @@ export default defineComponent({
                                 </n-h3>
                             </div>
                             <n-space align="center" justify="center" wrap-item={false} size={5} style={{ margin: '0 10px 0' }}>
-                                <common-remix
+                                <common-compute
                                     stop
                                     size={18}
                                     type="success"
                                     icon={sompute('SlackBold')}
                                     onTrigger={onUpdateAuthorize}
-                                ></common-remix>
+                                ></common-compute>
                                 <common-dropdown
                                     command={[
                                         { key: 'update', visible: true },
@@ -52,7 +52,7 @@ export default defineComponent({
                                         { key: 'enable', visible: props.node.status === 'disable' }
                                     ].reduce((and: string[], next) => (next.visible ? and.concat(next.key) : and), [])}
                                 >
-                                    <common-remix stop size={18} icon={sompute('RadixMore')}></common-remix>
+                                    <common-compute stop size={18} icon={sompute('RadixMore')}></common-compute>
                                 </common-dropdown>
                             </n-space>
                         </div>

@@ -3,7 +3,7 @@ import { defineComponent, computed, createVNode, type PropType, type Component, 
 import { useState } from '@/hooks/hook-state'
 
 export default defineComponent({
-    name: 'CommonRemix',
+    name: 'CommonCompute',
     props: {
         icon: { type: Object as PropType<Component> },
         spin: { type: Object as PropType<Component> },
@@ -50,7 +50,7 @@ export default defineComponent({
 
         return () => (
             <n-button
-                class={{ 'common-remix': true, 'not-hover': !props.hover }}
+                class={{ 'common-compute': true, 'not-hover': !props.hover }}
                 quaternary
                 type={props.type}
                 size="small"
@@ -68,7 +68,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.n-button.common-remix {
+.n-button.common-compute {
     position: relative;
     height: initial;
     &.not-hover {

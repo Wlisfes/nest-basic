@@ -138,7 +138,7 @@ export default defineComponent({
                     </div>
                     <n-space align="center" justify="center" wrap-item={false} size={5} style={{ margin: '0 10px 0' }}>
                         {props.node.source === 'folder' ? (
-                            <common-remix
+                            <common-compute
                                 stop
                                 size={18}
                                 type="primary"
@@ -146,7 +146,7 @@ export default defineComponent({
                                 onTrigger={(app: never) => onSelecter('create', app)}
                             />
                         ) : (
-                            <common-remix stop size={18} type="success" icon={sompute('SlackBold')} onTrigger={fetchCreateRule} />
+                            <common-compute stop size={18} type="success" icon={sompute('SlackBold')} onTrigger={fetchCreateRule} />
                         )}
                         <common-dropdown
                             command={divineAndSelecter([
@@ -157,10 +157,10 @@ export default defineComponent({
                             ])}
                             onSelecter={onSelecter}
                         >
-                            <common-remix stop size={18} icon={sompute('RadixMore')}></common-remix>
+                            <common-compute stop size={18} icon={sompute('RadixMore')}></common-compute>
                         </common-dropdown>
                         {state.collapse && (
-                            <common-remix
+                            <common-compute
                                 hover={false}
                                 size={18}
                                 icon={sompute('ArrowRightBold', {
@@ -170,7 +170,7 @@ export default defineComponent({
                                         transform: state.visible ? 'rotateZ(90deg)' : 'rotateZ(0deg)'
                                     }
                                 })}
-                            ></common-remix>
+                            ></common-compute>
                         )}
                     </n-space>
                 </div>
