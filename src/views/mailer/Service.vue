@@ -3,7 +3,7 @@ import { defineComponent, computed } from 'vue'
 import { useResize } from '@/hooks/hook-resize'
 import { useSource } from '@/hooks/hook-source'
 import { whereProperter, createElement } from '@/utils/utils-layout'
-import { sompute } from '@/utils/utils-remix'
+import { sompute } from '@/utils/utils-compute'
 import { httpColumnMailerService } from '@/api/mailer.service'
 import type { ServiceMailer } from '@/interface/mailer.resolver'
 

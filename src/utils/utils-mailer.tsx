@@ -1,4 +1,4 @@
-import { type INameUI } from '@/utils/utils-remix'
+import { type INameUI } from '@/utils/utils-compute'
 import { Observer } from '@/utils/utils-observer'
 import useMjmlTransfor from 'mjml-browser'
 import useJsonTransfor from 'json2mjml'

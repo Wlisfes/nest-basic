@@ -1,7 +1,7 @@
 <script lang="tsx">
 import { defineComponent, computed } from 'vue'
 import { useNow, useDateFormat } from '@vueuse/core'
-import { compute, sompute, type INameUI } from '@/utils/utils-remix'
+import { compute, sompute, type INameUI } from '@/utils/utils-compute'
 import { useUser } from '@/store/user'
 import { useState } from '@/hooks/hook-state'
 import { useSupporter } from '@/hooks/hook-reuser'

@@ -2,7 +2,7 @@
 import { defineComponent, ref, computed, Fragment, onMounted, type PropType, type CSSProperties } from 'vue'
 import { useVModels } from '@vueuse/core'
 import { VueDraggable } from 'vue-draggable-plus'
-import { compute } from '@/utils/utils-remix'
+import { compute } from '@/utils/utils-compute'
 import { whereProperter } from '@/utils/utils-layout'
 import { type NestOption, NestBlock } from '@/utils/utils-mailer'
 

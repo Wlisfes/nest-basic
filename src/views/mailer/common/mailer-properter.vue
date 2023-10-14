@@ -1,6 +1,6 @@
 <script lang="tsx">
 import { defineComponent, Fragment, type PropType } from 'vue'
-import { compute, sompute } from '@/utils/utils-remix'
+import { compute, sompute } from '@/utils/utils-compute'
 import { divineTransfer } from '@/utils/utils-common'
 import { whereProperter, createElement } from '@/utils/utils-layout'
 import type { BundleMailer } from '@/interface/mailer.resolver'

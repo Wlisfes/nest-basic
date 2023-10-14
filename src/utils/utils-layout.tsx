@@ -1,6 +1,6 @@
 import { createVNode, computed, type Component, type CSSProperties } from 'vue'
 import { useRoute } from 'vue-router'
-import { sompute, type INameUI } from '@/utils/utils-remix'
+import { sompute, type INameUI } from '@/utils/utils-compute'
 export interface ClientOption {
     label: string
     key: string

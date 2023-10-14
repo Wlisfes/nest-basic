@@ -3,7 +3,7 @@ import { defineComponent, computed, Fragment, createVNode, type PropType } from 
 import { type DropdownOption } from 'naive-ui'
 import { useState } from '@/hooks/hook-state'
 import { useCurrent } from '@/locale/instance'
-import { sompute } from '@/utils/utils-remix'
+import { sompute } from '@/utils/utils-compute'
 
 export default defineComponent({
     name: 'CommonDropdown',

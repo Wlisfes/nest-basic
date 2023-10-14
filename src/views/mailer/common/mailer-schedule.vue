@@ -1,6 +1,6 @@
 <script lang="tsx">
 import { defineComponent, type PropType } from 'vue'
-import { compute } from '@/utils/utils-remix'
+import { compute } from '@/utils/utils-compute'
 import { whereProperter } from '@/utils/utils-layout'
 import { useColumnter } from '@/hooks/hook-source'
 import type { MailerSchedule } from '@/interface/mailer.resolver'
@@ -33,11 +33,15 @@ export default defineComponent({
                             <n-text style={{ lineHeight: '20px' }}>创建于 2023-09-07 09:17:39</n-text>
                         </n-element>
                     </common-element>
-                    <common-element element-width={compile(140)}>
-                        <common-reactive label="App ID" content="11111" copy-icon={false}></common-reactive>
+                    <common-element element-class="n-chunk n-center" element-width={compile(140)}>
+                        <common-reactive label="dasdsa" label-props={{ type: 'success' }} content="11111"></common-reactive>
                     </common-element>
-                    <common-element element-width={compile(100)}>2</common-element>
-                    <common-element element-width={compile(100)}>3</common-element>
+                    <common-element element-class="n-chunk n-center" element-width={compile(100)}>
+                        <common-reactive label-none content="11111"></common-reactive>
+                    </common-element>
+                    <common-element element-class="n-chunk n-center" element-width={compile(100)}>
+                        <common-reactive label-none content={props.node.success}></common-reactive>
+                    </common-element>
                     <common-element element-width={compile(120)}>4</common-element>
                     <common-element element-width={compile(80)}>5</common-element>
                 </n-space>

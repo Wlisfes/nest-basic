@@ -6,7 +6,7 @@ import { useProvider } from '@/hooks/hook-provider'
 import { useResize } from '@/hooks/hook-resize'
 import { useState } from '@/hooks/hook-state'
 import { useCurrent } from '@/locale/instance'
-import { compute } from '@/utils/utils-remix'
+import { compute } from '@/utils/utils-compute'
 import { divineDelay, divineTransfer } from '@/utils/utils-common'
 import { router } from '@/router'
 

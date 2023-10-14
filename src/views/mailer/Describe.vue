@@ -1,7 +1,7 @@
 <script lang="tsx">
 import { defineComponent } from 'vue'
 import { useResize } from '@/hooks/hook-resize'
-import { sompute, type INameUI } from '@/utils/utils-remix'
+import { sompute, type INameUI } from '@/utils/utils-compute'
 import { Client, whereProperter } from '@/utils/utils-layout'
 import { router } from '@/router'
 

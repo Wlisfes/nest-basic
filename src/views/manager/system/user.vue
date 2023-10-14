@@ -3,7 +3,7 @@ import { defineComponent } from 'vue'
 import { httpColumnUser, type IUser } from '@/api/http-user'
 import { useCurrent } from '@/locale/instance'
 import { useSource } from '@/hooks/hook-source'
-import { compute, sompute } from '@/utils/utils-remix'
+import { compute, sompute } from '@/utils/utils-compute'
 
 export default defineComponent({
     name: 'User',

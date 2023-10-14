@@ -4,7 +4,7 @@ import { VueDraggable } from 'vue-draggable-plus'
 import { createMounte, divineHandler, divineUnzipCompr } from '@/utils/utils-common'
 import { useState } from '@/hooks/hook-state'
 import { useOssService } from '@/hooks/hook-aliyun'
-import { compute } from '@/utils/utils-remix'
+import { compute } from '@/utils/utils-compute'
 import { createElement } from '@/utils/utils-layout'
 import { router } from '@/router'
 import {

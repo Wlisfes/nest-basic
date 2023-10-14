@@ -5,7 +5,7 @@ import { useCurrent } from '@/locale/instance'
 import { Observer } from '@/utils/utils-observer'
 import { divineParameter, divineHandler } from '@/utils/utils-common'
 import { createNotice } from '@/utils/utils-naive'
-import { compute, RemixUI, type INameUI } from '@/utils/utils-remix'
+import { compute, RemixUI, type INameUI } from '@/utils/utils-compute'
 import { useCustomize } from '@/hooks/hook-customize'
 import { httpCreateRoute, httpUpdateRoute, httpBasicRoute } from '@/api/http-route'
 

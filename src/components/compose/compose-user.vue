@@ -1,6 +1,6 @@
 <script lang="tsx">
 import { defineComponent, type PropType } from 'vue'
-import { sompute } from '@/utils/utils-remix'
+import { sompute } from '@/utils/utils-compute'
 import { type IUser } from '@/api/http-user'
 import { fetchAuthorize } from '@/views/manager/hooks/fetch-instance'
 

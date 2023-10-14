@@ -1,6 +1,6 @@
 import type { MenuOption } from 'naive-ui'
 import type { IRoute } from '@/api/http-route'
-import { RemixUI, type INameUI } from '@/utils/utils-remix'
+import { RemixUI, type INameUI } from '@/utils/utils-compute'
 import { h, Fragment } from 'vue'
 import { RouterLink } from 'vue-router'
 

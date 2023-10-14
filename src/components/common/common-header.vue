@@ -1,6 +1,6 @@
 <script lang="tsx">
 import { defineComponent, Fragment, type PropType, type Component } from 'vue'
-import { compute } from '@/utils/utils-remix'
+import { compute } from '@/utils/utils-compute'
 
 export default defineComponent({
     name: 'CommonHeader',

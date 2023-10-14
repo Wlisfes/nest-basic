@@ -1,7 +1,7 @@
 <script lang="tsx">
 import { defineComponent, Fragment, type PropType } from 'vue'
 import { useCurrent } from '@/locale/instance'
-import { compute, sompute } from '@/utils/utils-remix'
+import { compute, sompute } from '@/utils/utils-compute'
 import { divineDelay } from '@/utils/utils-common'
 import { createElement } from '@/utils/utils-layout'
 import { createDiscover, createNotice } from '@/utils/utils-naive'

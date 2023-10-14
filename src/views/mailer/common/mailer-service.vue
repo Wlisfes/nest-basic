@@ -2,7 +2,7 @@
 import { defineComponent, Fragment, type PropType } from 'vue'
 import { useSupporter } from '@/hooks/hook-reuser'
 import { useLocale } from '@/hooks/hook-locale'
-import { compute, sompute } from '@/utils/utils-remix'
+import { compute, sompute } from '@/utils/utils-compute'
 import { whereProperter, createElement } from '@/utils/utils-layout'
 import { divineColumn } from '@/utils/utils-common'
 import { createNotice } from '@/utils/utils-naive'

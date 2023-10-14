@@ -1,7 +1,7 @@
 <script lang="tsx">
 import { defineComponent, ref, computed, onMounted, onUnmounted } from 'vue'
 import { divineDelay, stop } from '@/utils/utils-common'
-import { compute } from '@/utils/utils-remix'
+import { compute } from '@/utils/utils-compute'
 import { useState } from '@/hooks/hook-state'
 
 export default defineComponent({

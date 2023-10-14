@@ -53,5 +53,16 @@ export interface MailerTemplate extends CommonResolver {
 }
 
 export interface MailerSchedule extends CommonResolver {
+    jobId: number
     name: string
+    type: string
+    super: string
+    accept: string
+    total: number
+    submit: number
+    success: number
+    failure: number
+    progress: number
+    sendTime: string
+    status: string
 }

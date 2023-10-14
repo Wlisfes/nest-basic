@@ -4,7 +4,7 @@ import { useResize } from '@/hooks/hook-resize'
 import { useSource } from '@/hooks/hook-source'
 import { divineSkeleton } from '@/utils/utils-common'
 import { whereProperter, createElement } from '@/utils/utils-layout'
-import { sompute } from '@/utils/utils-remix'
+import { sompute } from '@/utils/utils-compute'
 import { httpColumnCaptchaService } from '@/api/captcha.service'
 import type { ServiceCaptcha } from '@/interface/captcha.resolver'
 

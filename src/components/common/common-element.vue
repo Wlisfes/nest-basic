@@ -14,8 +14,7 @@ export default defineComponent({
         const whereElement = computed(() => {
             return whereProperter(isEmpty(props.elementWidth), props.elementStyle, {
                 ...props.elementStyle,
-                width: props.elementWidth,
-                backgroundColor: 'rgba(255, 0, 0, 0.2)'
+                width: props.elementWidth
             })
         })
 

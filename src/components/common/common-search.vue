@@ -2,7 +2,7 @@
 import { defineComponent } from 'vue'
 import { useVModels } from '@vueuse/core'
 import { createElement } from '@/utils/utils-layout'
-import { compute } from '@/utils/utils-remix'
+import { compute } from '@/utils/utils-compute'
 import { stop, divineHandler } from '@/utils/utils-common'
 
 export default defineComponent({
