@@ -1,5 +1,6 @@
 <script lang="tsx">
 import { defineComponent, computed, type PropType, type CSSProperties } from 'vue'
+import type { ButtonProps } from 'naive-ui'
 import { useColumnter } from '@/hooks/hook-source'
 import { compute, sompute, type INameUI } from '@/utils/utils-compute'
 import { whereProperter } from '@/utils/utils-layout'
@@ -20,25 +21,24 @@ export default defineComponent({
                 loading: { type: 'info', continue: '正在发送', icon: 'RadixSpinWith' },
                 fulfilled: { type: 'success', continue: '提交成功', icon: 'EnableRound' },
                 rejected: { type: 'error', continue: '发送失败', icon: 'CloseRound' },
-                closurer: { type: 'default', continue: '手动关闭', icon: 'WarningRound' },
+                closurer: { type: undefined, continue: '手动关闭', icon: 'WarningRound' },
                 automatic: { type: 'error', continue: '系统关闭', icon: 'IssueRound' }
             }
-            const whereProps = {
-                type: whereChunk[props.node.status as keyof typeof whereChunk].type,
+            const whereProps: ButtonProps = {
+                type: whereChunk[props.node.status as keyof typeof whereChunk].type as never,
                 size: 'small',
                 secondary: true,
                 focusable: false,
                 round: true
             }
-            const whereStyle = whereProperter(
-                props.node.status === 'closurer',
-                { padding: '0 10px 0 8px', color: 'rgba(255, 255, 255, 0.82)', backgroundColor: 'rgba(87, 93, 90, 1)' },
-                { padding: '0 10px 0 8px' }
-            )
             return {
                 props: whereProps,
-                style: whereStyle,
-                chunk: whereChunk[props.node.status as keyof typeof whereChunk]
+                chunk: whereChunk[props.node.status as keyof typeof whereChunk],
+                style: whereProperter(
+                    props.node.status !== 'closurer',
+                    { padding: '0 10px 0 8px' },
+                    { padding: '0 10px 0 8px', color: 'rgba(255, 255, 255, 0.92)', backgroundColor: 'rgba(87, 93, 90, 1)' }
+                )
             }
         })
 
@@ -119,12 +119,24 @@ export default defineComponent({
                     <common-element element-class="n-chunk n-center" element-width={compile(100)}>
                         <n-button {...whereCusable.value.props} style={whereCusable.value.style}>
                             {{
-                                icon: () => sompute(whereCusable.value.chunk.icon as INameUI),
-                                default: () => whereCusable.value.chunk.continue
+                                default: () => whereCusable.value.chunk.continue,
+                                icon: () => (
+                                    <n-tooltip
+                                        trigger="hover"
+                                        style={{ maxWidth: '400px' }}
+                                        disabled={!props.node.reason}
+                                        v-slots={{
+                                            trigger: () => sompute(whereCusable.value.chunk.icon as INameUI),
+                                            default: () => <span>{props.node.reason}</span>
+                                        }}
+                                    ></n-tooltip>
+                                )
                             }}
                         </n-button>
                     </common-element>
-                    <common-element element-width={compile(80)}>5</common-element>
+                    <common-element element-width={compile(80)}>
+                        <common-compute></common-compute>
+                    </common-element>
                 </n-space>
             </n-card>
         )

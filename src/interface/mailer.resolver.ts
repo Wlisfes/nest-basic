@@ -65,4 +65,5 @@ export interface MailerSchedule extends CommonResolver {
     progress: number
     sendTime: string
     status: string
+    reason: string
 }

@@ -43,7 +43,7 @@ export function createElement(component: Component, props: Record<string, unknow
 }
 
 /**条件样式返回值**/
-export function whereProperter(where: boolean, whereValue: CSSProperties = {}, defaultValue: CSSProperties = {}) {
+export function whereProperter<T = CSSProperties>(where: boolean, whereValue: T = {} as T, defaultValue: T = {} as T) {
     return where ? whereValue : defaultValue
 }
 
