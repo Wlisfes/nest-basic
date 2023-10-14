@@ -24,6 +24,7 @@ export const RemixUI = {
     RadixEdit: h(<Icon-RadixEdit />),
     EditLine: h(<Icon-EditLine />),
     RadixMore: h(<Icon-RadixMore />),
+    RadixMoreSpiner: h(<Icon-RadixMoreSpiner />),
     RadixSpin: h(<Icon-RadixSpin />),
     RadixSpinWith: h(<Icon-RadixSpinWith />),
     SemiBold: h(<Icon-SemiBold />),
