@@ -1,6 +1,6 @@
 <script lang="tsx">
 import { defineComponent, computed, type PropType, type CSSProperties } from 'vue'
-import type { ButtonProps } from 'naive-ui'
+import type { ButtonProps, DropdownOption } from 'naive-ui'
 import { useColumnter } from '@/hooks/hook-source'
 import { useProvider } from '@/hooks/hook-provider'
 import { compute, sompute, type INameUI } from '@/utils/utils-compute'
@@ -49,7 +49,7 @@ export default defineComponent({
         })
 
         return () => (
-            <n-card class="mailer-schedule" content-style={{ padding: '20px 20px' }}>
+            <n-card class="mailer-schedule" style={{ boxShadow: 'var(--n-box-shadow)' }} content-style={{ padding: '20px 20px' }}>
                 <n-space size={state.size} wrap-item={false}>
                     <common-element element-class="n-chunk n-center" element-style={{ flex: 1, columnGap: '10px', overflow: 'hidden' }}>
                         <n-button
@@ -144,8 +144,25 @@ export default defineComponent({
                             }}
                         </n-button>
                     </common-element>
-                    <common-element element-class="n-chunk n-center" element-width={compile(80)}>
-                        <common-compute></common-compute>
+                    <common-element element-class="n-chunk n-center n-end" element-width={compile(40)}>
+                        <common-selecter
+                            element-props={{
+                                size: 'large',
+                                options: [
+                                    { label: '编辑任务', key: 'update', icon: 'EditLine', type: 'info' },
+                                    { label: '重发任务', key: 'resend', icon: 'MailForwar', type: 'warning' },
+                                    { label: '取消任务', key: 'closurer', icon: 'WarningRound', type: 'error' }
+                                ],
+                                renderIcon: (scope: DropdownOption & { icon: INameUI; type: string }) => (
+                                    <common-compute
+                                        element-props={{ type: scope.type }}
+                                        element-icon={scope.icon}
+                                        element-size={20}
+                                    ></common-compute>
+                                )
+                            }}
+                            onSelecter={(e: any) => console.log(e)}
+                        ></common-selecter>
                     </common-element>
                 </n-space>
             </n-card>

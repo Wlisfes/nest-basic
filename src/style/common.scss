@@ -13,6 +13,9 @@
     &.n-middle {
         justify-content: center;
     }
+    &.n-end {
+        justify-content: flex-end;
+    }
     &.n-space {
         justify-content: space-between;
     }

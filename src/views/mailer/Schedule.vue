@@ -1,7 +1,7 @@
 <script lang="tsx">
 import { defineComponent, computed, Fragment } from 'vue'
 import { useResize } from '@/hooks/hook-resize'
-import { useSource } from '@/hooks/hook-source'
+import { useSource, useColumnter } from '@/hooks/hook-source'
 import { divineDelay } from '@/utils/utils-common'
 import { whereProperter } from '@/utils/utils-layout'
 import type { MailerSchedule } from '@/interface/mailer.resolver'
@@ -10,6 +10,7 @@ import * as http from '@/api/instance.service'
 export default defineComponent({
     name: 'Schedule',
     setup() {
+        const { size, compile } = useColumnter({ width: 960, column: 6, size: [16, 0] })
         const { mobile } = useResize()
         const { state, fetchUpdate } = useSource(
             {
@@ -54,6 +55,18 @@ export default defineComponent({
                     default: (scope: { onUpdate: Function }) => {
                         return (
                             <Fragment>
+                                <n-space size={size.value} wrap-item={false}>
+                                    <common-element element-class="n-chunk n-center" element-style={{ flex: 1 }}></common-element>
+                                    <common-element element-class="n-chunk n-center" element-width={compile(110)}>
+                                        发送进度
+                                    </common-element>
+                                    <common-element element-class="n-chunk n-center" element-width={compile(100)}>
+                                        任务状态
+                                    </common-element>
+                                    <common-element element-class="n-chunk n-center n-end" element-width={compile(40)}>
+                                        操作
+                                    </common-element>
+                                </n-space>
                                 <common-source
                                     loading={state.loading}
                                     initialize={state.initialize}
