@@ -1,6 +1,6 @@
 <script lang="tsx">
-import { defineComponent, computed, type PropType, type CSSProperties } from 'vue'
 import type { ButtonProps, DropdownOption } from 'naive-ui'
+import { defineComponent, computed, type PropType } from 'vue'
 import { useColumnter } from '@/hooks/hook-source'
 import { useProvider } from '@/hooks/hook-provider'
 import { compute, sompute, type INameUI } from '@/utils/utils-compute'
@@ -49,7 +49,7 @@ export default defineComponent({
         })
 
         return () => (
-            <n-card class="mailer-schedule" style={{ boxShadow: 'var(--n-box-shadow)' }} content-style={{ padding: '20px 20px' }}>
+            <n-card class="mailer-schedule" content-style={{ padding: '20px 20px' }}>
                 <n-space size={state.size} wrap-item={false}>
                     <common-element element-class="n-chunk n-center" element-style={{ flex: 1, columnGap: '10px', overflow: 'hidden' }}>
                         <n-button

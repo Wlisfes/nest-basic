@@ -1,7 +1,8 @@
 <script lang="tsx">
-import { defineComponent, Fragment, type PropType } from 'vue'
+import type { ButtonProps, DropdownOption } from 'naive-ui'
+import { defineComponent, type PropType } from 'vue'
 import { useCurrent } from '@/locale/instance'
-import { compute, sompute } from '@/utils/utils-compute'
+import { compute, sompute, type INameUI } from '@/utils/utils-compute'
 import { divineDelay } from '@/utils/utils-common'
 import { createElement } from '@/utils/utils-layout'
 import { createDiscover, createNotice } from '@/utils/utils-naive'
@@ -21,14 +22,14 @@ export default defineComponent({
         const { t } = useCurrent()
 
         /**操作指令**/
-        async function onSelecter(command: 'update' | 'delete') {
+        async function onSelecter(scope: { key: 'update' | 'delete' }) {
             /**编辑指令**/
-            if (command === 'update') {
+            if (scope.key === 'update') {
                 return router.push(`/mailer/update/currenter?keyId=${props.node.id}`)
             }
 
             /**删除指令**/
-            if (command === 'delete') {
+            if (scope.key === 'delete') {
                 const { element } = await createNodeRender(<n-text type="error">{props.node.name}</n-text>, {
                     style: { padding: '0 5px', fontWeight: 600 }
                 })
@@ -92,9 +93,26 @@ export default defineComponent({
                                     default: createElement(<span>11111</span>)
                                 }}
                             ></n-tooltip>
-                            <common-dropdown command={['update', 'delete']} onSelecter={onSelecter}>
-                                <n-button text v-slots={{ icon: createElement(sompute('Settings', { size: 24 })) }}></n-button>
-                            </common-dropdown>
+                            <common-selecter
+                                onSelecter={onSelecter}
+                                element-props={{
+                                    size: 'large',
+                                    placement: 'top',
+                                    options: [
+                                        { label: '编辑模板', key: 'update', icon: 'RadixEdit', type: 'info' },
+                                        { label: '删除模板', key: 'delete', icon: 'DeleteBold', type: 'error' }
+                                    ],
+                                    renderIcon: (scope: DropdownOption & { icon: INameUI; type: string }) => (
+                                        <common-compute
+                                            element-props={{ type: scope.type }}
+                                            element-icon={scope.icon}
+                                            element-size={20}
+                                        ></common-compute>
+                                    )
+                                }}
+                            >
+                                <common-compute element-icon="Settings" element-size={24}></common-compute>
+                            </common-selecter>
                         </n-space>
                     </n-space>
                 </n-element>
