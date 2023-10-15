@@ -15,6 +15,7 @@ export default defineComponent({
         return () => (
             <n-drawer
                 show={sider.value}
+                z-index={3000}
                 width={240}
                 placement="left"
                 on-mask-click={(e: MouseEvent) => setSider(false)}
