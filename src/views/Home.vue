@@ -36,7 +36,11 @@ export default defineComponent({
         }))
 
         return () => (
-            <common-container max-width="1680px" scrollbar-style={{ padding: '20px' }} content-style={{ padding: '64px 32px 32px' }}>
+            <common-container
+                scrollbar
+                scrollbar-style={{ padding: '20px' }}
+                content-style={{ padding: '64px 32px 32px', maxWidth: '1680px', margin: '20px auto', backgroundColor: 'var(--card-color)' }}
+            >
                 <n-h1 strong>
                     {hours.value >= 18 ? (
                         <n-text>{client.value.welcome.night}</n-text>
@@ -83,7 +87,9 @@ export default defineComponent({
                             </n-form-item>
                         </n-form>
                     </div>
-                    <div class="common-basic__approve">{/* <n-skeleton height="100%" /> */}</div>
+                    <div class="common-basic__approve">
+                        <n-skeleton height="100%" />
+                    </div>
                 </div>
                 <div class="common-service">
                     <n-h2 style={{ marginBottom: '10px' }}>{client.value.service.title}</n-h2>
