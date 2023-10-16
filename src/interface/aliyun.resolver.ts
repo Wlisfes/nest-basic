@@ -1,3 +1,5 @@
+import type { CommonResolver } from '@/interface/common.resolver'
+
 export interface OSSAuthorize {
     accessKeyId: string
     accessKeySecret: string
@@ -8,3 +10,5 @@ export interface OSSAuthorize {
     expire: string
     interval: number
 }
+
+export interface ExcelResolver extends CommonResolver {}

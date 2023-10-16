@@ -98,6 +98,19 @@ export function divineColsNode(data: Record<number, number> = {}, cols: number, 
     return data[cols] ?? defaultCols
 }
 
+/**创建FormData文件**/
+export async function divineCreateFormDatar<T extends { key: string; value: any }>(data: Array<T>, transfer?: (c: T) => void) {
+    const formData = new FormData()
+    for (const item of data) {
+        if (transfer && typeof transfer === 'function') {
+            transfer(item)
+        } else {
+            formData.append(item.key, item.value)
+        }
+    }
+    return formData
+}
+
 /**字符串压缩**/
 export async function divineCompress(value: string): Promise<string> {
     return window.LZString.compressToBase64(value)

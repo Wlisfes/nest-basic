@@ -3,7 +3,6 @@ import { defineComponent } from 'vue'
 import { useResizeContainer } from '@/hooks/hook-resize'
 import { useCustomize } from '@/hooks/hook-customize'
 import { divineDelay } from '@/utils/utils-common'
-import { compute } from '@/utils/utils-compute'
 
 export default defineComponent({
     name: 'BulkSender',
@@ -100,23 +99,7 @@ export default defineComponent({
                         </n-form-item>
                     ) : (
                         <n-form-item label="接收列表" path="receive">
-                            <n-upload directory-dnd action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f">
-                                <n-upload-dragger style={{ padding: '20px' }}>
-                                    <n-element class="n-chunk n-center" style={{ columnGap: '14px' }}>
-                                        <n-icon depth={3} size={52} component={compute('Exceler')} />
-                                        <n-element class="n-chunk n-column n-auto" style={{ textAlign: 'left' }}>
-                                            <n-element style={{ fontSize: '16px' }}>
-                                                <n-text type="success">点击</n-text>/<n-text>或者拖动文件上传</n-text>
-                                            </n-element>
-                                            <n-element style={{ textAlign: 'left', fontSize: '14px' }}>
-                                                <n-text depth={3}>文件格式为</n-text>
-                                                <n-text type="success">csv/excel</n-text>
-                                                <n-text depth={3}>，且文件大小不超过1MB</n-text>
-                                            </n-element>
-                                        </n-element>
-                                    </n-element>
-                                </n-upload-dragger>
-                            </n-upload>
+                            <common-uploader></common-uploader>
                         </n-form-item>
                     )}
                     <n-form-item show-label={false}>
