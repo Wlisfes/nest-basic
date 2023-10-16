@@ -146,6 +146,11 @@ export const client: Array<RouteRecordRaw> = [
                         component: () => import('@/views/mailer/Currenter.vue')
                     },
                     {
+                        path: '/mailer/bulksender',
+                        meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE' },
+                        component: () => import('@/views/mailer/BulkSender.vue')
+                    },
+                    {
                         path: '/mailer/schedule',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE' },
                         component: () => import('@/views/mailer/Schedule.vue')

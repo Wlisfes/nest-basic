@@ -3,6 +3,7 @@ import { defineComponent, computed } from 'vue'
 import { useNow, useDateFormat } from '@vueuse/core'
 import { compute, sompute, type INameUI } from '@/utils/utils-compute'
 import { useUser } from '@/store/user'
+import { useResizeContainer } from '@/hooks/hook-resize'
 import { useState } from '@/hooks/hook-state'
 import { useSupporter } from '@/hooks/hook-reuser'
 import { useCurrent } from '@/locale/instance'
@@ -12,6 +13,7 @@ import { divineCols } from '@/utils/utils-common'
 export default defineComponent({
     name: 'Home',
     setup(props) {
+        const { mobile } = useResizeContainer()
         const { setSupporter } = useSupporter()
         const { t, tm } = useCurrent()
         const { width } = useResize()
@@ -38,8 +40,13 @@ export default defineComponent({
         return () => (
             <common-container
                 scrollbar
-                scrollbar-style={{ padding: '20px' }}
-                content-style={{ padding: '64px 32px 32px', maxWidth: '1680px', margin: '20px auto', backgroundColor: 'var(--card-color)' }}
+                mobile={mobile.value}
+                content-style={{
+                    padding: '64px 32px 32px',
+                    maxWidth: '1680px',
+                    margin: '20px auto 0',
+                    backgroundColor: 'var(--card-color)'
+                }}
             >
                 <n-h1 strong>
                     {hours.value >= 18 ? (

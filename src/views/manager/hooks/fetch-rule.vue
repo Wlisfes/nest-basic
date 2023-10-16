@@ -19,8 +19,8 @@ export default defineComponent({
     emits: ['close', 'submit'],
     setup(props, { emit }) {
         const { t, tm } = useCurrent()
-        const { formRef, state, setState, divineFormValidater } = useCustomize(
-            {
+        const { formRef, state, setState, divineFormValidater } =
+            ({
                 immediate: true,
                 loading: false,
                 visible: false,
@@ -58,8 +58,7 @@ export default defineComponent({
                     } catch (e) {}
                 })
                 await setState({ loading: false })
-            }
-        )
+            })
 
         /**表单验证**/
         async function onSubmit() {

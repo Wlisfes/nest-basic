@@ -72,7 +72,8 @@ export const RemixUI = {
     BasicHero: h(<Icon-BasicHero />),
     BasicWrapper: h(<Icon-BasicWrapper />),
     BasicContent: h(<Icon-BasicContent />),
-    ImageHolder: h(<Icon-ImageHolder />)
+    ImageHolder: h(<Icon-ImageHolder />),
+    Exceler: h(<Icon-Exceler />)
 }
 
 /**图标类型拆解**/

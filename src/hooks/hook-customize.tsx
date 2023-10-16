@@ -4,6 +4,7 @@ import { useState } from '@/hooks/hook-state'
 import { divineHandler, divineDelay } from '@/utils/utils-common'
 type Option<T extends Record<string, any>, R extends Record<string, any>> = {
     immediate?: boolean
+    initialize?: boolean
     disabled?: boolean
     visible?: boolean
     rules?: FormRules
@@ -12,15 +13,15 @@ type Option<T extends Record<string, any>, R extends Record<string, any>> = {
     loading: boolean
 }
 
+/**自定义表单Hooks**/
 export function useCustomize<T extends Object, R extends Object>(option: Option<T, R>, handler?: Function) {
     const formRef = ref<FormInst>()
-    const { state, setState } = useState<typeof option>(option)
+    const { state, setState } = useState<typeof option>({ initialize: true, ...option })
 
     onMounted(async () => {
-        await divineHandler(
-            () => option.immediate && typeof handler === 'function',
-            () => handler?.(state)
-        )
+        await divineHandler(Boolean(option.immediate && typeof handler === 'function'), () => handler?.(state)).finally(() => {
+            setState({ initialize: false })
+        })
     })
 
     /**验证表单**/
