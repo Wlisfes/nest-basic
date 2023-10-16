@@ -48,6 +48,15 @@ export default defineComponent({
             }
         })
 
+        /**操作栏回调事件**/
+        function onSelecter(scope: { key: string; done: Function }) {
+            console.log(scope)
+
+            scope.done({ loading: true })
+
+            setTimeout(() => scope.done({ loading: false }), 1500)
+        }
+
         return () => (
             <n-card class="mailer-schedule" content-style={{ padding: '20px 20px' }}>
                 <n-space size={state.size} wrap-item={false}>
@@ -146,11 +155,12 @@ export default defineComponent({
                     </common-element>
                     <common-element element-class="n-chunk n-center n-end" element-width={compile(40)}>
                         <common-selecter
+                            onSelecter={onSelecter}
                             element-props={{
                                 size: 'large',
                                 options: [
                                     { label: '编辑任务', key: 'update', icon: 'EditLine', type: 'info' },
-                                    { label: '重发任务', key: 'resend', icon: 'MailForwar', type: 'warning' },
+                                    { label: '重发任务', key: 'resend', icon: 'RadixSpin', type: 'warning' },
                                     { label: '取消任务', key: 'closurer', icon: 'WarningRound', type: 'error' }
                                 ],
                                 renderIcon: (scope: DropdownOption & { icon: INameUI; type: string }) => (
@@ -161,7 +171,6 @@ export default defineComponent({
                                     ></common-compute>
                                 )
                             }}
-                            onSelecter={(e: any) => console.log(e)}
                         ></common-selecter>
                     </common-element>
                 </n-space>

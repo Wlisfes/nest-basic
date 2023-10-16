@@ -1,12 +1,13 @@
 <script lang="tsx">
 import type { DropdownProps, DropdownOption } from 'naive-ui'
-import { defineComponent, computed, type PropType } from 'vue'
+import { defineComponent, computed, watch, type PropType } from 'vue'
 import { useState } from '@/hooks/hook-state'
 
 export default defineComponent({
     name: 'CommonSelecter',
     props: {
         elementLoading: { type: Boolean, default: false },
+        elementDisabled: { type: Boolean, default: false },
         elementTitle: { type: String },
         elementStop: { type: Boolean },
         elementSize: { type: Number, default: 22 },
@@ -17,7 +18,8 @@ export default defineComponent({
     emits: ['selecter'],
     setup(props, { slots, emit }) {
         const { state, setState } = useState({
-            loading: props.elementLoading
+            loading: props.elementLoading,
+            disabled: props.elementDisabled
         })
         const elementProps = computed(() => ({
             showArrow: true,
@@ -26,6 +28,11 @@ export default defineComponent({
             options: props.elementData,
             ...props.elementProps
         }))
+
+        watch(
+            () => [props.elementDisabled, props.elementLoading],
+            () => setState({ disabled: props.elementDisabled, loading: props.elementLoading })
+        )
 
         /**选取类型**/
         function onSelecter(key: string, option: DropdownOption) {
@@ -44,6 +51,8 @@ export default defineComponent({
                                 element-stop={props.elementStop}
                                 element-size={props.elementSize}
                                 element-icon={props.elementIcon}
+                                element-loading={state.loading}
+                                element-disabled={state.loading}
                             ></common-compute>
                         )
                     }
