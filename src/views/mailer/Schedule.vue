@@ -1,9 +1,8 @@
 <script lang="tsx">
-import { defineComponent, computed, Fragment } from 'vue'
-import { useResize } from '@/hooks/hook-resize'
+import { defineComponent, Fragment } from 'vue'
+import { useResizeContainer } from '@/hooks/hook-resize'
 import { useSource, useColumnter } from '@/hooks/hook-source'
 import { divineDelay } from '@/utils/utils-common'
-import { whereProperter } from '@/utils/utils-layout'
 import type { MailerSchedule } from '@/interface/mailer.resolver'
 import * as http from '@/api/instance.service'
 
@@ -11,7 +10,7 @@ export default defineComponent({
     name: 'Schedule',
     setup() {
         const { size, compile } = useColumnter({ width: 960, column: 6, size: [16, 0] })
-        const { mobile } = useResize()
+        const { mobile, whereContent, whereRequest } = useResizeContainer()
         const { state, fetchUpdate } = useSource(
             {
                 immediate: true,
@@ -31,13 +30,6 @@ export default defineComponent({
                 return await http.httpColumnMailerSchedule({ size, page })
             }
         )
-
-        const whereContent = computed(() => {
-            return whereProperter(mobile.value, { padding: '0 20px' }, { padding: '0 40px' })
-        })
-        const whereRequest = computed(() => {
-            return whereProperter(mobile.value, { padding: '40px 20px 20px' }, { padding: '60px 40px 30px' })
-        })
 
         return () => (
             <common-container

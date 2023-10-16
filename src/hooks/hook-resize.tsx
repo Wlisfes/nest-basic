@@ -1,6 +1,7 @@
-import { computed, watch } from 'vue'
+import { computed, watch, type CSSProperties } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { useCommon } from '@/store/common'
+import { whereProperter } from '@/utils/utils-layout'
 import IsMobile from 'is-mobile'
 
 export type Device = 'PC' | 'IPAD' | 'Mobile'
@@ -63,5 +64,41 @@ export function useResize(option?: Option) {
         setCollapse,
         setCurrent,
         setSider
+    }
+}
+
+export function useResizeContainer(
+    option: Partial<{
+        contentStyle: { mobile: CSSProperties; default: CSSProperties }
+        requestStyle: { mobile: CSSProperties; default: CSSProperties }
+        customizeStyle: { mobile: CSSProperties; default: CSSProperties }
+    }> = {}
+) {
+    const { mobile } = useResize()
+
+    const whereContent = computed(() => {
+        return whereProperter(
+            mobile.value,
+            option.contentStyle?.mobile ?? { padding: '0 20px' },
+            option.contentStyle?.default ?? { padding: '0 40px' }
+        )
+    })
+    const whereRequest = computed(() => {
+        return whereProperter(
+            mobile.value,
+            option.requestStyle?.mobile ?? { padding: '40px 20px 20px' },
+            option.requestStyle?.default ?? { padding: '60px 40px 30px' }
+        )
+    })
+
+    const whereCustomize = computed(() => {
+        return whereProperter(mobile.value, option.customizeStyle?.mobile ?? {}, option.customizeStyle?.default ?? {})
+    })
+
+    return {
+        mobile,
+        whereContent,
+        whereRequest,
+        whereCustomize
     }
 }

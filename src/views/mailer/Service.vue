@@ -1,8 +1,8 @@
 <script lang="tsx">
-import { defineComponent, computed } from 'vue'
-import { useResize } from '@/hooks/hook-resize'
+import { defineComponent } from 'vue'
+import { useResizeContainer } from '@/hooks/hook-resize'
 import { useSource } from '@/hooks/hook-source'
-import { whereProperter, createElement } from '@/utils/utils-layout'
+import { createElement } from '@/utils/utils-layout'
 import { sompute } from '@/utils/utils-compute'
 import { httpColumnMailerService } from '@/api/mailer.service'
 import type { ServiceMailer } from '@/interface/mailer.resolver'
@@ -10,7 +10,7 @@ import type { ServiceMailer } from '@/interface/mailer.resolver'
 export default defineComponent({
     name: 'Service',
     setup() {
-        const { mobile } = useResize()
+        const { mobile, whereContent, whereRequest } = useResizeContainer()
         const { state, fetchUpdate } = useSource(
             {
                 immediate: true,
@@ -19,13 +19,6 @@ export default defineComponent({
             },
             ({ size, page }) => httpColumnMailerService({ size, page })
         )
-
-        const whereContent = computed(() => {
-            return whereProperter(mobile.value, { padding: '0 20px' }, { padding: '0 40px' })
-        })
-        const whereRequest = computed(() => {
-            return whereProperter(mobile.value, { padding: '40px 20px 20px' }, { padding: '60px 40px 30px' })
-        })
 
         return () => (
             <common-container

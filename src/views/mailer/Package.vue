@@ -1,8 +1,7 @@
 <script lang="tsx">
 import { defineComponent, computed, Fragment } from 'vue'
-import { useResize } from '@/hooks/hook-resize'
+import { useResizeContainer } from '@/hooks/hook-resize'
 import { useSource } from '@/hooks/hook-source'
-import { whereProperter } from '@/utils/utils-layout'
 import { compute, type INameUI } from '@/utils/utils-compute'
 import { divineTransfer, divineHandler } from '@/utils/utils-common'
 import { httpColumnBundleMailer, httpUserComputeMailer, httpColumnUserMailer } from '@/api/mailer.service'
@@ -11,7 +10,7 @@ import type { BundleMailer, UserBundleMailer } from '@/interface/mailer.resolver
 export default defineComponent({
     name: 'Package',
     setup() {
-        const { mobile } = useResize()
+        const { mobile, whereContent, whereRequest } = useResizeContainer()
         const { state, fetchUpdate, setState } = useSource(
             {
                 immediate: true,
@@ -77,13 +76,6 @@ export default defineComponent({
                 })
             })
         }
-
-        const whereContent = computed(() => {
-            return whereProperter(mobile.value, { padding: '0 20px' }, { padding: '0 40px' })
-        })
-        const whereRequest = computed(() => {
-            return whereProperter(mobile.value, { padding: '40px 20px 20px' }, { padding: '60px 40px 30px' })
-        })
 
         const dataCompute = computed<Array<{ name: string; value: number; icon: INameUI; type: string }>>(() => [
             { name: '套餐总余量:', value: state.data.total, icon: 'Package', type: 'success' },
