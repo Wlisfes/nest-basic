@@ -97,27 +97,30 @@ export default defineComponent({
                     <n-grid x-gap={24} y-gap={24} cols={cols.value}>
                         {client.value.service.column.map(item => (
                             <n-grid-item style={{ backgroundColor: 'var(--back-color)' }}>
-                                <common-render
-                                    loading={state.loading}
-                                    spin={<n-skeleton height="156px" />}
-                                    component={
-                                        <router-link to={item.path} style={{ textDecoration: 'none' }}>
-                                            <n-space class="common-service__column" size={15} wrap-item={false}>
-                                                <n-button text focusable={false}>
-                                                    <n-icon component={compute(item.icon)} size={68} />
-                                                </n-button>
-                                                <n-space size={5} vertical wrap-item={false} style={{ flex: 1 }} justify="center">
-                                                    <n-h2 style={{ marginBottom: 0, lineHeight: '36px' }}>{item.name}</n-h2>
-                                                    <n-text style={{ lineHeight: '22px' }}>
-                                                        <n-ellipsis tooltip={false} line-clamp={2}>
-                                                            {item.document}
-                                                        </n-ellipsis>
-                                                    </n-text>
+                                <common-render loading={state.loading} spiner={<n-skeleton height="156px" />}>
+                                    {{
+                                        default: () => (
+                                            <router-link
+                                                to={item.path}
+                                                style={{ textDecoration: 'none', display: 'block', height: '100%' }}
+                                            >
+                                                <n-space class="common-service__column" size={15} wrap-item={false}>
+                                                    <n-button text focusable={false}>
+                                                        <n-icon component={compute(item.icon)} size={68} />
+                                                    </n-button>
+                                                    <n-space size={5} vertical wrap-item={false} style={{ flex: 1 }}>
+                                                        <n-h2 style={{ marginBottom: 0, lineHeight: '36px' }}>{item.name}</n-h2>
+                                                        <n-text style={{ lineHeight: '22px' }}>
+                                                            <n-ellipsis tooltip={false} line-clamp={2}>
+                                                                {item.document}
+                                                            </n-ellipsis>
+                                                        </n-text>
+                                                    </n-space>
                                                 </n-space>
-                                            </n-space>
-                                        </router-link>
-                                    }
-                                ></common-render>
+                                            </router-link>
+                                        )
+                                    }}
+                                </common-render>
                             </n-grid-item>
                         ))}
                     </n-grid>
@@ -160,6 +163,7 @@ export default defineComponent({
     position: relative;
     margin-top: 40px;
     &__column {
+        height: 100%;
         padding: 32px;
         min-height: 91px;
         border-radius: var(--border-radius);

@@ -5,11 +5,10 @@ export default defineComponent({
     name: 'CommonRender',
     props: {
         loading: { type: Boolean, default: true },
-        spin: { type: Object as PropType<VNodeChild> },
-        component: { type: Object as PropType<VNodeChild> }
+        spiner: { type: Object as PropType<VNodeChild> }
     },
-    setup(props) {
-        return () => <Fragment>{props.loading ? props.spin : props.component}</Fragment>
+    setup(props, { slots }) {
+        return () => <Fragment>{props.loading ? props.spiner : slots.default?.()}</Fragment>
     }
 })
 </script>

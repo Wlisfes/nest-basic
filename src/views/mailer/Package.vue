@@ -104,70 +104,71 @@ export default defineComponent({
             >
                 <common-render
                     loading={state.loading}
-                    spin={<n-spin stroke-width={16} size={68} style={{ minHeight: '240px' }}></n-spin>}
-                    component={
-                        <Fragment>
-                            <n-element style={{ paddingBottom: '48px' }}>
-                                <n-h2 style={{ marginBottom: '10px' }}>资源包余量</n-h2>
-                                <common-resize cols={{ 960: 1 }} default-cols={3}>
-                                    {{
-                                        default: (e: { cols: number }) => {
-                                            return dataCompute.value.map(item => (
-                                                <n-card embedded>
-                                                    <n-space wrap-item={false} size={5} align="center">
-                                                        <n-button text focusable={false}>
-                                                            <n-icon component={compute(item.icon)} size={30} />
-                                                        </n-button>
-                                                        <n-h3 style={{ margin: 0, fontSize: '20px' }}>{item.name}</n-h3>
-                                                        <n-text type={item.type} style={{ fontSize: '20px' }}>
-                                                            {`${item.value}条`}
-                                                        </n-text>
-                                                    </n-space>
-                                                </n-card>
-                                            ))
-                                        }
-                                    }}
-                                </common-resize>
-                            </n-element>
-                            <n-element>
-                                <n-h2 style={{ marginBottom: '10px' }}>体验套餐包</n-h2>
-                                <common-source
-                                    loading={state.loading}
-                                    pagination={false}
-                                    total={state.data.dataExper.length}
-                                    data-source={state.data.dataExper}
-                                    came-style={{ paddingBottom: '48px' }}
-                                    cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
-                                    default-cols={3}
-                                    onUpdate={fetchUpdate}
-                                    v-slots={{
-                                        render: (data: BundleMailer) => {
-                                            return <mailer-package key={data.id} node={data} mobile={mobile.value}></mailer-package>
-                                        }
-                                    }}
-                                ></common-source>
-                            </n-element>
-                            <n-element>
-                                <n-h2 style={{ marginBottom: '10px' }}>特惠套餐包</n-h2>
-                                <common-source
-                                    loading={state.loading}
-                                    pagination={false}
-                                    total={state.data.dataOffer.length}
-                                    data-source={state.data.dataOffer}
-                                    came-style={{ paddingBottom: '48px' }}
-                                    cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
-                                    default-cols={3}
-                                    onUpdate={fetchUpdate}
-                                    v-slots={{
-                                        render: (data: BundleMailer) => {
-                                            return <mailer-package key={data.id} node={data} mobile={mobile.value}></mailer-package>
-                                        }
-                                    }}
-                                ></common-source>
-                            </n-element>
-                            <n-element style={{ paddingBottom: '64px' }}>
-                                <n-h2 style={{ marginBottom: '10px' }}>已购资源套餐</n-h2>
-                                {/* <n-data-table
+                    spiner={<n-spin stroke-width={16} size={68} style={{ minHeight: '240px' }}></n-spin>}
+                    v-slots={{
+                        default: () => (
+                            <Fragment>
+                                <n-element style={{ paddingBottom: '48px' }}>
+                                    <n-h2 style={{ marginBottom: '10px' }}>资源包余量</n-h2>
+                                    <common-resize cols={{ 960: 1 }} default-cols={3}>
+                                        {{
+                                            default: (e: { cols: number }) => {
+                                                return dataCompute.value.map(item => (
+                                                    <n-card embedded>
+                                                        <n-space wrap-item={false} size={5} align="center">
+                                                            <n-button text focusable={false}>
+                                                                <n-icon component={compute(item.icon)} size={30} />
+                                                            </n-button>
+                                                            <n-h3 style={{ margin: 0, fontSize: '20px' }}>{item.name}</n-h3>
+                                                            <n-text type={item.type} style={{ fontSize: '20px' }}>
+                                                                {`${item.value}条`}
+                                                            </n-text>
+                                                        </n-space>
+                                                    </n-card>
+                                                ))
+                                            }
+                                        }}
+                                    </common-resize>
+                                </n-element>
+                                <n-element>
+                                    <n-h2 style={{ marginBottom: '10px' }}>体验套餐包</n-h2>
+                                    <common-source
+                                        loading={state.loading}
+                                        pagination={false}
+                                        total={state.data.dataExper.length}
+                                        data-source={state.data.dataExper}
+                                        came-style={{ paddingBottom: '48px' }}
+                                        cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
+                                        default-cols={3}
+                                        onUpdate={fetchUpdate}
+                                        v-slots={{
+                                            render: (data: BundleMailer) => {
+                                                return <mailer-package key={data.id} node={data} mobile={mobile.value}></mailer-package>
+                                            }
+                                        }}
+                                    ></common-source>
+                                </n-element>
+                                <n-element>
+                                    <n-h2 style={{ marginBottom: '10px' }}>特惠套餐包</n-h2>
+                                    <common-source
+                                        loading={state.loading}
+                                        pagination={false}
+                                        total={state.data.dataOffer.length}
+                                        data-source={state.data.dataOffer}
+                                        came-style={{ paddingBottom: '48px' }}
+                                        cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
+                                        default-cols={3}
+                                        onUpdate={fetchUpdate}
+                                        v-slots={{
+                                            render: (data: BundleMailer) => {
+                                                return <mailer-package key={data.id} node={data} mobile={mobile.value}></mailer-package>
+                                            }
+                                        }}
+                                    ></common-source>
+                                </n-element>
+                                <n-element style={{ paddingBottom: '64px' }}>
+                                    <n-h2 style={{ marginBottom: '10px' }}>已购资源套餐</n-h2>
+                                    {/* <n-data-table
                                     size="large"
                                     scroll-x={state.dataColumn.reduce((a, b) => a + b.minWidth, 0)}
                                     bordered={false}
@@ -176,9 +177,10 @@ export default defineComponent({
                                     columns={state.dataColumn}
                                     pagination={{ page: state.page, pageSize: state.size }}
                                 ></n-data-table> */}
-                            </n-element>
-                        </Fragment>
-                    }
+                                </n-element>
+                            </Fragment>
+                        )
+                    }}
                 ></common-render>
             </common-container>
         )
