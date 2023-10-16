@@ -1,4 +1,5 @@
 import { toRefs, nextTick } from 'vue'
+import { isEmpty } from 'class-validator'
 import { divineHandler, createMounte } from '@/utils/utils-common'
 import { useState } from '@/hooks/hook-state'
 import type { DataTableBaseColumn } from 'naive-ui'
@@ -86,8 +87,13 @@ export function useColumnter(option: { width: number; column: number; size: [num
     const { state, setState } = useState(option)
 
     /**宽度百分比计算**/
-    function compile(value: number, ct: { bit: number; uit: string } = { bit: 3, uit: '%' }) {
-        return ((value / (state.width - (state.column - 1) * state.size[0])) * 100).toFixed(ct.bit) + ct.uit
+    function compile(value: number, ct: Partial<{ bit: number; uit: string; transfer: (c: string) => string }> = {}) {
+        const { bit = 3, uit = '%', transfer } = ct ?? {}
+        const cache = ((value / (state.width - (state.column - 1) * state.size[0])) * 100).toFixed(bit) + uit
+        if (!isEmpty(transfer) && typeof transfer === 'function') {
+            return transfer(cache)
+        }
+        return cache
     }
 
     return {

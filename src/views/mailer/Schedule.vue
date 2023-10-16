@@ -55,17 +55,27 @@ export default defineComponent({
                     default: (scope: { onUpdate: Function }) => {
                         return (
                             <Fragment>
-                                <n-space size={size.value} wrap-item={false}>
-                                    <common-element element-class="n-chunk n-center" element-style={{ flex: 1 }}></common-element>
-                                    <common-element element-class="n-chunk n-center" element-width={compile(110)}>
-                                        发送进度
-                                    </common-element>
-                                    <common-element element-class="n-chunk n-center" element-width={compile(100)}>
-                                        任务状态
-                                    </common-element>
-                                    <common-element element-class="n-chunk n-center n-end" element-width={compile(40)}>
-                                        操作
-                                    </common-element>
+                                <n-space size={size.value} wrap-item={false} style={{ padding: '0 20px 5px' }}>
+                                    <common-element
+                                        element-class="n-chunk n-center"
+                                        element-style={{ flex: 1 }}
+                                        element-content="任务名称(ID)"
+                                    ></common-element>
+                                    <common-element
+                                        element-class="n-chunk n-center"
+                                        element-content="发送进度"
+                                        element-width={compile(270, { transfer: c => `calc(${c} + 32px)` })}
+                                    ></common-element>
+                                    <common-element
+                                        element-class="n-chunk n-center"
+                                        element-content="任务状态"
+                                        element-width={compile(100)}
+                                    ></common-element>
+                                    <common-element
+                                        element-class="n-chunk n-center n-end"
+                                        element-content="操作"
+                                        element-width={compile(40)}
+                                    ></common-element>
                                 </n-space>
                                 <common-source
                                     loading={state.loading}
