@@ -139,14 +139,6 @@ export default defineComponent({
         > .n-upload-file {
             &.n-upload-file--error-status {
                 background-color: var(--n-item-color-hover-error);
-                .n-upload-file-info__action {
-                    opacity: 1;
-                }
-            }
-            &.n-upload-file--success-status {
-                .n-upload-file-info__action {
-                    opacity: 1;
-                }
             }
             &:not(.n-upload-file--error-status) {
                 background-color: var(--n-item-color-hover);

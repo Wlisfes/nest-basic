@@ -99,7 +99,7 @@ export function useUploader(
         fileURL: option.fileURL,
         folder: option.folder,
         suffix: option.suffix,
-        list: option.list,
+        list: option.list ?? [],
         total: option.total ?? 0
     })
 

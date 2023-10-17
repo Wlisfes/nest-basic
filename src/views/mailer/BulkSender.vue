@@ -30,7 +30,11 @@ export default defineComponent({
                     fileId: undefined
                 },
                 rules: {
-                    receive: { required: true, trigger: ['change'], message: '请输入邮箱号' },
+                    name: { required: true, trigger: 'blur', message: '请输入任务名称' },
+                    super: { required: true, trigger: 'blur', message: '请选择发送类型' },
+                    content: { required: true, trigger: 'blur', message: '请输入发送内容' },
+                    accept: { required: true, trigger: 'blur', message: '请选择接收类型' },
+                    receive: { required: true, trigger: 'blur', message: '请输入邮箱号' },
                     fileId: { required: true, trigger: ['change', 'blur'], message: '请输入上传接收列表文件' }
                 }
             },
@@ -59,7 +63,7 @@ export default defineComponent({
                 //request={<common-header vertical={mobile.value} title="邮件群发"></common-header>}
                 request={<common-header vertical={mobile.value} title=""></common-header>}
             >
-                <n-form ref={formRef} model={state.form} rules={state.rules} size="medium" require-mark-placement="left">
+                <n-form ref={formRef} model={state.form} rules={state.rules} size="large" require-mark-placement="left">
                     <n-form-item label="任务名称" path="name">
                         <n-input
                             v-model:value={state.form.name}
@@ -92,7 +96,7 @@ export default defineComponent({
                     <n-form-item label="接收类型" path="accept">
                         <n-select
                             v-model:value={state.form.accept}
-                            placeholder="请选择发送类型"
+                            placeholder="请选择接收类型"
                             style={{ width: '300px' }}
                             options={[
                                 { label: '接收列表文件', value: 'excel' },
@@ -110,11 +114,7 @@ export default defineComponent({
                             ></n-input>
                         </n-form-item>
                     ) : (
-                        <ObserverUploader element-props={{ label: '接收列表', path: 'fileId' }}>
-                            {{
-                                default: (scope: unknown) => <div>ewqeqwewq</div>
-                            }}
-                        </ObserverUploader>
+                        <ObserverUploader element-props={{ label: '接收列表', path: 'fileId' }}></ObserverUploader>
                     )}
                     <n-form-item>
                         <n-button type="success" size="large" style={{ minWidth: '140px' }} onClick={onSubmit}>
