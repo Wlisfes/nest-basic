@@ -110,9 +110,11 @@ export default defineComponent({
                             ></n-input>
                         </n-form-item>
                     ) : (
-                        <n-form-item label="接收列表" path="fileId">
-                            <ObserverUploader></ObserverUploader>
-                        </n-form-item>
+                        <ObserverUploader element-props={{ label: '接收列表', path: 'fileId' }}>
+                            {{
+                                default: (scope: unknown) => <div>ewqeqwewq</div>
+                            }}
+                        </ObserverUploader>
                     )}
                     <n-form-item>
                         <n-button type="success" size="large" style={{ minWidth: '140px' }} onClick={onSubmit}>

@@ -136,8 +136,24 @@ export default defineComponent({
     position: relative;
     :deep(.n-upload-file-list) {
         margin-top: 0;
-        > .n-upload-file:first-child {
-            margin-top: 8px;
+        > .n-upload-file {
+            &.n-upload-file--error-status {
+                background-color: var(--n-item-color-hover-error);
+                .n-upload-file-info__action {
+                    opacity: 1;
+                }
+            }
+            &.n-upload-file--success-status {
+                .n-upload-file-info__action {
+                    opacity: 1;
+                }
+            }
+            &:not(.n-upload-file--error-status) {
+                background-color: var(--n-item-color-hover);
+            }
+            &:first-child {
+                margin-top: 8px;
+            }
         }
     }
 }

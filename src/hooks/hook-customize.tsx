@@ -1,6 +1,6 @@
-import type { FormInst, FormRules, FormItemRule, UploadProps, UploadFileInfo } from 'naive-ui'
+import type { FormInst, FormRules, FormItemRule, FormItemProps, UploadProps, UploadFileInfo } from 'naive-ui'
 import type { ExcelResolver } from '@/interface/aliyun.resolver'
-import { defineComponent, ref, toRefs, onMounted, Fragment, watch } from 'vue'
+import { defineComponent, ref, toRefs, onMounted, Fragment, watch, type PropType } from 'vue'
 import { useState } from '@/hooks/hook-state'
 import { Observer } from '@/utils/utils-observer'
 import { divineHandler, divineDelay } from '@/utils/utils-common'
@@ -72,6 +72,7 @@ export function useCustomize<T extends Object, R extends Object>(option: Option<
     return { ...toRefs(state), state, formRef, setState, divineFormValidater, divineFormRestore, divineFormScrollbar }
 }
 
+/**Uploader组件封装Hooks**/
 export function useUploader(
     option: Partial<
         {
@@ -167,19 +168,25 @@ export function useUploader(
         reset: () => observer.emit('reset'),
         ObserverUploader: defineComponent({
             name: 'ObserverUploader',
-            setup() {
+            props: {
+                elementProps: { type: Object as PropType<FormItemProps>, default: () => ({}) }
+            },
+            setup(props, { slots }) {
                 return () => (
                     <Fragment>
-                        <common-uploader
-                            observer={observer}
-                            baseURL={state.baseURL}
-                            element-props={state.props}
-                            element-data={state.dataSource}
-                            element-success={successCallback}
-                            element-failure={failureCallback}
-                            element-reset={resetCallback}
-                            element-remove={removeCallback}
-                        ></common-uploader>
+                        <n-form-item {...props.elementProps}>
+                            <common-uploader
+                                observer={observer}
+                                baseURL={state.baseURL}
+                                element-props={state.props}
+                                element-data={state.dataSource}
+                                element-success={successCallback}
+                                element-failure={failureCallback}
+                                element-reset={resetCallback}
+                                element-remove={removeCallback}
+                            ></common-uploader>
+                        </n-form-item>
+                        {slots.default?.(state)}
                     </Fragment>
                 )
             }
