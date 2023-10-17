@@ -11,4 +11,13 @@ export interface OSSAuthorize {
     interval: number
 }
 
-export interface ExcelResolver extends CommonResolver {}
+export interface ExcelResolver extends CommonResolver {
+    fileId: string
+    fileName: string
+    fieldName: string
+    fileURL: string
+    folder: string
+    suffix: string
+    list: Array<Record<string, any>>
+    total: number
+}

@@ -1,13 +1,21 @@
 <script lang="tsx">
+import type { ExcelResolver } from '@/interface/aliyun.resolver'
 import { defineComponent } from 'vue'
 import { useResizeContainer } from '@/hooks/hook-resize'
-import { useCustomize } from '@/hooks/hook-customize'
+import { useCustomize, useUploader } from '@/hooks/hook-customize'
 import { divineDelay } from '@/utils/utils-common'
 
 export default defineComponent({
     name: 'BulkSender',
     setup() {
         const { mobile, whereContent, whereRequest } = useResizeContainer()
+        const { ObserverUploader, reset } = useUploader({
+            watch: async (scope: { fileId: never }) => {
+                return await setState({
+                    form: { ...state.form, fileId: scope.fileId ?? null }
+                })
+            }
+        })
         const { formRef, state, setState, divineFormValidater } = useCustomize(
             {
                 immediate: true,
@@ -18,10 +26,12 @@ export default defineComponent({
                     super: 'sample',
                     content: undefined,
                     accept: 'excel',
-                    receive: undefined
+                    receive: undefined,
+                    fileId: undefined
                 },
                 rules: {
-                    receive: { required: true, trigger: ['change'], message: '请输入邮箱号' }
+                    receive: { required: true, trigger: ['change'], message: '请输入邮箱号' },
+                    fileId: { required: true, trigger: ['change', 'blur'], message: '请输入上传接收列表文件' }
                 }
             },
             async function () {
@@ -62,6 +72,7 @@ export default defineComponent({
                         <n-select
                             v-model:value={state.form.super}
                             placeholder="请选择发送类型"
+                            style={{ width: '300px' }}
                             options={[
                                 { label: '模板发送', value: 'sample' },
                                 { label: '自定义发送', value: 'customize' }
@@ -82,6 +93,7 @@ export default defineComponent({
                         <n-select
                             v-model:value={state.form.accept}
                             placeholder="请选择发送类型"
+                            style={{ width: '300px' }}
                             options={[
                                 { label: '接收列表文件', value: 'excel' },
                                 { label: '自定义接收', value: 'customize' }
@@ -98,11 +110,11 @@ export default defineComponent({
                             ></n-input>
                         </n-form-item>
                     ) : (
-                        <n-form-item label="接收列表" path="receive">
-                            <common-uploader></common-uploader>
+                        <n-form-item label="接收列表" path="fileId">
+                            <ObserverUploader></ObserverUploader>
                         </n-form-item>
                     )}
-                    <n-form-item show-label={false}>
+                    <n-form-item>
                         <n-button type="success" size="large" style={{ minWidth: '140px' }} onClick={onSubmit}>
                             发送邮件
                         </n-button>
