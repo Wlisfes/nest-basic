@@ -1,22 +1,41 @@
 <script lang="tsx">
 import { defineComponent } from 'vue'
-import { useResize } from '@/hooks/hook-resize'
-import { whereProperter } from '@/utils/utils-layout'
+import { useResizeContainer } from '@/hooks/hook-resize'
+import { useSource, useColumnter } from '@/hooks/hook-source'
 
 export default defineComponent({
     name: 'Recorder',
     setup() {
-        const { mobile } = useResize()
+        const { size, compile } = useColumnter({ width: 960, column: 5, size: [16, 0] })
+        const { mobile, whereContent, whereRequest } = useResizeContainer()
 
         return () => (
             <common-container
                 bordered
+                scrollbar={true}
                 mobile={mobile.value}
-                content-style={whereProperter(mobile.value, { padding: '0 20px' }, { padding: '0 40px' })}
-                request-style={whereProperter(mobile.value, { padding: '40px 20px 20px' }, { padding: '60px 40px 30px' })}
+                loading={false}
+                initialize={false}
+                content-style={whereContent.value}
+                request-style={whereRequest.value}
                 request={<common-header vertical={mobile.value} title="验证记录"></common-header>}
-            ></common-container>
+            >
+                <n-space size={size.value} wrap-item={false} style={{ backgroundColor: 'red' }}>
+                    <common-element element-width={compile(260)}>1</common-element>
+                    <common-element element-width={compile(150)}>2</common-element>
+                    <common-element element-width={compile(150)}>3</common-element>
+                    <common-element element-width={compile(200)}>4</common-element>
+                    <common-element element-width={compile(200)}>5</common-element>
+                </n-space>
+            </common-container>
         )
     }
 })
 </script>
+
+<style scoped>
+.common-element {
+    opacity: 0.5;
+    background-color: var(--primary-color);
+}
+</style>

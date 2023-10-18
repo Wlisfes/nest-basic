@@ -84,11 +84,11 @@ export function useSource<T extends Object, R extends Object, S extends Object, 
 
 /**块级栅格计算Hooks**/
 export function useColumnter(option: { width: number; column: number; size: [number, number] }) {
-    const { state, setState } = useState({ ...option })
+    const { state, setState } = useState<typeof option>(option)
 
-    /**间隔总和计算**/
-    const space = computed(() => {
-        return (state.column - 1) * state.size[0] ?? 0
+    /**间距差值**/
+    const differ = computed(() => {
+        return (((state.column - 1) * (state.size[0] ?? 0)) / state.column).toFixed(2) + 'px'
     })
 
     /**宽度百分比计算**/
@@ -96,9 +96,10 @@ export function useColumnter(option: { width: number; column: number; size: [num
         const { bit = 3, uit = '%', transfer } = ct ?? {}
         const cache = ((value / state.width) * 100).toFixed(bit) + uit
         if (!isEmpty(transfer) && typeof transfer === 'function') {
-            return transfer(cache)
+            const v = transfer(cache)
+            return isEmpty(v) ? `calc(${cache} - ${differ.value})` : `calc(${cache} - ${differ.value} ${v})`
         }
-        return cache
+        return `calc(${cache} - ${differ.value})`
     }
 
     return {
