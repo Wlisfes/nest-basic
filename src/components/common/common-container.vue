@@ -25,7 +25,6 @@ export default defineComponent({
     emits: ['scroll'],
     setup(props, { slots, emit }) {
         const observer = new Observer()
-
         const element = computed(() => {
             return whereProperter(isEmpty(props.minWidth), props.contentStyle, {
                 minWidth: props.minWidth + 'px',

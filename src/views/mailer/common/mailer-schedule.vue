@@ -82,7 +82,7 @@ export default defineComponent({
                             }
                         ></common-reactive>
                     </common-element>
-                    <common-element element-class="n-chunk n-center" element-width={compile(110)}>
+                    <common-element element-class="n-chunk n-center" element-width={compile(140)}>
                         <common-reactive
                             label={
                                 <n-tag size="small" bordered={false} style={{ height: '20px' }}>
@@ -104,7 +104,7 @@ export default defineComponent({
                             }
                         ></common-reactive>
                     </common-element>
-                    <common-element element-class="n-chunk n-center" element-width={compile(80)}>
+                    <common-element element-class="n-chunk n-center" element-width={compile(100)}>
                         <common-reactive
                             reverse
                             label="失败数"
@@ -113,7 +113,7 @@ export default defineComponent({
                             element-style={{ textAlign: 'left' }}
                         ></common-reactive>
                     </common-element>
-                    <common-element element-class="n-chunk n-center" element-width={compile(80)}>
+                    <common-element element-class="n-chunk n-center" element-width={compile(100)}>
                         <common-reactive
                             reverse
                             label="成功数"
@@ -122,7 +122,7 @@ export default defineComponent({
                             element-style={{ textAlign: 'left' }}
                         ></common-reactive>
                     </common-element>
-                    <common-element element-class="n-chunk n-center" element-width={compile(100)}>
+                    <common-element element-class="n-chunk n-center" element-width={compile(120)}>
                         <n-button {...whereCusable.value.props} style={whereCusable.value.style}>
                             {{
                                 default: () => whereCusable.value.chunk.continue,
@@ -140,7 +140,7 @@ export default defineComponent({
                             }}
                         </n-button>
                     </common-element>
-                    <common-element element-class="n-chunk n-center n-end" element-width={compile(40)}>
+                    <common-element element-class="n-chunk n-center n-end" element-width={compile(80)}>
                         <common-selecter
                             onSelecter={onSelecter}
                             element-props={{

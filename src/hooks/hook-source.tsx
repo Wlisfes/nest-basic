@@ -96,7 +96,7 @@ export function useColumnter(option: { width: number; column: number; size: [num
         const { bit = 3, uit = '%', transfer } = ct ?? {}
         const cache = ((value / state.width) * 100).toFixed(bit) + uit
         if (!isEmpty(transfer) && typeof transfer === 'function') {
-            const v = transfer(cache)
+            const v = transfer(differ.value)
             return isEmpty(v) ? `calc(${cache} - ${differ.value})` : `calc(${cache} - ${differ.value} ${v})`
         }
         return `calc(${cache} - ${differ.value})`
