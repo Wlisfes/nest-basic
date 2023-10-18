@@ -35,14 +35,6 @@ export default defineComponent({
             columnGap: props.xGap + 'px',
             ...props.elementStyle
         }))
-        const placeholder = computed<CSSProperties>(() => ({
-            width: '30px',
-            height: '24px',
-            backgroundImage: `linear-gradient(to right, var(--n-text-color) 0%, var(--n-text-color) 50%, transparent 50%)`,
-            backgroundSize: '12px 2px',
-            backgroundRepeat: 'repeat-x',
-            backgroundPosition: 'left center'
-        }))
         const labelProps = computed<TextProps>(() => {
             return { depth: 3, ...props.labelProps }
         })
@@ -61,7 +53,7 @@ export default defineComponent({
                             </n-text>
                         ) : (
                             <n-text {...labelProps.value} style={props.labelStyle}>
-                                <div style={placeholder.value}></div>
+                                <common-placeholder element-props={contentProps.value} style={props.contentStyle}></common-placeholder>
                             </n-text>
                         )}
                     </div>
@@ -91,9 +83,7 @@ export default defineComponent({
                                 )}
                             </Fragment>
                         ) : (
-                            <n-text {...contentProps.value} style={props.contentStyle}>
-                                <div style={placeholder.value}></div>
-                            </n-text>
+                            <common-placeholder element-props={contentProps.value} style={props.contentStyle}></common-placeholder>
                         )}
                     </div>
                 )}

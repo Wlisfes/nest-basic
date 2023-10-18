@@ -119,7 +119,7 @@ export default defineComponent({
                             </n-element>
                             <n-element style={{ textAlign: 'left', fontSize: '14px' }}>
                                 <n-text depth={3}>上传文件格式为</n-text>
-                                <n-text type="success">csv/excel</n-text>
+                                <n-text type="success">csv/xlsx</n-text>
                                 <n-text depth={3}>，且文件大小不超过1MB</n-text>
                             </n-element>
                         </n-element>

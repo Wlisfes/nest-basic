@@ -1,5 +1,4 @@
 <script lang="tsx">
-import type { ExcelResolver } from '@/interface/aliyun.resolver'
 import { defineComponent } from 'vue'
 import { useResizeContainer } from '@/hooks/hook-resize'
 import { useCustomize, useUploader } from '@/hooks/hook-customize'
@@ -10,11 +9,7 @@ export default defineComponent({
     setup() {
         const { mobile, whereContent, whereRequest } = useResizeContainer()
         const { ObserverUploader, reset } = useUploader({
-            watch: async (scope: { fileId: never }) => {
-                return await setState({
-                    form: { ...state.form, fileId: scope.fileId ?? null }
-                })
-            }
+            watch: (scope: { fileId: never }) => (state.form.fileId = scope.fileId ?? null)
         })
         const { formRef, state, setState, divineFormValidater } = useCustomize(
             {
@@ -59,7 +54,7 @@ export default defineComponent({
                 initialize={state.initialize}
                 min-width={414}
                 request-style={whereRequest.value}
-                content-style={{ ...whereContent.value, width: '100%', maxWidth: '768px', margin: '0 auto 0 0' }}
+                content-style={whereContent.value}
                 //request={<common-header vertical={mobile.value} title="邮件群发"></common-header>}
                 request={<common-header vertical={mobile.value} title=""></common-header>}
             >
@@ -68,6 +63,7 @@ export default defineComponent({
                         <n-input
                             v-model:value={state.form.name}
                             autosize={{ minRows: 1 }}
+                            style={{ maxWidth: '750px' }}
                             type="textarea"
                             placeholder="请输入任务名称"
                         ></n-input>
@@ -76,7 +72,7 @@ export default defineComponent({
                         <n-select
                             v-model:value={state.form.super}
                             placeholder="请选择发送类型"
-                            style={{ width: '300px' }}
+                            style={{ width: '374px' }}
                             options={[
                                 { label: '模板发送', value: 'sample' },
                                 { label: '自定义发送', value: 'customize' }
@@ -88,6 +84,7 @@ export default defineComponent({
                             <n-input
                                 v-model:value={state.form.content}
                                 autosize={{ minRows: 3 }}
+                                style={{ maxWidth: '750px' }}
                                 type="textarea"
                                 placeholder="请输入发送内容"
                             ></n-input>
@@ -97,7 +94,7 @@ export default defineComponent({
                         <n-select
                             v-model:value={state.form.accept}
                             placeholder="请选择接收类型"
-                            style={{ width: '300px' }}
+                            style={{ width: '374px' }}
                             options={[
                                 { label: '接收列表文件', value: 'excel' },
                                 { label: '自定义接收', value: 'customize' }
@@ -109,12 +106,22 @@ export default defineComponent({
                             <n-input
                                 v-model:value={state.form.receive}
                                 autosize={{ minRows: 2 }}
+                                style={{ maxWidth: '750px' }}
                                 type="textarea"
                                 placeholder="请输入邮箱号"
                             ></n-input>
                         </n-form-item>
                     ) : (
-                        <ObserverUploader element-props={{ label: '接收列表', path: 'fileId' }}></ObserverUploader>
+                        <ObserverUploader
+                            element-props={{ label: '接收列表', path: 'fileId', style: { maxWidth: '750px' } }}
+                            v-slots={{
+                                default: (scope: { list: Array<unknown>; total: 0 }) => (
+                                    <n-form-item label="接收列表预览" show-feedback={false} show-label={true}>
+                                        <common-uploader-tabler element-data={scope.list}></common-uploader-tabler>
+                                    </n-form-item>
+                                )
+                            }}
+                        ></ObserverUploader>
                     )}
                     <n-form-item>
                         <n-button type="success" size="large" style={{ minWidth: '140px' }} onClick={onSubmit}>

@@ -6,7 +6,7 @@ import { Observer } from '@/utils/utils-observer'
 import { divineHandler, divineDelay } from '@/utils/utils-common'
 import { baseURL } from '@/utils/utils-request'
 
-type Option<T extends Record<string, any>, R extends Record<string, any>> = {
+interface OptionCustomize<T extends Record<string, any>, R extends Record<string, any>> {
     immediate?: boolean
     initialize?: boolean
     disabled?: boolean
@@ -18,7 +18,7 @@ type Option<T extends Record<string, any>, R extends Record<string, any>> = {
 }
 
 /**自定义表单Hooks**/
-export function useCustomize<T extends Object, R extends Object>(option: Option<T, R>, handler?: Function) {
+export function useCustomize<T extends Object, R extends Object>(option: OptionCustomize<T, R>, handler?: Function) {
     const formRef = ref<FormInst>()
     const { state, setState } = useState<typeof option>({ initialize: true, ...option })
 
@@ -72,26 +72,24 @@ export function useCustomize<T extends Object, R extends Object>(option: Option<
     return { ...toRefs(state), state, formRef, setState, divineFormValidater, divineFormRestore, divineFormScrollbar }
 }
 
+interface OptionUploader<R> extends ExcelResolver {
+    baseURL: string
+    dataSource: Array<any>
+    props: R
+    success: Function
+    failure: Function
+    reset: Function
+    remove: Function
+    watch: Function
+}
+
 /**Uploader组件封装Hooks**/
-export function useUploader(
-    option: Partial<
-        {
-            baseURL: string
-            dataSource: Array<any>
-            props: UploadProps
-            success: Function
-            failure: Function
-            reset: Function
-            remove: Function
-            watch: Function
-        } & ExcelResolver
-    > = {}
-) {
+export function useUploader<R extends UploadProps>(option: Partial<OptionUploader<R>> = {}) {
     const observer = new Observer()
     const { state, setState } = useState<typeof option>({
         baseURL: option.baseURL ?? baseURL,
         dataSource: option.dataSource ?? [],
-        props: option.props ?? {},
+        props: (option.props ?? {}) as never,
         id: option.id,
         fileId: option.fileId,
         fileName: option.fileName,
@@ -99,7 +97,68 @@ export function useUploader(
         fileURL: option.fileURL,
         folder: option.folder,
         suffix: option.suffix,
-        list: option.list ?? [],
+        list: option.list ?? [
+            {
+                COLUMN_1: 'Receive',
+                COLUMN_2: 'Name',
+                COLUMN_3: 'UserName',
+                COLUMN_4: 'Password'
+            },
+            {
+                COLUMN_1: 'feog2w74@yahoo.com.cn',
+                COLUMN_2: '嵇政君',
+                COLUMN_3: 'gztjcv_q11',
+                COLUMN_4: 'A2WsH5A_D9FXEYK'
+            },
+            {
+                COLUMN_1: 'mg0iuc.g30p6y80@yahoo.com.cn',
+                COLUMN_2: '宫思佳',
+                COLUMN_3: 'k7nggq_k2894',
+                COLUMN_4: 'ICwVmmruGcWmMSk'
+            },
+            {
+                COLUMN_1: 'izh.jdu4@vip.qq.com',
+                COLUMN_2: '孟燕',
+                COLUMN_3: 'i1crqi95',
+                COLUMN_4: 'EBCiAkbHOtViR3b'
+            },
+            {
+                COLUMN_1: 'gztjcv13@hotmail.com',
+                COLUMN_2: '牟军',
+                COLUMN_3: 'k88to31',
+                COLUMN_4: 'GleNLLfkyqnPhSC'
+            },
+            {
+                COLUMN_1: 'i1cuji95@126.com',
+                COLUMN_2: '尉玉珍',
+                COLUMN_3: 'vdak5x44',
+                COLUMN_4: '7SIEzKbYgIyT3LS'
+            },
+            {
+                COLUMN_1: 'izhsf0_jdu@126.com',
+                COLUMN_2: '陀杰',
+                COLUMN_3: 'izhlq444',
+                COLUMN_4: 'fhe1zZEqufEIaWz'
+            },
+            {
+                COLUMN_1: 'k5mit672@hotmail.com',
+                COLUMN_2: '驹静',
+                COLUMN_3: 'negtue_o9x88',
+                COLUMN_4: 'spqZR7eiMnfgEOk'
+            },
+            {
+                COLUMN_1: 'k1z67@sina.com',
+                COLUMN_2: '守熙成',
+                COLUMN_3: 'i1crqi.ggn',
+                COLUMN_4: '3bYuKojPQCnVY6S'
+            },
+            {
+                COLUMN_1: 'id7mft80@outlook.com',
+                COLUMN_2: '顿子豪',
+                COLUMN_3: 'fgpsbt37',
+                COLUMN_4: 'cFWAsN179KoUBBp'
+            }
+        ],
         total: option.total ?? 0
     })
 
@@ -165,6 +224,9 @@ export function useUploader(
 
     return {
         observer,
+        state,
+        ...toRefs(state),
+        setState,
         reset: () => observer.emit('reset'),
         ObserverUploader: defineComponent({
             name: 'ObserverUploader',
