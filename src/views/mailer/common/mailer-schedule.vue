@@ -82,19 +82,6 @@ export default defineComponent({
                             }
                         ></common-reactive>
                     </common-element>
-                    {/* <common-element element-class="n-chunk n-center" element-width={compile(100)}>
-                        <common-reactive
-                            element-style={{ flex: 1, overflow: 'hidden' }}
-                            label-none
-                            content={
-                                <n-h3 style={{ margin: 0, lineHeight: '26px' }}>
-                                    <n-ellipsis line-clamp={1}>
-                                        测试模板测试模板测试模板测试模板测试模板测试模板测试模板测试模板测试模板测试模板
-                                    </n-ellipsis>
-                                </n-h3>
-                            }
-                        ></common-reactive>
-                    </common-element> */}
                     <common-element element-class="n-chunk n-center" element-width={compile(110)}>
                         <common-reactive
                             label={

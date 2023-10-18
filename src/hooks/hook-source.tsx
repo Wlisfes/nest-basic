@@ -87,12 +87,14 @@ export function useColumnter(option: { width: number; column: number; size: [num
     const { state, setState } = useState({ ...option })
 
     /**间隔总和计算**/
-    const space = computed(() => {})
+    const space = computed(() => {
+        return (state.column - 1) * state.size[0] ?? 0
+    })
 
     /**宽度百分比计算**/
     function compile(value: number, ct: Partial<{ bit: number; uit: string; transfer: (c: string) => string }> = {}) {
         const { bit = 3, uit = '%', transfer } = ct ?? {}
-        const cache = ((value / (state.width - space.value)) * 100).toFixed(bit) + uit
+        const cache = ((value / state.width) * 100).toFixed(bit) + uit
         if (!isEmpty(transfer) && typeof transfer === 'function') {
             return transfer(cache)
         }
