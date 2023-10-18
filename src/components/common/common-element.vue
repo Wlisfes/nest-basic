@@ -15,6 +15,7 @@ export default defineComponent({
     setup(props, { slots }) {
         const whereElement = computed(() => {
             return whereProperter(isEmpty(props.elementWidth), props.elementStyle, {
+                boxSizing: 'border-box',
                 overflow: 'hidden',
                 ...props.elementStyle,
                 width: props.elementWidth

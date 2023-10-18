@@ -1,4 +1,4 @@
-import { toRefs, nextTick } from 'vue'
+import { toRefs, nextTick, watch, computed } from 'vue'
 import { isEmpty } from 'class-validator'
 import { divineHandler, createMounte } from '@/utils/utils-common'
 import { useState } from '@/hooks/hook-state'
@@ -84,12 +84,15 @@ export function useSource<T extends Object, R extends Object, S extends Object, 
 
 /**块级栅格计算Hooks**/
 export function useColumnter(option: { width: number; column: number; size: [number, number] }) {
-    const { state, setState } = useState(option)
+    const { state, setState } = useState({ ...option })
+
+    /**间隔总和计算**/
+    const space = computed(() => {})
 
     /**宽度百分比计算**/
     function compile(value: number, ct: Partial<{ bit: number; uit: string; transfer: (c: string) => string }> = {}) {
         const { bit = 3, uit = '%', transfer } = ct ?? {}
-        const cache = ((value / (state.width - (state.column - 1) * state.size[0])) * 100).toFixed(bit) + uit
+        const cache = ((value / (state.width - space.value)) * 100).toFixed(bit) + uit
         if (!isEmpty(transfer) && typeof transfer === 'function') {
             return transfer(cache)
         }
