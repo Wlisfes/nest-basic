@@ -117,7 +117,11 @@ export default defineComponent({
                             v-slots={{
                                 default: (scope: { list: Array<unknown>; total: 0 }) => (
                                     <n-form-item label="接收列表预览" show-feedback={false} show-label={true}>
-                                        <common-uploader-tabler mobile={mobile.value} element-data={scope.list}></common-uploader-tabler>
+                                        <common-uploader-tabler
+                                            mobile={mobile.value}
+                                            max-column={5}
+                                            element-data={scope.list}
+                                        ></common-uploader-tabler>
                                     </n-form-item>
                                 )
                             }}

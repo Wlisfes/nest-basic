@@ -92,9 +92,9 @@ export function useColumnter(option: { width: number; column: number; size: [num
     })
 
     /**宽度百分比计算**/
-    function compile(value: number, ct: Partial<{ bit: number; uit: string; transfer: (c: string) => string }> = {}) {
+    function compile(value: number, ct: Partial<{ bit: number; uit: string; width?: number; transfer: (c: string) => string }> = {}) {
         const { bit = 3, uit = '%', transfer } = ct ?? {}
-        const cache = ((value / state.width) * 100).toFixed(bit) + uit
+        const cache = ((value / (ct.width ?? state.width)) * 100).toFixed(bit) + uit
         if (!isEmpty(transfer) && typeof transfer === 'function') {
             const v = transfer(differ.value)
             return isEmpty(v) ? `calc(${cache} - ${differ.value})` : `calc(${cache} - ${differ.value} ${v})`
