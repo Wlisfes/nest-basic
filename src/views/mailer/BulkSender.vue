@@ -1,8 +1,11 @@
 <script lang="tsx">
-import { defineComponent } from 'vue'
+import type { ServiceMailer } from '@/interface/mailer.resolver'
+import { defineComponent, h } from 'vue'
 import { useResizeContainer } from '@/hooks/hook-resize'
 import { useCustomize, useUploader } from '@/hooks/hook-customize'
 import { divineDelay } from '@/utils/utils-common'
+import { compute } from '@/utils/utils-compute'
+import * as http from '@/api/instance.service'
 
 export default defineComponent({
     name: 'BulkSender',
@@ -11,13 +14,16 @@ export default defineComponent({
         const { ObserverUploader, reset } = useUploader({
             watch: (scope: { fileId: never }) => (state.form.fileId = scope.fileId ?? null)
         })
-        const { formRef, state, setState, divineFormValidater } = useCustomize(
+        const { formRef, state, option, setState, divineFormValidater } = useCustomize(
             {
                 immediate: true,
                 loading: false,
-                option: {},
+                option: {
+                    service: [] as Array<ServiceMailer>
+                },
                 form: {
                     name: undefined,
+                    appId: undefined,
                     super: 'sample',
                     content: undefined,
                     accept: 'excel',
@@ -26,6 +32,7 @@ export default defineComponent({
                 },
                 rules: {
                     name: { required: true, trigger: 'blur', message: '请输入任务名称' },
+                    appId: { required: true, trigger: ['blur', 'change'], message: '请选择应用服务' },
                     super: { required: true, trigger: 'blur', message: '请选择发送类型' },
                     content: { required: true, trigger: 'blur', message: '请输入发送内容' },
                     accept: { required: true, trigger: 'blur', message: '请选择接收类型' },
@@ -34,9 +41,20 @@ export default defineComponent({
                 }
             },
             async function () {
-                return await divineDelay(1000)
+                return await fetchSelecterMailerService()
             }
         )
+
+        /**邮件应用下拉列表**/
+        async function fetchSelecterMailerService() {
+            return await http.httpSelecterMailerService().then(({ data }) => {
+                return setState({
+                    option: {
+                        service: data.list
+                    }
+                })
+            })
+        }
 
         /**发送邮件**/
         function onSubmit() {
@@ -67,6 +85,26 @@ export default defineComponent({
                             type="textarea"
                             placeholder="请输入任务名称"
                         ></n-input>
+                    </n-form-item>
+                    <n-form-item label="应用服务" path="appId">
+                        <n-select
+                            v-model:value={state.form.appId}
+                            placeholder="请选择应用服务"
+                            value-field="appId"
+                            label-field="name"
+                            style={{ width: '374px' }}
+                            options={option.value.service}
+                            render-label={(scope: ServiceMailer) => {
+                                return h(
+                                    <n-element class="n-chunk n-center">
+                                        <n-button text>
+                                            <n-icon size={18} component={compute('EnableRound')} />
+                                        </n-button>
+                                        <span style={{ marginLeft: '5px' }}>{scope.name}</span>
+                                    </n-element>
+                                )
+                            }}
+                        />
                     </n-form-item>
                     <n-form-item label="发送类型" path="super">
                         <n-select
@@ -112,9 +150,8 @@ export default defineComponent({
                             ></n-input>
                         </n-form-item>
                     ) : (
-                        <ObserverUploader
-                            element-props={{ label: '接收列表', path: 'fileId', style: { maxWidth: '750px' } }}
-                            v-slots={{
+                        <ObserverUploader element-props={{ label: '接收列表', path: 'fileId', style: { maxWidth: '750px' } }}>
+                            {{
                                 default: (scope: { list: Array<unknown>; total: 0 }) => (
                                     <n-form-item label="接收列表预览" show-feedback={false} show-label={true}>
                                         <common-uploader-tabler
@@ -125,7 +162,7 @@ export default defineComponent({
                                     </n-form-item>
                                 )
                             }}
-                        ></ObserverUploader>
+                        </ObserverUploader>
                     )}
                     <n-form-item>
                         <n-button type="success" size="large" style={{ minWidth: '140px' }} onClick={onSubmit}>

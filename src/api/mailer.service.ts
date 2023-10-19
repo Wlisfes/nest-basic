@@ -20,6 +20,14 @@ export function httpColumnMailerService(params: Pick<IColumn, 'page' | 'size'>) 
     })
 }
 
+/**邮件应用下拉列表**/
+export function httpSelecterMailerService() {
+    return request<Result<ServiceMailer>>({
+        url: `/api-basic/mailer/app/selecter`,
+        method: 'GET'
+    })
+}
+
 /**修改应用名称**/
 export function httpUpdateMailerNameService(data: { appId: number; name: string }) {
     return request<Notice>({
