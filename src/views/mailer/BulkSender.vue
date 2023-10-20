@@ -28,7 +28,8 @@ export default defineComponent({
                     content: undefined,
                     accept: 'excel',
                     receive: undefined,
-                    fileId: undefined
+                    fileId: undefined,
+                    type: 'immediate'
                 },
                 rules: {
                     name: { required: true, trigger: 'blur', message: '请输入任务名称' },
@@ -164,6 +165,7 @@ export default defineComponent({
                             }}
                         </ObserverUploader>
                     )}
+                    <n-form-item label="任务类型" path="type"></n-form-item>
                     <n-form-item>
                         <n-button type="success" size="large" style={{ minWidth: '140px' }} onClick={onSubmit}>
                             发送邮件
