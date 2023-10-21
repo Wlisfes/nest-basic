@@ -165,7 +165,17 @@ export default defineComponent({
                             }}
                         </ObserverUploader>
                     )}
-                    <n-form-item label="任务类型" path="type"></n-form-item>
+                    <n-form-item label="任务类型" path="type">
+                        <n-select
+                            v-model:value={state.form.accept}
+                            placeholder="请选择任务类型"
+                            style={{ width: '374px' }}
+                            options={[
+                                { label: '立即发送', value: 'immediate' },
+                                { label: '定时发送', value: 'schedule' }
+                            ]}
+                        />
+                    </n-form-item>
                     <n-form-item>
                         <n-button type="success" size="large" style={{ minWidth: '140px' }} onClick={onSubmit}>
                             发送邮件
