@@ -38,7 +38,8 @@ export default defineComponent({
                     content: { required: true, trigger: 'blur', message: '请输入发送内容' },
                     accept: { required: true, trigger: 'blur', message: '请选择接收类型' },
                     receive: { required: true, trigger: 'blur', message: '请输入邮箱号' },
-                    fileId: { required: true, trigger: ['change', 'blur'], message: '请输入上传接收列表文件' }
+                    fileId: { required: true, trigger: ['change', 'blur'], message: '请输入上传接收列表文件' },
+                    type: { required: true, trigger: ['blur', 'change'], message: '请选择任务类型' }
                 }
             },
             async function () {
