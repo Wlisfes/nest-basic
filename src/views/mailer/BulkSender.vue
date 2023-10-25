@@ -75,8 +75,7 @@ export default defineComponent({
                 min-width={414}
                 request-style={whereRequest.value}
                 content-style={whereContent.value}
-                //request={<common-header vertical={mobile.value} title="邮件群发"></common-header>}
-                request={<common-header vertical={mobile.value} title=""></common-header>}
+                request={<common-header vertical={mobile.value} title="邮件群发"></common-header>}
             >
                 <n-form ref={formRef} model={state.form} rules={state.rules} size="large" require-mark-placement="left">
                     <n-form-item label="任务名称" path="name">
