@@ -3,6 +3,7 @@ import { defineComponent, ref, computed, onMounted, onUnmounted } from 'vue'
 import { divineDelay, stop } from '@/utils/utils-common'
 import { compute } from '@/utils/utils-compute'
 import { useState } from '@/hooks/hook-state'
+import * as http from '@/api/instance.service'
 
 export default defineComponent({
     name: 'CommonCaptcha',
@@ -16,7 +17,7 @@ export default defineComponent({
         successText: { type: String, default: '验证通过！' },
         failText: { type: String, default: '验证失败，请重试' },
         sliderText: { type: String, default: '拖动滑块完成拼图' },
-        appId: { type: Number, default: 1692282119372458 }
+        appId: { type: String, default: `169851019895347735` }
     },
     emits: ['close', 'success', 'fail'],
     setup(props, { emit }) {
@@ -87,42 +88,16 @@ export default defineComponent({
             document.removeEventListener('touchend', onRangeMouseUp, false)
         })
 
-        /**注册验证码配置**/ //prettier-ignore
-        function fetchReducer(body: { width: number; height: number; offset: number; appId: number }) {
+        /**生成校验凭证**/
+        function fetchAuthorize() {
             return new Promise(async (resolve, reject) => {
                 try {
-                    const { code, data } = await fetch(`https://api.lisfes.cn/api-basic/captcha/supervisor/reducer`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json;charset=utf-8' },
-                        body: JSON.stringify(body)
-                    }).then(e => e.json())
+                    const { data, code, message } = await http.httpCaptcharAuthorizeReducer({ appId: props.appId })
                     if (code === 200) {
-                        return resolve(await setState({ 
-                            pinX: data.pinX, 
-                            pinY: data.pinY, 
-                            session: data.session
-                        }))
+                        const r = await setState({ token: data.token, session: data.session } as never)
+                        return resolve(r)
                     }
-                    reject(data.message)
-                } catch (e) {
-                    reject(e.message)
-                }
-            })
-        }
-
-        /**生成校验凭证**/ //prettier-ignore
-        function fetchAuthorize(body: { session: string; appId: string }) {
-            return new Promise(async (resolve, reject) => {
-                try {
-                    const { code, data } = await fetch(`https://api.lisfes.cn/api-basic/captcha/supervisor/authorize`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json;charset=utf-8' },
-                        body: JSON.stringify(body)
-                    }).then(e => e.json())
-                    if (code === 200) {
-                        return resolve(await setState({ token: data.token }))
-                    }
-                    reject(data.message)
+                    reject(message)
                 } catch (e) {
                     reject(e.message)
                 }
@@ -303,16 +278,10 @@ export default defineComponent({
                 /**匿名，想要获取跨域的图片**/
                 image.crossOrigin = 'anonymous'
                 /**取一个随机坐标，作为拼图块的位置**/
-                await fetchReducer({
-                    width: props.canvasWidth,
-                    height: props.canvasHeight,
-                    offset: puzzleBaseSize.value,
-                    appId: props.appId
+                await setState({
+                    pinX: getRandom(puzzleBaseSize.value, props.canvasWidth - puzzleBaseSize.value - 20), //留20的边距
+                    pinY: getRandom(20, props.canvasHeight - puzzleBaseSize.value - 20), //主图高度 - 拼图块自身高度 - 20边距
                 })
-                // await setState({
-                //     pinX: getRandom(puzzleBaseSize.value, props.canvasWidth - puzzleBaseSize.value - 20), //留20的边距
-                //     pinY: getRandom(20, props.canvasHeight - puzzleBaseSize.value - 20) //主图高度 - 拼图块自身高度 - 20边距
-                // })
                 image.onload = async () => {
                     const [x, y, w, h] = makeImgSize(image)
                     ctx.save()
@@ -446,12 +415,7 @@ export default defineComponent({
 
                 if (distance < props.range) {
                     //成功
-                    await fetchAuthorize(
-                        Object.assign({
-                            session: state.session,
-                            appId: props.appId
-                        })
-                    )
+                    await fetchAuthorize()
                     await setState({
                         infoText: props.successText,
                         infoBoxFail: false,
@@ -489,7 +453,7 @@ export default defineComponent({
                     infoBoxShow: true,
                     isCanSlide: false
                 }).finally(() => {
-                    divineDelay(800, () => emit('fail')).then(async () => {
+                    divineDelay(1500, () => emit('fail')).then(async () => {
                         await setState({ isSubmting: false })
                         reset()
                     })

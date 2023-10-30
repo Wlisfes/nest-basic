@@ -15,7 +15,7 @@ interface Request extends AxiosInstance {
     <T = any, R = AxiosResponse<T>, D = any>(url: string, config?: AxiosRequestConfig<D>): Promise<R & Response<T>>
 }
 
-export const baseURL = import.meta.env.VITE_API_BASE
+export const baseURL = `/api`
 export const request: Request = axios.create({
     baseURL,
     timeout: 60000

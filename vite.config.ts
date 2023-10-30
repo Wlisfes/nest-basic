@@ -66,15 +66,24 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         },
         server: {
             hmr: true,
-            port: Number(env.VITE_PORT),
+            port: 4000,
             open: true,
             host: '0.0.0.0',
             proxy: {
-                [env.VITE_API_BASE]: {
-                    target: env.VITE_API_BASE_TARGET,
+                [`/api/common`]: {
+                    target: `http://localhost:5010`,
                     ws: true,
-                    changeOrigin: true,
-                    rewrite: path => path.replace(new RegExp(`^${env.VITE_API_BASE}`), '')
+                    changeOrigin: true
+                },
+                [`/api/nodemailer`]: {
+                    target: `http://localhost:5020`,
+                    ws: true,
+                    changeOrigin: true
+                },
+                [`/api/captchar`]: {
+                    target: `http://localhost:5030`,
+                    ws: true,
+                    changeOrigin: true
                 }
             }
         }
