@@ -28,7 +28,8 @@ export default defineComponent({
                     content: undefined,
                     accept: 'excel',
                     receive: undefined,
-                    fileId: undefined
+                    fileId: undefined,
+                    type: 'immediate'
                 },
                 rules: {
                     name: { required: true, trigger: 'blur', message: '请输入任务名称' },
@@ -37,7 +38,8 @@ export default defineComponent({
                     content: { required: true, trigger: 'blur', message: '请输入发送内容' },
                     accept: { required: true, trigger: 'blur', message: '请选择接收类型' },
                     receive: { required: true, trigger: 'blur', message: '请输入邮箱号' },
-                    fileId: { required: true, trigger: ['change', 'blur'], message: '请输入上传接收列表文件' }
+                    fileId: { required: true, trigger: ['change', 'blur'], message: '请输入上传接收列表文件' },
+                    type: { required: true, trigger: ['blur', 'change'], message: '请选择任务类型' }
                 }
             },
             async function () {
@@ -73,8 +75,7 @@ export default defineComponent({
                 min-width={414}
                 request-style={whereRequest.value}
                 content-style={whereContent.value}
-                //request={<common-header vertical={mobile.value} title="邮件群发"></common-header>}
-                request={<common-header vertical={mobile.value} title=""></common-header>}
+                request={<common-header vertical={mobile.value} title="邮件群发"></common-header>}
             >
                 <n-form ref={formRef} model={state.form} rules={state.rules} size="large" require-mark-placement="left">
                     <n-form-item label="任务名称" path="name">
@@ -164,6 +165,17 @@ export default defineComponent({
                             }}
                         </ObserverUploader>
                     )}
+                    <n-form-item label="任务类型" path="type">
+                        <n-select
+                            v-model:value={state.form.accept}
+                            placeholder="请选择任务类型"
+                            style={{ width: '374px' }}
+                            options={[
+                                { label: '立即发送', value: 'immediate' },
+                                { label: '定时发送', value: 'schedule' }
+                            ]}
+                        />
+                    </n-form-item>
                     <n-form-item>
                         <n-button type="success" size="large" style={{ minWidth: '140px' }} onClick={onSubmit}>
                             发送邮件
