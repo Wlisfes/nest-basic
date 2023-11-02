@@ -2,7 +2,7 @@
 import { defineComponent, computed } from 'vue'
 import { useNow, useDateFormat } from '@vueuse/core'
 import { compute, sompute, type INameUI } from '@/utils/utils-compute'
-import { useUser } from '@/store/user'
+import { useCustomer } from '@/store/customer'
 import { useResizeContainer } from '@/hooks/hook-resize'
 import { useState } from '@/hooks/hook-state'
 import { useSupporter } from '@/hooks/hook-reuser'
@@ -18,17 +18,17 @@ export default defineComponent({
         const { t, tm } = useCurrent()
         const { width } = useResize()
         const { state } = useState({ loading: false })
-        const user = useUser()
+        const customer = useCustomer()
         const hours = computed(() => Number(useDateFormat(useNow(), 'HH').value))
         const cols = computed(() => divineCols({ 768: 1, 1081: 2 }, width.value, 3))
         const client = computed(() => ({
             title: t('client.title'),
             document: t('client.document'),
             welcome: {
-                morning: t('client.welcome.morning', { nickname: user.nickname }),
-                midday: t('client.welcome.midday', { nickname: user.nickname }),
-                afternoon: t('client.welcome.afternoon', { nickname: user.nickname }),
-                night: t('client.welcome.night', { nickname: user.nickname })
+                morning: t('client.welcome.morning', { nickname: customer.nickname }),
+                midday: t('client.welcome.midday', { nickname: customer.nickname }),
+                afternoon: t('client.welcome.afternoon', { nickname: customer.nickname }),
+                night: t('client.welcome.night', { nickname: customer.nickname })
             },
             service: {
                 title: t('client.service.title'),
@@ -66,19 +66,19 @@ export default defineComponent({
                         <n-form ref="formRef" size="large" label-placement="top">
                             <n-form-item label="API Key">
                                 <n-input-group>
-                                    <n-input value={(user.appId ?? '').toString()} type="text" placeholder="App ID" readonly />
+                                    <n-input value={(customer.appId ?? '').toString()} type="text" placeholder="App ID" readonly />
                                     <n-button
                                         focusable={false}
                                         style={{ padding: '0 12px', backgroundColor: 'var(--input-color-disabled)' }}
                                         v-slots={{ icon: () => sompute('CopyRound', { size: '18px', color: 'var(--n-icon-color)' }) }}
-                                        onClick={(e: Event) => setSupporter(user.appId)}
+                                        onClick={(e: Event) => setSupporter(customer.appId)}
                                     ></n-button>
                                 </n-input-group>
                             </n-form-item>
                             <n-form-item label="API Secret" show-feedback={false}>
                                 <n-input-group>
                                     <n-input
-                                        value={user.appSecret}
+                                        value={customer.appSecret}
                                         type="password"
                                         show-password-on="click"
                                         placeholder="API Secret"
@@ -88,7 +88,7 @@ export default defineComponent({
                                         focusable={false}
                                         style={{ padding: '0 12px', backgroundColor: 'var(--input-color-disabled)' }}
                                         v-slots={{ icon: () => sompute('CopyRound', { size: '18px', color: 'var(--n-icon-color)' }) }}
-                                        onClick={(e: Event) => setSupporter(user.appSecret)}
+                                        onClick={(e: Event) => setSupporter(customer.appSecret)}
                                     ></n-button>
                                 </n-input-group>
                             </n-form-item>
@@ -182,3 +182,4 @@ export default defineComponent({
     }
 }
 </style>
+@/store/customer

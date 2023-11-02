@@ -6,7 +6,7 @@ import { useCurrent } from '@/locale/instance'
 import { useCustomize } from '@/hooks/hook-customize'
 import { createNotice } from '@/utils/utils-naive'
 import { stop, loadFile } from '@/utils/utils-common'
-import { httpAuthorize } from '@/api/user.service'
+import { httpAuthorizeCustomer } from '@/api/instance.service'
 
 export default defineComponent({
     name: 'Login',
@@ -20,8 +20,8 @@ export default defineComponent({
             visible: false,
             option: {},
             form: {
-                mobile: '19926422517',
-                password: '123455'
+                mobile: '18888888888',
+                password: '123456'
             },
             rules: {
                 mobile: [
@@ -44,7 +44,7 @@ export default defineComponent({
         async function fetchAuthorize(e: { token: string; session: string }) {
             try {
                 await setState({ visible: false, disabled: true, loading: true })
-                const { data } = await httpAuthorize({
+                const { data } = await httpAuthorizeCustomer({
                     mobile: state.form.mobile as never,
                     password: window.btoa(state.form.password as never),
                     session: e.session,

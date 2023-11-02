@@ -1,7 +1,7 @@
 import type { App } from 'vue'
 import { createRouter, createWebHistory, useRoute as useRouteQuery, type Router } from 'vue-router'
 import { client } from '@/router/client'
-import { useUser } from '@/store/user'
+import { useCustomer } from '@/store/customer'
 import { useCommon } from '@/store/common'
 
 export const router = createRouter({
@@ -12,14 +12,14 @@ export const router = createRouter({
 /**路由守卫**/
 export function setupGuardRouter(router: Router) {
     const common = useCommon()
-    const user = useUser()
+    const customer = useCustomer()
     router.beforeEach(async (to, form, next) => {
         window.$loading.start()
         const token = window.$cookie.getStore(window.$cookie.APP_AUTH_TOKEN)
         if (token) {
-            if (!user.uid) {
+            if (!customer.uid) {
                 try {
-                    await user.fetchBasicUser()
+                    await customer.fetchResolverCustomer()
                 } catch (e) {
                     await window.$cookie.delStore(window.$cookie.APP_AUTH_TOKEN)
                     await window.$cookie.delStore(window.$cookie.APP_AUTH_REFRESH)
