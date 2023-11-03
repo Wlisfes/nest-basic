@@ -6,7 +6,7 @@ import { divineSkeleton } from '@/utils/utils-common'
 import { whereProperter, createElement } from '@/utils/utils-layout'
 import { sompute } from '@/utils/utils-compute'
 import { httpCaptcharColumnAppwr } from '@/api/instance.service'
-import type { ServiceCaptcha } from '@/interface/captcha.resolver'
+import type { CaptcharAppwr } from '@/interface/captchar.resolver'
 
 export default defineComponent({
     name: 'Service',
@@ -57,19 +57,11 @@ export default defineComponent({
                     cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
                     default-cols={3}
                     onUpdate={fetchUpdate}
-                    data-render={(data: ServiceCaptcha) => {
-                        return <captcha-service key={data.id} node={data} mobile={mobile.value} onUpdate={fetchUpdate}></captcha-service>
+                    v-slots={{
+                        render: (data: CaptcharAppwr) => (
+                            <captchar-service key={data.id} node={data} mobile={mobile.value} onUpdate={fetchUpdate}></captchar-service>
+                        )
                     }}
-                    data-spin={
-                        <common-resize
-                            style={{ paddingBottom: '64px' }}
-                            cols={{ 840: 1, 1280: 2, 1800: 3, 2280: 4, 2680: 5 }}
-                            default-cols={3}
-                            data-render={(e: { cols: number }) => {
-                                return divineSkeleton(e.cols, <n-skeleton height={301} style={{ borderRadius: '3px' }} />)
-                            }}
-                        ></common-resize>
-                    }
                 ></common-source>
             </common-container>
         )

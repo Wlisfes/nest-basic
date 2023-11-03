@@ -8,12 +8,12 @@ import { divineColumn } from '@/utils/utils-common'
 import { createNotice } from '@/utils/utils-naive'
 import { httpUpdateCaptchaNameService } from '@/api/captcha.service'
 import { fetchService } from '@/components/hooks/fetch-instance'
-import type { ServiceCaptcha } from '@/interface/captcha.resolver'
+import type { CaptcharAppwr } from '@/interface/captchar.resolver'
 
 export default defineComponent({
-    name: 'CaptchaService',
+    name: 'CaptcharService',
     props: {
-        node: { type: Object as PropType<ServiceCaptcha>, required: true },
+        node: { type: Object as PropType<CaptcharAppwr>, required: true },
         mobile: { type: Boolean, default: false }
     },
     emits: ['update'],
@@ -47,7 +47,7 @@ export default defineComponent({
         }
 
         return () => (
-            <n-card class="mailer-service" embedded content-style={whereProperter(props.mobile, { padding: '16px 16px' })}>
+            <n-card class="captchar-service" embedded content-style={whereProperter(props.mobile, { padding: '16px 16px' })}>
                 <n-space size={10} wrap-item={false} align="center">
                     <n-alert
                         class="el-customize"
@@ -113,12 +113,12 @@ export default defineComponent({
                 </n-grid>
                 <n-divider style={whereProperter(props.mobile, { margin: '14px 0' }, { margin: '20px 0' })} />
                 <n-space size={10} wrap-item={false} align="center">
-                    <n-avatar round size={34} src={props.node.user.avatar} />
+                    <n-avatar round size={34} src={props.node.customer.avatar} />
                     <common-reactive
                         reverse
                         style={{ flex: 1, overflow: 'hidden' }}
                         label={props.node.createTime}
-                        content={props.node.user.nickname}
+                        content={props.node.customer.nickname}
                     ></common-reactive>
                     <n-space size={20} wrap-item={false} align="center">
                         <n-button text focusable={false} onClick={fetchUpdateService}>
