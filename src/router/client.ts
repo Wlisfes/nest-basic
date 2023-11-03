@@ -44,31 +44,31 @@ export const client: Array<RouteRecordRaw> = [
                 component: () => import('@/views/Home.vue')
             },
             {
-                path: '/captcha',
-                redirect: '/captcha/describe',
+                path: '/captchar',
+                redirect: '/captchar/describe',
                 name: 'CaptchaLoyout',
                 meta: { Authorize: 'AUTH' },
-                component: createLoyout(ClientLoyout, { client: Client.captcha }),
+                component: createLoyout(ClientLoyout, { client: Client.captchar }),
                 children: [
                     {
-                        path: '/captcha/describe',
+                        path: '/captchar/describe',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE' },
-                        component: () => import('@/views/captcha/Describe.vue')
+                        component: () => import('@/views/captchar/Describe.vue')
                     },
                     {
-                        path: '/captcha/service',
+                        path: '/captchar/service',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE' },
-                        component: () => import('@/views/captcha/Service.vue')
+                        component: () => import('@/views/captchar/Service.vue')
                     },
                     {
-                        path: '/captcha/recorder',
+                        path: '/captchar/recorder',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE' },
-                        component: () => import('@/views/captcha/Recorder.vue')
+                        component: () => import('@/views/captchar/Recorder.vue')
                     },
                     {
-                        path: '/captcha/compute',
+                        path: '/captchar/compute',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE' },
-                        component: () => import('@/views/captcha/Compute.vue')
+                        component: () => import('@/views/captchar/Compute.vue')
                     }
                 ]
             },

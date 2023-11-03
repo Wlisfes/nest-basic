@@ -27,7 +27,7 @@ export const client = {
             title: '产品和服务',
             document: '我们为您提供多样化的产品和服务，以满足您的各种需求和追求。',
             column: [
-                { icon: 'Captcha', name: '人机验证', path: '/captcha', document: '致力于为客户提供高效、安全的人机验证解决方案。' },
+                { icon: 'Captcha', name: '人机验证', path: '/captchar', document: '致力于为客户提供高效、安全的人机验证解决方案。' },
                 { icon: 'Message', name: '短信', path: '/message', document: '致力于为客户提供高质量、可靠的短信解决方案。' },
                 { icon: 'MailGmail', name: '邮件', path: '/mailer', document: '致力于为客户提供高效可靠的邮件解决方案。' }
             ]
@@ -71,7 +71,7 @@ export const client = {
                 {
                     icon: 'Captcha',
                     name: 'CAPTCHA',
-                    path: '/captcha',
+                    path: '/captchar',
                     document: 'Committed to providing customers with efficient and safe man-machine verification solutions.'
                 },
                 {

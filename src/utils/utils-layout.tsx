@@ -65,11 +65,11 @@ export function formatter(data: Array<ClientOption> = []) {
 }
 
 export const Client = {
-    captcha: [
-        { label: '概述', key: '/captcha/describe', icon: 'Describe', size: 30 },
-        { label: '应用服务', key: '/captcha/service', icon: 'Service', size: 28 },
-        { label: '验证记录', key: '/captcha/recorder', icon: 'DataBase', size: 28 },
-        { label: '验证统计', key: '/captcha/compute', icon: 'Compute', size: 30 }
+    captchar: [
+        { label: '概述', key: '/captchar/describe', icon: 'Describe', size: 30 },
+        { label: '应用服务', key: '/captchar/service', icon: 'Service', size: 28 },
+        { label: '验证记录', key: '/captchar/recorder', icon: 'DataBase', size: 28 },
+        { label: '验证统计', key: '/captchar/compute', icon: 'Compute', size: 30 }
     ],
     message: [
         { label: '概述', key: '/message/describe', icon: 'Describe', size: 30 },

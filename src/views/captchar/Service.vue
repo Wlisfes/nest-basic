@@ -5,7 +5,7 @@ import { useSource } from '@/hooks/hook-source'
 import { divineSkeleton } from '@/utils/utils-common'
 import { whereProperter, createElement } from '@/utils/utils-layout'
 import { sompute } from '@/utils/utils-compute'
-import { httpColumnCaptchaService } from '@/api/captcha.service'
+import { httpCaptcharColumnAppwr } from '@/api/instance.service'
 import type { ServiceCaptcha } from '@/interface/captcha.resolver'
 
 export default defineComponent({
@@ -18,9 +18,7 @@ export default defineComponent({
                 form: { name: undefined },
                 size: 20
             },
-            async ({ size, page }) => {
-                return await httpColumnCaptchaService({ size, page })
-            }
+            ({ size, page }) => httpCaptcharColumnAppwr({ size, page })
         )
 
         return () => (
