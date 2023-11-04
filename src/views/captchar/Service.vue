@@ -18,12 +18,14 @@ export default defineComponent({
                 form: { name: undefined },
                 size: 20
             },
-            ({ size, page }) => httpCaptcharColumnAppwr({ size, page })
+            async ({ size, page }) => await httpCaptcharColumnAppwr({ size, page })
         )
 
         return () => (
             <common-container
                 bordered
+                loading={state.loading}
+                initialize={state.initialize}
                 content-style={whereProperter(mobile.value, { padding: '0 20px' }, { padding: '0 40px' })}
                 request-style={whereProperter(mobile.value, { padding: '40px 20px 20px' }, { padding: '60px 40px 30px' })}
                 request={
@@ -48,6 +50,7 @@ export default defineComponent({
             >
                 <common-source
                     loading={state.loading}
+                    initialize={state.initialize}
                     page={state.page}
                     size={state.size}
                     pagination={state.total > 20}

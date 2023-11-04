@@ -19,7 +19,7 @@ export default defineComponent({
     emits: ['update'],
     setup(props, { emit }) {
         const { setSupporter, isSupported } = useSupporter()
-        const { CLIENT_SERVICE, t } = useLocale()
+
         const CLIENT_TAG_TYPE = {
             activated: 'success',
             disable: 'warning',
@@ -47,7 +47,7 @@ export default defineComponent({
         }
 
         return () => (
-            <n-card class="captchar-service" embedded content-style={whereProperter(props.mobile, { padding: '16px 16px' })}>
+            <n-card class="captchar-service" embedded content-style={{ padding: '20px' }}>
                 <n-space size={10} wrap-item={false} align="center">
                     <n-alert
                         class="el-customize"
@@ -58,9 +58,8 @@ export default defineComponent({
                         <n-icon component={compute('Service')} size={32} depth={1} color="var(--n-icon-color)" />
                     </n-alert>
                     <common-reactive
-                        reverse
+                        label-none
                         style={{ flex: 1, overflow: 'hidden' }}
-                        label="应用名称"
                         content={
                             <n-h2 tag="h3" style={{ margin: 0, fontSize: '20px' }}>
                                 <n-ellipsis tooltip={{ width: '300px', trigger: props.mobile ? 'click' : 'hover' }}>
@@ -69,36 +68,16 @@ export default defineComponent({
                             </n-h2>
                         }
                     ></common-reactive>
-                    <n-tag
-                        round
-                        bordered={false}
-                        type={CLIENT_TAG_TYPE[props.node.status as keyof typeof CLIENT_TAG_TYPE]}
-                        style={{ marginBottom: 'auto', padding: '0 10px 0 15px' }}
-                        v-slots={{
-                            icon: createElement(
-                                props.node.status === 'activated' ? (
-                                    sompute('EnableRound', { size: 20, depth: 1, color: 'var(--n-text-color)' })
-                                ) : props.node.status === 'disable' ? (
-                                    sompute('WarningRound', { size: 20, depth: 1, color: 'var(--n-text-color)' })
-                                ) : (
-                                    <Fragment>{sompute('CloseRound', { size: 20, depth: 1, color: 'var(--n-text-color)' })}</Fragment>
-                                )
-                            ),
-                            default: createElement(<span>{divineColumn(CLIENT_SERVICE.value, props.node.status, { key: 'recover' })}</span>)
-                        }}
-                    ></n-tag>
+                    <captchar-suppor value={props.node.status}></captchar-suppor>
                 </n-space>
-                <n-grid x-gap={16} y-gap={8} cols={2} style={whereProperter(props.mobile, { marginTop: '16px' }, { marginTop: '20px' })}>
-                    <n-grid-item>
+                <n-grid x-gap={16} y-gap={8} cols={2} style={{ marginTop: '14px' }}>
+                    <n-grid-item span={2}>
                         <common-reactive
                             label="App ID"
                             content={props.node.appId}
                             copy-icon={isSupported.value && Boolean(props.node.appId)}
                             onCopy={() => setSupporter(props.node.appId)}
                         ></common-reactive>
-                    </n-grid-item>
-                    <n-grid-item>
-                        <common-reactive label="App IV" content={props.node.iv}></common-reactive>
                     </n-grid-item>
                     <n-grid-item span={2}>
                         <common-reactive
@@ -111,7 +90,7 @@ export default defineComponent({
                         ></common-reactive>
                     </n-grid-item>
                 </n-grid>
-                <n-divider style={whereProperter(props.mobile, { margin: '14px 0' }, { margin: '20px 0' })} />
+                <n-divider style={{ margin: '14px 0' }} />
                 <n-space size={10} wrap-item={false} align="center">
                     <n-avatar round size={34} src={props.node.customer.avatar} />
                     <common-reactive
