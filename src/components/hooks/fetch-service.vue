@@ -42,8 +42,9 @@ export default defineComponent({
                 show-icon={false}
                 mask-closable={false}
                 title={props.title}
+                z-index={3000}
                 preset="dialog"
-                class="el-customize"
+                class="el-customize el-transfer"
                 style={{ width: '540px' }}
                 onAfterEnter={transfer}
                 onAfterLeave={() => emit('close')}

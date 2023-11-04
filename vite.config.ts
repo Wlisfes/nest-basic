@@ -31,7 +31,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
                     'src/views/mailer/common',
                     'src/views/mailer/custom',
                     'src/views/mailer/components',
-                    'src/views/captcha/common'
+                    'src/views/captchar/common'
                 ],
                 resolvers: [
                     NaiveUiResolver(),

@@ -31,6 +31,10 @@
     > .n-dialog__content {
         margin: 0;
     }
+    &.el-transfer > .n-dialog__title {
+        margin: -16px -28px 0;
+        padding: 16px 56px 0 28px;
+    }
 }
 
 .n-alert.el-customize {
