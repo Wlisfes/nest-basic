@@ -1,5 +1,5 @@
 import { request } from '@/utils/utils-request'
-import type { CommonResolver, Result, Notice } from '@/interface/common.resolver'
+import type { IResolver, Result, Notice } from '@/interface/static.resolver'
 export enum IRouteHot {
     Default = 'default',
     GET = 'info',
@@ -7,7 +7,7 @@ export enum IRouteHot {
     PUT = 'warning',
     DELETE = 'error'
 }
-export interface IRoute extends CommonResolver {
+export interface IRoute extends IResolver {
     source: string
     title: string
     path: string

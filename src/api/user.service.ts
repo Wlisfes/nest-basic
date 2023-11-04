@@ -1,5 +1,5 @@
 import { request } from '@/utils/utils-request'
-import type { Result, IColumn } from '@/interface/common.resolver'
+import type { Result, IColumn } from '@/interface/static.resolver'
 import type { IUser } from '@/interface/user.resolver'
 
 /**注册**/

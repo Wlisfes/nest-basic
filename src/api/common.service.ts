@@ -1,9 +1,9 @@
 import { request } from '@/utils/utils-request'
-import type { Result, IColumn } from '@/interface/common.resolver'
+import type { Result, IColumn } from '@/interface/static.resolver'
 import type { ICustomer } from '@/interface/customer.resolver'
 
 /**登录**/
-export function httpAuthorizeCustomer(data: { mobile: string; password: string; token: string; session: string }) {
+export function httpCommonCustomerAuthorize(data: { mobile: string; password: string; token: string; session: string }) {
     return request<{ token: string; refresh: string; expire: number; message: string }>({
         url: `/common/customer/authorize`,
         method: 'POST',
@@ -12,7 +12,7 @@ export function httpAuthorizeCustomer(data: { mobile: string; password: string; 
 }
 
 /**获取用户信息**/
-export function httpResolverCustomer() {
+export function httpCommonCustomerResolver() {
     return request<ICustomer>({
         url: `/common/customer/resolver`,
         method: 'GET'

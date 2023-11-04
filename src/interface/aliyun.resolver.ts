@@ -1,4 +1,4 @@
-import type { CommonResolver } from '@/interface/common.resolver'
+import type { IResolver } from '@/interface/static.resolver'
 
 export interface OSSAuthorize {
     accessKeyId: string
@@ -11,7 +11,7 @@ export interface OSSAuthorize {
     interval: number
 }
 
-export interface ExcelResolver extends CommonResolver {
+export interface ExcelResolver extends IResolver {
     fileId: string
     fileName: string
     fieldName: string

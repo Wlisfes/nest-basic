@@ -1,5 +1,5 @@
 import { request } from '@/utils/utils-request'
-import type { Result, IColumn, Notice } from '@/interface/common.resolver'
+import type { Result, IColumn, Notice } from '@/interface/static.resolver'
 import type { ServiceMailer, BundleMailer, UserBundleMailer, MailerTemplate, MailerSchedule } from '@/interface/mailer.resolver'
 
 /**创建邮件应用**/

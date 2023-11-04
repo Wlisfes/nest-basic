@@ -1,5 +1,5 @@
 import { request } from '@/utils/utils-request'
-import type { Result, IColumn, Notice } from '@/interface/common.resolver'
+import type { Result, IColumn, Notice } from '@/interface/static.resolver'
 import type { ServiceCaptcha } from '@/interface/captcha.resolver'
 
 /**创建验证应用**/

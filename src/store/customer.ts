@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { httpResolverCustomer } from '@/api/instance.service'
+import { httpCommonCustomerResolver } from '@/api/instance.service'
 import type { ICustomer } from '@/interface/customer.resolver'
 
 export const useCustomer = defineStore({
@@ -20,7 +20,7 @@ export const useCustomer = defineStore({
     actions: {
         /**获取用户信息**/
         async fetchResolverCustomer() {
-            return await httpResolverCustomer().then(({ data }) => {
+            return await httpCommonCustomerResolver().then(({ data }) => {
                 console.log(data)
                 this.uid = data.uid
                 this.nickname = data.nickname

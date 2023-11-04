@@ -5,7 +5,7 @@ import { useSource } from '@/hooks/hook-source'
 import { divineSkeleton } from '@/utils/utils-common'
 import { whereProperter, createElement } from '@/utils/utils-layout'
 import { sompute } from '@/utils/utils-compute'
-import { httpCaptcharColumnAppwr } from '@/api/instance.service'
+import { httpCaptcharColumnAppwr } from '@/api/captchar.service'
 import type { CaptcharAppwr } from '@/interface/captchar.resolver'
 
 export default defineComponent({

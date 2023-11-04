@@ -1,5 +1,5 @@
+export * from './common.service'
 export * from './user.service'
-export * from './customer.service'
 export * from './mailer.service'
 export * from './captcha.service'
 export * from './captchar.service'

@@ -1,7 +1,7 @@
-import type { CommonResolver } from '@/interface/common.resolver'
+import type { IResolver } from '@/interface/static.resolver'
 import type { ICustomer } from '@/interface/customer.resolver'
 
-export interface CaptcharAppwr extends CommonResolver {
+export interface CaptcharAppwr extends IResolver {
     appId: number
     name: string
     appSecret: string

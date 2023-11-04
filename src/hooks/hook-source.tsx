@@ -3,7 +3,7 @@ import { isEmpty } from 'class-validator'
 import { divineHandler, createMounte } from '@/utils/utils-common'
 import { useState } from '@/hooks/hook-state'
 import type { DataTableBaseColumn } from 'naive-ui'
-import type { Result } from '@/interface/common.resolver'
+import type { Result } from '@/interface/static.resolver'
 import type { Response } from '@/utils/utils-request'
 
 interface SourceOption<T, R, S, U> {

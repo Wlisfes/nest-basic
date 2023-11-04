@@ -1,7 +1,7 @@
-import type { CommonResolver } from '@/interface/common.resolver'
+import type { IResolver } from '@/interface/static.resolver'
 import type { IUser } from '@/interface/user.resolver'
 
-export interface ServiceMailer extends CommonResolver {
+export interface ServiceMailer extends IResolver {
     appId: number
     name: string
     appSecret: string
@@ -12,7 +12,7 @@ export interface ServiceMailer extends CommonResolver {
     status: 'inactivated' | 'activated' | 'disable' | 'delete'
 }
 
-export interface BundleMailer extends CommonResolver {
+export interface BundleMailer extends IResolver {
     bundle: number
     name: string
     type: string
@@ -27,7 +27,7 @@ export interface BundleMailer extends CommonResolver {
     label: string
 }
 
-export interface UserBundleMailer extends CommonResolver {
+export interface UserBundleMailer extends IResolver {
     orderId: number
     userId: number
     bundle: number
@@ -43,7 +43,7 @@ export interface UserBundleMailer extends CommonResolver {
     status: 'effect' | 'invalid' | 'refund' | 'disable'
 }
 
-export interface MailerTemplate extends CommonResolver {
+export interface MailerTemplate extends IResolver {
     name: string
     cover: string
     mjml: string
@@ -52,7 +52,7 @@ export interface MailerTemplate extends CommonResolver {
     status: 'pending' | 'sketch' | 'loading' | 'review' | 'rejected' | 'disable' | 'delete'
 }
 
-export interface MailerSchedule extends CommonResolver {
+export interface MailerSchedule extends IResolver {
     jobId: number
     name: string
     type: string

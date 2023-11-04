@@ -1,6 +1,6 @@
-import type { CommonResolver } from '@/interface/common.resolver'
+import type { IResolver } from '@/interface/static.resolver'
 
-export interface IUser extends CommonResolver {
+export interface IUser extends IResolver {
     uid: number
     nickname: string
     password: string
