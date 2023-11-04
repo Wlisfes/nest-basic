@@ -1,6 +1,6 @@
 import { request } from '@/utils/utils-request'
 import type { Result, IColumn } from '@/interface/static.resolver'
-import type { ICustomer } from '@/interface/customer.resolver'
+import type { ICustomer } from '@/interface/common.resolver'
 
 /**登录**/
 export function httpCommonCustomerAuthorize(data: { mobile: string; password: string; token: string; session: string }) {

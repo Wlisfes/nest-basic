@@ -1,5 +1,5 @@
 export interface IResolver {
-    id: number
+    keyId: number
     createTime: string
     updateTime: string
 }

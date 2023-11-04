@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { httpCommonCustomerResolver } from '@/api/instance.service'
-import type { ICustomer } from '@/interface/customer.resolver'
+import type { ICustomer } from '@/interface/common.resolver'
 
 export const useCustomer = defineStore({
     id: 'customer',
