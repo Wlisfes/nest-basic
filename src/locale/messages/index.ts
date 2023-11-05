@@ -5,6 +5,8 @@ import route from './route'
 import rule from './rule'
 import { client } from './client'
 import { enumerate } from './enumerate'
+import * as captchar from './captchar'
+import * as nodemailer from './nodemailer'
 
 export type I18nContext = typeof messages.cn & typeof messages.en
 export const messages = {
@@ -16,7 +18,9 @@ export const messages = {
         route: route.cn,
         rule: rule.cn,
         client: client.cn,
-        enumerate: enumerate.cn
+        enumerate: enumerate.cn,
+        captchar: captchar.default.cn,
+        nodemailer: nodemailer.default.cn
     },
     en: {
         ...enUS,
@@ -26,6 +30,8 @@ export const messages = {
         route: route.en,
         rule: rule.en,
         client: client.en,
-        enumerate: enumerate.en
+        enumerate: enumerate.en,
+        captchar: captchar.default.en,
+        nodemailer: nodemailer.default.en
     }
 }

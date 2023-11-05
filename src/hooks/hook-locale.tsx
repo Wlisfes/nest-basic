@@ -10,6 +10,8 @@ export function useLocale() {
         tm,
         at,
         atm,
+        // captchar-suppor
+        CAPTCHAR_SUPPOR: computed(() => tm('captchar.service.suppor.column')),
         CLIENT_SERVICE: computed(() => tm('enumerate.CLIENT_SERVICE'))
     }
 }

@@ -17,18 +17,7 @@ export default defineComponent({
                 content-style={whereProperter(mobile.value, { padding: '0 20px' }, { padding: '0 40px' })}
                 request-style={whereProperter(mobile.value, { padding: '40px 20px 20px' }, { padding: '60px 40px 30px' })}
                 request={<common-header vertical={mobile.value} title="概览"></common-header>}
-            >
-                <n-space vertical>
-                    {Client.mailer.map(item => (
-                        <n-button key={item.key} onClick={() => router.push(item.key)}>
-                            {{
-                                icon: () => sompute(item.icon as INameUI),
-                                default: () => item.label
-                            }}
-                        </n-button>
-                    ))}
-                </n-space>
-            </common-container>
+            ></common-container>
         )
     }
 })

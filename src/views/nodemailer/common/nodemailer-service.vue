@@ -8,12 +8,12 @@ import { divineColumn } from '@/utils/utils-common'
 import { createNotice } from '@/utils/utils-naive'
 import { httpUpdateMailerNameService } from '@/api/mailer.service'
 import { fetchService } from '@/components/hooks/fetch-instance'
-import type { ServiceMailer } from '@/interface/mailer.resolver'
+import type { NodemailerAppwr } from '@/interface/nodemailer.resolver'
 
 export default defineComponent({
-    name: 'MailerService',
+    name: 'NodemailerService',
     props: {
-        node: { type: Object as PropType<ServiceMailer>, required: true },
+        node: { type: Object as PropType<NodemailerAppwr>, required: true },
         mobile: { type: Boolean, default: false }
     },
     emits: ['update'],
@@ -48,7 +48,7 @@ export default defineComponent({
         }
 
         return () => (
-            <n-card class="mailer-service" embedded content-style={whereProperter(props.mobile, { padding: '16px 16px' })}>
+            <n-card class="nodemailer-service" embedded content-style={{ padding: '20px' }}>
                 <n-space size={10} wrap-item={false} align="center">
                     <n-alert
                         class="el-customize"
@@ -74,7 +74,7 @@ export default defineComponent({
                             </n-h2>
                         }
                     ></common-reactive>
-                    <n-tag
+                    {/**<n-tag
                         round
                         bordered={false}
                         type={CLIENT_TAG_TYPE[props.node.status as keyof typeof CLIENT_TAG_TYPE]}
@@ -93,7 +93,7 @@ export default defineComponent({
                             ),
                             default: createElement(<span>{divineColumn(CLIENT_SERVICE.value, props.node.status, { key: 'recover' })}</span>)
                         }}
-                    ></n-tag>
+                    ></n-tag>**/}
                 </n-space>
                 <n-grid x-gap={16} y-gap={8} cols={2} style={whereProperter(props.mobile, { marginTop: '16px' }, { marginTop: '20px' })}>
                     <n-grid-item>
@@ -103,9 +103,6 @@ export default defineComponent({
                             copy-icon={isSupported.value && Boolean(props.node.appId)}
                             onCopy={() => setSupporter(props.node.appId)}
                         ></common-reactive>
-                    </n-grid-item>
-                    <n-grid-item>
-                        <common-reactive label="App IV" content={props.node.iv}></common-reactive>
                     </n-grid-item>
                     <n-grid-item span={2}>
                         <common-reactive
@@ -120,12 +117,12 @@ export default defineComponent({
                 </n-grid>
                 <n-divider style={whereProperter(props.mobile, { margin: '14px 0' }, { margin: '20px 0' })} />
                 <n-space size={10} wrap-item={false} align="center">
-                    <n-avatar round size={34} src={props.node.user.avatar} />
+                    <n-avatar round size={34} src={props.node.customer.avatar} />
                     <common-reactive
                         reverse
                         style={{ flex: 1, overflow: 'hidden' }}
                         label={props.node.createTime}
-                        content={props.node.user.nickname}
+                        content={props.node.customer.nickname}
                     ></common-reactive>
                     <n-space size={20} wrap-item={false} align="center">
                         <n-button text focusable={false} onClick={fetchUpdateService}>

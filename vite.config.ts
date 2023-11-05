@@ -28,9 +28,8 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
                 dirs: [
                     'src/components',
                     'src/layout',
-                    'src/views/mailer/common',
-                    'src/views/mailer/custom',
-                    'src/views/mailer/components',
+                    'src/views/nodemailer/common',
+                    'src/views/nodemailer/components',
                     'src/views/captchar/common'
                 ],
                 resolvers: [

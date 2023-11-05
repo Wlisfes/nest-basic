@@ -78,14 +78,14 @@ export const Client = {
         { label: '发送记录', key: '/message/recorder', icon: 'DataBase', size: 28 },
         { label: '发送统计', key: '/message/compute', icon: 'Compute', size: 30 }
     ],
-    mailer: [
-        { label: '概述', key: '/mailer/describe', icon: 'Describe', size: 30 },
-        { label: '应用服务', key: '/mailer/service', icon: 'Service', size: 28 },
-        { label: '资源套餐', key: '/mailer/package', icon: 'Package', size: 28 },
-        { label: '模板管理', key: '/mailer/template', icon: 'Template', size: 30 },
-        { label: '邮件群发', key: '/mailer/bulksender', icon: 'MailForwar', size: 30 },
-        { label: '任务队列', key: '/mailer/schedule', icon: 'Schedule', size: 30 },
-        { label: '发送记录', key: '/mailer/recorder', icon: 'DataBase', size: 30 },
-        { label: '发送统计', key: '/mailer/compute', icon: 'Compute', size: 28 }
+    nodemailer: [
+        { label: '概述', key: '/nodemailer/describe', icon: 'Describe', size: 30 },
+        { label: '应用服务', key: '/nodemailer/service', icon: 'Service', size: 28 },
+        { label: '资源套餐', key: '/nodemailer/package', icon: 'Package', size: 28 },
+        { label: '模板管理', key: '/nodemailer/template', icon: 'Template', size: 30 },
+        { label: '邮件群发', key: '/nodemailer/bulksender', icon: 'MailForwar', size: 30 },
+        { label: '任务队列', key: '/nodemailer/schedule', icon: 'Schedule', size: 30 },
+        { label: '发送记录', key: '/nodemailer/recorder', icon: 'DataBase', size: 30 },
+        { label: '发送统计', key: '/nodemailer/compute', icon: 'Compute', size: 28 }
     ]
 }

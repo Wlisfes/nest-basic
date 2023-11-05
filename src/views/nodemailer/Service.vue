@@ -4,8 +4,8 @@ import { useResizeContainer } from '@/hooks/hook-resize'
 import { useSource } from '@/hooks/hook-source'
 import { createElement } from '@/utils/utils-layout'
 import { sompute } from '@/utils/utils-compute'
-import { httpColumnMailerService } from '@/api/mailer.service'
-import type { ServiceMailer } from '@/interface/mailer.resolver'
+import { httpNodemailerColumnAppwr } from '@/api/nodemailer.service'
+import type { NodemailerAppwr } from '@/interface/nodemailer.resolver'
 
 export default defineComponent({
     name: 'Service',
@@ -17,7 +17,7 @@ export default defineComponent({
                 form: { name: undefined },
                 size: 20
             },
-            ({ size, page }) => httpColumnMailerService({ size, page })
+            async ({ size, page }) => await httpNodemailerColumnAppwr({ size, page })
         )
 
         return () => (
@@ -64,8 +64,13 @@ export default defineComponent({
                             default-cols={3}
                             onUpdate={(evt: typeof state) => fetchUpdate(evt, scope.onUpdate)}
                             v-slots={{
-                                render: (data: ServiceMailer) => (
-                                    <mailer-service key={data.id} node={data} mobile={mobile.value} onUpdate={fetchUpdate}></mailer-service>
+                                render: (data: NodemailerAppwr) => (
+                                    <nodemailer-service
+                                        key={data.keyId}
+                                        node={data}
+                                        mobile={mobile.value}
+                                        onUpdate={fetchUpdate}
+                                    ></nodemailer-service>
                                 )
                             }}
                         ></common-source>

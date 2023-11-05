@@ -107,63 +107,63 @@ export const client: Array<RouteRecordRaw> = [
                 ]
             },
             {
-                path: '/mailer',
-                redirect: '/mailer/describe',
+                path: '/nodemailer',
+                redirect: '/nodemailer/describe',
                 name: 'MailerLoyout',
                 meta: { Authorize: 'AUTH' },
-                component: createLoyout(ClientLoyout, { client: Client.mailer }),
+                component: createLoyout(ClientLoyout, { client: Client.nodemailer }),
                 children: [
                     {
-                        path: '/mailer/describe',
+                        path: '/nodemailer/describe',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE' },
-                        component: () => import('@/views/mailer/Describe.vue')
+                        component: () => import('@/views/nodemailer/Describe.vue')
                     },
                     {
-                        path: '/mailer/package',
+                        path: '/nodemailer/package',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE' },
-                        component: () => import('@/views/mailer/Package.vue')
+                        component: () => import('@/views/nodemailer/Package.vue')
                     },
                     {
-                        path: '/mailer/service',
+                        path: '/nodemailer/service',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE' },
-                        component: () => import('@/views/mailer/Service.vue')
+                        component: () => import('@/views/nodemailer/Service.vue')
                     },
                     {
-                        path: '/mailer/template',
+                        path: '/nodemailer/template',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE' },
-                        component: () => import('@/views/mailer/Template.vue')
+                        component: () => import('@/views/nodemailer/Template.vue')
                     },
                     {
-                        path: '/mailer/create/currenter',
+                        path: '/nodemailer/create/currenter',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE', Header: 'HIDE', Sidebar: 'HIDE' },
                         props: { command: 'CREATE' },
-                        component: () => import('@/views/mailer/Currenter.vue')
+                        component: () => import('@/views/nodemailer/Currenter.vue')
                     },
                     {
-                        path: '/mailer/update/currenter',
+                        path: '/nodemailer/update/currenter',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE', Header: 'HIDE', Sidebar: 'HIDE' },
                         props: { command: 'UPDATE' },
-                        component: () => import('@/views/mailer/Currenter.vue')
+                        component: () => import('@/views/nodemailer/Currenter.vue')
                     },
                     {
-                        path: '/mailer/bulksender',
+                        path: '/nodemailer/bulksender',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE' },
-                        component: () => import('@/views/mailer/BulkSender.vue')
+                        component: () => import('@/views/nodemailer/BulkSender.vue')
                     },
                     {
-                        path: '/mailer/schedule',
+                        path: '/nodemailer/schedule',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE' },
-                        component: () => import('@/views/mailer/Schedule.vue')
+                        component: () => import('@/views/nodemailer/Schedule.vue')
                     },
                     {
-                        path: '/mailer/recorder',
+                        path: '/nodemailer/recorder',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE' },
-                        component: () => import('@/views/mailer/Recorder.vue')
+                        component: () => import('@/views/nodemailer/Recorder.vue')
                     },
                     {
-                        path: '/mailer/compute',
+                        path: '/nodemailer/compute',
                         meta: { title: { cn: '', en: '' }, Authorize: 'AUTH', Current: 'SAVE' },
-                        component: () => import('@/views/mailer/Compute.vue')
+                        component: () => import('@/views/nodemailer/Compute.vue')
                     }
                 ]
             }
