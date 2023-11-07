@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, ref, computed, onMounted, onUnmounted } from 'vue'
+import { defineComponent, ref, computed, onMounted, onUnmounted, Fragment } from 'vue'
 import { divineDelay, stop } from '@/utils/utils-common'
 import { compute } from '@/utils/utils-compute'
 import { useState } from '@/hooks/hook-state'
@@ -33,6 +33,7 @@ export default defineComponent({
             pinX: 0, // 拼图的起始X
             pinY: 0, // 拼图的起始Y
             loading: false, // 是否正在加在中，主要是等图片onload
+            spiner: false,
             isCanSlide: false, // 是否可以拉动滑动条
             error: false, // 图片加在失败会出现这个，提示用户手动刷新
             infoBoxShow: false, // 提示信息是否出现
@@ -106,7 +107,7 @@ export default defineComponent({
 
         /**鼠标按下准备拖动**/
         function onRangeMouseDown(e: MouseEvent | TouchEvent) {
-            if (state.isCanSlide) {
+            if (state.isCanSlide && !state.loading && !state.spiner) {
                 setState({
                     mouseDown: true,
                     startWidth: (slider.value as HTMLDivElement).clientWidth,
@@ -118,7 +119,7 @@ export default defineComponent({
 
         /**鼠标移动**/
         function onRangeMouseMove(e: MouseEvent | TouchEvent) {
-            if (state.mouseDown) {
+            if (state.mouseDown && !state.loading && !state.spiner) {
                 e.preventDefault()
                 setState({ newX: e instanceof MouseEvent ? e.clientX : e.changedTouches[0].clientX })
             }
@@ -405,7 +406,7 @@ export default defineComponent({
 
         /**开始判定**/ //prettier-ignore
         function submit() {
-            setState({ isSubmting: true }).then(async () => {
+            setState({ isSubmting: true, spiner: true }).then(async () => {
                 // 偏差 x = puzzle的起始X - (用户真滑动的距离) + (puzzle的宽度 - 滑块的宽度) * （用户真滑动的距离/canvas总宽度）
                 // 最后+ 的是补上slider和滑块宽度不一致造成的缝隙
                 const x1 = styleWidth.value - sliderBaseSize.value
@@ -423,7 +424,7 @@ export default defineComponent({
                         isCanSlide: false,
                         isSuccess: true
                     })
-                    setState({ isSubmting: false }).finally(() => {
+                    setState({ isSubmting: false, spiner: false }).finally(() => {
                         emit('success', {
                             distance,
                             token: state.token,
@@ -436,6 +437,7 @@ export default defineComponent({
                     //失败
                     await setState({
                         infoText: props.failText,
+                        spiner: false,
                         infoBoxFail: true,
                         infoBoxShow: true,
                         isCanSlide: false
@@ -449,6 +451,7 @@ export default defineComponent({
             }).catch(text => {
                 setState({
                     infoText: text,
+                    spiner: false,
                     infoBoxFail: true,
                     infoBoxShow: true,
                     isCanSlide: false
@@ -519,7 +522,7 @@ export default defineComponent({
                                 class="range-control__placeholder"
                                 style={{ opacity: state.mouseDown || state.infoBoxFail || state.isSuccess ? 0 : 1 }}
                             >
-                                {props.sliderText}
+                                {state.loading || state.spiner ? '' : props.sliderText}
                             </div>
                             <div
                                 ref={slider}
@@ -545,10 +548,16 @@ export default defineComponent({
                                             <n-icon color="#ffffff" size={16} component={compute('CloseBold')} />
                                         </div>
                                     ) : (
-                                        <div class="button-spin">
-                                            <div></div>
-                                            <div></div>
-                                            <div></div>
+                                        <div class={{ 'button-spin': true, 'is-spiner': state.spiner }}>
+                                            {state.spiner ? (
+                                                <n-icon size={20} component={compute('RadixSpinWith')} />
+                                            ) : (
+                                                <Fragment>
+                                                    <div></div>
+                                                    <div></div>
+                                                    <div></div>
+                                                </Fragment>
+                                            )}
                                         </div>
                                     )}
                                 </div>
@@ -783,6 +792,9 @@ export default defineComponent({
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                    &.is-spiner {
+                        cursor: not-allowed;
+                    }
                     & > div {
                         width: 0;
                         height: 40%;
