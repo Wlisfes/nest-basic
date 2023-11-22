@@ -19,6 +19,10 @@ declare module 'json2mjml' {
     const json2MjmlBrowser: Function
     export default json2MjmlBrowser
 }
+declare module 'ip' {
+    const IP: any
+    export default IP
+}
 
 interface ImportMetaEnv {
     readonly VITE_PORT: string

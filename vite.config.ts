@@ -8,6 +8,8 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+const IP = require('ip')
+const ipv4 = IP.address()
 
 export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     const root = process.cwd()
@@ -70,17 +72,17 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
             host: '0.0.0.0',
             proxy: {
                 [`/api/common`]: {
-                    target: `http://127.0.0.1:5010`,
+                    target: `http://${ipv4}:5010`,
                     ws: true,
                     changeOrigin: true
                 },
                 [`/api/nodemailer`]: {
-                    target: `http://127.0.0.1:5020`,
+                    target: `http://${ipv4}:5020`,
                     ws: true,
                     changeOrigin: true
                 },
                 [`/api/captchar`]: {
-                    target: `http://127.0.0.1:5030`,
+                    target: `http://${ipv4}:5030`,
                     ws: true,
                     changeOrigin: true
                 }
