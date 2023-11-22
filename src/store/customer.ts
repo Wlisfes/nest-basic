@@ -21,7 +21,6 @@ export const useCustomer = defineStore({
         /**获取用户信息**/
         async fetchResolverCustomer() {
             return await httpCommonCustomerResolver().then(({ data }) => {
-                console.log(data)
                 this.uid = data.uid
                 this.nickname = data.nickname
                 this.avatar = data.avatar

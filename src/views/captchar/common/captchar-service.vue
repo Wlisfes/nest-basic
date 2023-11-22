@@ -1,13 +1,12 @@
 <script lang="tsx">
-import { defineComponent, Fragment, type PropType } from 'vue'
+import { defineComponent, type PropType } from 'vue'
+import { useDialog } from 'naive-ui'
 import { useSupporter } from '@/hooks/hook-reuser'
-import { useLocale } from '@/hooks/hook-locale'
-import { compute, sompute } from '@/utils/utils-compute'
-import { whereProperter, createElement } from '@/utils/utils-layout'
-import { divineColumn } from '@/utils/utils-common'
+import { compute } from '@/utils/utils-compute'
 import { createNotice } from '@/utils/utils-naive'
 import { httpUpdateCaptchaNameService } from '@/api/captcha.service'
 import { fetchService } from '@/components/hooks/fetch-instance'
+import { transfer } from '@/utils/utils-transfer'
 import type { CaptcharAppwr } from '@/interface/captchar.resolver'
 
 export default defineComponent({
@@ -18,6 +17,7 @@ export default defineComponent({
     },
     emits: ['update'],
     setup(props, { emit }) {
+        const dialog = useDialog()
         const { setSupporter, isSupported } = useSupporter()
 
         const CLIENT_TAG_TYPE = {
@@ -27,23 +27,29 @@ export default defineComponent({
         }
 
         function fetchUpdateService() {
-            return fetchService({ title: '编辑应用服务', name: props.node.name }).then(({ observer }) => {
-                observer.on('submit', async ({ done, data }) => {
-                    try {
-                        await done({ loading: true })
-                        const { message } = await httpUpdateCaptchaNameService({
-                            appId: props.node.appId,
-                            name: data.name
-                        })
-                        await done({ visible: false })
-                        await emit('update')
-                        return await createNotice({ type: 'success', title: message })
-                    } catch (e) {
-                        await done({ loading: false })
-                        return await createNotice({ type: 'error', title: e.message })
-                    }
-                })
+            dialog.warning({
+                title: '使用渲染函数',
+                class: 'el-customize el-transfer',
+                content: () => 'Content',
+                action: () => <common-inspector></common-inspector>
             })
+            // return fetchService({ title: '编辑应用服务', name: props.node.name }).then(({ observer }) => {
+            //     observer.on('submit', async ({ done, data }) => {
+            //         try {
+            //             await done({ loading: true })
+            //             const { message } = await httpUpdateCaptchaNameService({
+            //                 appId: props.node.appId,
+            //                 name: data.name
+            //             })
+            //             await done({ visible: false })
+            //             await emit('update')
+            //             return await createNotice({ type: 'success', title: message })
+            //         } catch (e) {
+            //             await done({ loading: false })
+            //             return await createNotice({ type: 'error', title: e.message })
+            //         }
+            //     })
+            // })
         }
 
         return () => (

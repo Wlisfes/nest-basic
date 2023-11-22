@@ -2,7 +2,6 @@
 import { defineComponent } from 'vue'
 import { useResize } from '@/hooks/hook-resize'
 import { useSource } from '@/hooks/hook-source'
-import { divineSkeleton } from '@/utils/utils-common'
 import { whereProperter, createElement } from '@/utils/utils-layout'
 import { sompute } from '@/utils/utils-compute'
 import { httpCaptcharColumnAppwr } from '@/api/captchar.service'
@@ -62,7 +61,7 @@ export default defineComponent({
                     onUpdate={fetchUpdate}
                     v-slots={{
                         render: (data: CaptcharAppwr) => (
-                            <captchar-service key={data.id} node={data} mobile={mobile.value} onUpdate={fetchUpdate}></captchar-service>
+                            <captchar-service key={data.keyId} node={data} mobile={mobile.value} onUpdate={fetchUpdate}></captchar-service>
                         )
                     }}
                 ></common-source>
