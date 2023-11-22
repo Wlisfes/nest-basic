@@ -30,7 +30,6 @@ export default defineComponent({
                 autoFocus: false,
                 maskClosable: false,
                 showIcon: false,
-                loading: true,
                 class: 'el-customize el-transfer',
                 style: { width: '540px' },
                 title: '编辑应用服务',
@@ -39,7 +38,7 @@ export default defineComponent({
                     <common-inspector disabled={false} onCancel={() => vm.destroy()} onSubmit={() => vm.destroy()}></common-inspector>
                 ),
                 content: () => (
-                    <n-spin show={false}>
+                    <n-spin show={isSupported.value}>
                         <n-form size="large" label-placement="top" require-mark-placement="left" style={{ padding: '20px 0' }}>
                             <n-form-item label="应用名称" path="name">
                                 <n-input maxlength={16} placeholder="请输入应用名称"></n-input>

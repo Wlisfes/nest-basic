@@ -17,10 +17,7 @@ export default defineComponent({
                 content-style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
             >
                 {IsHeader.value && (
-                    <n-layout-header
-                        inverted={inverted.value}
-                        style={{ height: '60px', zIndex: 2999, backgroundColor: vars.value.cardColor }}
-                    >
+                    <n-layout-header inverted={inverted.value} style={{ height: '60px', backgroundColor: vars.value.cardColor }}>
                         <basic-header></basic-header>
                     </n-layout-header>
                 )}
