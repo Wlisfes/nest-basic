@@ -16,14 +16,14 @@ const instance: CurrentInstance = {
     run: false
 }
 
-const useCurrentElement = (target: HTMLElement & Record<string, never>, key: string) => {
-    if (target.currentStyle) {
-        return target.currentStyle[key]
+const useCurrentElement = (target: HTMLElement, key: string) => {
+    if ((target as any).currentStyle) {
+        return (target as any).currentStyle[key]
     }
     return document.defaultView?.getComputedStyle(target, null)[key as never]
 }
 
-export function transfer(target: HTMLElement & Record<string, never>, className: string = '.n-dialog__title') {
+export function transfer(target: HTMLElement, className: string = '.n-dialog__title') {
     const observer = new Observer()
     const screenWidth = document.body.clientWidth //body当前宽度
     const screenHeight = document.documentElement.clientHeight //可见区域高度

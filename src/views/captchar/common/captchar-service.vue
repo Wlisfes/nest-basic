@@ -3,7 +3,7 @@ import { defineComponent, type PropType } from 'vue'
 import { useDialog } from 'naive-ui'
 import { useSupporter } from '@/hooks/hook-reuser'
 import { compute } from '@/utils/utils-compute'
-import { createNotice } from '@/utils/utils-naive'
+import { createDiscover, createNotice } from '@/utils/utils-naive'
 import { httpUpdateCaptchaNameService } from '@/api/captcha.service'
 import { fetchService } from '@/components/hooks/fetch-instance'
 import { transfer } from '@/utils/utils-transfer'
@@ -17,7 +17,6 @@ export default defineComponent({
     },
     emits: ['update'],
     setup(props, { emit }) {
-        const dialog = useDialog()
         const { setSupporter, isSupported } = useSupporter()
 
         const CLIENT_TAG_TYPE = {
@@ -26,12 +25,28 @@ export default defineComponent({
             delete: 'error'
         }
 
-        function fetchUpdateService() {
-            dialog.warning({
-                title: '使用渲染函数',
+        async function fetchUpdateService() {
+            const vm = await createDiscover({
+                autoFocus: false,
+                maskClosable: false,
+                showIcon: false,
+                loading: true,
                 class: 'el-customize el-transfer',
-                content: () => 'Content',
-                action: () => <common-inspector></common-inspector>
+                style: { width: '540px' },
+                title: '编辑应用服务',
+                onAfterEnter: (e: HTMLElement) => transfer(e),
+                action: () => (
+                    <common-inspector disabled={false} onCancel={() => vm.destroy()} onSubmit={() => vm.destroy()}></common-inspector>
+                ),
+                content: () => (
+                    <n-spin show={false}>
+                        <n-form size="large" label-placement="top" require-mark-placement="left" style={{ padding: '20px 0' }}>
+                            <n-form-item label="应用名称" path="name">
+                                <n-input maxlength={16} placeholder="请输入应用名称"></n-input>
+                            </n-form-item>
+                        </n-form>
+                    </n-spin>
+                )
             })
             // return fetchService({ title: '编辑应用服务', name: props.node.name }).then(({ observer }) => {
             //     observer.on('submit', async ({ done, data }) => {
