@@ -8,7 +8,7 @@ import { useCustomize } from '@/hooks/hook-customize'
 /**应用编辑表单**/
 export function useFormService() {
     const instance = ref<DialogReactive>()
-    const { formRef, state, form, setForm, setLoading, divineFormValidater } = useCustomize<Partial<{ name: string }>>({
+    const { formRef, state, form, rules, setForm, setLoading, divineFormValidater } = useCustomize<Partial<{ name: string }>>({
         form: {
             name: undefined
         },
@@ -33,14 +33,14 @@ export function useFormService() {
     async function onSubmit(evt: Event, callback?: Function) {
         return await divineFormValidater().then(async () => {
             await divineHandler(Boolean(callback), async () => {
-                return await callback?.(form, setLoading)
+                return await callback?.(form.value, setLoading)
             })
             return instance.value?.destroy()
         })
     }
 
     /**开启表单**/
-    async function fetchService(option: Partial<{ name: string; onCancel: Function; onSubmit: Function }> = {}) {
+    async function fetchService(option: Partial<{ title: string; name: string; onCancel: Function; onSubmit: Function }> = {}) {
         await setForm({ name: option.name ?? undefined })
         return await createDiscover({
             autoFocus: false,
@@ -48,7 +48,7 @@ export function useFormService() {
             showIcon: false,
             class: 'el-customize el-transfer',
             style: { width: '540px' },
-            title: '编辑应用服务',
+            title: option.title ?? '编辑应用',
             onAfterEnter: (e: HTMLElement) => transfer(e),
             action: () => (
                 <common-inspector
@@ -62,8 +62,8 @@ export function useFormService() {
                 <n-spin show={state.loading}>
                     <n-form
                         ref={formRef}
-                        model={state.form}
-                        rules={state.rules}
+                        model={form.value}
+                        rules={rules.value}
                         disabled={state.loading}
                         size="large"
                         label-placement="top"
@@ -72,7 +72,7 @@ export function useFormService() {
                     >
                         <n-form-item label="应用名称" path="name">
                             <n-input
-                                v-model:value={state.form.name}
+                                v-model:value={form.value.name}
                                 maxlength={16}
                                 placeholder="请输入应用名称"
                                 allow-input={(value: string) => !value.startsWith(' ') && !value.endsWith(' ')}
