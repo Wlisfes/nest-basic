@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { type DialogReactive } from 'naive-ui'
-import { createDiscover, createNotice } from '@/utils/utils-naive'
+import { createDiscover } from '@/utils/utils-naive'
 import { divineHandler } from '@/utils/utils-common'
 import { transfer } from '@/utils/utils-transfer'
 import { useCustomize } from '@/hooks/hook-customize'
@@ -17,6 +17,7 @@ export function useFormService() {
         }
     })
 
+    /**实例缓存**/
     async function setInstance(vm: DialogReactive) {
         return (instance.value = vm)
     }
@@ -32,18 +33,28 @@ export function useFormService() {
     /**确定事件**/
     async function onSubmit(evt: Event, callback?: Function) {
         return await divineFormValidater().then(async () => {
-            await divineHandler(Boolean(callback), async () => {
-                return await callback?.(form.value, async (value: boolean) => {
-                    await setLoading(value)
-                    return await setDisabled(value)
-                })
-            })
-            return instance.value?.destroy()
+            return await divineHandler(
+                Boolean(callback),
+                async function success() {
+                    return await callback?.(form.value, {
+                        done: async (value: boolean) => {
+                            await setLoading(value)
+                            await setDisabled(value)
+                        },
+                        destroy: async () => {
+                            return await instance.value!.destroy()
+                        }
+                    })
+                },
+                async function failure() {
+                    return await instance.value!.destroy()
+                }
+            )
         })
     }
 
     /**开启表单**/
-    async function fetchService(option: Partial<{ title: string; name: string; onCancel: Function; onSubmit: Function }> = {}) {
+    async function fetchNodeRender(option: Partial<{ title: string; name: string; onCancel: Function; onSubmit: Function }> = {}) {
         await setForm({ name: option.name ?? undefined })
         return await createDiscover({
             autoFocus: false,
@@ -89,5 +100,5 @@ export function useFormService() {
         })
     }
 
-    return { state, form, setForm, setLoading, fetchService, onCancel, onSubmit }
+    return { state, form, setForm, setLoading, setDisabled, fetchNodeRender, onCancel, onSubmit }
 }
