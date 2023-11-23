@@ -28,9 +28,9 @@ export default defineComponent({
         async function fetchUpdateService() {
             return await fetchService({
                 name: props.node.name,
-                onSubmit: async (form: Record<string, any>, setLoading: Function) => {
+                onSubmit: async (form: Record<string, any>, done: Function) => {
                     try {
-                        await setLoading(true)
+                        await done(true)
                         const { message } = await httpCaptcharUpdateAppwr({
                             appId: props.node.appId,
                             name: form.name
@@ -39,13 +39,13 @@ export default defineComponent({
                         return await createNotice({
                             type: 'success',
                             title: message,
-                            onAfterEnter: () => setLoading(false)
+                            onAfterEnter: () => done(false)
                         })
                     } catch (e) {
                         return await createNotice({
                             type: 'error',
                             title: e.message,
-                            onAfterEnter: () => setLoading(false)
+                            onAfterEnter: () => done(false)
                         })
                     }
                 }

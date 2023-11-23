@@ -8,7 +8,7 @@ import { useCustomize } from '@/hooks/hook-customize'
 /**应用编辑表单**/
 export function useFormService() {
     const instance = ref<DialogReactive>()
-    const { formRef, state, form, rules, setForm, setLoading, divineFormValidater } = useCustomize<Partial<{ name: string }>>({
+    const { formRef, state, form, rules, setForm, setLoading, setDisabled, divineFormValidater } = useCustomize<Partial<{ name: string }>>({
         form: {
             name: undefined
         },
@@ -33,7 +33,10 @@ export function useFormService() {
     async function onSubmit(evt: Event, callback?: Function) {
         return await divineFormValidater().then(async () => {
             await divineHandler(Boolean(callback), async () => {
-                return await callback?.(form.value, setLoading)
+                return await callback?.(form.value, async (value: boolean) => {
+                    await setLoading(value)
+                    return await setDisabled(value)
+                })
             })
             return instance.value?.destroy()
         })
