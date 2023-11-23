@@ -1,32 +1,50 @@
 import type { FormInst, FormRules, FormItemRule, FormItemProps, UploadProps, UploadFileInfo } from 'naive-ui'
 import type { ExcelResolver } from '@/interface/aliyun.resolver'
-import { defineComponent, ref, toRefs, onMounted, Fragment, watch, type PropType } from 'vue'
+import { defineComponent, ref, reactive, toRefs, Fragment, watch, type PropType } from 'vue'
 import { useState } from '@/hooks/hook-state'
 import { Observer } from '@/utils/utils-observer'
 import { divineHandler, divineDelay } from '@/utils/utils-common'
 import { baseURL } from '@/utils/utils-request'
 
-interface OptionCustomize<T extends Record<string, any>, R extends Record<string, any>> {
-    immediate?: boolean
+interface OptionCustomize<T extends Record<string, any>> {
     initialize?: boolean
     disabled?: boolean
     visible?: boolean
+    loading?: boolean
     rules?: FormRules
-    option: R
     form: T
-    loading: boolean
 }
 
 /**自定义表单Hooks**/
-export function useCustomize<T extends Object, R extends Object>(option: OptionCustomize<T, R>, handler?: Function) {
+export function useCustomize<T extends Object>(data: OptionCustomize<T>) {
     const formRef = ref<FormInst>()
-    const { state, setState } = useState<typeof option>({ initialize: true, ...option })
+    const initialize = ref<boolean>(data.initialize ?? true)
+    const disabled = ref<boolean>(data.disabled ?? false)
+    const visible = ref<boolean>(data.visible ?? false)
+    const loading = ref<boolean>(data.loading ?? false)
+    const form = ref<typeof data.form>(data.form)
+    const rules = ref<typeof data.rules>(data.rules)
+    const state = reactive({ initialize, disabled, visible, loading, form, rules })
 
-    onMounted(async () => {
-        await divineHandler(Boolean(option.immediate && typeof handler === 'function'), () => handler?.(state)).finally(() => {
-            setState({ initialize: false })
-        })
-    })
+    async function setInitialize(value: boolean) {
+        return (initialize.value = value)
+    }
+
+    async function setDisabled(value: boolean) {
+        return (disabled.value = value)
+    }
+
+    async function setVisible(value: boolean) {
+        return (visible.value = value)
+    }
+
+    async function setLoading(value: boolean) {
+        return (loading.value = value)
+    }
+
+    async function setForm(value: Partial<T>) {
+        return (form.value = { ...form.value, ...value })
+    }
 
     /**验证表单**/
     function divineFormValidater(
@@ -69,7 +87,19 @@ export function useCustomize<T extends Object, R extends Object>(option: OptionC
         // })
     }
 
-    return { ...toRefs(state), state, formRef, setState, divineFormValidater, divineFormRestore, divineFormScrollbar }
+    return {
+        ...toRefs(state),
+        state,
+        formRef,
+        setInitialize,
+        setDisabled,
+        setVisible,
+        setLoading,
+        setForm,
+        divineFormValidater,
+        divineFormRestore,
+        divineFormScrollbar
+    }
 }
 
 interface OptionUploader<R> extends ExcelResolver {
@@ -90,7 +120,7 @@ export function useUploader<R extends UploadProps>(option: Partial<OptionUploade
         baseURL: option.baseURL ?? baseURL,
         dataSource: option.dataSource ?? [],
         props: (option.props ?? {}) as never,
-        id: option.id,
+        keyId: option.keyId,
         fileId: option.fileId,
         fileName: option.fileName,
         fieldName: option.fieldName,
@@ -170,7 +200,7 @@ export function useUploader<R extends UploadProps>(option: Partial<OptionUploade
     /**局部更新**/
     async function mentSetState(data: Partial<ExcelResolver> = {}) {
         return await setState({
-            id: data.id,
+            keyId: data.keyId,
             fileId: data.fileId,
             fileName: data.fileName,
             fieldName: data.fieldName,
@@ -189,7 +219,7 @@ export function useUploader<R extends UploadProps>(option: Partial<OptionUploade
         })
         return await mentSetState({
             ...scope,
-            id: scope.file.id as never
+            keyId: scope.file.id as never
         }).then(() => {
             return option.success?.(scope)
         })
@@ -212,7 +242,7 @@ export function useUploader<R extends UploadProps>(option: Partial<OptionUploade
     /**删除回调函数**/
     async function removeCallback({ file }: { file: UploadFileInfo }) {
         const node = (state.dataSource ?? []).find(x => x.id == file.id)
-        await divineHandler(file.id == (state.id as never), async () => {
+        await divineHandler(file.id == (state.keyId as never), async () => {
             return await mentSetState()
         })
         return await setState({

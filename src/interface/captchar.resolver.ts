@@ -2,7 +2,7 @@ import type { IResolver } from '@/interface/static.resolver'
 import type { ICustomer } from '@/interface/common.resolver'
 
 export interface CaptcharAppwr extends IResolver {
-    appId: number
+    appId: string
     name: string
     appSecret: string
     comment: string
@@ -10,6 +10,6 @@ export interface CaptcharAppwr extends IResolver {
     bucket: Array<string>
     ip: Array<string>
     customer: ICustomer
-    visible: 'hide' | 'show'
+    visible: boolean
     status: 'activated' | 'disable' | 'delete'
 }

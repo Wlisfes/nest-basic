@@ -19,3 +19,12 @@ export function httpCaptcharColumnAppwr(params: Partial<Pick<IColumn, 'page' | '
         params
     })
 }
+
+/**验证应用列表**/
+export function httpCaptcharUpdateAppwr(params: { appId: string; name: string }) {
+    return request<Notice>({
+        url: `/captchar/appwr/update`,
+        method: 'POST',
+        data: params
+    })
+}

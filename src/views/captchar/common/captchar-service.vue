@@ -1,12 +1,10 @@
 <script lang="tsx">
 import { defineComponent, type PropType } from 'vue'
-import { useDialog } from 'naive-ui'
 import { useSupporter } from '@/hooks/hook-reuser'
 import { compute } from '@/utils/utils-compute'
-import { createDiscover, createNotice } from '@/utils/utils-naive'
-import { httpUpdateCaptchaNameService } from '@/api/captcha.service'
-import { fetchService } from '@/components/hooks/fetch-instance'
-import { transfer } from '@/utils/utils-transfer'
+import { createNotice } from '@/utils/utils-naive'
+import { httpCaptcharUpdateAppwr } from '@/api/instance.service'
+import { useFormService } from '@/hooks/hook-service'
 import type { CaptcharAppwr } from '@/interface/captchar.resolver'
 
 export default defineComponent({
@@ -17,6 +15,7 @@ export default defineComponent({
     },
     emits: ['update'],
     setup(props, { emit }) {
+        const { fetchService } = useFormService()
         const { setSupporter, isSupported } = useSupporter()
 
         const CLIENT_TAG_TYPE = {
@@ -25,45 +24,32 @@ export default defineComponent({
             delete: 'error'
         }
 
+        /**开启编辑弹窗**/
         async function fetchUpdateService() {
-            const vm = await createDiscover({
-                autoFocus: false,
-                maskClosable: false,
-                showIcon: false,
-                class: 'el-customize el-transfer',
-                style: { width: '540px' },
-                title: '编辑应用服务',
-                onAfterEnter: (e: HTMLElement) => transfer(e),
-                action: () => (
-                    <common-inspector disabled={false} onCancel={() => vm.destroy()} onSubmit={() => vm.destroy()}></common-inspector>
-                ),
-                content: () => (
-                    <n-spin show={isSupported.value}>
-                        <n-form size="large" label-placement="top" require-mark-placement="left" style={{ padding: '20px 0' }}>
-                            <n-form-item label="应用名称" path="name">
-                                <n-input maxlength={16} placeholder="请输入应用名称"></n-input>
-                            </n-form-item>
-                        </n-form>
-                    </n-spin>
-                )
+            return await fetchService({
+                name: props.node.name,
+                onSubmit: async (form: Record<string, any>, setLoading: Function) => {
+                    try {
+                        await setLoading(true)
+                        const { message } = await httpCaptcharUpdateAppwr({
+                            appId: props.node.appId,
+                            name: form.name
+                        })
+                        await emit('update')
+                        return await createNotice({
+                            type: 'success',
+                            title: message,
+                            onAfterEnter: () => setLoading(false)
+                        })
+                    } catch (e) {
+                        return await createNotice({
+                            type: 'error',
+                            title: e.message,
+                            onAfterEnter: () => setLoading(false)
+                        })
+                    }
+                }
             })
-            // return fetchService({ title: '编辑应用服务', name: props.node.name }).then(({ observer }) => {
-            //     observer.on('submit', async ({ done, data }) => {
-            //         try {
-            //             await done({ loading: true })
-            //             const { message } = await httpUpdateCaptchaNameService({
-            //                 appId: props.node.appId,
-            //                 name: data.name
-            //             })
-            //             await done({ visible: false })
-            //             await emit('update')
-            //             return await createNotice({ type: 'success', title: message })
-            //         } catch (e) {
-            //             await done({ loading: false })
-            //             return await createNotice({ type: 'error', title: e.message })
-            //         }
-            //     })
-            // })
         }
 
         return () => (
