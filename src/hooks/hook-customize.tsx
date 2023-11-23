@@ -1,6 +1,7 @@
 import type { FormInst, FormRules, FormItemRule, FormItemProps, UploadProps, UploadFileInfo } from 'naive-ui'
+import type { PropType } from 'vue'
 import type { ExcelResolver } from '@/interface/aliyun.resolver'
-import { defineComponent, ref, reactive, toRefs, Fragment, watch, type PropType } from 'vue'
+import { defineComponent, ref, reactive, toRefs, Fragment, watch } from 'vue'
 import { useState } from '@/hooks/hook-state'
 import { Observer } from '@/utils/utils-observer'
 import { divineHandler, divineDelay } from '@/utils/utils-common'
@@ -17,7 +18,7 @@ interface OptionCustomize<T extends Record<string, any>> {
 
 /**自定义表单Hooks**/
 export function useCustomize<T extends Object>(data: OptionCustomize<T>) {
-    const formRef = ref<FormInst>()
+    const formRef = ref<FormInst & { $el: Element }>()
     const initialize = ref<boolean>(data.initialize ?? true)
     const disabled = ref<boolean>(data.disabled ?? false)
     const visible = ref<boolean>(data.visible ?? false)
@@ -80,15 +81,22 @@ export function useCustomize<T extends Object>(data: OptionCustomize<T>) {
     /**滚动到第一个报错表单选项**/
     async function divineFormScrollbar() {
         await divineDelay(0)
-        // const element = formRef.$el.querySelector('.el-form-item__error')
-        // return element?.scrollIntoView({
-        //     behavior: 'smooth',
-        //     block: 'center'
-        // })
+        return await divineHandler(Boolean(formRef.value), async () => {
+            const element = formRef.value!.$el.querySelector('.el-form-item__error')
+            return element!.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            })
+        })
     }
 
     return {
-        ...toRefs(state),
+        initialize,
+        disabled,
+        visible,
+        loading,
+        form,
+        rules,
         state,
         formRef,
         setInitialize,

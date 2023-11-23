@@ -5,7 +5,7 @@ import { OnClickOutside } from '@vueuse/components'
 import { useCurrent } from '@/locale/instance'
 import { useCustomize } from '@/hooks/hook-customize'
 import { createNotice } from '@/utils/utils-naive'
-import { stop, loadFile } from '@/utils/utils-common'
+import { stop } from '@/utils/utils-common'
 import { httpCommonCustomerAuthorize } from '@/api/instance.service'
 
 export default defineComponent({
@@ -14,11 +14,7 @@ export default defineComponent({
     setup() {
         const router = useRouter()
         const { t } = useCurrent()
-        const { formRef, state, setState, divineFormValidater } = useCustomize({
-            loading: false,
-            disabled: false,
-            visible: false,
-            option: {},
+        const { formRef, state, setVisible, setDisabled, setLoading, divineFormValidater } = useCustomize({
             form: {
                 mobile: '18888888888',
                 password: '123456'
@@ -35,15 +31,26 @@ export default defineComponent({
             }
         })
 
+        /**关闭验证码**/
+        async function onOutsideCloser(evt: PointerEvent) {
+            await setVisible(false)
+            return await setDisabled(false)
+        }
+
         /**验证表单**/
         async function onSubmit() {
-            return divineFormValidater(() => setState({ visible: true, disabled: true })).catch(e => {})
+            return divineFormValidater(async () => {
+                await setDisabled(true)
+                await setVisible(true)
+            })
         }
 
         /**滑动验证成功**/
         async function fetchAuthorize(e: { token: string; session: string }) {
             try {
-                await setState({ visible: false, disabled: true, loading: true })
+                await setLoading(true)
+                await setDisabled(true)
+                await setVisible(false)
                 const { data } = await httpCommonCustomerAuthorize({
                     mobile: state.form.mobile as never,
                     password: window.btoa(state.form.password as never),
@@ -51,13 +58,12 @@ export default defineComponent({
                     token: e.token
                 })
                 await window.$cookie.setStore(window.$cookie.APP_AUTH_TOKEN, data.token, data.expire * 1000)
-                await window.$cookie.setStore(window.$cookie.APP_AUTH_REFRESH, data.refresh, data.expire * 1000 * 10)
                 await window.$cookie.setStore(window.$cookie.APP_AUTH_EXPIRE, Date.now() + data.expire * 0.9 * 1000, data.expire * 1000)
                 return await createNotice({
                     type: 'success',
                     title: data.message,
                     onAfterEnter: () => {
-                        setState({ loading: false }).finally(() => {
+                        setLoading(false).finally(() => {
                             const path = window.$cookie.getStore(window.$cookie.APP_AUTH_RELACE, '/')
                             router.replace(path as string)
                         })
@@ -67,7 +73,10 @@ export default defineComponent({
                 return await createNotice({
                     type: 'error',
                     title: e.message,
-                    onAfterEnter: () => setState({ loading: false, disabled: false })
+                    onAfterEnter: async () => {
+                        await setLoading(false)
+                        await setDisabled(false)
+                    }
                 })
             }
         }
@@ -101,7 +110,7 @@ export default defineComponent({
                         <n-popover trigger="manual" style={{ padding: 0 }} show={state.visible}>
                             {{
                                 default: () => (
-                                    <onClickOutside onTrigger={(e: PointerEvent) => setState({ visible: false, disabled: false })}>
+                                    <onClickOutside onTrigger={onOutsideCloser}>
                                         <common-captcha onSuccess={fetchAuthorize}></common-captcha>
                                     </onClickOutside>
                                 ),
