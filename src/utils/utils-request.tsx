@@ -25,6 +25,7 @@ const interNotice = (response: AxiosResponse) => {
     // const notification = window.$notification
     if (response.data.code !== 200) {
         // notification.error({ duration: 2000, title: response.data.message })
+        console.log(response.data)
         return Promise.reject(response.data)
     }
     return Promise.resolve(response.data)

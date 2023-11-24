@@ -40,7 +40,7 @@ export const RemixUI = {
     Fullscreen: h(<Icon-Fullscreen />),
     Foutscreen: h(<Icon-Foutscreen />),
     Speaker: h(<Icon-Speaker />),
-    Captcha: h(<Icon-Captcha />),
+    Captchar: h(<Icon-Captchar />),
     MailGmail: h(<Icon-MailGmail />),
     MailForwar: h(<Icon-MailForwar />),
     MailReadr: h(<Icon-MailReadr />),
