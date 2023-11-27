@@ -23,6 +23,8 @@ export default defineComponent({
         return () => (
             <common-container
                 bordered
+                scrollbar
+                mobile={mobile.value}
                 loading={state.loading}
                 initialize={state.initialize}
                 content-style={whereProperter(mobile.value, { padding: '0 20px' }, { padding: '0 40px' })}

@@ -4,7 +4,6 @@ import { defineComponent, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useState } from '@/hooks/hook-state'
 import { useCurrent } from '@/locale/instance'
-import { loadFile } from '@/utils/utils-common'
 interface FormState {
     loading: boolean
     duration: number

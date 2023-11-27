@@ -8,7 +8,8 @@ import { useState } from '@/hooks/hook-state'
 import { useSupporter } from '@/hooks/hook-reuser'
 import { useCurrent } from '@/locale/instance'
 import { useResize } from '@/hooks/hook-resize'
-import { divineCols } from '@/utils/utils-common'
+import { divineCols, divineImportfiler } from '@/utils/utils-common'
+import BasicStomer from '@/assets/basic/login-stomer.svg'
 
 export default defineComponent({
     name: 'Home',
@@ -100,7 +101,7 @@ export default defineComponent({
                         </n-form>
                     </div>
                     <div class="common-basic__approve">
-                        <n-skeleton height="100%" />
+                        <n-image preview-disabled src={divineImportfiler(`basic/login-stomer.svg`)} style={{ width: '100%' }} />
                     </div>
                 </div>
                 <div class="common-service">
@@ -165,8 +166,14 @@ export default defineComponent({
         width: 380px;
         height: 260px;
         background-color: var(--back-color);
+        border-radius: var(--border-radius);
+        padding: 12px;
         @media (max-width: 1080px) {
             width: 100%;
+        }
+        .n-image > :deep(img) {
+            width: 100%;
+            display: block;
         }
     }
 }

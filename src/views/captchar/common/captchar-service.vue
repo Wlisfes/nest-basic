@@ -97,7 +97,7 @@ export default defineComponent({
                             <n-icon component={compute('EditLine')} size={28} />
                         </n-button>
                         <n-button text focusable={false}>
-                            <n-icon component={compute('RadixSpin')} size={28} />
+                            <n-icon component={compute('Captchar')} size={28} />
                         </n-button>
                     </n-space>
                 </n-space>

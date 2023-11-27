@@ -17,7 +17,7 @@ export function moment(date?: dayjs.ConfigType) {
 }
 
 /**文件导入函数**/
-export function loadFile(path: string) {
+export function divineImportfiler(path: string) {
     return new URL(`../assets/${path}`, import.meta.url).href
 }
 
