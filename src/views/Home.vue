@@ -43,6 +43,7 @@ export default defineComponent({
                 mobile={mobile.value}
                 content-style={{
                     padding: '64px 32px 32px',
+                    width: '100%',
                     maxWidth: '1680px',
                     margin: '20px auto 0',
                     backgroundColor: 'var(--card-color)'
@@ -65,31 +66,35 @@ export default defineComponent({
                         <n-blockquote style={{ margin: '0 0 30px' }}>{client.value.document}</n-blockquote>
                         <n-form ref="formRef" size="large" label-placement="top">
                             <n-form-item label="API Key">
-                                <n-input-group>
-                                    <n-input value={(customer.appId ?? '').toString()} type="text" placeholder="App ID" readonly />
+                                <n-input-group style={{ backgroundColor: 'var(--input-color-disabled)' }}>
+                                    <n-input value={customer.apiKey} readonly type="text" placeholder="API Key"></n-input>
                                     <n-button
                                         focusable={false}
-                                        style={{ padding: '0 12px', backgroundColor: 'var(--input-color-disabled)' }}
-                                        v-slots={{ icon: () => sompute('CopyRound', { size: '18px', color: 'var(--n-icon-color)' }) }}
-                                        onClick={(e: Event) => setSupporter(customer.appId)}
-                                    ></n-button>
+                                        type="tertiary"
+                                        style={{ padding: '0 12px' }}
+                                        onClick={(e: Event) => setSupporter(customer.apiKey)}
+                                    >
+                                        <n-icon size={18} component={compute('CopyRound')} />
+                                    </n-button>
                                 </n-input-group>
                             </n-form-item>
                             <n-form-item label="API Secret" show-feedback={false}>
-                                <n-input-group>
+                                <n-input-group style={{ backgroundColor: 'var(--input-color-disabled)' }}>
                                     <n-input
-                                        value={customer.appSecret}
+                                        value={customer.apiSecret}
+                                        readonly
                                         type="password"
                                         show-password-on="click"
                                         placeholder="API Secret"
-                                        readonly
-                                    />
+                                    ></n-input>
                                     <n-button
                                         focusable={false}
-                                        style={{ padding: '0 12px', backgroundColor: 'var(--input-color-disabled)' }}
-                                        v-slots={{ icon: () => sompute('CopyRound', { size: '18px', color: 'var(--n-icon-color)' }) }}
-                                        onClick={(e: Event) => setSupporter(customer.appSecret)}
-                                    ></n-button>
+                                        type="tertiary"
+                                        style={{ padding: '0 12px' }}
+                                        onClick={(e: Event) => setSupporter(customer.apiSecret)}
+                                    >
+                                        <n-icon size={18} component={compute('CopyRound')} />
+                                    </n-button>
                                 </n-input-group>
                             </n-form-item>
                         </n-form>

@@ -12,7 +12,8 @@ export const useCustomer = defineStore({
         mobile: '',
         status: 'enable',
         appId: '',
-        appSecret: '',
+        apiKey: '',
+        apiSecret: '',
         authorize: 'initialize',
         credit: 0,
         balance: 0
@@ -28,7 +29,8 @@ export const useCustomer = defineStore({
                 this.mobile = data.mobile
                 this.status = data.status
                 this.appId = data.appId
-                this.appSecret = data.appSecret
+                this.apiKey = data.apiKey
+                this.apiSecret = data.apiSecret
                 this.authorize = data.authorize
                 this.credit = data.credit
                 this.balance = data.balance

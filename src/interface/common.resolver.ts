@@ -9,7 +9,8 @@ export interface ICustomer extends IResolver {
     avatar: string
     openid: string
     appId: string
-    appSecret: string
+    apiKey: string
+    apiSecret: string
     authorize: string
     credit: number
     balance: number
