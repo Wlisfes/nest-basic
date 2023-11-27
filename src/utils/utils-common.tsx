@@ -64,6 +64,12 @@ export function divineColumn<T extends Record<string, unknown>>(
     return option.defaultValue
 }
 
+/**枚举节点转换**/
+export function divineNodeColumn<T extends Record<string, any>>(data: Array<T> = [], value: any, defaultValue?: T) {
+    const node = data.find(item => item.value == value)
+    return node ?? defaultValue
+}
+
 /**条件函数执行**/
 export async function divineHandler<T>(value: boolean | Function, handler: Function, callback?: Function): Promise<T | void> {
     if ((typeof value === 'boolean' && value) || (typeof value === 'function' && (await value()))) {
