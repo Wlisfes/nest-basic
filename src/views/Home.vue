@@ -1,7 +1,7 @@
 <script lang="tsx">
 import { defineComponent, computed } from 'vue'
 import { useNow, useDateFormat } from '@vueuse/core'
-import { compute, sompute, type INameUI } from '@/utils/utils-compute'
+import { compute, type INameUI } from '@/utils/utils-compute'
 import { useCustomer } from '@/store/customer'
 import { useResizeContainer } from '@/hooks/hook-resize'
 import { useState } from '@/hooks/hook-state'
@@ -9,7 +9,6 @@ import { useSupporter } from '@/hooks/hook-reuser'
 import { useCurrent } from '@/locale/instance'
 import { useResize } from '@/hooks/hook-resize'
 import { divineCols, divineImportfiler } from '@/utils/utils-common'
-import BasicStomer from '@/assets/basic/login-stomer.svg'
 
 export default defineComponent({
     name: 'Home',
