@@ -1,11 +1,16 @@
 <script lang="tsx">
 import { defineComponent, type PropType } from 'vue'
 import { useSupporter } from '@/hooks/hook-reuser'
-import { compute } from '@/utils/utils-compute'
-import { createNotice } from '@/utils/utils-naive'
-import { httpCaptcharUpdateAppwr } from '@/api/instance.service'
+import { useCurrent } from '@/locale/instance'
+import { compute, sompute, type INameUI } from '@/utils/utils-compute'
+import { divineDelay } from '@/utils/utils-common'
+import { createElement } from '@/utils/utils-layout'
+import { createNotice, createDiscover } from '@/utils/utils-naive'
+import { createNodeRender } from '@/utils/utils-instance'
 import { useFormService } from '@/hooks/hook-service'
+import { transfer } from '@/utils/utils-transfer'
 import type { CaptcharAppwr } from '@/interface/captchar.resolver'
+import * as http from '@/api/instance.service'
 
 export default defineComponent({
     name: 'CaptcharService',
@@ -15,6 +20,7 @@ export default defineComponent({
     },
     emits: ['update'],
     setup(props, { emit }) {
+        const { t } = useCurrent()
         const { fetchNodeRender } = useFormService()
         const { setSupporter, isSupported } = useSupporter()
 
@@ -31,7 +37,7 @@ export default defineComponent({
                 onSubmit: async (form: { name: string }, evt: { done: Function; destroy: Function }) => {
                     try {
                         await evt.done(true)
-                        return await httpCaptcharUpdateAppwr({ appId: props.node.appId, name: form.name }).then(async data => {
+                        return await http.httpCaptcharUpdateAppwr({ appId: props.node.appId, name: form.name }).then(async data => {
                             await emit('update')
                             await createNotice({ type: 'success', title: data.message })
                             await evt.done(false)
@@ -40,6 +46,36 @@ export default defineComponent({
                     } catch (e) {
                         await createNotice({ type: 'error', title: e.message })
                         return await evt.done(false)
+                    }
+                }
+            })
+        }
+
+        /**重置密钥**/
+        async function onResetSecret() {
+            const { element } = await createNodeRender(<n-text type="error">{props.node.name}</n-text>, {
+                style: { padding: '0 5px', fontWeight: 600 }
+            })
+            return await createDiscover({
+                type: 'error',
+                title: t('common.hint.value'),
+                negativeText: t('common.cancel.value'),
+                positiveText: t('common.confirm.value'),
+                icon: createElement(sompute('WarningRound')),
+                content: () => <n-h3 v-html={t('common.reset.hint', { name: element + '密钥' })}></n-h3>,
+                onAfterEnter: (e: HTMLElement) => transfer(e),
+                onPositiveClick: async (evt, vm, done: Function) => {
+                    try {
+                        await done(true)
+                        return await http.httpCaptcharResetSecretAppwr({ appId: props.node.appId }).then(async data => {
+                            await emit('update')
+                            await createNotice({ title: t('common.reset.notice') })
+                            return true
+                        })
+                    } catch (e) {
+                        await done(false)
+                        await createNotice({ type: 'error', title: e.message })
+                        return false
                     }
                 }
             })
@@ -96,7 +132,7 @@ export default defineComponent({
                         <n-button text focusable={false} onClick={onUpdateRender}>
                             <n-icon component={compute('EditLine')} size={28} />
                         </n-button>
-                        <n-button text focusable={false}>
+                        <n-button text focusable={false} onClick={onResetSecret}>
                             <n-icon component={compute('Captchar')} size={28} />
                         </n-button>
                     </n-space>

@@ -28,3 +28,12 @@ export function httpCaptcharUpdateAppwr(params: { appId: string; name: string })
         data: params
     })
 }
+
+/**重置密钥**/
+export function httpCaptcharResetSecretAppwr(data: { appId: string }) {
+    return request<Notice>({
+        url: `/captchar/appwr/reset/secret`,
+        method: 'POST',
+        data
+    })
+}

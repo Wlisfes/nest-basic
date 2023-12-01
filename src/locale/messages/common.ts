@@ -16,6 +16,12 @@ export default {
             notice: '删除成功',
             hint: '确定要删除{name}吗？'
         },
+        reset: {
+            value: '重置',
+            enter: '已重置',
+            notice: '重置成功',
+            hint: '确定要重置{name}吗？'
+        },
         submit: {
             value: '提交',
             enter: '提交{name}',
