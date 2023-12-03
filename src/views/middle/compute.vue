@@ -10,7 +10,6 @@ export default defineComponent({
 
         return () => (
             <n-el class="compute-container">
-                {/* <common-screen></common-screen> */}
                 <div class="app-compute">
                     <div class="n-locale">
                         <n-text class="n-locale__value" depth={1} onClick={() => setLocale(locale.value === 'cn' ? 'en' : 'cn')}>
@@ -18,6 +17,14 @@ export default defineComponent({
                         </n-text>
                     </div>
                     <RouterView></RouterView>
+                </div>
+                <div class="icp-footer">
+                    <div>Copyright © 2021-2022 Lisfes. All rights reserved.</div>
+                    <div>
+                        <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" style={{ color: '#ffffff' }}>
+                            粤ICP备18016996号-1
+                        </a>
+                    </div>
                 </div>
             </n-el>
         )
@@ -39,6 +46,16 @@ export default defineComponent({
     box-sizing: border-box;
     @media (max-width: 1000px) {
         align-items: center;
+    }
+    .icp-footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 14px;
+        padding: 5px 10px;
+        color: #ffffff;
     }
     .n-locale {
         position: absolute;

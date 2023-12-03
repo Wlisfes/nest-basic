@@ -16,8 +16,8 @@ export default defineComponent({
         const { t } = useCurrent()
         const { formRef, state, setVisible, setDisabled, setLoading, divineFormValidater } = useCustomize({
             form: {
-                mobile: '18888888888',
-                password: '123456'
+                mobile: '',
+                password: ''
             },
             rules: {
                 mobile: [
