@@ -72,17 +72,17 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
             host: '0.0.0.0',
             proxy: {
                 [`/api/common`]: {
-                    target: `http://${ipv4}:5010`,
+                    target: `http://${ipv4}:7010`,
                     ws: true,
                     changeOrigin: true
                 },
                 [`/api/nodemailer`]: {
-                    target: `http://${ipv4}:5020`,
+                    target: `http://${ipv4}:7030`,
                     ws: true,
                     changeOrigin: true
                 },
                 [`/api/captchar`]: {
-                    target: `http://${ipv4}:5030`,
+                    target: `http://${ipv4}:7040`,
                     ws: true,
                     changeOrigin: true
                 }
